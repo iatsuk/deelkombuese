@@ -1,0 +1,50 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {readFileSync,readdirSync,existsSync,statSync} from 'node:fs';
+import {resolve,dirname} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {recipeById} from '../src/data.js';
+import {prepareRecipe} from '../src/model.js';
+import {grainDiagram,cookingAction} from '../src/cooking-visuals.js';
+const root=fileURLToPath(new URL('../',import.meta.url));
+
+test('Схема крупы различает две мерки и уже рассчитанную воду соуса',()=>{
+  const plain=recipeById['buckwheat-peas'],p=prepareRecipe(plain),diagram=grainDiagram(plain,p);
+  assert.equal(diagram.adjusted,false);assert.equal(diagram.water,250);
+  const curry=recipeById.curry,withCoconut=prepareRecipe(curry,{}, {},null,['coconut']);
+  assert.equal(grainDiagram(curry,withCoconut).adjusted,true);
+  assert.equal(grainDiagram(curry,withCoconut).water,withCoconut.water);
+  const generator=recipeById['dish-generator'];
+  assert.equal(grainDiagram(generator,prepareRecipe(generator,{pasta:'risottoRice'})),null);
+  assert.equal(grainDiagram(generator,prepareRecipe(generator,{pasta:'rice'})).adjusted,false);
+});
+
+test('Пиктограмма различает начало кипения, проверку и отдых, даже если в тексте есть другие действия',()=>{
+  assert.equal(cookingAction('Доведите до кипения на среднем огне. Затем убавьте огонь.').icon,'flame');
+  assert.equal(cookingAction('Готовьте под закрытой крышкой 15–20 минут.').icon,'lid');
+  assert.equal(cookingAction('Попробуйте крупинку. Если жёсткая, добавьте воды.').icon,'taste');
+  assert.equal(cookingAction('Выключите горелку. Оставьте под крышкой.').icon,'wait');
+});
+
+test('Пакет Pages исключает исходники тестов и служебные файлы; локальные ссылки и офлайн-ресурсы существуют',()=>{
+  execFileSync(process.execPath,['scripts/build-pages.mjs'],{cwd:root});
+  const output=resolve(root,'dist');
+  for(const name of ['.git','.github','work','tests','scripts','package.json','README.md'])assert.equal(existsSync(resolve(output,name)),false,name);
+  assert.ok(statSync(resolve(output,'assets/galley.png')).size>1000);
+  assert.ok(existsSync(resolve(output,'src/cooking-visuals.js')));
+  const documents=['index.html','impressum/index.html','datenschutz/index.html'];
+  for(const document of documents){const path=resolve(output,document),html=readFileSync(path,'utf8');
+    for(const [,value] of html.matchAll(/(?:src|href)="([^"]+)"/g)){
+      if(/^(?:https?:|mailto:|#)/.test(value))continue;
+      const target=resolve(dirname(path),value.split('#')[0]);assert.ok(existsSync(target),`${document}: ${value}`);
+    }
+  }
+  const sw=readFileSync(resolve(output,'sw.js'),'utf8');
+  const assets=sw.match(/const ASSETS = (\[[^;]+\])/)[1];
+  for(const [,asset] of assets.matchAll(/'([^']+)'/g))assert.ok(existsSync(resolve(output,asset)),asset);
+  const walk=(dir)=>readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(resolve(dir,e.name)):[resolve(dir,e.name)]);
+  for(const file of walk(resolve(output,'src')).filter(p=>p.endsWith('.js'))){
+    for(const [,module] of readFileSync(file,'utf8').matchAll(/from ['"](\.[^'"]+)['"]/g))assert.ok(existsSync(resolve(dirname(file),module)),`${file}: ${module}`);
+  }
+});

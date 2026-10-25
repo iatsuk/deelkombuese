@@ -1,6 +1,7 @@
 import {productById} from './data.js';
 import {prepareRecipe,recipeSteps,formatAmount} from './model.js';
 import {cookingBasics,recipeUtensils} from './cooking-guide.js';
+import {cookingAction,visualPaths} from './cooking-visuals.js';
 
 export function buildRecipeCard(recipe,selection={}){
   const {choices={},packSizes={},anchorId=null,modules=[]}=selection;
@@ -66,7 +67,9 @@ export async function renderRecipePng(card){
   if(card.basics.length){heading('ПЕРЕД НАЧАЛОМ');for(const tip of card.basics)text(tip,{color:colors.muted,gap:18});}
   heading('КАК ПРИГОТОВИТЬ');
   card.steps.forEach((step,index)=>{
-    text(String(index+1).padStart(2,'0'),{font:'500 26px "Golos Text", sans-serif',color:colors.copper,line:38});
+    const action=cookingAction(step);
+    commands.push({type:'icon',path:visualPaths[action.icon],x:pad,y,size:32});
+    text(String(index+1).padStart(2,'0')+' / '+action.label,{x:pad+48,maxWidth:contentWidth-48,font:'500 26px "Golos Text", sans-serif',color:colors.copper,line:38});
     text(step,{gap:24});
   });
   if(card.notes.length){rule();heading('ЗАМЕТКИ');for(const note of card.notes)text(note,{font:'400 24px "Golos Text", sans-serif',color:colors.muted,line:36,gap:16});}
@@ -76,6 +79,7 @@ export async function renderRecipePng(card){
   ctx.fillStyle=colors.ink;ctx.fillRect(0,0,12,canvas.height);
   for(const command of commands){
     if(command.type==='text'){ctx.font=command.font;ctx.fillStyle=command.color;ctx.fillText(command.value,command.x,command.y);}
+    else if(command.type==='icon'){ctx.save();ctx.translate(command.x,command.y);ctx.scale(command.size/24,command.size/24);ctx.strokeStyle=colors.copper;ctx.lineWidth=1.5;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke(new Path2D(command.path));ctx.restore();}
     else{ctx.strokeStyle=colors.line;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(pad,command.y);ctx.lineTo(width-pad,command.y);ctx.stroke();}
   }
   const blob=await new Promise((resolve,reject)=>canvas.toBlob(value=>value?resolve(value):reject(new Error('Не удалось создать PNG')),'image/png'));
