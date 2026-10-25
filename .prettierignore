@@ -1,0 +1,11 @@
+node_modules/
+dist/
+work/
+fonts/
+locales/
+content/legal/
+impressum/
+datenschutz/
+offline-assets.js
+site-analytics.js
+pnpm-lock.yaml

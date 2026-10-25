@@ -1,21 +1,32 @@
 {
   "name": "deelkombuese",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "private": true,
   "type": "module",
-  "description": "Дельный камбуз — яхтенная кухня deelstuff без холодильника",
+  "description": "Smart Galley — no-fridge yacht provisioning and flexible one-pot cooking",
   "scripts": {
-    "dev": "node scripts/serve.mjs",
-    "start": "node scripts/serve.mjs",
+    "dev": "node scripts/start.mjs",
+    "start": "node scripts/start.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check src/app.js && node --check src/cooking-guide.js && node --check src/preferences.js && node --check src/recipe-export.js && node --check src/dish-generator.js && node --check src/recipe-library.js && node --check src/data.js && node --check src/model.js && node --check src/planner.js && node --check sw.js && node --check src/cooking-visuals.js && node --check scripts/build-pages.mjs",
-    "build:pages": "node scripts/build-pages.mjs"
+    "check": "node scripts/check.mjs",
+    "build:pages": "node scripts/build-pages.mjs",
+    "check:architecture": "node scripts/check-architecture.mjs",
+    "check:i18n": "node scripts/check-translations.mjs",
+    "format:check": "prettier --check .",
+    "format": "prettier --write ."
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/iatsuk/deelkombuese.git"
-  }
+  },
+  "devDependencies": {
+    "acorn": "8.19.0",
+    "eslint-scope": "9.1.2",
+    "parse5": "8.0.1",
+    "prettier": "3.9.10"
+  },
+  "packageManager": "pnpm@11.25.0"
 }

@@ -1,0 +1,31 @@
+export const views = ['map', 'pantry', 'recipes', 'planner', 'shopping'];
+export function createAppState(saved, hash = '') {
+  return {
+    ...saved,
+    view: views.includes(hash.slice(1)) ? hash.slice(1) : 'map',
+    base: 'all',
+    query: '',
+    category: 'all',
+    quick: false,
+    pantryOnly: false,
+    ownedOnly: false,
+    favoritesOnly: false,
+    meal: 'all',
+    kind: 'all',
+    variants: {},
+    sortKey: 'name',
+    sortDirection: 'asc',
+    graphSelected: [],
+    graphQuery: '',
+    graphFocus: null,
+    showUnavailable: false,
+    plannerMode: saved.builderMeta?.kind || 'trip',
+    tripDays: saved.builderMeta?.kind === 'trip' ? saved.builderMeta.days : 3,
+    includeEggs: !!saved.builderMeta?.includeEggs,
+    drinkLitres: saved.builderMeta?.drinkLitres ?? 3,
+    washLitres: saved.builderMeta?.washLitres ?? 1.5,
+    reservePct: saved.builderMeta?.reservePct ?? 25,
+    seasonDays: saved.builderMeta?.kind === 'season' ? saved.builderMeta.days : 90,
+    tripOverrides: saved.builderMeta?.overrides || {},
+  };
+}

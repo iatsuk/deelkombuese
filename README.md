@@ -1,150 +1,63 @@
-# Дельный камбуз · deelstuff
+# deelkombuese · Smart Galley
 
-Локальный прототип кулинарного направления яхтенного блога: продукты без холодильника, быстрые блюда на одного и наглядное родство рецептов.
+**Simple meals for a solo sailor, with no fridge and no wasted open packs.**
 
-Репозиторий: [iatsuk/deelkombuese](https://github.com/iatsuk/deelkombuese).
+![One-pot cooking in a small yacht galley](assets/galley.png)
 
-## Запуск
+Smart Galley is the cooking companion to [deelstuff](https://deelstuff.com). Start with the provisions you can keep aboard, explore what they can become, and build a practical shopping list for your next passage. Recipes explain the small details a beginner needs: how to measure grain, when to turn down the heat, and what to check before serving.
+
+[Open the app](https://kombuese.deelstuff.com/) · [Browse the architecture](docs/architecture.md) · [Deployment](docs/publishing.md)
+
+## What you can do
+
+- **Explore ingredients visually.** The flavour map filters recipes by compatible ingredients, including substitutions and optional additions.
+- **Plan for a humid boat.** Compare unopened and opened storage guidance, packaging advice and approximate satiety. Fresh and dried forms remain distinct.
+- **Build a dish.** Choose a base, sauce and protein. Pasta, risotto, rice and potatoes use their own cooking method and water calculation. Fresh cabbage has its own braised / unstuffed cabbage-roll base.
+- **Use the whole pack.** Perishable tins, cartons and even a small cabbage head are planned as whole units; the recipe shows its resulting yield.
+- **Provision a passage.** Generate a one-to-seven-day menu, a shopping list and a water budget, or prepare a replenishable seasonal pantry.
+- **Keep instructions handy.** Save a configured favourite in your browser and download its ingredients and illustrated steps as a PNG card. After the initial cache is ready, the app works offline.
+
+The interface, provisions, instructions, exports and legal pages are available in **Russian, English and German**. An explicit language choice wins over a saved preference; a first visit uses the first supported browser language, falling back to English. Shareable links use `?lang=en`, `?lang=de` or `?lang=ru` and retain the current section.
+
+## Run locally
+
+Use Node.js 22 or newer and pnpm 11.25.0.
 
 ```sh
 git clone https://github.com/iatsuk/deelkombuese.git
 cd deelkombuese
+pnpm install --frozen-lockfile
+pnpm start
 ```
 
-На этом Mac можно дважды нажать `start-local.command`: он находит Node.js в PATH или в установленном runtime Codex. Затем открыть <http://127.0.0.1:4173>. Остановка — Ctrl+C в окне сервера.
+Open <http://127.0.0.1:4173>. On macOS, `start-local.command` also starts the server. Change the port with `PORT=8080 pnpm start`.
 
-Для обычного запуска нужен Node.js 20 или новее. Внешних зависимостей и сборки нет.
+The app has **no runtime dependencies or backend**. Development tools provide formatting, source analysis and static-page generation. Serve it over HTTP; opening `index.html` as a local file cannot load the modules or service worker correctly.
+
+## Verify and publish
 
 ```sh
-npm run dev
+pnpm check
+pnpm test
+pnpm format:check
+pnpm build:pages
 ```
 
-Открыть <http://127.0.0.1:4173>. Другой порт: `PORT=8080 npm run dev`.
+GitHub Actions runs the checks and publishes the allowlisted `dist/` directory after a push to `main`. DNS and HTTPS setup are covered in [publishing](docs/publishing.md). Production analytics use the existing self-hosted GoatCounter service at `stats.deelstuff.com`; local development, automated browsers and privacy opt-outs are excluded.
 
-Можно использовать любой статический HTTP-сервер с корнем в этой папке. Открытие `index.html` через `file://` не подходит для ES-модулей и service worker. В production офлайн-кеш требует HTTPS; на localhost работает HTTP.
+## Documentation
 
-## Публикация
+- [Architecture and module ownership](docs/architecture.md): dependency direction, editing guide and automated boundaries.
+- [Languages](docs/languages.md): detection, translation catalogues, coverage and PNG snapshots.
+- [Provisioning model](docs/provisioning.md): whole packs, substitutions, water and storage assumptions.
+- [Analytics](docs/analytics.md): shared adapter, collector configuration and privacy behaviour.
+- [Publishing](docs/publishing.md): static build, GitHub Pages, DNS, HTTPS and rollback.
+- [Visual assets](docs/visual-assets.md): image provenance and reusable action pictograms.
 
-Проект рассчитан на GitHub Pages и поддомен `kombuese.deelstuff.com`. Workflow `.github/workflows/pages.yml` публикует проверенный статический пакет после push в `main`. Инструкция для DNS и HTTPS: [docs/publishing.md](docs/publishing.md). Локально пакет можно подготовить командой `npm run build:pages`.
+## Planning assumptions
 
-## Что реализовано
+Storage periods are editorial planning estimates under the stated conditions, not laboratory-tested shelf lives for a humid yacht. Warm lockers and condensation shorten them. The manufacturer's limits take precedence. Long cabbage storage needs genuinely cold conditions; the app's short whole-head plan does not promise root-cellar performance aboard.
 
-- Сгенерированная PNG-иллюстрация яхтенного камбуза, визуальные ориентиры навигации и хранения, разные значки продуктов и видов блюд. Файл и исходный промпт описаны в [docs/visual-assets.md](docs/visual-assets.md).
-- Схема приготовления крупы отличает две мерки воды от уже рассчитанной воды соуса. Посуда и действия отмечены пиктограммами; те же векторные значки входят в экспорт PNG.
-- Собственные статические Impressum и Datenschutz: сведения о владельце, GitHub Pages, локальном хранении, офлайн-кеше и создании PNG. Трекеры и внешние шрифты не подключены.
+Open perishable food and cooked meals must be used promptly. The catalogue explains conditional egg storage and the cold chain for shore-bought meat, ham and cheese. Satiety is a rough guide, not a measured individual prediction. The passage planner is a deterministic menu rotation, not a nutrition or cost optimiser.
 
-- Карта как фильтр: продукты выбираются по И, с учётом разрешённых замен и необязательных модулей. Все рецепты доступны в графе. Кнопка «Связи» соединяет ингредиенты с блюдом; необязательные добавки показаны пунктиром.
-- Каталог из 63 продуктов, включая UHT-сливки, рис для ризотто, консервированные капусту, свёклу, грибы и оливки, песто и итальянские травы. Морковь, лук, чеснок и имбирь имеют отдельные сушёные варианты, выбираемые в строке продукта.
-- 37 базовых карточек с выбираемыми вариантами: горячие блюда, завтраки и закуски. Прежние соусные карточки пасты объединены в один генератор. Чили с фаршем и модули с охлаждёнными продуктами доступны в режиме «У берега». Варианты без плиты отмечены явно; яичным блюдам нужна проверка условий хранения яиц.
-- Единый фильтр приёма пищи: тосты, яичница, шакшука, блины и оладьи находятся среди завтраков. «Овсянка» — продуктовая основа. Приём пищи, вид блюда (например, суп) и основа фильтруются независимо; активные условия видны и сбрасываются.
-- Подробные шаги для новичка: обычный рис и гречка измеряются одной ёмкостью, после закипания готовятся на слабом огне под крышкой. Объяснены признаки готовности, долив при сухом дне и отдых без нагрева. Ориентир 1:2 относится к объёмам обычной крупы и воды; жидкие соусы и вода на восстановление учитываются отдельно, ризотто сохраняет свою технику. Расчётная вода для круп согласована с этим способом; пропорции конкретной пачки имеют приоритет.
-- «Скачать PNG» в карточке создаёт изображение финального варианта: состав, фактические упаковки, вода, посуда, подробные шаги и примечания. Кириллица рисуется локальными шрифтами на canvas; экспорт не требует внешнего сервиса и работает после подготовки офлайн-кеша. Вариант фиксируется до начала создания изображения.
-- Звёздочки в списке и карточке, фильтр «Избранное». В браузере сохраняется один настроенный вариант на рецепт: замены, модули, упаковки и опорная упаковка. Из избранного открывается именно сохранённый вариант; после изменения можно нажать «Обновить избранное». Снятие звёздочки удаляет запись, не меняя закупку и рундук.
-- Генератор: паста, ризотто (арборио/карнароли или обычный рис) и картофель; шесть соусных основ — вода/бульон, томатная, масло с чесноком, сливочная/молочная, песто и арахисовая. Десять знакомых вкусовых сочетаний, выбираемый белок и сочетаемые овощные добавки. Основа меняет воду, время и последовательность шагов. Это походные адаптации, а не утверждение, что традиционные итальянские блюда отличаются только крупой.
-- Старые сохранённые пасты и болоньезе переносятся в генератор с нужными соусом, наполнителем и заменами. Сливки используются целым пакетом 65/125/200 мл; в соусе разрешены также UHT-молоко и сухое молоко. После открытия сливкам нужен холод, поэтому остатки не закладываются.
-- Пять гибких основ супов: томатный, чечевичный, бульонный со сменной основой, суп-пюре и щи/борщ с консервированной квашеной капустой. Свёкла включает вариант борща, томаты и белок необязательны. Картофель сначала доводится до мягкости, затем добавляется кислая капуста. Промывание опционально и учитывается отдельно в воде подготовки, по фактической упаковке капусты.
-- Группы карты: крупы/мука/картофель, белок, овощи, специи/ароматы, соусные продукты, хлеб/молочные продукты и другие добавки. Отдельного раздела томатов нет: свежие томаты находятся в овощах, остальные формы — в соусах; связи замен сохраняются.
-- Блины на воде с яйцом, оладьи без кефира, овсяные оладьи и котлеты, несладкая овсянка и хлопья на сковороде. Картофель — также пюре, драники и сковорода с добавками. Рецептам с тестом нужны миска и сковорода; муку и яйцо нужно полностью готовить.
-- Сортировка по названию, сроку до открытия, сроку после открытия, сытости и наличию в рундуке, в обе стороны.
-- Отдельные видимые сроки до открытия и после открытия / подготовки у каждого продукта. Условия упаковки и пояснение оценок сытости.
-- Замены томатов, рыбы, ароматов, свежей моркови и мяса. Для скоропортящихся упаковок выбирается размер: открытое содержимое используется целиком. Сухая основа, вода и специи считаются от выбранной опорной упаковки. Сушёной моркови добавляется вода, а шаги приготовления меняются под выбранные замены.
-- Универсальные блюда: ядро и добавки отдельно. У шакшуки обязательны яйца и томаты; картофель, ароматы и паприка включаются независимо. У французских тостов обязательны хлеб, яйца и молоко; мёд, варенье или ветчина с сыром выбираются как подача. Карри и дал по умолчанию без кокосового молока.
-- Конструктор похода на 1–7 дней: три приёма пищи и перекус в день, замена блюд, расход продуктов по рецептам, округление сухого запаса до магазинных упаковок, вода и перенос в закупку.
-- Сезонный базовый запас на 30–180 дней: крупы, консервы, масло, сухой бульон, специи и стабильные добавки, с рецептами использования. Это базовый пополняемый запас, не полный рацион на сезон.
-- Рундук: отмеченные продукты сохраняются в `localStorage`. «Базовый набор» — явно включаемый пример, а не исходное предположение о запасах пользователя.
-- Закупка: суммирование ингредиентов и повторных готовок, исключение имеющихся продуктов, ручные дополнения, отметки покупки и текстовый экспорт, включающий воду и меню похода. Размеры упаковок сохраняются: банки 200 г и 500 г учитываются отдельно.
-- Service worker кеширует приложение, данные и локальные шрифты после первого успешного открытия. Внешние источники по ссылкам требуют интернета.
-- Адаптивный интерфейс, нативные диалоги с Escape и удержанием фокуса, клавиатурные состояния и поддержка уменьшенной анимации.
-
-## Содержание и ограничения
-
-Месяцы в каталоге — консервативный редакционный план ротации для сухой, защищённой упаковки в тени, желательно при 15–21 °C, в пределах этикетки. Это **не результаты испытаний на влажной яхте**. Дни для свежих овощей — план расходования. В жарком или сыром рундуке эти значения не дают гарантии безопасности. Указания производителя всегда имеют приоритет.
-
-Открытые скоропортящиеся продукты и готовые блюда требуют холода; без холодильника готовить на один раз. Фарш: максимум 2 часа вне охлаждения суммарно, выше 32 °C — 1 час, включая доставку. Говяжий фарш: температура в центре не ниже 71 °C.
-
-Часы сытости — условные редакционные подсказки с указанной порцией, не научно установленные длительности. Рецепты не являются рассчитанным по калориям и нутриентам рационом на переход. Время приготовления ориентировочное и зависит от продукта, горелки и замен.
-
-Рундук учитывает **наличие**, но не количество, дату покупки или срок конкретной упаковки. Поэтому закупка исключает имеющийся продукт целиком; остатки нужно проверить самостоятельно.
-
-Рецепты рассчитываются от выбранной упаковки, а не числа людей. Например, пассата 500 г используется вся, сухая основа масштабируется под неё. Остальные вскрываемые скоропортящиеся банки также расходуются целиком без автоматического умножения их количества. Опорную упаковку можно переключить. Масса без жидкости у консервов типовая: конкретную банку нужно проверить. Выход по массе — расчётный ориентир с допущением об испарении, а не проверенная технологическая карта. Большой выход без холодильника нельзя распределять на следующие вахты: нужно выбрать меньшую упаковку или разделить еду сейчас. Время указано для небольшого объёма.
-
-Для сухой крупы после открытия указаны месяцы в герметичной упаковке, для хлеба — дни, для открытых консервов — часы. Срок не начинается заново после пересыпания. У немытых неохлаждённых яиц условный ориентир — до 18 дней **от кладки**, а не покупки, при стабильной прохладе; он не действует для жаркой влажной яхты. Потребительские источники рекомендуют охлаждать яйца после покупки. Уже охлаждавшиеся, мытые и с неизвестной историей яйца выделены в режим «С берега».
-
-Соль и перец входят в конкретный состав или в необязательный модуль приправ. Вода в походном конструкторе считается отдельно: питьё + вода рецептов и восстановления порошков + подготовка продуктов + бытовой расход + резерв. По умолчанию на одного: 3 л питья и 1,5 л бытового расхода в день, резерв 25%; это регулируемые предположения, не индивидуальные нормы. Запас воды для душа и топливо не рассчитаны.
-
-Все данные находятся в браузере пользователя; синхронизации, авторизации и сервера данных нет. Очистка данных сайта удаляет рундук и план. Публичная публикация не выполнялась.
-
-## Источники
-
-Проверены 25 октября 2026; ссылки и методика также доступны в самом приложении.
-
-- [USDA: продукты длительного хранения](https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/shelf-stable-food)
-- [USDA: разрыхлитель — 6 месяцев до и 3 месяца после открытия](https://ask.fsis.usda.gov/article/What-is-the-shelf-life-of-baking-powder)
-- [FDA: мука и сырое тесто](https://www.fda.gov/food/buy-store-serve-safe-food/handling-flour-safely-what-you-need-know)
-- [Lattebusche: спецификация UHT-сливок, комнатное хранение до открытия](https://www.lattebusche.com/schede-tecniche/Schede%20Tecniche/Panna/0947_Panna_UHT_2025.pdf)
-- [Parmalat Chef: порционные пакеты сливок](https://www.parmalat.it/chef/prodotti/panna-per-cucinare/panna-classica-3x125ml)
-- [Hengstenberg: пастеризованная консервированная капуста](https://www.hengstenberg.de/produkte/sauerkraut)
-- [Riso Gallo: пример техники ризотто](https://www.risogallo.co.uk/strawberry-risotto/)
-- [Mahatma: обычный белый рис, две объёмные мерки воды на одну риса](https://mahatmarice.com/products/white-rice/)
-- [Utah State University: гречка под крышкой с впитыванием жидкости](https://extension.usu.edu/fscreate/files/handout_buckwheat.pdf)
-- [University of Nebraska: домашнее хранение](https://food.unl.edu/free-resource/food-storage/)
-- [University of Minnesota: сухие продукты и упаковка](https://extension.umn.edu/food/preparing/cooking-at-home/food-preservation/drying)
-- [Utah State University: сухие бобовые](https://extension.usu.edu/preserve-the-harvest/dev/storing-dry-beans-1)
-- [USDA: свежие овощи](https://www.fna.usda.gov/fs/produce-safety/storage)
-- [FDA: безопасное приготовление](https://www.fda.gov/food/buy-store-serve-safe-food/safe-food-handling)
-- [Holt et al., 1995: сравнение сытости](https://pubmed.ncbi.nlm.nih.gov/7498104/) — не источник часовых диапазонов каталога.
-- [LErn BW: яйца без охлаждения](https://lern-bw.de/,Lde/startseite/ernaehrungsbildung/ist-das-ei-noch-frisch)
-- [Verbraucherzentrale: холодовая цепь яиц](https://www.verbraucherzentrale.de/wissen/lebensmittel/auswaehlen-zubereiten-aufbewahren/eier-alles-zu-lagerung-und-haltbarkeit-58925)
-- [USDA: хлеб](https://ask.fsis.usda.gov/article/How-long-can-I-store-bread)
-- [Mestemacher: пастеризованный хлеб](https://www.mestemacher-gmbh.com/benefits-of-mestemacher-bread/)
-- [CSU: сушёные овощи](https://extension.colostate.edu/resource/drying-vegetables/)
-- [MU: чеснок в масле](https://extension.missouri.edu/publications/n5001)
-
-## Структура
-
-```text
-index.html              Точка входа
-src/app.js              Интерфейс и браузерное состояние
-src/model.js            Модули блюд, замены, фильтр и агрегация закупки
-src/planner.js          Походное меню, магазинные упаковки, вода, сезон
-src/data.js             Продукты, рецепты, источники
-src/recipe-library.js   Универсальные соусы, супы, мучные и овсяные основы
-src/dish-generator.js   Сочетания вкусов, сменные основы и техника приготовления
-src/cooking-guide.js    Подробные шаги, мерки и приготовление круп
-src/preferences.js      Сохранение конкретного варианта в избранное
-src/recipe-export.js    Снимок рецепта и PNG-карточка на canvas
-src/styles.css          Основное оформление
-src/v3.css              Граф, сортировка и конструктор
-src/fonts.css           Локальные Literata и Golos Text
-fonts/                  Шрифты и лицензии SIL Open Font License
-scripts/serve.mjs       Локальный сервер, привязанный к 127.0.0.1
-tests/model.test.mjs    Данные, упаковки, закупка
-tests/planner.test.mjs  Граф, универсальные блюда, меню и вода
-sw.js                   Офлайн-кеш
-```
-
-Данные отделены от интерфейса для последующего расширения и интеграции в основной сайт deelstuff. Шрифты и цветовая палитра согласованы с локальным проектом блога. Основной сайт deelstuff не изменяется; приложение публикуется отдельно через GitHub Pages.
-
-## Проверка
-
-```sh
-npm test
-npm run check
-```
-
-После изменения перечня кешируемых файлов обновите `ASSETS` в `sw.js`, а при публикации новой версии — имя `CACHE`. Сеть имеет приоритет, кеш служит резервом при отсутствии связи.
-
-
-## Логика конструктора
-
-Походное меню составляется из заданной ротации знакомых блюд с общими продуктами, включая новые овсяные и мучные завтраки, супы и соусные базы пасты. Каждое блюдо можно заменить в выпадающем списке. Это детерминированный конструктор, не математический оптимизатор стоимости или калорийности. По умолчанию яйца и охлаждённые продукты исключены; яйца можно явно разрешить в первые два дня при подходящих условиях. Ветчина, сыр и свежий фарш доступны в модулях карточек в режиме «У берега».
-
-Скоропортящиеся вскрытые банки расходуются целиком. Сухие продукты округляются вверх до типовых магазинных упаковок; остаток показывается отдельно и остаётся в запасе. Для каждой покупки раскрывается список блюд и дней расходования. Массы без жидкости у консервов и испарение — ориентировочные, реальные упаковки проверяются отдельно. Наличие в рундуке исключает продукт без проверки количества.
-
-Формирование списка заменяет только предыдущие записи конструктора и сохраняет пользовательские отдельные блюда и ручные дополнения. В экспорт входят закупка, вода с разбивкой и ежедневное меню. Изменения универсальной карточки можно добавить как отдельную готовку; замена блюда в походном меню производится в выпадающем списке меню.
-
-Сезонный набор использует прозрачные дневные коэффициенты расхода основ и округляет их до упаковок. Свежие продукты и кокосовое молоко не входят; воду следует планировать на конкретный выход.
-
-Проверено 43 автоматическими тестами: среди прочего, подробное приготовление риса и гречки, разные техники обычного риса и ризотто, финальный состав PNG, восстановление и обновление избранного, все вкусовые профили на каждой основе генератора, пакеты сливок, миграция прежних паст, группы карты, щи/борщ, вода на промывание капусты, меню на каждый срок 1–7 дней и полный расход открытых упаковок.
-
-Сезонная первичная закупка ограничена нижним ориентиром закрытого хранения каждого продукта: короткие позиции помечены пополнением и общей потребностью на сезон. Например, арахис и изюм не предлагается держать весь долгий сезон без пополнения.
+Fonts are bundled under the [SIL Open Font License](fonts/literata-OFL.txt). Food references are linked from the app. The generated galley illustration is editorial artwork, not a photograph of a particular recipe or a food-storage instruction.

@@ -1,50 +1,43 @@
-# Публикация Дельного камбуза
+# Publishing
 
-Приложению достаточно GitHub Pages: все расчёты, избранное и PNG выполняются в браузере, сервер и база данных не нужны.
+The app is served by GitHub Pages from the public [iatsuk/deelkombuese](https://github.com/iatsuk/deelkombuese) repository. Its production address is <https://kombuese.deelstuff.com/>. The main deelstuff website and analytics collector retain their existing VPS hosting; this app needs no VPS.
 
-Репозиторий: https://github.com/iatsuk/deelkombuese
+## Build and deployment
 
-Целевой адрес: https://kombuese.deelstuff.com/
+Install the pinned development dependencies with `pnpm install --frozen-lockfile`. `pnpm build:pages` generates legal editions and a content-hashed offline asset manifest, then copies only the runtime allowlist into `dist/`.
 
-## GitHub
+The allowlist includes application HTML/modules/styles, local fonts, images, translation catalogues, generated legal pages, the shared analytics adapter and service worker. Git metadata, tests, development scripts, documentation and private configuration are excluded. No translations are downloaded during a build.
 
-Публичный репозиторий позволяет использовать Pages на GitHub Free. В Settings → Pages выбран источник GitHub Actions. Workflow `.github/workflows/pages.yml` при каждом push в main проверяет синтаксис, запускает тесты, собирает `dist/` и публикует его.
+`.github/workflows/pages.yml` installs the pinned package manager/dependencies, checks source architecture and translations, runs tests, builds the static package and deploys it through GitHub Pages. The Pages source is GitHub Actions. Relative asset paths support the custom hostname and the project path.
 
-В публикацию попадают только HTML, CSS, JavaScript приложения, шрифты, изображения и правовые страницы. Файлы тестов, скрипты разработки, README и Git не входят в пакет сайта. Относительные пути поддерживают и адрес проекта GitHub Pages, и отдельный поддомен.
+## DNS and HTTPS
 
-## DNS у регистратора
+The domain uses Namecheap's `registrar-servers.com` nameservers. The required record is:
 
-Домен deelstuff.com использует DNS-серверы registrar-servers.com (проверено 25.10.2026). После назначения Custom domain в GitHub у регистратора нужно добавить:
+| Type  | Host       | Target             | TTL       |
+| ----- | ---------- | ------------------ | --------- |
+| CNAME | `kombuese` | `iatsuk.github.io` | Automatic |
 
-| Поле | Значение |
-| --- | --- |
-| Type | CNAME |
-| Host | kombuese |
-| Value / Target | iatsuk.github.io |
-| TTL | Automatic или 30 минут |
+Do not include `https://` or `/deelkombuese` in the target. Do not change the apex domain's existing VPS records. In Namecheap, use Domain List → Manage → Advanced DNS → Host Records.
 
-Адрес назначения не содержит `https://`, пути `/deelkombuese` или других частей URL. Основной сайт deelstuff.com продолжает использовать свои DNS-записи и VPS. Не создавайте wildcard-запись для этого приложения.
-
-В панели Namecheap это обычно Domain List → Manage → Advanced DNS → Host Records. Если уже есть запись с именем kombuese, сначала проверьте её назначение, чтобы не заменить другой сервис.
-
-После появления DNS-записи GitHub проверит домен и выпустит сертификат. Затем в Settings → Pages нужно включить Enforce HTTPS, когда настройка станет доступна. Распространение DNS и подготовка HTTPS могут занять до 24 часов. Пока DNS-запись не добавлена, целевой поддомен не будет открывать приложение.
-
-Проверка:
+Assign `kombuese.deelstuff.com` in repository Settings → Pages before pointing DNS at GitHub. After DNS resolves, wait for GitHub's certificate and enable Enforce HTTPS. A cached NXDOMAIN response can outlive a newly added record: compare authoritative nameservers with public resolvers before changing a correct record.
 
 ```sh
-dig +short CNAME kombuese.deelstuff.com
-# ожидается iatsuk.github.io.
+dig @dns1.registrar-servers.com kombuese.deelstuff.com CNAME
+dig @1.1.1.1 kombuese.deelstuff.com CNAME
 curl -I https://kombuese.deelstuff.com/
 ```
 
-Для дополнительной защиты домена можно подтвердить владение в Settings аккаунта GitHub → Pages, добавив выданную GitHub TXT-запись. Её значение уникально: выдумывать его нельзя.
+A custom GitHub Actions deployment does not need a source `CNAME` file. The hostname is owned by the Pages setting. Confirm domain ownership through GitHub's account Pages settings with its unique TXT value; never invent the value.
 
-## Правовые страницы
+## Release verification and rollback
 
-`impressum/` и `datenschutz/` относятся именно к этому приложению. Контакты владельца взяты из опубликованного Impressum deelstuff. Datenschutz описывает GitHub Pages, localStorage, Cache Storage, локальный PNG и отсутствие аналитики. Если подключаются новые сервисы, описание обработки данных нужно обновить.
+Verify the workflow result, production HTML and assets, language links, legal pages, PNG download and the published `site-analytics.js`. Automated browser checks intentionally do not count as analytics traffic. Run collection gateway checks separately, without manufacturing page visits.
 
-## Источники
+Deploying a known previous commit through the same workflow restores its static assets. Browser-local data is not a server backup: preserve stored IDs and migrations across releases. The content-hashed service-worker cache replaces earlier app caches, but it does not delete favourites or the provisioning plan.
 
-- https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages
-- https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages
-- https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site
+## References
+
+- [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)
+- [Custom workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
+- [Custom domains](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)
