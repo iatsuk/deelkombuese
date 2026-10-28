@@ -9,3 +9,4 @@ datenschutz/
 offline-assets.js
 site-analytics.js
 pnpm-lock.yaml
+tests/fixtures/
