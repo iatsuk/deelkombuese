@@ -38,9 +38,11 @@ The diagram shows responsibilities, not every import. `pnpm check:architecture` 
 | Recipe detail                     | `ui/recipe-dialog.js`                           | Presentation of an already prepared recipe; actions remain in the controller               |
 | Graph geometry                    | `ui/graph.js`                                   | DOM measurement and SVG connections only                                                   |
 | SVG and display formatting        | `ui/icons.js`, `ui/format.js`, `ui/water.js`    | Shared visual vocabulary and locale-aware display                                          |
+| Colour roles and site frame       | `tokens.css`, `shell.css`                       | Light/dark colour tokens; header and footer layout (see [design](design.md))               |
 | Language policy                   | `i18n/locale.js`                                | Pure precedence and shareable language URLs                                                |
 | Display translation               | `i18n/messages.js`, `runtime.js`, `html.js`     | Exact messages and parameter patterns; only public text and accessible labels change       |
 | Browser language integration      | `i18n/browser.js`                               | Reads preferences, loads a catalogue and exposes the selector                              |
+| Theme switch                      | `theme.js`, root `theme-preference.js`          | Pins light or dark on `<html>`; the early script applies the saved choice before paint     |
 | PNG snapshot                      | `export/recipe-card.js`, `i18n/recipe-card.js`  | Captures the selected recipe before asynchronous rendering, then localises display fields  |
 | PNG drawing                       | `export/png.js`                                 | Reads a complete snapshot; never reads application state, the product catalogue or storage |
 | Shopping text                     | `export/shopping-list.js`                       | Pure text export with explicit plan/items and translator/language inputs                   |

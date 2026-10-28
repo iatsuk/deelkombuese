@@ -18,6 +18,7 @@ for (const name of [
   'assets',
   'locales',
   'site-analytics.js',
+  'theme-preference.js',
   'offline-assets.js',
   'impressum',
   'datenschutz',

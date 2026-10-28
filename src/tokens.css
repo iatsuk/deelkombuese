@@ -1,0 +1,77 @@
+/* Colour roles shared with deelstuff 2027. The system theme applies until the header
+   switch pins data-theme on <html>; light-dark() then picks the light or night value. */
+:root {
+  color-scheme: light dark;
+  --paper: light-dark(#f7f5ef, #10161b);
+  --card: light-dark(#fffdf8, #172028);
+  --surface: light-dark(#efece4, #141c22);
+  --surface-strong: light-dark(#e7e2d6, #1c262d);
+  --ink: light-dark(#10232b, #ece7dc);
+  --deep: light-dark(#071e29, #f4efe5);
+  --sea: light-dark(#123d4b, #a3c6d6);
+  --sea-hover: light-dark(#1d5163, #bfd8e3);
+  --sea-mid: light-dark(#4f6b74, #8fb0bb);
+  --sea-bg: light-dark(#e3e9ea, #1a262c);
+  --muted: light-dark(#4d5a61, #aab0b3);
+  --faint: light-dark(#66717a, #8f989c);
+  --line: light-dark(#e3ddd0, #263037);
+  --line-strong: light-dark(#d2cbbb, #33404a);
+  --line-deep: light-dark(#b9b1a0, #46545e);
+  --accent: light-dark(#a64d28, #e3906a);
+  --copper: light-dark(#a3633b, #d49470);
+  --copper-soft: light-dark(#e9c5a6, #5b3a28);
+  --accent-on-ink: light-dark(#efaa7c, #a64d28);
+  --red-bg: light-dark(#f3e2d7, #2e1f19);
+  --gold: light-dark(#8f6a26, #dcb064);
+  --gold-line: light-dark(#e3d3ad, #4a3d22);
+  --gold-bg: light-dark(#f2e8d2, #2a2418);
+  --brown: light-dark(#7a6450, #c7ad93);
+  --brown-bg: light-dark(#ebe5da, #262019);
+  --ok: light-dark(#4f7d5d, #8dbb98);
+  /* Text and icons on --ink or --sea fills. */
+  --on-ink: light-dark(#fffdf8, #10161b);
+  --shadow: light-dark(#10232b, #000);
+  /* Earlier names, kept so existing rules read the new roles. */
+  --green: var(--sea-mid);
+  --soft: var(--surface-strong);
+  --sand: var(--gold-bg);
+}
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+/* Browsers without light-dark() keep the light theme rather than losing colours. */
+@supports not (color: light-dark(#000, #fff)) {
+  :root {
+    --paper: #f7f5ef;
+    --card: #fffdf8;
+    --surface: #efece4;
+    --surface-strong: #e7e2d6;
+    --ink: #10232b;
+    --deep: #071e29;
+    --sea: #123d4b;
+    --sea-hover: #1d5163;
+    --sea-mid: #4f6b74;
+    --sea-bg: #e3e9ea;
+    --muted: #4d5a61;
+    --faint: #66717a;
+    --line: #e3ddd0;
+    --line-strong: #d2cbbb;
+    --line-deep: #b9b1a0;
+    --accent: #a64d28;
+    --copper: #a3633b;
+    --copper-soft: #e9c5a6;
+    --accent-on-ink: #efaa7c;
+    --red-bg: #f3e2d7;
+    --gold: #8f6a26;
+    --gold-line: #e3d3ad;
+    --gold-bg: #f2e8d2;
+    --brown: #7a6450;
+    --brown-bg: #ebe5da;
+    --ok: #4f7d5d;
+    --on-ink: #fffdf8;
+    --shadow: #10232b;
+  }
+}

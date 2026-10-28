@@ -17,7 +17,7 @@ export function generateLegalPages() {
           if (['alt', 'title', 'placeholder', 'aria-label', 'content'].includes(attr.name))
             attr.value = translate(attr.value);
           if (attr.name === 'lang') attr.value = language;
-          if (attr.name === 'href' && !/^(https?:|mailto:|#)/.test(attr.value)) {
+          if (['href', 'src'].includes(attr.name) && !/^(https?:|mailto:|#)/.test(attr.value)) {
             if (attr.value === '../') attr.value = root + '?lang=' + language;
             else if (attr.value === '../impressum/' || attr.value === '../datenschutz/')
               attr.value = root + attr.value.slice(3) + (language === 'ru' ? '' : language + '/');

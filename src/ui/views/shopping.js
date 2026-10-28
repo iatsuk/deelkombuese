@@ -10,7 +10,7 @@ export function renderShopping({ state, catalog }) {
   const items = cartItems();
   const checked = items.filter((i) => state.checked.includes(i.key)).length;
   const groups = [...new Set(items.map((i) => productById[i.id].category))];
-  return `<section class="page-intro"><div class="eyebrow">04 / СЛЕДУЮЩИЙ ЗАХОД В ПОРТ</div><h1>На берег за <em>продуктами.</em></h1><p>Добавьте блюда или соберите <a class="inline-planner-link" href="#planner">план на 1–7 дней</a>.<br>Продукты из рундука исключены; проверьте их количество.</p></section>
+  return `<section class="page-intro"><div class="eyebrow">Следующий заход в порт</div><h1>На берег за <em>продуктами.</em></h1><p>Добавьте блюда или соберите <a class="inline-planner-link" href="#planner">план на 1–7 дней</a>.<br>Продукты из рундука исключены; проверьте их количество.</p></section>
     <div class="shopping-layout"><section>${
       state.builderMeta?.kind === 'trip'
         ? renderWater(waterBudget(state.plan, state.builderMeta), true)
@@ -46,7 +46,7 @@ export function renderShopping({ state, catalog }) {
       .join(
         '',
       )}</select><button class="button secondary" data-action="manual-select">${icon('plus')} Добавить</button></div></div><p class="footnote">Размер каждой целой упаковки указан в списке. Банки разного объёма учитываются отдельными строками. Список — потребность блюд, а не рассчитанный рацион на весь переход. Расчёт воды для походного плана показан отдельно; топливо планируйте самостоятельно; соль и перец для горячих блюд держите в общем запасе.</p></section>
-    <aside class="meal-plan"><span class="eyebrow small">ЧТО ГОТОВИМ</span><h2>План камбуза</h2>${
+    <aside class="meal-plan"><span class="eyebrow small">Что готовим</span><h2>План камбуза</h2>${
       state.plan.length
         ? state.plan
             .map(

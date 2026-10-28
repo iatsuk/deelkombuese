@@ -89,7 +89,7 @@ export function createCatalog(state) {
       favoriteView = state.view === 'recipes' && state.favoritesOnly;
     const possible = availableRecipe(r, state.pantry, selected.modules);
     return `<article class="recipe-card-shell"><button class="recipe-card ${r.tone} ${compact ? 'compact' : ''}" data-action="${favoriteView ? 'favorite-recipe' : 'recipe'}" data-id="${r.id}">
-    <span class="recipe-card-top"><span class="dish-icon">${icon(recipeGlyph(r))}</span><span class="recipe-kind">${r.generator ? 'КОНСТРУКТОР' : r.shore ? 'С БЕРЕГА' : r.vessel === 'cold' ? 'БЕЗ ПЛИТЫ' : r.meal === 'breakfast' ? (r.mealTags?.includes('main') ? 'ЗАВТРАК / ОБЕД' : 'ЗАВТРАК') : r.vessel === 'pan' ? 'НА СКОВОРОДЕ' : 'ONE-POT'}</span><span class="card-arrow">↗</span></span>
+    <span class="recipe-card-top"><span class="dish-icon">${icon(recipeGlyph(r))}</span><span class="recipe-kind">${r.generator ? 'Конструктор' : r.shore ? 'С берега' : r.vessel === 'cold' ? 'Без плиты' : r.meal === 'breakfast' ? (r.mealTags?.includes('main') ? 'Завтрак / обед' : 'Завтрак') : r.vessel === 'pan' ? 'На сковороде' : 'Одна кастрюля'}</span></span>
     <strong>${favoriteView ? prepared.title : r.title}</strong><span class="recipe-desc">${favoriteView && prepared.modules.length ? prepared.modules.map((m) => m.label).join(' · ') : r.desc}</span>
     <span class="recipe-ingredient-icons" aria-hidden="true">${prepared.ingredients
       .slice(0, 4)
@@ -99,7 +99,7 @@ export function createCatalog(state) {
       )
       .join(
         '',
-      )}</span>${r.template ? '<span class="recipe-template-label">Универсальная основа · выбрать вариант ↗</span>' : ''}<span class="recipe-meta"><span>${icon('clock')} ${prepared.time} мин</span><span>${icon(r.vessel === 'cold' ? 'person' : 'pot')} ${prepared.active} мин ${r.vessel === 'cold' ? 'подготовки' : 'у плиты'}</span></span>
+      )}</span>${r.template ? '<span class="recipe-template-label">Универсальная основа · выбрать вариант</span>' : ''}<span class="recipe-meta"><span>${icon('clock')} ${prepared.time} мин</span><span>${icon(r.vessel === 'cold' ? 'person' : 'pot')} ${prepared.active} мин ${r.vessel === 'cold' ? 'подготовки' : 'у плиты'}</span></span>
     ${possible ? '<span class="can-cook">Всё есть в рундуке</span>' : ''}
   </button><button class="favorite-toggle ${favorite ? 'active' : ''}" data-action="favorite-toggle" data-id="${r.id}" aria-label="${t(favorite ? 'Убрать из избранного' : 'Добавить в избранное')}: ${esc(t(r.title))}" aria-pressed="${favorite}" title="${favorite ? 'Убрать из избранного' : 'Добавить в избранное'}">${icon('star')}</button></article>`;
   }

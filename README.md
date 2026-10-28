@@ -48,6 +48,7 @@ GitHub Actions runs the checks and publishes the allowlisted `dist/` directory a
 ## Documentation
 
 - [Architecture and module ownership](docs/architecture.md): dependency direction, editing guide and automated boundaries.
+- [Design system](docs/design.md): colour tokens, light and dark themes, type scale and avoided devices.
 - [Languages](docs/languages.md): detection, translation catalogues, coverage and PNG snapshots.
 - [Provisioning model](docs/provisioning.md): whole packs, substitutions, water and storage assumptions.
 - [Analytics](docs/analytics.md): shared adapter, collector configuration and privacy behaviour.

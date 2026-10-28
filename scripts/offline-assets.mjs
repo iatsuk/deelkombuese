@@ -10,6 +10,7 @@ export function generateOfflineAssets() {
     'favicon.svg',
     'manifest.webmanifest',
     'site-analytics.js',
+    'theme-preference.js',
     ...['src', 'fonts', 'assets', 'locales', 'impressum', 'datenschutz'].flatMap(walk),
   ].filter(existsSync);
   const hash = createHash('sha256');

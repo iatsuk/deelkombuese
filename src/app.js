@@ -19,6 +19,7 @@ import { renderRecipes } from './ui/views/recipes.js';
 import { renderShopping } from './ui/views/shopping.js';
 import { createPlannerView } from './ui/views/planner.js';
 import { drawGraph } from './ui/graph.js';
+import { initThemeToggle } from './theme.js';
 import { selectionSnapshot, sameSelection } from './preferences.js';
 import { buildRecipeCard, downloadRecipePng } from './recipe-export.js';
 
@@ -92,26 +93,25 @@ function toast(text) {
 }
 
 function shell() {
-  document.querySelector('#app').innerHTML = localizeMarkup(`<aside class="sidebar">
-    <a class="brand" href="#map" aria-label="Дельный камбуз — главная"><span class="brand-mark">${icon('pot')}</span><span class="brand-name">дельный<br>камбуз<span class="brand-by">a deelstuff project</span></span></a>
-    <div class="sidebar-label">ЕДА ПОД ПАРУСОМ</div>
-    <nav aria-label="Основная навигация">${[
-      ['map', 'map', 'Карта вкусов'],
-      ['pantry', 'box', 'Продукты'],
-      ['recipes', 'book', 'Рецепты'],
-      ['planner', 'anchor', 'План похода'],
-      ['shopping', 'bag', 'Закупка'],
+  document.querySelector('#app').innerHTML = localizeMarkup(`<header class="site-header">
+    <a class="brand" href="#map" aria-label="Дельный камбуз — главная"><span class="brand-mark">${icon('pot')}</span><span class="brand-name">Дельный камбуз</span></a>
+    <nav class="site-nav" aria-label="Основная навигация">${[
+      ['map', 'Карта вкусов'],
+      ['pantry', 'Продукты'],
+      ['recipes', 'Рецепты'],
+      ['planner', 'План похода'],
+      ['shopping', 'Закупка'],
     ]
       .map(
-        ([v, ic, t]) =>
-          `<a href="#${v}" data-nav="${v}" aria-label="${t}">${icon(ic)}<span>${t}</span>${v === 'shopping' ? '<span id="cart-count" class="nav-count">0</span>' : ''}</a>`,
+        ([v, label]) =>
+          `<a href="#${v}" data-nav="${v}"><span>${label}</span>${v === 'shopping' ? '<span id="cart-count" class="nav-count">0</span>' : ''}</a>`,
       )
       .join('')}</nav>
-    <div class="sidebar-note"><span class="tiny-label">ПРАВИЛО КАМБУЗА № 01</span><p>Хороший ужин начинается с простого рундука.</p><span class="note-line"></span>${icon('wave')}</div>
-    <button class="sidebar-source" data-action="sources">${icon('info')} О хранении и источниках</button>
-    <a class="deelstuff-link" href="https://deelstuff.com" target="_blank" rel="noopener noreferrer">deelstuff<span>жизнь под парусом ↗</span></a>
-  </aside>
-  <div class="workspace"><header class="topbar"><div class="breadcrumb">deelstuff <span>/</span> <strong>Дельный камбуз</strong></div><div class="topbar-right">${languageSelector()}<span class="offline-state" id="offline-status"><i></i> Подготовка к работе без сети…</span><div class="mode-switch" role="group" aria-label="Условия закупки"><button data-action="mode" data-mode="sea">${icon('wave')} В море</button><button data-action="mode" data-mode="shore">${icon('anchor')} У берега</button></div></div></header><main id="main" tabindex="-1"></main><footer class="page-footer"><span>Дельный камбуз / deelstuff</span><nav class="footer-links" aria-label="Информация о сайте"><a href="${legalUrl('impressum')}">Impressum</a><a href="${legalUrl('datenschutz')}">Datenschutz</a><button data-action="sources">Условия и источники ${icon('arrow')}</button></nav></footer></div>`);
+    <div class="header-tools"><span class="offline-state" id="offline-status"><i></i> Подготовка к работе без сети…</span><div class="mode-switch" role="group" aria-label="Условия закупки"><button data-action="mode" data-mode="sea">${icon('wave')} В море</button><button data-action="mode" data-mode="shore">${icon('anchor')} У берега</button></div><button class="theme-toggle" type="button" data-theme-toggle>${icon('moon', 'theme-moon')}${icon('sun', 'theme-sun')}</button>${languageSelector()}</div>
+  </header>
+  <main id="main" tabindex="-1"></main>
+  <footer class="page-footer"><a class="footer-brand" href="https://deelstuff.com" target="_blank" rel="noopener noreferrer">Дельный камбуз / deelstuff<small>жизнь под парусом</small></a><nav class="footer-links" aria-label="Информация о сайте"><button data-action="sources">О хранении и источниках</button><a href="${legalUrl('impressum')}">Impressum</a><a href="${legalUrl('datenschutz')}">Datenschutz</a></nav></footer>`);
+  initThemeToggle(document.querySelector('[data-theme-toggle]'), t);
   render();
 }
 
@@ -279,7 +279,7 @@ function openDialog(content, kind = '', preserveScroll = false) {
   const previousScroll = dialog.scrollTop;
   if (!dialog.open) lastFocus = document.activeElement;
   document.querySelector('#detail-content').innerHTML = localizeMarkup(
-    `<div class="drawer-top"><span class="eyebrow small">КАМБУЗ / ${kind || 'ЗАМЕТКИ НА ПОЛЯХ'}</span><button class="icon-button" data-action="close" aria-label="Закрыть">${icon('close')}</button></div>${content}`,
+    `<div class="drawer-top"><span class="eyebrow small">Камбуз / ${kind || 'Заметки на полях'}</span><button class="icon-button" data-action="close" aria-label="Закрыть">${icon('close')}</button></div>${content}`,
   );
   if (!dialog.open) dialog.showModal();
   dialog.scrollTop = preserveScroll ? previousScroll : 0;
@@ -299,14 +299,14 @@ function openProduct(id) {
   openDialog(
     `<div class="product-detail-head"><span class="product-symbol large ${p.state}">${icon(productGlyph(p))}</span><span class="tag">${p.category}</span><h2>${p.name}</h2><p>${p.hint}</p></div>
     ${group ? `<div class="product-variants">${group.map((v) => `<button data-action="product" data-id="${v}" class="${v === id ? 'active' : ''}">${productById[v].name}</button>`).join('')}</div>` : ''}
-    <div class="product-role"><span>Роль в блюде: <strong>${p.role}</strong></span>${family ? `<h3>${family.name}</h3><p>${family.note}</p><div>${family.members.map((id) => `<button data-action="product" data-id="${id}" class="${id === p.id ? 'active' : ''}">${productById[id].name}</button>`).join('')}</div>` : '<p>Прямой универсальной замены нет. В рецептах проверяйте разрешённые варианты по той же роли.</p>'}</div><div class="storage-pair"><div><span>ЗАКРЫТЫЙ / ЦЕЛЫЙ ПРОДУКТ</span><strong>${p.life}</strong></div><div><span>ПОСЛЕ ОТКРЫТИЯ / ПОДГОТОВКИ</span><strong>${p.afterLife}</strong></div></div>
+    <div class="product-role"><span>Роль в блюде: <strong>${p.role}</strong></span>${family ? `<h3>${family.name}</h3><p>${family.note}</p><div>${family.members.map((id) => `<button data-action="product" data-id="${id}" class="${id === p.id ? 'active' : ''}">${productById[id].name}</button>`).join('')}</div>` : '<p>Прямой универсальной замены нет. В рецептах проверяйте разрешённые варианты по той же роли.</p>'}</div><div class="storage-pair"><div><span>Закрытый / целый продукт</span><strong>${p.life}</strong></div><div><span>После открытия / подготовки</span><strong>${p.afterLife}</strong></div></div>
     <section class="detail-section"><h3>${icon('box')} Как хранить на яхте</h3><p>${p.storage}</p></section><section class="detail-section"><h3>${icon('clock')} После открытия</h3><p>${p.after}</p></section>${p.note ? `<div class="detail-notice">${icon('info')}<p>${p.note}</p></div>` : ''}
     ${p.packages ? `<section class="detail-section"><h3>Упаковки для планирования</h3><p>${p.packages.map((pack) => formatAmount(pack.size, pack.unit) + (pack.edible !== pack.size ? ` (примерно ${pack.edible} г без жидкости)` : '')).join(' · ')}. В рецепте выбирайте фактическую упаковку: открытое содержимое используется целиком. Масса без жидкости здесь типовая; проверяйте конкретную банку.</p></section>` : ''}
-    <div class="detail-stats"><div><span>СЫТОСТЬ*</span><strong>${p.satiety === 'Добавка' ? 'Добавка к блюду' : p.satiety}</strong><small>${p.portion}</small></div><div><span>УСЛОВИЯ ДЛЯ ОРИЕНТИРА</span><strong>Сухо и прохладно</strong><small>Желательно 15–21 °C, без конденсата</small></div></div>
+    <div class="detail-stats"><div><span>Сытость*</span><strong>${p.satiety === 'Добавка' ? 'Добавка к блюду' : p.satiety}</strong><small>${p.portion}</small></div><div><span>Условия для ориентира</span><strong>Сухо и прохладно</strong><small>Желательно 15–21 °C, без конденсата</small></div></div>
     <p class="footnote">Числа — ориентир для планирования запаса, ограниченный условиями продукта и остаточным сроком. Открытие не запускает срок заново. Сытость не измерена в часах и зависит от порции и нагрузки.</p>
     <div class="detail-actions">${p.state !== 'shore' ? `<button class="button primary" data-action="toggle-pantry" data-id="${p.id}">${icon(state.pantry.includes(p.id) ? 'check' : 'plus')} ${state.pantry.includes(p.id) ? 'Есть в рундуке · убрать' : 'Есть в рундуке'}</button>` : ''}<button class="button secondary" data-action="manual" data-id="${p.id}">${icon('bag')} В закупку</button></div>
     ${related.length ? `<section class="detail-section"><h3>Что из этого приготовить</h3><div class="related-recipes">${related.map((r) => `<button data-action="recipe" data-id="${r.id}"><span>${r.title}</span><small>${r.time} мин ${icon('arrow')}</small></button>`).join('')}</div></section>` : ''}<a class="source-link" href="${source.url}" target="_blank" rel="noopener noreferrer">${source.title} ↗</a>`,
-    'ПРОДУКТЫ',
+    'Продукты',
   );
 }
 
@@ -418,7 +418,7 @@ function openRecipe(id, keepChoices = false) {
   moduleIds = prepared.modules.map((m) => m.id);
   openDialog(
     renderRecipeDialog(r, prepared, { state, choices, packSizes, anchorId, moduleIds }),
-    'РЕЦЕПТЫ',
+    'Рецепты',
     keepChoices,
   );
 }
@@ -428,7 +428,7 @@ function showSources() {
   currentProduct = null;
   openDialog(
     `<h2 class="text-dialog-title">Не календарь годности.<br>Навигатор по запасам.</h2><div class="prose"><p>Для яхты нет универсальной таблицы сроков: температура рундука, конденсат, упаковка и исходное качество меняют результат. Мы не выдаём домашние справочники за испытания во влажном море.</p><h3>Как читать карточки</h3><p><strong>«3–6 месяцев»</strong> — редакционный план ротации сухого запаса в герметичной пищевой упаковке, в тени, желательно при 15–21 °C. Он ограничен сроком и условиями производителя. Это не обещание безопасности на весь период.</p><p><strong>«План: 2–3 дня»</strong> — когда съесть свежие покупки, а не установленный срок годности. Проверяйте овощи каждый день. В жару берите только на ближайшее приготовление.</p><p><strong>После открытия</strong> — отдельный ориентир в каждой строке: для сухой крупы это месяцы, для хлеба дни, для вскрытых консервов часы. Открытие не продлевает заводской срок. Условия конкретного продукта могут требовать более короткого хранения.</p><h3>Защита от яхтенной влаги</h3><p>Сухую крупу и муку фасуйте в плотный пищевой zip-lock и убирайте в жёсткий герметичный контейнер. Пакет должен быть сухим внутри. Zip-lock защищает от влаги только при исправном замке; он не защищает от проколов и грызунов. Свежим целым луку и картофелю нужна вентиляция.</p><h3>После приготовления</h3><p>Готовая еда и вскрытые скоропортящиеся продукты без холода — максимум 2 часа; выше 32 °C — 1 час. Это суммарное время, не новый отсчёт после каждого разогрева. Без холодильника удобнее готовить на один раз.</p><h3>Сытость</h3><p>Часы в карточках — условная редакционная оценка, не данные исследования. Для специй и соусов время не указано. Размер порции, белок, клетчатка, жиры, сон и нагрузка меняют ощущение голода. Ориентиры не определяют норму питания.</p><h3>Проверенные источники</h3><p class="muted">Проверено 25 октября 2026. Рецепты и короткие планы ротации — редакционная адаптация для одиночного камбуза.</p><div class="sources-list">${sources.map((s) => `<a href="${s.url}" target="_blank" rel="noopener noreferrer"><strong>${s.title} ↗</strong><span>${s.text}</span></a>`).join('')}</div></div>`,
-    'УСЛОВИЯ И ИСТОЧНИКИ',
+    'Условия и источники',
   );
 }
 function showSubstitutions() {
@@ -436,7 +436,7 @@ function showSubstitutions() {
   currentProduct = null;
   openDialog(
     `<h2 class="text-dialog-title">Меняйте продукты.<br>Сохраняйте идею.</h2><div class="prose"><p>Замена работает по роли: основа, белок, аромат, соус. Вкус и время при этом могут измениться.</p><div class="swap-card"><h3>Томатная паста ↔ другие томаты</h3><p><strong>40 г кетчупа</strong> — меньше соли, вкус слаще.<br><strong>Пассата</strong> — весь выбранный пакет; сухая основа пересчитывается под него, вода уменьшается по концентрации.<br><strong>200 г свежих томатов</strong> — примерно на 150 мл меньше воды, добавить время на размягчение.</p><p class="muted">Это стартовые пропорции, не точные эквиваленты: густота и кислотность различаются.</p></div><div class="swap-card"><h3>Свежие ароматы ↔ сухие</h3><p>Ориентир: 1 небольшая луковица ↔ 1 ст. л. сушёных луковых хлопьев или 1 ч. л. лукового порошка; 1 зубчик чеснока ↔ примерно ⅛ ч. л. порошка; 1 ч. л. тёртого имбиря ↔ ¼ ч. л. сухого.</p><p class="muted">Начинайте с меньшего количества. Смесь в рецептах — удобная ароматическая добавка, а не эквивалент объёма свежих овощей. Сухие специи не обжаривают так долго, как лук.</p></div><div class="swap-card"><h3>Белок ↔ белок</h3><p>Тунец ↔ сардины: целая небольшая банка. Мясные консервы ↔ соевый текстурат: гидратировать по инструкции. Фасоль ↔ нут: близкая масса без жидкости, но другой вкус.</p></div><div class="swap-card"><h3>Основа ↔ другая основа</h3><p>Рис, картофель и бобовые роднит принцип блюда, но не соотношение воды и время. Кускус запаривают, пасту помешивают, чечевицу разваривают. Сухую красную фасоль нельзя просто добавить вместо готовой.</p></div><p>В карточках выберите замену и размер её упаковки. Для пассаты используем весь пакет, а основу и начальный объём воды считаем от него. Закупка запомнит размер; банка 200 г и банка 500 г — разные позиции.</p></div>`,
-    'ЗАМЕНЫ',
+    'Замены',
   );
 }
 function showMethod() {
@@ -444,7 +444,7 @@ function showMethod() {
   currentProduct = null;
   openDialog(
     `<h2 class="text-dialog-title">Один принцип.<br>Разные способы.</h2><div class="prose"><p>Граф показывает родство блюд, а точные количества и порядок находятся в рецептах.</p><h3>1. Ароматическая основа</h3><p>Масло + свежий лук или сухие ароматы. Свежий лук обжаривают несколько минут, сухие специи прогревают только 20–30 секунд, чтобы не сжечь.</p><h3>2. Основа и жидкость</h3><p>Рис впитывает воду под крышкой; паста варится в небольшом количестве воды с помешиванием; красная чечевица разваривается. Картофель нарезают мелкими кубиками. Консервированные бобовые уже готовы.</p><h3>3. Характер блюда</h3><p>Зира и морковь ведут к плову. Томаты и паприка — к рису с рыбой или чили. Карри и кокосовое молоко — к далу или карри. Рыбные и мясные консервы обычно добавляют ближе к концу, затем хорошо прогревают.</p><div class="detail-notice">${icon('info')}<p>Кускус — отдельная ветка: его добавляют после выключения огня. Свежий фарш обжаривают в начале и проверяют термометром. Общая схема не заменяет эти различия.</p></div></div>`,
-    'ОБЩАЯ СХЕМА',
+    'Общая схема',
   );
 }
 function showSatiety() {
@@ -452,7 +452,7 @@ function showSatiety() {
   currentProduct = null;
   openDialog(
     `<h2 class="text-dialog-title">Сытость — ориентир,<br>а не таймер.</h2><div class="prose"><p>Нельзя надёжно обещать, что 100 г риса обеспечат конкретному человеку ровно три часа сытости. Часы в каталоге — условные редакционные диапазоны для бытового планирования.</p><h3>Что мы показываем</h3><p>У основы — порцию сухого продукта перед приготовлением. У бобовых — массу без жидкости. У консервированного белка — порцию в составе еды. У соусов и специй — «добавка» вместо часов.</p><h3>Как собрать более сытную еду</h3><p>Добавьте к рису, пасте или картофелю белок: чечевицу, нут, фасоль, рыбу, мясные консервы или текстурат. Небольшое количество масла повышает энергетическую ценность, овощи и бобовые добавляют клетчатку.</p><p>Подстраивайте порцию под свой аппетит, физическую работу, погоду и длину вахты. Мужской пол сам по себе не задаёт порцию. Приложение не рассчитывает дневные калории, белок или достаточность питания на переход.</p><a class="source-link" href="https://pubmed.ncbi.nlm.nih.gov/7498104/" target="_blank" rel="noopener noreferrer">Исследование Holt et al.: сравнение сытости, а не часы для нашего каталога ↗</a></div>`,
-    'СЫТОСТЬ',
+    'Сытость',
   );
 }
 

@@ -19,9 +19,9 @@
   margin: 0;
   position: relative;
   overflow: hidden;
-  border: 1px solid #d8d9ca;
+  border: 1px solid var(--line);
   border-radius: 12px;
-  background: #e7e9dc;
+  background: var(--surface);
 }
 .galley-cover img {
   width: 100%;
@@ -31,7 +31,7 @@
 }
 .galley-cover figcaption {
   padding: 10px 13px;
-  font-size: 9px;
+  font-size: 13px;
   line-height: 1.6;
   color: var(--muted);
 }
@@ -50,7 +50,7 @@
   padding: 14px 12px;
   border: 1px solid var(--line);
   border-radius: 7px;
-  background: #f1f2e8;
+  background: var(--paper);
 }
 .visual-start .icon,
 .storage-visual-key .icon {
@@ -61,14 +61,14 @@
 }
 .visual-start strong,
 .storage-visual-key strong {
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 500;
   display: block;
   line-height: 1.5;
 }
 .visual-start small,
 .storage-visual-key small {
-  font-size: 8px;
+  font-size: 12px;
   line-height: 1.7;
   display: block;
   color: var(--muted);
@@ -88,8 +88,8 @@
   place-items: center;
   width: 32px;
   height: 32px;
-  background: #ffffff75;
-  border: 1px solid #203e3b12;
+  background: color-mix(in srgb, var(--card) 46%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sea) 7%, transparent);
   border-radius: 50%;
   color: var(--ink);
 }
@@ -140,10 +140,10 @@
   display: flex;
   gap: 7px;
   align-items: center;
-  font-size: 11px;
+  font-size: 15px;
   line-height: 1.6;
   border: 1px solid var(--line);
-  background: #f7f7f0;
+  background: var(--paper);
   border-radius: 6px;
   padding: 8px 10px;
 }
@@ -154,8 +154,8 @@
   flex-shrink: 0;
 }
 .grain-visual {
-  background: #e9eddf;
-  border: 1px solid #cdd8bf;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
   border-radius: 8px;
   padding: 23px;
   margin: 26px 0 31px;
@@ -181,26 +181,26 @@
   stroke-width: 1.2;
 }
 .grain-visual-flow strong {
-  font-size: 11px;
+  font-size: 15px;
   line-height: 1.5;
   font-weight: 500;
 }
 .grain-visual-flow small {
-  font-size: 9px;
+  font-size: 13px;
   line-height: 1.5;
   color: var(--muted);
 }
 .flow-symbol {
-  font-size: 18px;
+  font-size: 20px;
   color: var(--copper);
   padding-bottom: 38px;
 }
 .grain-visual > p {
-  font-size: 11px;
+  font-size: 15px;
   line-height: 1.8;
   margin: 22px 0 0;
   padding-top: 15px;
-  border-top: 1px solid #cdd8bf;
+  border-top: 1px solid var(--line-strong);
   color: var(--muted);
 }
 .cooking-steps .visual-cooking-step {
@@ -215,14 +215,12 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 10px;
+  font-size: 14px;
   line-height: 1.5;
   color: var(--copper);
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   padding: 7px 10px;
-  background: #f0eadf;
+  background: var(--surface);
   border-radius: 5px;
   margin-bottom: 10px;
 }
@@ -237,25 +235,6 @@
 .cooking-steps .step-number {
   margin-top: 5px;
   flex-shrink: 0;
-}
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px 20px;
-}
-.footer-links > a {
-  font-size: 10px;
-  color: var(--muted);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.footer-links a:hover {
-  color: var(--copper);
-}
-.page-footer {
-  gap: 20px;
 }
 @media (max-width: 1150px) {
   .visual-start {
@@ -312,7 +291,7 @@
     height: 210px;
   }
   .galley-cover figcaption {
-    font-size: 8px;
+    font-size: 12px;
   }
   .visual-start {
     gap: 8px;
@@ -328,11 +307,11 @@
   }
   .visual-start strong,
   .storage-visual-key strong {
-    font-size: 9px;
+    font-size: 13px;
   }
   .visual-start small,
   .storage-visual-key small {
-    font-size: 8px;
+    font-size: 12px;
   }
   .storage-visual-key {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -350,7 +329,7 @@
     height: 17px;
   }
   .utensil-icons > span {
-    font-size: 10px;
+    font-size: 14px;
   }
   .grain-visual {
     padding: 18px 13px;
@@ -367,17 +346,16 @@
     height: 43px;
   }
   .grain-visual-flow strong {
-    font-size: 10px;
+    font-size: 14px;
   }
   .grain-visual-flow small {
-    font-size: 8px;
+    font-size: 12px;
   }
   .grain-visual > p {
-    font-size: 10px;
+    font-size: 14px;
   }
   .step-action {
-    font-size: 9px;
-    letter-spacing: 0.3px;
+    font-size: 13px;
   }
   .step-action .icon {
     width: 23px;
@@ -386,77 +364,11 @@
   .cooking-steps .visual-cooking-step {
     gap: 10px;
   }
-  .footer-links {
-    justify-content: flex-start;
-    gap: 12px;
-  }
-  .footer-links > a {
-    font-size: 9px;
-  }
-  .page-footer {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 12px;
-  }
-}
-.language-switch {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  flex-shrink: 0;
-}
-.language-switch a {
-  padding: 6px 7px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  font-size: 10px;
-  line-height: 1.4;
-  color: var(--muted);
-}
-.language-switch a[aria-current] {
-  border-color: var(--line);
-  background: var(--ink);
-  color: var(--paper);
-}
-.topbar-right {
-  flex-wrap: wrap;
-}
-.language-switch a:hover {
-  border-color: var(--line);
-}
-html[lang='de'] .brand-name {
-  font-size: 21px;
 }
 .meal-tabs button {
   line-height: 1.6;
 }
-.footer-links a {
-  white-space: nowrap;
-}
 @media (max-width: 680px) {
-  .topbar {
-    height: auto;
-    min-height: 67px;
-    flex-wrap: wrap;
-    padding-block: 10px;
-  }
-  .topbar-right {
-    margin-left: auto;
-    gap: 8px;
-  }
-  .language-switch a {
-    font-size: 9px;
-    padding: 5px 6px;
-  }
-  .mode-switch button {
-    white-space: nowrap;
-  }
-  html[lang='de'] .brand-name {
-    font-size: 16px;
-  }
-  .brand-by {
-    letter-spacing: 0.6px;
-  }
   .recipe-tools {
     gap: 9px;
   }
