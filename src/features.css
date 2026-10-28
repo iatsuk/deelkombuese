@@ -1419,9 +1419,6 @@
   color: var(--muted);
   margin: 12px 0;
 }
-.preparation-water {
-  border-top: 1px dashed var(--line-strong);
-}
 .module-buttons button:disabled,
 .generator-presets button:disabled {
   opacity: 0.45;
@@ -1508,50 +1505,6 @@
 .is-favorite .icon {
   fill: currentColor;
 }
-.recipe-tools {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 22px 0 28px;
-}
-.recipe-tools > .button {
-  font-size: 15px;
-  min-height: 43px;
-}
-.recipe-tools > p {
-  width: 100%;
-  font-size: 14px;
-  line-height: 1.9;
-  color: var(--muted);
-  margin: 3px 0 0;
-}
-.recipe-tools .is-favorite {
-  color: var(--copper);
-}
-.cooking-basics {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 20px;
-  margin: 25px 0;
-}
-.cooking-basics h3 {
-  font: 400 22px var(--serif);
-  margin: 0 0 13px;
-}
-.cooking-basics p,
-.cooking-basics li {
-  font-size: 15px;
-  line-height: 1.9;
-  color: var(--muted);
-}
-.cooking-basics ul {
-  padding-left: 19px;
-  margin: 12px 0 0;
-}
-.cooking-basics li + li {
-  margin-top: 9px;
-}
 @media (max-width: 680px) {
   .favorite-toggle {
     right: 7px;
@@ -1565,22 +1518,5 @@
   }
   .recipe-card-shell .recipe-card-top {
     padding-right: 26px;
-  }
-  .recipe-tools > .button {
-    font-size: 15px;
-    padding: 10px 12px;
-  }
-  .recipe-tools > p {
-    font-size: 13px;
-  }
-  .cooking-basics {
-    padding: 16px;
-  }
-  .cooking-basics h3 {
-    font-size: 22px;
-  }
-  .cooking-basics p,
-  .cooking-basics li {
-    font-size: 15px;
   }
 }

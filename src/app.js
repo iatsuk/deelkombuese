@@ -281,6 +281,7 @@ function openDialog(content, kind = '', preserveScroll = false) {
   document.querySelector('#detail-content').innerHTML = localizeMarkup(
     `<div class="drawer-top"><span class="eyebrow small">Камбуз / ${kind || 'Заметки на полях'}</span><button class="icon-button" data-action="close" aria-label="Закрыть">${icon('close')}</button></div>${content}`,
   );
+  dialog.classList.toggle('recipe-sheet', kind === 'Рецепты');
   if (!dialog.open) dialog.showModal();
   dialog.scrollTop = preserveScroll ? previousScroll : 0;
   document.body.classList.add('dialog-open');

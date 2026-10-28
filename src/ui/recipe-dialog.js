@@ -1,6 +1,6 @@
 import { selectionSnapshot, sameSelection } from '../preferences.js';
 import { cookingBasics, recipeUtensils } from '../cooking-guide.js';
-import { cookingAction, grainDiagram, productGlyph } from '../cooking-visuals.js';
+import { cookingAction, grainDiagram } from '../cooking-visuals.js';
 import { productById } from '../data.js';
 import { formatAmount, recipeSteps, effectiveIngredients } from '../model.js';
 import { icon } from './icons.js';
@@ -44,7 +44,7 @@ export function renderRecipeDialog(
       same =
         saved &&
         sameSelection(saved, selectionSnapshot(recipe, choices, packSizes, anchorId, moduleIds));
-    return `<div class="recipe-tools"><button class="button secondary ${same ? 'is-favorite' : ''}" data-action="favorite-current" aria-pressed="${Boolean(same)}">${icon('star')} ${same ? 'Убрать из избранного' : saved ? 'Обновить избранное' : 'В избранное'}</button><button class="button primary" data-action="recipe-png">${icon('download')} Скачать PNG</button><p>Звёздочка хранит один ваш вариант этого рецепта: замены, добавки и размеры упаковок. PNG сохраняет состав и шаги, которые выбраны сейчас.</p></div>`;
+    return `<div class="recipe-tools"><button class="button secondary ${same ? 'is-favorite' : ''}" data-action="favorite-current" aria-pressed="${Boolean(same)}">${icon('star')} ${same ? 'Убрать из избранного' : saved ? 'Обновить избранное' : 'В избранное'}</button><button class="button secondary" data-action="recipe-png">${icon('download')} Скачать PNG</button><p>Звёздочка хранит один ваш вариант этого рецепта: замены, добавки и размеры упаковок. PNG сохраняет состав и шаги, которые выбраны сейчас.</p></div>`;
   }
 
   function renderGrainDiagram(recipe, prepared) {
@@ -55,17 +55,25 @@ export function renderRecipeDialog(
 
   function renderCookingBasics(recipe, prepared) {
     const tips = cookingBasics(recipe, prepared);
-    return `<section class="cooking-basics"><h3>Перед началом</h3><div class="utensil-icons">${recipeUtensils(
+    return tips.length
+      ? `<section class="cooking-basics"><h3>Перед началом</h3><ul>${tips.map((t) => `<li>${t}</li>`).join('')}</ul></section>`
+      : '';
+  }
+
+  // The margin column of a cookbook page: what to expect before reading the method.
+  function renderFacts(recipe, prepared) {
+    const water = prepared.water || prepared.prepWater;
+    const waterNote = !prepared.water
+      ? 'на подготовку'
+      : prepared.prepWater
+        ? `и ≈ ${prepared.prepWater} мл на подготовку`
+        : 'на готовку';
+    return `<dl class="recipe-facts"><div><dt>Время</dt><dd>${prepared.time} мин<small>с выбранными добавками</small></dd></div><div><dt>${recipe.vessel === 'cold' ? 'Подготовка' : 'У плиты'}</dt><dd>${prepared.active} мин<small>${recipe.vessel === 'cold' ? 'подготовки' : 'активной готовки'}</small></dd></div><div><dt>Выход</dt><dd>≈ ${prepared.yieldGrams} г<small>выход из упаковок</small></dd></div>${water ? `<div><dt>Вода</dt><dd>≈ ${water} мл<small>${waterNote}</small></dd></div>` : ''}<div><dt>Посуда</dt><dd class="recipe-utensils">${recipeUtensils(
       recipe,
       prepared,
     )
-      .map(
-        (item) =>
-          `<span>${icon(/кружк|стакан/.test(item) ? 'measure' : /сковор/.test(item) ? 'pan' : /миска|тарелка/.test(item) ? 'bowl' : /кастрюл/.test(item) ? 'pot' : /тёрка/.test(item) ? 'cut' : 'stir')}${item}</span>`,
-      )
-      .join(
-        '',
-      )}</div>${tips.length ? `<ul>${tips.map((t) => `<li>${t}</li>`).join('')}</ul>` : ''}</section>`;
+      .map((item) => `<span>${item}</span>`)
+      .join('')}</dd></div><div><dt>Сытость</dt><dd>≈ ${recipe.satiety}*</dd></div></dl>`;
   }
   const misses = prepared.ingredients.filter((i) => !state.pantry.includes(i.id));
   const isLarge = prepared.yieldGrams > 750 && !r.drySnack;
@@ -81,35 +89,46 @@ export function renderRecipeDialog(
         )}</div><small>Масса без жидкости у консервов типовая. Выход — расчётный ориентир, а не измеренная готовая порция.</small></section>`
     : '';
 
-  return `<div class="recipe-detail-heading ${r.tone}"><span class="tag">${prepared.shore ? 'С берега · ' + (prepared.meal === 'main' ? 'основное блюдо' : 'готовить сразу') : r.vessel === 'cold' ? 'Без плиты' : r.meal === 'breakfast' ? 'Завтрак' : r.vessel === 'pan' ? 'Сковорода' : 'Одна кастрюля'}</span><h2>${prepared.title}</h2><p>${r.desc}</p></div>
-    <div class="recipe-detail-stats"><span>${icon('clock')}<strong>${prepared.time} мин</strong><small>с выбранными добавками</small></span><span>${icon(r.vessel === 'cold' ? 'person' : 'pot')}<strong>${prepared.active} мин</strong><small>${r.vessel === 'cold' ? 'подготовки' : 'активной готовки'}</small></span><span>${icon('box')}<strong>≈ ${prepared.yieldGrams} г</strong><small>выход из упаковок</small></span></div>
+  const kicker = prepared.shore
+    ? 'С берега · ' + (prepared.meal === 'main' ? 'основное блюдо' : 'готовить сразу')
+    : r.vessel === 'cold'
+      ? 'Без плиты'
+      : r.meal === 'breakfast'
+        ? 'Завтрак'
+        : r.vessel === 'pan'
+          ? 'Сковорода'
+          : 'Одна кастрюля';
+  const ingredientRows = prepared.ingredients
+    .map((chosen) => {
+      const original = effectiveIngredients(r, moduleIds).find((i) => i.id === chosen.originalId);
+      const owned = state.pantry.includes(chosen.id);
+      const name = original.alternatives.length
+        ? `<label class="sr-only" for="swap-${original.id}">Заменить ${productById[original.id].name}</label><select class="ingredient-swap" id="swap-${original.id}" data-swap="${original.id}"><option value="${original.id}" ${chosen.id === original.id ? 'selected' : ''}>${productById[original.id].name}</option>${original.alternatives.map((a) => `<option value="${a.id}" ${chosen.id === a.id ? 'selected' : ''}>↔ ${productById[a.id].name}</option>`).join('')}</select>`
+        : `<button class="ingredient-product" data-action="product" data-id="${chosen.id}">${productById[chosen.id].name}</button>`;
+      const pack = chosen.package
+        ? `<label class="pack-size-label" for="pack-${chosen.id}">Размер целой упаковки</label><select class="pack-size" id="pack-${chosen.id}" data-pack="${chosen.id}">${productById[chosen.id].packages.map((size) => `<option value="${size.size}" ${size.size === chosen.package.size ? 'selected' : ''}>${formatAmount(size.size, size.unit)}${size.edible !== size.size ? ` · ≈ ${size.edible} г без жидкости` : ''}</option>`).join('')}</select>`
+        : '';
+      return `<div class="ingredient-row ${owned ? 'owned' : ''}"><div class="ingredient-line">${name}<i class="leader" aria-hidden="true"></i><strong class="ingredient-amount">${formatAmount(chosen.amount, chosen.unit)}</strong></div><div class="ingredient-meta"><small>${owned ? icon('check') + ' Есть в рундуке' : 'Проверить остаток / купить'}${chosen.package ? ' · упаковка целиком' : ''}</small>${pack}</div>${chosen.note ? `<p class="substitution-note">${icon('swap')} ${chosen.note}</p>` : ''}</div>`;
+    })
+    .join('');
+  const waterRows = `${prepared.water ? `<div class="ingredient-row water"><div class="ingredient-line"><span>${icon('drop')} ${r.generator ? 'Вода на готовку и восстановление' : 'Питьевая вода, начальный объём'}</span><i class="leader" aria-hidden="true"></i><strong class="ingredient-amount">≈ ${prepared.water} мл</strong></div></div>` : ''}${prepared.prepWater ? `<div class="ingredient-row water"><div class="ingredient-line"><span>${icon('drop')} Отдельно на подготовку / промывание</span><i class="leader" aria-hidden="true"></i><strong class="ingredient-amount">≈ ${prepared.prepWater} мл</strong></div></div>` : ''}`;
+  const steps = recipeSteps(r, choices, moduleIds, prepared)
+    .map((step, n) => {
+      const action = cookingAction(step);
+      return `<li class="visual-cooking-step"><span class="step-number">${n + 1}</span><div class="step-copy"><span class="step-action">${icon(action.icon)} ${action.label}</span><p>${step}</p></div></li>`;
+    })
+    .join('');
+
+  return `<article class="recipe-page"><header class="recipe-head ${r.tone}"><p class="recipe-kicker">${kicker}</p><h2>${prepared.title}</h2><p class="recipe-lead">${r.desc}</p></header>
+    <div class="recipe-layout"><aside class="recipe-margin" aria-label="Коротко о блюде">${renderFacts(r, prepared)}${recipeTools(r, prepared)}</aside><div class="recipe-main">
     ${prepared.shore ? `<div class="detail-notice warning">${icon('sun')}<p>Охлаждённые продукты готовить сразу после покупки. Без холода максимум 2 часа суммарно, выше 32 °C — 1 час.</p></div>` : ''}
     ${prepared.eggConditional ? `<div class="detail-notice">${icon('egg')}<p>Для яиц проверьте возраст от кладки и историю охлаждения. Немытые неохлаждённые яйца требуют стабильной прохлады; ориентир до 18 дней от кладки не действует для жаркого рундука. Охлаждённые яйца сохранять в холоде до готовки. Белок и желток готовить полностью.</p></div>` : ''}
-    ${recipeTools(r, prepared)}${renderRecipeModules(r, prepared)}${packageControls}${isLarge ? `<div class="detail-notice warning">${icon('person')}<p><strong>Выход большой для одного приёма: примерно ${prepared.yieldGrams} г.</strong> Выберите меньшую упаковку или разделите готовую еду с попутчиком сейчас. Без холодильника выход этой готовки нельзя распределять на следующие вахты. Для увеличенного объёма нужны подходящая посуда и дополнительное время.${prepared.ingredients.some((i) => i.id === 'passata') && r.id !== 'tomato-pack-soup' ? '<br><button class="pack-recipe-link" data-action="recipe" data-id="tomato-pack-soup">Использовать 500 г пассаты в компактном томатном супе →</button>' : ''}</p></div>` : ''}
-    <section class="detail-section ingredients-section"><div class="detail-heading-row"><h3>Состав под вашу упаковку</h3><span>${icon('swap')} Варианты и замены</span></div><div class="ingredient-list">${prepared.ingredients
-      .map((chosen) => {
-        const original = effectiveIngredients(r, moduleIds).find((i) => i.id === chosen.originalId);
-        return `<div class="ingredient-row"><span class="ingredient-dot ${state.pantry.includes(chosen.id) ? 'owned' : ''}">${icon(productGlyph(productById[chosen.id]))}</span><div class="ingredient-info">${original.alternatives.length ? `<label class="sr-only" for="swap-${original.id}">Заменить ${productById[original.id].name}</label><select id="swap-${original.id}" data-swap="${original.id}"><option value="${original.id}" ${chosen.id === original.id ? 'selected' : ''}>${productById[original.id].name}</option>${original.alternatives.map((a) => `<option value="${a.id}" ${chosen.id === a.id ? 'selected' : ''}>↔ ${productById[a.id].name}</option>`).join('')}</select>` : `<button class="ingredient-product" data-action="product" data-id="${chosen.id}">${productById[chosen.id].name}</button>`}
-      ${chosen.package ? `<label class="pack-size-label" for="pack-${chosen.id}">Размер целой упаковки</label><select class="pack-size" id="pack-${chosen.id}" data-pack="${chosen.id}">${productById[chosen.id].packages.map((pack) => `<option value="${pack.size}" ${pack.size === chosen.package.size ? 'selected' : ''}>${formatAmount(pack.size, pack.unit)}${pack.edible !== pack.size ? ` · ≈ ${pack.edible} г без жидкости` : ''}</option>`).join('')}</select>` : ''}<small>${state.pantry.includes(chosen.id) ? 'Есть в рундуке' : 'Проверить остаток / купить'}${chosen.package ? ' · упаковка целиком' : ''}</small></div><strong>${formatAmount(chosen.amount, chosen.unit)}${chosen.package ? '<small class="whole-label">без остатка</small>' : ''}</strong></div>${chosen.note ? `<p class="substitution-note">${icon('swap')} ${chosen.note}</p>` : ''}`;
-      })
-      .join(
-        '',
-      )}${prepared.water ? `<div class="water-line">${icon('drop')} ${r.generator ? 'Вода на готовку и восстановление' : 'Питьевая вода, начальный объём'}<strong>≈ ${prepared.water} мл</strong></div>` : ''}${prepared.prepWater ? `<div class="water-line preparation-water">${icon('drop')} Отдельно на подготовку / промывание<strong>≈ ${prepared.prepWater} мл</strong></div>` : ''}</div>
+    ${renderRecipeModules(r, prepared)}${packageControls}${isLarge ? `<div class="detail-notice warning">${icon('person')}<p><strong>Выход большой для одного приёма: примерно ${prepared.yieldGrams} г.</strong> Выберите меньшую упаковку или разделите готовую еду с попутчиком сейчас. Без холодильника выход этой готовки нельзя распределять на следующие вахты. Для увеличенного объёма нужны подходящая посуда и дополнительное время.${prepared.ingredients.some((i) => i.id === 'passata') && r.id !== 'tomato-pack-soup' ? '<br><button class="pack-recipe-link" data-action="recipe" data-id="tomato-pack-soup">Использовать 500 г пассаты в компактном томатном супе →</button>' : ''}</p></div>` : ''}
+    <section class="detail-section ingredients-section"><h3>Состав под вашу упаковку</h3><div class="ingredient-list">${ingredientRows}${waterRows}</div>
     <p class="footnote">${r.vessel === 'cold' ? 'Только чистые руки, посуда и питьевая вода для мытья продуктов.' : 'Вода — ориентир: учитывайте испарение и добавляйте по необходимости. Соль и перец по вкусу, если не указаны в составе.'} Количество людей не задаёт граммовки.</p></section>
-    ${renderCookingBasics(r, prepared)}${renderGrainDiagram(r, prepared)}<section class="detail-section"><h3>Как приготовить</h3><ol class="cooking-steps">${recipeSteps(
-      r,
-      choices,
-      moduleIds,
-      prepared,
-    )
-      .map((step, n) => {
-        const action = cookingAction(step);
-        return `<li class="visual-cooking-step"><span class="step-number">${String(n + 1).padStart(2, '0')}</span><div class="step-copy"><span class="step-action">${icon(action.icon)} ${action.label}</span><p>${step}</p></div></li>`;
-      })
-      .join(
-        '',
-      )}</ol>${Object.keys(choices).length ? `<div class="detail-notice">${icon('swap')}<p>Используйте выбранные ингредиенты и количества из состава выше. Свежий лук обжарьте 3–5 минут, сухие специи прогревайте несколько секунд. Пассата идёт с жидкостью, а не обжаривается как паста. Подготовку обычных сушёных овощей сверяйте с пачкой; для быстрого текстурата в генераторе заложены отдельные вода и время.</p></div>` : ''}</section>
-    ${r.tip ? `<div class="skipper-tip"><span>${icon('anchor')} Заметка из камбуза</span><p>${r.tip}</p></div>` : ''}
+    ${renderCookingBasics(r, prepared)}${renderGrainDiagram(r, prepared)}<section class="detail-section"><h3>Как приготовить</h3><ol class="cooking-steps">${steps}</ol>${Object.keys(choices).length ? `<div class="detail-notice">${icon('swap')}<p>Используйте выбранные ингредиенты и количества из состава выше. Свежий лук обжарьте 3–5 минут, сухие специи прогревайте несколько секунд. Пассата идёт с жидкостью, а не обжаривается как паста. Подготовку обычных сушёных овощей сверяйте с пачкой; для быстрого текстурата в генераторе заложены отдельные вода и время.</p></div>` : ''}</section>
+    ${r.tip ? `<aside class="skipper-tip"><span>${icon('anchor')} Заметка из камбуза</span><p>${r.tip}</p></aside>` : ''}
     ${!r.drySnack ? `<div class="detail-notice">${icon('info')}<p>Вскрытое скоропортящееся содержимое используйте всё в текущую готовку. Готовое блюдо без холодильника — максимум 2 часа, выше 32 °C — 1 час; остатки на следующую вахту не планировать. Хлеб и сухие специи живут по своим срокам после открытия.</p></div>` : ''}<p class="footnote">Сытость ≈ ${r.satiety}* для обычной порции блюда, не для всего увеличенного выхода. Ориентир условный.</p>
-    <div class="recipe-sticky"><div><strong>${misses.length ? 'Проверить / купить: ' + misses.length : 'Всё есть в рундуке'}</strong><small>${prepared.packaged.length ? 'Размеры упаковок сохранятся в закупке' : 'Количество продуктов — в составе выше'}</small></div><button class="button primary" data-action="add-plan" data-id="${r.id}">${icon('bag')} ${state.view === 'planner' ? 'В закупку отдельно' : 'В закупку'}</button></div>`;
+    </div></div>
+    <div class="recipe-sticky"><div><strong>${misses.length ? 'Проверить / купить: ' + misses.length : 'Всё есть в рундуке'}</strong><small>${prepared.packaged.length ? 'Размеры упаковок сохранятся в закупке' : 'Количество продуктов — в составе выше'}</small></div><button class="button primary" data-action="add-plan" data-id="${r.id}">${icon('bag')} ${state.view === 'planner' ? 'В закупку отдельно' : 'В закупку'}</button></div></article>`;
 }

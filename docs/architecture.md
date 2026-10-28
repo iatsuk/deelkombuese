@@ -35,7 +35,7 @@ The diagram shows responsibilities, not every import. `pnpm check:architecture` 
 | Session defaults                  | `state/session.js`                              | `createAppState` creates a fresh session from saved data and the route                     |
 | UI catalogue                      | `ui/catalog.js`                                 | Shared cards, selection-aware filtering, search and shopping selectors                     |
 | Page rendering                    | `ui/views/`                                     | One module per primary section, with explicit state/catalogue inputs                       |
-| Recipe detail                     | `ui/recipe-dialog.js`                           | Presentation of an already prepared recipe; actions remain in the controller               |
+| Recipe detail                     | `ui/recipe-dialog.js`, `recipe-page.css`        | Cookbook-page presentation of an already prepared recipe; actions remain in the controller |
 | Graph geometry                    | `ui/graph.js`                                   | DOM measurement and SVG connections only                                                   |
 | SVG and display formatting        | `ui/icons.js`, `ui/format.js`, `ui/water.js`    | Shared visual vocabulary and locale-aware display                                          |
 | Colour roles and site frame       | `tokens.css`, `shell.css`                       | Light/dark colour tokens; header and footer layout (see [design](design.md))               |

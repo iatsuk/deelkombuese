@@ -31,6 +31,12 @@ These were rejected for deelstuff and are not used here:
 
 Labels are sentence case in every language. When a label changes, its Russian source becomes a new catalogue key, so English and German entries are added in the same change.
 
+## Recipe page
+
+`ui/recipe-dialog.js` renders a recipe as a cookbook page, and `src/recipe-page.css` owns its layout. The heading carries a small kicker (cooking vessel, shore or breakfast), the title and the lead. A margin column lists the facts a cook needs before reading — time, time at the stove, yield, water, equipment and satiety — followed by the favourite and PNG buttons; on wide screens it stays in view while the page scrolls. The main column holds notices, variants, pack planning, ingredients with dotted leaders and right-aligned quantities, preparation tips and the numbered method.
+
+The recipe opens in the shared `#detail` dialog with the `recipe-sheet` class, which widens it to a page. Product and source notes keep the narrow drawer. Below 760 px the facts become a two-column block above the content. The markup does not depend on the dialog, so the same page can later be rendered as a standalone URL.
+
 ## Layout
 
 `src/shell.css` owns the header and footer: brand, section pills, the sea/shore switch, the theme switch and the language selector. Below 1180 px the section pills move to their own row; below 680 px they scroll horizontally under the brand row. Page sections keep their own stylesheet rules in `styles.css`, `features.css` and `visuals.css`.
