@@ -7,6 +7,7 @@ import {
   recipeHasMeal,
   recipeTitle,
 } from './model.js';
+import { tripProfile } from './generator-engine.js';
 
 const breakfast = [
   'oatmeal',
@@ -79,16 +80,10 @@ function tripEntry(recipe, day, slot, includeEggs) {
   if (recipe.id === 'french-toast' && slot === 'breakfast') modules.push('honey');
   if (recipe.id === 'fritters' && slot === 'breakfast') modules.push('honey');
   if (recipe.id === 'oat-fritters' && slot === 'breakfast') modules.push('sweet');
-  if (recipe.generator) {
-    const profiles = {
-      1: ['sauce-tomato', 'fish'],
-      3: ['sauce-garlic', 'beans'],
-      5: ['sauce-peanut', 'ginger'],
-      7: ['sauce-cream', 'peas'],
-    };
-    modules.push(...(profiles[day] || ['sauce-broth', 'mushrooms']));
-    if (modules.includes('sauce-cream')) choices.cream = 'milkPowder';
-    if (day === 7) choices.pasta = 'risottoRice';
+  const profile = tripProfile(recipe, day);
+  if (profile) {
+    modules.push(...profile.modules);
+    Object.assign(choices, profile.choices);
   }
   if (recipe.id === 'potato-skillet') modules.push('beans');
   if (recipe.id === 'cabbage-soup') modules.push('rinse');

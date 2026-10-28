@@ -1,5 +1,12 @@
 import { productById, recipeMigrations } from './data.js';
-import { generatorProfile, generatorWater, generatedSteps } from './dish-generator.js';
+import {
+  generatorProfile,
+  generatorDefaults,
+  generatorWater,
+  generatorTitle,
+  generatorIssues,
+  generatedSteps,
+} from './generator-engine.js';
 import { absorptionWater, guidedGrainSteps } from './cooking-guide.js';
 
 export function migrateRecipeEntry(entry) {
@@ -51,23 +58,50 @@ export function selectedRecipeModules(recipe, ids = []) {
     }
     if (!selected.some((m) => m.id === id)) selected.push(module);
   }
-  if (recipe.generator && !selected.some((m) => m.group === 'sauce'))
-    selected.unshift(recipe.modules.find((m) => m.id === 'sauce-broth'));
+  if (recipe.generator) selected.unshift(...generatorDefaults(recipe, selected));
   return selected;
 }
 export function recipeTitle(recipe, choices = {}, moduleIds = []) {
   const modules = selectedRecipeModules(recipe, moduleIds);
-  if (recipe.generator) {
-    const sauce = modules.find((m) => m.group === 'sauce');
-    const label =
-      sauce.id === 'sauce-cream'
-        ? choices.cream && choices.cream !== 'cream'
-          ? 'молочный соус'
-          : 'сливочный соус'
-        : sauce.shortLabel;
-    return generatorProfile(recipe, choices).label + ' · ' + label;
-  }
+  if (recipe.generator) return generatorTitle(recipe, choices, modules);
   return modules.find((m) => m.title)?.title || recipe.resultTitle || recipe.title;
+}
+// Problems with the current generator selection, each with the option and a reason.
+export function selectionIssues(recipe, choices = {}, moduleIds = []) {
+  if (!recipe.generator) return [];
+  return generatorIssues(
+    generatorProfile(recipe, choices),
+    selectedRecipeModules(recipe, moduleIds),
+  );
+}
+// Keeps a generator selection valid: drops modules that break a rule and adds the first
+// option a base requires. Used for saved favourites, links and the map.
+export function normalizeSelection(recipe, choices = {}, moduleIds = []) {
+  if (!recipe.generator) return moduleIds;
+  let ids = moduleIds.filter((id) => recipe.modules.some((m) => m.id === id));
+  for (let guard = 0; guard < 10; guard++) {
+    const profile = generatorProfile(recipe, choices);
+    const issue = generatorIssues(profile, selectedRecipeModules(recipe, ids))[0];
+    if (!issue) break;
+    if (issue.id === profile.id) ids = [...ids, profile.requires[0]];
+    else ids = ids.filter((id) => id !== issue.id);
+  }
+  return ids;
+}
+// The reason an option cannot join the current generator selection, if any.
+export function optionBlocked(recipe, choices = {}, moduleIds = [], optionId) {
+  if (!recipe.generator || moduleIds.includes(optionId)) return null;
+  const option = recipe.modules.find((m) => m.id === optionId);
+  const kept = moduleIds.filter(
+    (id) =>
+      !option?.group ||
+      option.multiple ||
+      recipe.modules.find((m) => m.id === id)?.group !== option.group,
+  );
+  const issue = selectionIssues(recipe, choices, [...kept, optionId]).find(
+    (i) => !selectionIssues(recipe, choices, kept).some((before) => before.id === i.id),
+  );
+  return issue?.reason || null;
 }
 export function effectiveIngredients(recipe, moduleIds = []) {
   return [

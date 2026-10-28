@@ -1,6 +1,6 @@
 import { createCabbageRecipe } from './catalog/cabbage-definition.js';
 import { expandRecipeLibrary } from './recipe-library.js';
-import { createDishGenerator } from './catalog/dish-definition.js';
+import { createPastaGenerator } from './catalog/generators/pasta.js';
 // Storage periods are editorial rotation estimates, not results of yacht storage trials.
 export const sources = [
   {
@@ -1963,7 +1963,7 @@ recipes.find((r) => r.id === 'bread-peanut').modules = [
 
 expandRecipeLibrary(recipes, { r, i, oil, aroma, tomato, fish });
 recipes.push(createCabbageRecipe({ r, i, tomato }));
-recipes.unshift(createDishGenerator({ r, i, oil, tomato, fish }));
+recipes.unshift(createPastaGenerator({ r, i, tomato, fish }));
 const absorptionRecipes = new Set([
   'buckwheat-stew',
   'buckwheat-peas',

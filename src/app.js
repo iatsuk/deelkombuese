@@ -156,7 +156,7 @@ function handlePlannerAction(action, id, button) {
     return true;
   }
   if (action === 'generator-base' && currentRecipe) {
-    choices.pasta = id;
+    choices[recipeById[currentRecipe].generator.choiceKey] = id;
     openRecipe(currentRecipe, true);
     return true;
   }

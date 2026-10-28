@@ -29,7 +29,7 @@ for (const file of files) {
     .map((node) => relative('.', resolve(dirname(file), node.source.value)));
   dependencies.set(file, targets);
   const domain =
-    /^src\/(?:catalog\/|data\.js|model\.js|planner\.js|preferences\.js|dish-generator\.js|cooking-guide\.js)/.test(
+    /^src\/(?:catalog\/|data\.js|model\.js|planner\.js|preferences\.js|generator-engine\.js|cooking-guide\.js)/.test(
       file,
     );
   for (const target of targets) {

@@ -152,7 +152,7 @@ export function recipeUtensils(recipe, prepared) {
       : recipe.vessel === 'pan'
         ? ['сковорода', 'лопатка']
         : ['кастрюля с крышкой', 'ложка'];
-  if (recipe.grainCooking || prepared.generator?.profile.id === 'rice')
+  if (recipe.grainCooking || prepared.generator?.profile.absorption)
     items.push('сухая кружка или стакан для мерки');
   if (
     (recipe.vessel === 'pan' && ['pancakes', 'french-toast'].includes(recipe.id)) ||

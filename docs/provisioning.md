@@ -10,7 +10,18 @@ Product IDs and recipe IDs are stable. Quantities remain numbers with canonical 
 
 A recipe has a required core and optional modules. Mutually exclusive groups select one sauce or protein; compatible vegetable and seasoning modules can combine. A substitution may change quantity, water and time, not merely the displayed name.
 
-The pasta/risotto/rice/potato builder keeps each base's technique. Ordinary rice absorbs measured water under a lid; risotto receives water gradually with stirring. Acidic tomato ingredients enter potatoes after they soften.
+## Generators
+
+A generator is a recipe with a `generator` definition (`src/catalog/generators/`). It keeps one cooking principle while the base, sauce and fillings change:
+
+- **Bases** are chosen through `choices[choiceKey]` — an ingredient's alternatives for pasta, or a technique id for generators whose base is a method. Each base carries its own water, minimum water, time and active time; `absorption` marks bases cooked by the mug rule and `sauceCredit: false` keeps the full cooking water when a sauce must wait.
+- **Modules** are the options. `defaultModules` fill a group with no selection, such as the plain water/broth sauce.
+- **Rules**: an option may `require` one of several options or `exclude` others, with a `reason` shown to the reader. `normalizeSelection` repairs saved or linked selections; `optionBlocked` explains why an option is unavailable.
+- **Names**: `dishes` map a base and modules to a known dish; the most specific match wins. Otherwise the title is the base label plus the sauce's title label, which may depend on a substitution (cream or milk).
+- **Steps** are entries with a `phase`, an optional `when(context)` and a text. Entries come from the generator, the chosen base and the selected modules and are ordered by `phases`. The context offers the base, sauce, module and ingredient ids, cooking water and hydration water.
+- **Passage profiles** (`tripProfiles`) choose the modules and choices the passage planner uses on each day.
+
+The pasta/risotto/rice/potato generator keeps each base's technique; a golden test records its output. Ordinary rice absorbs measured water under a lid; risotto receives water gradually with stirring. Acidic tomato ingredients enter potatoes after they soften.
 
 Fresh cabbage uses a separate braising technique. Plain cabbage, cabbage with rice, and added tomato/protein variants share one definition. Adding rice creates the unstuffed cabbage-roll variant. A small whole head is treated as the anchor unit; the opened remainder is not scheduled for another day. Fresh cabbage and canned sauerkraut are not presented as identical storage products or automatic one-for-one cooking substitutes.
 

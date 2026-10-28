@@ -13,7 +13,7 @@ flowchart TD
   UI --> Domain[model.js and planner.js]
   UI --> I18n[i18n/runtime.js and messages.js]
   Domain --> Data[data.js: catalogue assembly]
-  Domain --> Cooking[cooking-guide.js and dish-generator.js]
+  Domain --> Cooking[cooking-guide.js and generator-engine.js]
   Data --> Definitions[catalog/: recipe definitions]
   Export --> Domain
   Export --> Visuals[cooking-visuals.js: action metadata]
@@ -28,7 +28,7 @@ The diagram shows responsibilities, not every import. `pnpm check:architecture` 
 | --------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------ |
 | Product and recipe identity       | `data.js`, `catalog/`, `recipe-library.js`      | Stable IDs and canonical units; no DOM, network or locale access                           |
 | Recipe calculations               | `model.js`                                      | `prepareRecipe`, substitutions, whole packs, filtering and shopping aggregation            |
-| Cooking techniques                | `cooking-guide.js`, `dish-generator.js`         | Water absorption, preparation order, base-specific steps; no presentation imports          |
+| Cooking techniques                | `cooking-guide.js`, `generator-engine.js`       | Water absorption, generator bases, rules, names and phase-ordered steps; no presentation   |
 | Passage and seasonal provisioning | `planner.js`                                    | Deterministic menus, retail rounding, usage and water budgets                              |
 | Configured favourites             | `preferences.js`                                | Normalised selections and legacy recipe migrations                                         |
 | Persistence                       | `state/storage.js`                              | Storage is injected; corrupt or unavailable storage does not prevent use                   |
@@ -52,7 +52,7 @@ The diagram shows responsibilities, not every import. `pnpm check:architecture` 
 
 ## Architectural rules
 
-- **ARCH-01 — Domain independence.** Domain and catalogue modules cannot import UI, browser integration, persistence or exports, and cannot access browser globals or fetch resources. Recipe definitions are separated from the generator's cooking algorithms.
+- **ARCH-01 — Domain independence.** Domain and catalogue modules cannot import UI, browser integration, persistence or exports, and cannot access browser globals or fetch resources. Generator definitions in `catalog/generators/` describe options, rules, dish names and phase-ordered steps; `generator-engine.js` owns the shared algorithm and never names a particular generator.
 - **ARCH-02 — No reverse controller dependencies.** Views cannot import `app.js`. The controller owns browser events and delegates rendering and calculations through small explicit interfaces.
 - **ARCH-03 — Snapshot exports.** The PNG renderer receives prepared display data. Changing a selection while a download is being created cannot alter that download.
 - **ARCH-04 — Locale is presentation.** Never translate IDs, option values, `data-*` attributes, stored units, recipe choices or numeric measurements. Browser integration is isolated from the pure translator and locale policy.

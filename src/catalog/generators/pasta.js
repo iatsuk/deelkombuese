@@ -1,4 +1,123 @@
-export function createDishGenerator({ r, i, oil, tomato, fish }) {
+import {
+  grainMeasuringStep,
+  grainSimmerStep,
+  grainDonenessStep,
+  grainRestStep,
+} from '../../cooking-guide.js';
+
+const tomatoSauce = (c) => c.sauce?.id === 'sauce-tomato';
+// Phase-ordered method shared by all bases; acidic tomatoes join potatoes only after they soften.
+const PASTA_STEPS = [
+  {
+    phase: 'prepare',
+    when: (c) => c.hydrationWater,
+    text: (c) =>
+      `До начала готовки восстановите быстрый соевый текстурат по пачке. На это в расчёте отведено ${c.hydrationWater} мл из общего объёма воды, а не сверх него. При другом соотношении на пачке скорректируйте воду и время.`,
+  },
+  {
+    phase: 'prepare',
+    when: (c) => c.base === 'potato',
+    text: 'Картофель нарежьте кубиками до 1 см. Кислые томаты пока отставьте: их добавляют после размягчения картофеля.',
+  },
+  {
+    phase: 'prepare',
+    when: (c) => c.base === 'risottoRice',
+    text: 'Арборио или карнароли не промывайте: поверхностный крахмал нужен для текстуры. Отмерьте воду, часть оставьте для постепенного доливания.',
+  },
+  {
+    phase: 'fry',
+    when: (c) => c.ids.has('beef'),
+    text: 'В этой же кастрюле сначала обжарьте фарш на части масла, разбивая комки. В конце приготовления проверьте пищевым термометром: не менее 71 °C в центре фарша.',
+  },
+  {
+    phase: 'fry',
+    when: (c) => c.moduleIds.has('onion'),
+    text: 'Свежий лук нарежьте и обжарьте на части масла 3–5 минут. Сухой лук отправьте с водой, без длительного обжаривания.',
+  },
+  {
+    phase: 'sauce',
+    when: (c) => tomatoSauce(c) && c.base !== 'potato',
+    text: (c) =>
+      c.ids.has('tomatoPaste')
+        ? 'Томатную пасту прогрейте в части масла 20 секунд.'
+        : 'Всю пассату или кетчуп добавьте с жидкостью; свежие нарезанные томаты предварительно размягчите. Не обжаривайте пассату как концентрат.',
+  },
+  {
+    phase: 'cook',
+    when: (c) => c.base === 'pasta',
+    text: (c) =>
+      `Положите короткую пасту в ту же кастрюлю. Начальный объём воды для её приготовления — около ${c.cookingWater} мл; добавьте выбранный бульон. Варите по пачке, часто помешивая и доливая понемногу при необходимости. Отдельная варка и слив не нужны.`,
+  },
+  {
+    phase: 'cook',
+    when: (c) => c.base === 'potato',
+    text: (c) =>
+      `Положите картофель в кастрюлю с частью масла и примерно ${c.cookingWater} мл воды. Если выбран бульон, добавьте его сейчас. Готовьте под крышкой 15–20 минут до полной мягкости; проверяйте дно и доливайте при высыхании.`,
+  },
+  {
+    phase: 'cook',
+    when: (c) => c.base === 'rice',
+    text: (c) => [
+      grainMeasuringStep({ ...c.prepared, water: c.cookingWater }),
+      c.ids.has('bouillon') ? 'Растворите выбранный бульон в воде блюда.' : null,
+      grainSimmerStep,
+      grainDonenessStep(c.prepared),
+    ],
+  },
+  {
+    phase: 'cook',
+    when: (c) => c.base === 'risottoRice',
+    text: (c) =>
+      `Коротко прогрейте рис в части масла около минуты. Добавьте примерно половину из ${c.cookingWater} мл воды и выбранный бульон, затем доливайте оставшуюся воду частями. Готовьте примерно 18–22 минуты, регулярно перемешивая, до мягкого риса и кремовой жидкости. При необходимости потребуется немного дополнительной воды.`,
+  },
+  {
+    phase: 'after',
+    when: (c) => tomatoSauce(c) && c.base === 'potato',
+    text: 'Только когда картофель полностью мягкий, добавьте все выбранные томаты, перемешайте и томите ещё несколько минут. Вода для предварительной варки не уменьшена на томатную жидкость.',
+  },
+  {
+    phase: 'add',
+    text: (c) => {
+      const fillings = c.modules.filter(
+        (m) =>
+          m.group === 'vegetables' || (m.group === 'protein' && !['soy', 'mince'].includes(m.id)),
+      );
+      return fillings.length
+        ? 'Выбранные добавки: ' +
+            fillings.map((m) => m.label).join(', ') +
+            '. Слейте жидкость из всех открываемых консервов и используйте содержимое целиком. Добавьте к мягкой основе и полностью прогрейте; сыр вмешайте в конце.'
+        : null;
+    },
+  },
+  {
+    phase: 'add',
+    when: (c) => c.ids.has('soy'),
+    text: 'Добавьте весь подготовленный текстурат и полностью прогрейте вместе с основой.',
+  },
+  {
+    phase: 'finish',
+    when: (c) =>
+      ['sauce-cream', 'sauce-peanut', 'sauce-garlic', 'sauce-pesto'].includes(c.sauce?.id),
+    text: (c) => c.sauce.instruction,
+  },
+  {
+    phase: 'accents',
+    text: (c) =>
+      c.modules
+        .filter((m) => !m.group && !['onion', 'bouillon'].includes(m.id))
+        .map((m) => m.instruction)
+        .join(' ') || null,
+  },
+  { phase: 'rest', when: (c) => c.base === 'rice', text: grainRestStep },
+  {
+    phase: 'serve',
+    text: 'Отрегулируйте густоту и соль перед подачей. Съешьте весь выход сейчас; открытые упаковки и готовое блюдо без холодильника на следующую вахту не оставлять.',
+  },
+];
+
+// Pasta, risotto, rice or potatoes with one sauce and filling. Each base keeps its own
+// technique and water; flavour combinations move between bases.
+export function createPastaGenerator({ r, i, tomato, fish }) {
   return r(
     'dish-generator',
     'Генератор · паста, ризотто, картофель',
@@ -39,6 +158,8 @@ export function createDishGenerator({ r, i, oil, tomato, fish }) {
         text: 'Вкус и наполнение можно перенести на другую основу. Время, вода и порядок приготовления пересчитываются; это походные версии знакомых сочетаний.',
       },
       generator: {
+        choiceKey: 'pasta',
+        defaultModules: ['sauce-broth'],
         bases: [
           {
             id: 'pasta',
@@ -61,6 +182,7 @@ export function createDishGenerator({ r, i, oil, tomato, fish }) {
           {
             id: 'rice',
             label: 'Рис с соусом',
+            absorption: true,
             water: 250,
             minWater: 125,
             time: 26,
@@ -71,6 +193,7 @@ export function createDishGenerator({ r, i, oil, tomato, fish }) {
           {
             id: 'potato',
             label: 'Картофель',
+            sauceCredit: false,
             water: 180,
             minWater: 180,
             time: 27,
@@ -100,6 +223,30 @@ export function createDishGenerator({ r, i, oil, tomato, fish }) {
           },
           { id: 'peanut', label: 'Арахис и имбирь', modules: ['sauce-peanut', 'ginger'] },
         ],
+        // Passage dinners rotate familiar flavours; day 7 uses risotto rice.
+        tripProfiles: {
+          1: { modules: ['sauce-tomato', 'fish'] },
+          3: { modules: ['sauce-garlic', 'beans'] },
+          5: { modules: ['sauce-peanut', 'ginger'] },
+          7: {
+            modules: ['sauce-cream', 'peas'],
+            choices: { cream: 'milkPowder', pasta: 'risottoRice' },
+          },
+          default: { modules: ['sauce-broth', 'mushrooms'] },
+        },
+        phases: [
+          'prepare',
+          'fry',
+          'sauce',
+          'cook',
+          'after',
+          'add',
+          'finish',
+          'accents',
+          'rest',
+          'serve',
+        ],
+        steps: PASTA_STEPS,
       },
       modules: [
         {
@@ -132,6 +279,8 @@ export function createDishGenerator({ r, i, oil, tomato, fish }) {
           id: 'sauce-cream',
           label: 'Сливочная / молочная',
           shortLabel: 'сливочный или молочный соус',
+          titleLabel: 'сливочный соус',
+          titleByChoice: { cream: { milkPowder: 'молочный соус', milk: 'молочный соус' } },
           group: 'sauce',
           ingredients: [
             i('cream', 125, 'мл', [
