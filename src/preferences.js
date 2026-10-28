@@ -5,8 +5,10 @@ import {
   prepareRecipe,
   migrateRecipeEntry,
 } from './model.js';
+import { generatorProfile } from './generator-engine.js';
 
-// Keep one configured favourite per recipe; saving again updates that variant.
+// A favourite stores one configured variant: one per recipe, or one per base and module set
+// for generators, whose variants are different dishes.
 export function selectionSnapshot(
   recipe,
   choices = {},
@@ -20,6 +22,10 @@ export function selectionSnapshot(
     const chosen = resolveIngredient(ingredient, choices[ingredient.id]);
     if (chosen.id !== ingredient.id) selectedChoices[ingredient.id] = chosen.id;
   }
+  if (recipe.generator) {
+    const base = generatorProfile(recipe, choices).id;
+    if (base !== recipe.generator.bases[0].id) selectedChoices[recipe.generator.choiceKey] = base;
+  }
   return {
     recipeId: recipe.id,
     choices: Object.fromEntries(Object.entries(selectedChoices).sort()),
@@ -32,6 +38,12 @@ export function selectionSnapshot(
     anchorId: prepared.anchorId,
     modules: prepared.modules.map((m) => m.id).sort(),
   };
+}
+export function favoriteKey(entry) {
+  const recipe = recipeById[entry.recipeId];
+  if (!recipe?.generator) return entry.recipeId;
+  const base = entry.choices?.[recipe.generator.choiceKey] || recipe.generator.bases[0].id;
+  return `${entry.recipeId}:${base}:${[...(entry.modules || [])].sort().join(',')}`;
 }
 export function sameSelection(left, right) {
   return JSON.stringify(left) === JSON.stringify(right);
@@ -51,7 +63,7 @@ export function normalizeFavorites(value) {
       typeof entry.anchorId === 'string' ? entry.anchorId : null,
       Array.isArray(entry.modules) ? entry.modules : [],
     );
-    result.set(recipe.id, saved);
+    result.set(favoriteKey(saved), saved);
   }
   return [...result.values()];
 }

@@ -19,6 +19,7 @@ A generator is a recipe with a `generator` definition (`src/catalog/generators/`
 - **Rules**: an option may `require` one of several options or `exclude` others, with a `reason` shown to the reader. `normalizeSelection` repairs saved or linked selections; `optionBlocked` explains why an option is unavailable.
 - **Names**: `dishes` map a base and modules to a known dish; the most specific match wins. Otherwise the title is the base label plus the sauce's title label, which may depend on a substitution (cream or milk).
 - **Steps** are entries with a `phase`, an optional `when(context)` and a text. Entries come from the generator, the chosen base and the selected modules and are ordered by `phases`. The context offers the base, sauce, module and ingredient ids, cooking water and hydration water.
+- **Favourites** are keyed by recipe for ordinary recipes and by recipe, base and module set for generators (`favoriteKey`), so several dishes of one generator can be saved; saving the same variant with other packs or substitutions updates it.
 - **Passage profiles** (`tripProfiles`) choose the modules and choices the passage planner uses on each day.
 
 The pasta/risotto/rice/potato generator keeps each base's technique; a golden test records its output. Ordinary rice absorbs measured water under a lid; risotto receives water gradually with stirring. Acidic tomato ingredients enter potatoes after they soften.

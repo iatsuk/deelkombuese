@@ -3,6 +3,7 @@ import { t, language } from '../i18n/runtime.js';
 import { recipeGlyph, productGlyph } from '../cooking-visuals.js';
 import { retailPurchases } from '../planner.js';
 import { productById, recipes, recipeById } from '../data.js';
+import { favoriteKey } from '../preferences.js';
 import {
   availableRecipe,
   shoppingItems,
@@ -24,7 +25,11 @@ export function createCatalog(state) {
 
   function recipeContext(recipe) {
     if (state.view === 'recipes' && state.favoritesOnly)
-      return state.favorites.find((f) => f.recipeId === recipe.id) || {};
+      return (
+        state.favorites.find((f) =>
+          recipe.favoriteKey ? favoriteKey(f) === recipe.favoriteKey : f.recipeId === recipe.id,
+        ) || {}
+      );
     return choicesForSelection(recipe, activeRecipeSelection());
   }
 
@@ -32,7 +37,13 @@ export function createCatalog(state) {
     const q = state.query.trim().toLocaleLowerCase(language),
       onMap = state.view === 'map';
     const favoriteView = state.view === 'recipes' && state.favoritesOnly;
-    return filterRecipes(recipes, {
+    // In the favourites view every saved variant is its own card.
+    const source = favoriteView
+      ? state.favorites
+          .filter((f) => recipeById[f.recipeId])
+          .map((f) => ({ ...recipeById[f.recipeId], favoriteKey: favoriteKey(f) }))
+      : recipes;
+    return filterRecipes(source, {
       mode: state.mode,
       meal: onMap ? 'all' : state.meal,
       base: onMap || favoriteView ? 'all' : state.base,
@@ -85,10 +96,11 @@ export function createCatalog(state) {
         selected.anchorId,
         selected.modules,
       );
-    const favorite = state.favorites.some((f) => f.recipeId === r.id),
-      favoriteView = state.view === 'recipes' && state.favoritesOnly;
+    const favoriteView = state.view === 'recipes' && state.favoritesOnly,
+      favorite = favoriteView || state.favorites.some((f) => f.recipeId === r.id),
+      cardId = (favoriteView && r.favoriteKey) || r.id;
     const possible = availableRecipe(r, state.pantry, selected.modules);
-    return `<article class="recipe-card-shell"><button class="recipe-card ${r.tone} ${compact ? 'compact' : ''}" data-action="${favoriteView ? 'favorite-recipe' : 'recipe'}" data-id="${r.id}">
+    return `<article class="recipe-card-shell"><button class="recipe-card ${r.tone} ${compact ? 'compact' : ''}" data-action="${favoriteView ? 'favorite-recipe' : 'recipe'}" data-id="${cardId}">
     <span class="recipe-card-top"><span class="dish-icon">${icon(recipeGlyph(r))}</span><span class="recipe-kind">${r.generator ? 'Конструктор' : r.shore ? 'С берега' : r.vessel === 'cold' ? 'Без плиты' : r.meal === 'breakfast' ? (r.mealTags?.includes('main') ? 'Завтрак / обед' : 'Завтрак') : r.vessel === 'pan' ? 'На сковороде' : 'Одна кастрюля'}</span></span>
     <strong>${favoriteView ? prepared.title : r.title}</strong><span class="recipe-desc">${favoriteView && prepared.modules.length ? prepared.modules.map((m) => m.label).join(' · ') : r.desc}</span>
     <span class="recipe-ingredient-icons" aria-hidden="true">${prepared.ingredients
@@ -101,7 +113,7 @@ export function createCatalog(state) {
         '',
       )}</span>${r.template ? '<span class="recipe-template-label">Универсальная основа · выбрать вариант</span>' : ''}<span class="recipe-meta"><span>${icon('clock')} ${prepared.time} мин</span><span>${icon(r.vessel === 'cold' ? 'person' : 'pot')} ${prepared.active} мин ${r.vessel === 'cold' ? 'подготовки' : 'у плиты'}</span></span>
     ${possible ? '<span class="can-cook">Всё есть в рундуке</span>' : ''}
-  </button><button class="favorite-toggle ${favorite ? 'active' : ''}" data-action="favorite-toggle" data-id="${r.id}" aria-label="${t(favorite ? 'Убрать из избранного' : 'Добавить в избранное')}: ${esc(t(r.title))}" aria-pressed="${favorite}" title="${favorite ? 'Убрать из избранного' : 'Добавить в избранное'}">${icon('star')}</button></article>`;
+  </button><button class="favorite-toggle ${favorite ? 'active' : ''}" data-action="favorite-toggle" data-id="${cardId}" aria-label="${t(favorite ? 'Убрать из избранного' : 'Добавить в избранное')}: ${esc(t(r.title))}" aria-pressed="${favorite}" title="${favorite ? 'Убрать из избранного' : 'Добавить в избранное'}">${icon('star')}</button></article>`;
   }
 
   function searchBox(placeholder) {

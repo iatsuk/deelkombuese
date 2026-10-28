@@ -88,7 +88,7 @@ test('Избранное восстанавливает конкретный в�
   assert.equal(prepared.ingredients.find((i) => i.id === 'cream').amount, 200);
   assert.ok(prepared.ingredients.some((i) => i.id === 'mushrooms'));
 });
-test('Избранное мигрирует старую пасту, игнорирует неизвестные записи и обновляет вариант', () => {
+test('Избранное мигрирует старую пасту, игнорирует неизвестные записи и хранит варианты генератора', () => {
   const restored = normalizeFavorites([
     null,
     'bad',
@@ -102,6 +102,21 @@ test('Избранное мигрирует старую пасту, игнор�
   const updated = selectionSnapshot(recipeById['dish-generator'], { pasta: 'potato' }, {}, null, [
     'sauce-garlic',
   ]);
-  assert.deepEqual(normalizeFavorites([...restored, updated]), [updated]);
+  // Different generator variants are different dishes and are kept side by side.
+  assert.deepEqual(normalizeFavorites([...restored, updated]), [...restored, updated]);
+  // The same base and modules with another pack size update the saved variant.
+  const repacked = selectionSnapshot(
+    recipeById['dish-generator'],
+    { cream: 'milk' },
+    { milk: 1000 },
+    'milk',
+    ['sauce-cream'],
+  );
+  assert.deepEqual(normalizeFavorites([...restored, repacked]), [repacked]);
+  const plain = selectionSnapshot(recipeById['bread-oil']);
+  assert.deepEqual(
+    normalizeFavorites([plain, { ...plain, choices: { bread: 'crispbread' } }]).length,
+    1,
+  );
   assert.deepEqual(normalizeFavorites({}), []);
 });

@@ -30,7 +30,7 @@ The diagram shows responsibilities, not every import. `pnpm check:architecture` 
 | Recipe calculations               | `model.js`                                      | `prepareRecipe`, substitutions, whole packs, filtering and shopping aggregation            |
 | Cooking techniques                | `cooking-guide.js`, `generator-engine.js`       | Water absorption, generator bases, rules, names and phase-ordered steps; no presentation   |
 | Passage and seasonal provisioning | `planner.js`                                    | Deterministic menus, retail rounding, usage and water budgets                              |
-| Configured favourites             | `preferences.js`                                | Normalised selections and legacy recipe migrations                                         |
+| Configured favourites             | `preferences.js`                                | Normalised selections, per-variant keys for generators and legacy recipe migrations        |
 | Persistence                       | `state/storage.js`                              | Storage is injected; corrupt or unavailable storage does not prevent use                   |
 | Session defaults                  | `state/session.js`                              | `createAppState` creates a fresh session from saved data and the route                     |
 | UI catalogue                      | `ui/catalog.js`                                 | Shared cards, selection-aware filtering, search and shopping selectors                     |

@@ -20,7 +20,7 @@ import { renderShopping } from './ui/views/shopping.js';
 import { createPlannerView } from './ui/views/planner.js';
 import { drawGraph } from './ui/graph.js';
 import { initThemeToggle } from './theme.js';
-import { selectionSnapshot, sameSelection } from './preferences.js';
+import { selectionSnapshot, sameSelection, favoriteKey } from './preferences.js';
 import { buildRecipeCard, downloadRecipePng } from './recipe-export.js';
 
 import { productGlyph } from './cooking-visuals.js';
@@ -311,20 +311,24 @@ function openProduct(id) {
   );
 }
 
-function openFavorite(id) {
-  const favorite = state.favorites.find((f) => f.recipeId === id);
+function openFavorite(key) {
+  const favorite = state.favorites.find((f) => favoriteKey(f) === key);
   if (!favorite) return;
   choices = { ...favorite.choices };
   packSizes = { ...favorite.packSizes };
   anchorId = favorite.anchorId;
   moduleIds = [...favorite.modules];
-  openRecipe(id, true);
+  openRecipe(favorite.recipeId, true);
 }
+// A card star toggles every saved variant of its recipe; in the favourites view it
+// removes the one variant the card shows.
 function toggleFavorite(id) {
-  const recipe = recipeById[id];
+  const keyed = state.favorites.find((f) => favoriteKey(f) === id);
+  const recipe = recipeById[keyed?.recipeId || id];
   if (!recipe) return;
-  const exists = state.favorites.some((f) => f.recipeId === id);
-  if (exists) state.favorites = state.favorites.filter((f) => f.recipeId !== id);
+  const exists = Boolean(keyed) || state.favorites.some((f) => f.recipeId === id);
+  if (keyed) state.favorites = state.favorites.filter((f) => f !== keyed);
+  else if (exists) state.favorites = state.favorites.filter((f) => f.recipeId !== id);
   else {
     const context = recipeContext(recipe);
     state.favorites.push(
@@ -345,8 +349,9 @@ function saveCurrentFavorite() {
   const recipe = recipeById[currentRecipe];
   if (!recipe) return;
   const snapshot = selectionSnapshot(recipe, choices, packSizes, anchorId, moduleIds),
-    saved = state.favorites.find((f) => f.recipeId === recipe.id);
-  state.favorites = state.favorites.filter((f) => f.recipeId !== recipe.id);
+    key = favoriteKey(snapshot),
+    saved = state.favorites.find((f) => favoriteKey(f) === key);
+  state.favorites = state.favorites.filter((f) => favoriteKey(f) !== key);
   if (!saved || !sameSelection(saved, snapshot)) state.favorites.push(snapshot);
   save();
   render();

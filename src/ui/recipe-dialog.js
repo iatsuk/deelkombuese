@@ -1,4 +1,4 @@
-import { selectionSnapshot, sameSelection } from '../preferences.js';
+import { selectionSnapshot, sameSelection, favoriteKey } from '../preferences.js';
 import { cookingBasics, recipeUtensils } from '../cooking-guide.js';
 import { cookingAction, grainDiagram } from '../cooking-visuals.js';
 import { productById } from '../data.js';
@@ -40,10 +40,9 @@ export function renderRecipeDialog(
   }
 
   function recipeTools(recipe, prepared) {
-    const saved = state.favorites.find((f) => f.recipeId === recipe.id),
-      same =
-        saved &&
-        sameSelection(saved, selectionSnapshot(recipe, choices, packSizes, anchorId, moduleIds));
+    const snapshot = selectionSnapshot(recipe, choices, packSizes, anchorId, moduleIds),
+      saved = state.favorites.find((f) => favoriteKey(f) === favoriteKey(snapshot)),
+      same = saved && sameSelection(saved, snapshot);
     return `<div class="recipe-tools"><button class="button secondary ${same ? 'is-favorite' : ''}" data-action="favorite-current" aria-pressed="${Boolean(same)}">${icon('star')} ${same ? 'Убрать из избранного' : saved ? 'Обновить избранное' : 'В избранное'}</button><button class="button secondary" data-action="recipe-png">${icon('download')} Скачать PNG</button><p>Звёздочка хранит один ваш вариант этого рецепта: замены, добавки и размеры упаковок. PNG сохраняет состав и шаги, которые выбраны сейчас.</p></div>`;
   }
 
