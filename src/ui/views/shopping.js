@@ -3,6 +3,7 @@ import { buildSeason, waterBudget } from '../../planner.js';
 import { products, productById, recipeById } from '../../data.js';
 import { formatShoppingAmount, recipeTitle } from '../../model.js';
 import { icon } from '../icons.js';
+import { renderCrew } from '../crew.js';
 import { plural } from '../../i18n/runtime.js';
 export function renderShopping({ state, catalog }) {
   const { empty, cartItems } = catalog;
@@ -13,17 +14,18 @@ export function renderShopping({ state, catalog }) {
   return `<section class="page-intro"><div class="eyebrow">Следующий заход в порт</div><h1>На берег за <em>продуктами.</em></h1><p>Добавьте блюда или соберите <a class="inline-planner-link" href="#planner">план на 1–7 дней</a>.<br>Продукты из рундука исключены; проверьте их количество.</p></section>
     <div class="shopping-layout"><section>${
       state.builderMeta?.kind === 'trip'
-        ? renderWater(waterBudget(state.plan, state.builderMeta), true)
+        ? renderWater(waterBudget(state.plan, { ...state.builderMeta, crew: state.crew }), true)
         : state.builderMeta?.kind === 'season'
           ? `<div class="storage-banner season-cart-note">${icon('box')}<p><strong>Первичная закупка сезонной базы.</strong> Не весь запас хранится весь сезон. ${buildSeason(
               state.builderMeta.days,
               state.pantry,
+              state.crew,
             )
               .items.filter((i) => i.refillDays)
               .map((i) => `${productById[i.id].name}: пополнять через ${i.refillDays} дней`)
               .join('; ')}.</p></div>`
           : ''
-    }<div class="shopping-summary"><div><h2>Список закупки <span>${items.length}</span></h2><p>${checked} из ${items.length} отмечено · количества для выбранных блюд</p></div><button class="button secondary" data-action="export" ${!items.length ? 'disabled' : ''}>${icon('download')} Скачать .txt</button></div><div class="shopping-progress"><span style="width:${items.length ? (checked / items.length) * 100 : 0}%"></span></div>
+    }<div class="shopping-summary"><div><h2>Список закупки <span>${items.length}</span></h2><p>${checked} из ${items.length} отмечено · количества для выбранных блюд</p></div><button class="button secondary" data-action="export" ${!items.length ? 'disabled' : ''}>${icon('download')} Скачать .txt</button></div><div class="shopping-crew"><span>${icon('person')} Экипаж</span>${renderCrew(state.crew)}<small>Блюда, вода и сезонный набор пересчитаются на всех.</small></div><div class="shopping-progress"><span style="width:${items.length ? (checked / items.length) * 100 : 0}%"></span></div>
     ${
       items.length
         ? groups

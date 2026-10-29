@@ -4,6 +4,7 @@ import { cookingAction, grainDiagram } from '../cooking-visuals.js';
 import { productById } from '../data.js';
 import { formatAmount, recipeSteps, effectiveIngredients } from '../model.js';
 import { icon } from './icons.js';
+import { renderCrew } from './crew.js';
 export function renderRecipeDialog(
   r,
   prepared,
@@ -70,7 +71,8 @@ export function renderRecipeDialog(
       : prepared.prepWater
         ? `и ≈ ${prepared.prepWater} мл на подготовку`
         : 'на готовку';
-    return `<dl class="recipe-facts"><div><dt>Время</dt><dd>${prepared.time} мин<small>с выбранными добавками</small></dd></div><div><dt>${recipe.vessel === 'cold' ? 'Подготовка' : 'У плиты'}</dt><dd>${prepared.active} мин<small>${recipe.vessel === 'cold' ? 'подготовки' : 'активной готовки'}</small></dd></div><div><dt>Выход</dt><dd>≈ ${prepared.yieldGrams} г<small>выход из упаковок</small></dd></div>${water ? `<div><dt>Вода</dt><dd>≈ ${water} мл<small>${waterNote}</small></dd></div>` : ''}<div><dt>Посуда</dt><dd class="recipe-utensils">${recipeUtensils(
+    const crew = prepared.crew;
+    return `<dl class="recipe-facts"><div class="fact-crew"><dt>Экипаж</dt><dd>${renderCrew(crew)}<small>${crew > 1 ? 'упаковки на всех' : 'один едок'}</small></dd></div><div><dt>Время</dt><dd>${prepared.time} мин<small>с выбранными добавками</small></dd></div><div><dt>${recipe.vessel === 'cold' ? 'Подготовка' : 'У плиты'}</dt><dd>${prepared.active} мин<small>${recipe.vessel === 'cold' ? 'подготовки' : 'активной готовки'}</small></dd></div><div><dt>Выход</dt><dd>≈ ${prepared.yieldGrams} г<small>${crew > 1 ? `≈ ${Math.round(prepared.yieldGrams / crew)} г на человека` : 'выход из упаковок'}</small></dd></div>${water ? `<div><dt>Вода</dt><dd>≈ ${water} мл<small>${waterNote}</small></dd></div>` : ''}<div><dt>Посуда</dt><dd class="recipe-utensils">${recipeUtensils(
       recipe,
       prepared,
     )
@@ -78,13 +80,18 @@ export function renderRecipeDialog(
       .join('')}</dd></div><div><dt>Сытость</dt><dd>≈ ${prepared.satiety}*</dd></div></dl>`;
   }
   const misses = prepared.ingredients.filter((i) => !state.pantry.includes(i.id));
-  const isLarge = prepared.yieldGrams > 750 && !r.drySnack;
+  // A large yield is judged per person: a crew of two shares a bigger pot.
+  const perPerson = Math.round(prepared.yieldGrams / prepared.crew);
+  const isLarge = perPerson > 750 && !r.drySnack;
   const packageControls = prepared.packaged.length
     ? `<section class="package-planner"><div class="eyebrow small">Сначала упаковка — потом граммовки</div><h3>Вскрываем и расходуем целиком</h3><p>У всех скоропортящихся упаковок ниже используется всё содержимое. Сухая основа, масло и специи считаются от выбранной опорной упаковки.</p>${prepared.packaged.length > 1 ? `<label for="pack-anchor">Считать основу от</label><select id="pack-anchor">${prepared.packaged.map((i) => `<option value="${i.id}" ${i.id === prepared.anchorId ? 'selected' : ''}>${productById[i.id].name}</option>`).join('')}</select>` : ''}<div class="package-summary">${prepared.ingredients
         .filter((i) => i.package)
         .map(
+          // Several packs: the name, the count and the size are separate nodes to translate.
           (i) =>
-            `<span>${icon('check')} ${productById[i.id].name}: ${i.package.edible !== i.package.size ? 'вся банка ' : 'все '}${formatAmount(i.package.size, i.package.unit)}${i.package.edible !== i.package.size ? ' · без жидкости' : ''}</span>`,
+            i.package.count > 1
+              ? `<span>${icon('check')} <span><span>${productById[i.id].name}</span>: <b>${i.package.count} ×</b> <span>${formatAmount(i.package.size, i.package.unit)}</span>${i.package.edible !== i.package.size ? ' <span>без жидкости</span>' : ''}</span></span>`
+              : `<span>${icon('check')} ${productById[i.id].name}: ${i.package.edible !== i.package.size ? 'вся банка ' : 'все '}${formatAmount(i.package.size, i.package.unit)}${i.package.edible !== i.package.size ? ' · без жидкости' : ''}</span>`,
         )
         .join(
           '',
@@ -114,7 +121,7 @@ export function renderRecipeDialog(
       const pack = chosen.package
         ? `<label class="pack-size-label" for="pack-${chosen.id}">Размер целой упаковки</label><select class="pack-size" id="pack-${chosen.id}" data-pack="${chosen.id}">${productById[chosen.id].packages.map((size) => `<option value="${size.size}" ${size.size === chosen.package.size ? 'selected' : ''}>${formatAmount(size.size, size.unit)}${size.edible !== size.size ? ` · ≈ ${size.edible} г без жидкости` : ''}</option>`).join('')}</select>`
         : '';
-      return `<div class="ingredient-row ${owned ? 'owned' : ''}"><div class="ingredient-line">${name}<i class="leader" aria-hidden="true"></i><strong class="ingredient-amount">${formatAmount(chosen.amount, chosen.unit)}</strong></div><div class="ingredient-meta"><small>${owned ? icon('check') + ' Есть в рундуке' : 'Проверить остаток / купить'}${chosen.package ? ' · упаковка целиком' : ''}</small>${pack}</div>${chosen.note ? `<p class="substitution-note">${icon('swap')} ${chosen.note}</p>` : ''}</div>`;
+      return `<div class="ingredient-row ${owned ? 'owned' : ''}"><div class="ingredient-line">${name}<i class="leader" aria-hidden="true"></i><strong class="ingredient-amount">${formatAmount(chosen.amount, chosen.unit)}</strong></div><div class="ingredient-meta"><small>${owned ? icon('check') + ' Есть в рундуке' : 'Проверить остаток / купить'}${chosen.package ? (chosen.package.count > 1 ? ` · целых упаковок: ${chosen.package.count}` : ' · упаковка целиком') : ''}</small>${pack}</div>${chosen.note ? `<p class="substitution-note">${icon('swap')} ${chosen.note}</p>` : ''}</div>`;
     })
     .join('');
   const waterRows = `${prepared.water ? `<div class="ingredient-row water"><div class="ingredient-line"><span>${icon('drop')} ${r.generator ? 'Вода на готовку и восстановление' : 'Питьевая вода, начальный объём'}</span><i class="leader" aria-hidden="true"></i><strong class="ingredient-amount">≈ ${prepared.water} мл</strong></div></div>` : ''}${prepared.prepWater ? `<div class="ingredient-row water"><div class="ingredient-line"><span>${icon('drop')} Отдельно на подготовку / промывание</span><i class="leader" aria-hidden="true"></i><strong class="ingredient-amount">≈ ${prepared.prepWater} мл</strong></div></div>` : ''}`;
@@ -133,9 +140,9 @@ export function renderRecipeDialog(
     <div class="recipe-layout"><aside class="recipe-margin" aria-label="Коротко о блюде">${renderFacts(r, prepared)}${recipeTools(r, prepared)}</aside><div class="recipe-main">
     ${prepared.shore ? `<div class="detail-notice warning">${icon('sun')}<p>Охлаждённые продукты готовить сразу после покупки. Без холода максимум 2 часа суммарно, выше 32 °C — 1 час.</p></div>` : ''}
     ${prepared.eggConditional ? `<div class="detail-notice">${icon('egg')}<p>Для яиц проверьте возраст от кладки и историю охлаждения. Немытые неохлаждённые яйца требуют стабильной прохлады; ориентир до 18 дней от кладки не действует для жаркого рундука. Охлаждённые яйца сохранять в холоде до готовки. Белок и желток готовить полностью.</p></div>` : ''}
-    ${embedded ? '' : renderRecipeModules(r, prepared)}${packageControls}${isLarge ? `<div class="detail-notice warning">${icon('person')}<p><strong>Выход большой для одного приёма: примерно ${prepared.yieldGrams} г.</strong> Выберите меньшую упаковку или разделите готовую еду с попутчиком сейчас. Без холодильника выход этой готовки нельзя распределять на следующие вахты. Для увеличенного объёма нужны подходящая посуда и дополнительное время.${prepared.ingredients.some((i) => i.id === 'passata') && prepared.generator?.profile.id !== 'tomato' ? '<br><a class="pack-recipe-link" href="#generators/soup?base=tomato">Использовать 500 г пассаты в компактном томатном супе →</a>' : ''}</p></div>` : ''}
+    ${embedded ? '' : renderRecipeModules(r, prepared)}${packageControls}${isLarge ? `<div class="detail-notice warning">${icon('person')}<p><strong>${prepared.crew > 1 ? `Выход большой: ≈ ${perPerson} г на человека.` : `Выход большой для одного приёма: примерно ${prepared.yieldGrams} г.`}</strong> Выберите меньшую упаковку или разделите готовую еду с попутчиком сейчас. Без холодильника выход этой готовки нельзя распределять на следующие вахты. Для увеличенного объёма нужны подходящая посуда и дополнительное время.${prepared.ingredients.some((i) => i.id === 'passata') && prepared.generator?.profile.id !== 'tomato' ? '<br><a class="pack-recipe-link" href="#generators/soup?base=tomato">Использовать 500 г пассаты в компактном томатном супе →</a>' : ''}</p></div>` : ''}
     <section class="detail-section ingredients-section"><h3>Состав под вашу упаковку</h3><div class="ingredient-list">${ingredientRows}${waterRows}</div>
-    <p class="footnote">${r.vessel === 'cold' ? 'Только чистые руки, посуда и питьевая вода для мытья продуктов.' : 'Вода — ориентир: учитывайте испарение и добавляйте по необходимости. Соль и перец по вкусу, если не указаны в составе.'} Количество людей не задаёт граммовки.</p></section>
+    <p class="footnote">${r.vessel === 'cold' ? 'Только чистые руки, посуда и питьевая вода для мытья продуктов.' : 'Вода — ориентир: учитывайте испарение и добавляйте по необходимости. Соль и перец по вкусу, если не указаны в составе.'} На экипаж рецепт берёт упаковку побольше или несколько, остальное пересчитывается от неё.</p></section>
     ${renderCookingBasics(r, prepared)}${renderGrainDiagram(r, prepared)}<section class="detail-section"><h3>Как приготовить</h3><ol class="cooking-steps">${steps}</ol>${substituted ? `<div class="detail-notice">${icon('swap')}<p>Используйте выбранные ингредиенты и количества из состава выше. Свежий лук обжарьте 3–5 минут, сухие специи прогревайте несколько секунд. Пассата идёт с жидкостью, а не обжаривается как паста. Подготовку обычных сушёных овощей сверяйте с пачкой; для быстрого текстурата в генераторе заложены отдельные вода и время.</p></div>` : ''}</section>
     ${tip ? `<aside class="skipper-tip"><span>${icon('anchor')} Заметка из камбуза</span><p>${tip}</p></aside>` : ''}
     ${!r.drySnack ? `<div class="detail-notice">${icon('info')}<p>Вскрытое скоропортящееся содержимое используйте всё в текущую готовку. Готовое блюдо без холодильника — максимум 2 часа, выше 32 °C — 1 час; остатки на следующую вахту не планировать. Хлеб и сухие специи живут по своим срокам после открытия.</p></div>` : ''}<p class="footnote">Сытость ≈ ${prepared.satiety}* для обычной порции блюда, не для всего увеличенного выхода. Ориентир условный.</p>

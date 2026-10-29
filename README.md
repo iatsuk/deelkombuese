@@ -1,6 +1,6 @@
 # deelkombuese · Smart Galley
 
-**Simple meals for a solo sailor, with no fridge and no wasted open packs.**
+**Simple meals for a crew of one to four, with no fridge and no wasted open packs.**
 
 ![One-pot cooking in a small yacht galley](assets/galley.png)
 
@@ -16,6 +16,7 @@ Smart Galley is the cooking companion to [deelstuff](https://deelstuff.com). Sta
 - **Build a dish.** Choose a base, sauce and protein. Pasta, risotto, rice and potatoes use their own cooking method and water calculation. Fresh cabbage has its own braised / unstuffed cabbage-roll base.
 - **Find a dish from a search.** Every chapter, dish, recipe and product has its own page in each language (for example `/generators/eggs/shakshuka/` or `/en/products/passata/`), readable without JavaScript and listed in the sitemap; the app opens on it.
 - **Use the whole pack.** Perishable tins, cartons and even a small cabbage head are planned as whole units; the recipe shows its resulting yield.
+- **Cook for the crew.** Choose one to four people once: a recipe takes a bigger pack or several and scales the rest from it, and the passage menu, water, seasonal kit, shopping list and PNG card follow.
 - **Provision a passage.** Generate a one-to-seven-day menu, a shopping list and a water budget, or prepare a replenishable seasonal pantry.
 - **Cook at the stove.** «At the stove» shows one large step per screen, starts a timer from the time the step names, keeps timers of earlier steps running and keeps the screen on where the browser allows it; arrow keys move between steps.
 - **Keep instructions handy.** Save a configured favourite in your browser and download its ingredients and illustrated steps as a PNG card. After the initial cache is ready, the app works offline.

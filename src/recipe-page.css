@@ -73,6 +73,9 @@ dialog.recipe-sheet {
   font-size: 13px;
   line-height: 1.4;
 }
+.fact-crew .crew-buttons {
+  margin-top: 6px;
+}
 .recipe-facts .recipe-utensils {
   display: grid;
   gap: 2px;
@@ -315,6 +318,9 @@ dialog.recipe-sheet {
   .recipe-facts {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px 18px;
+  }
+  .recipe-facts .fact-crew {
+    grid-column: 1 / -1;
   }
   /* Two buttons share a row while «Убрать из избранного» still fits; on a phone they stack. */
   .recipe-tools {

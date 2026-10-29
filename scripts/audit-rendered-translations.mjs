@@ -64,6 +64,11 @@ export function auditRenderedTranslations(language) {
   state.plan = buildTrip({ days: 3 }).entries;
   state.view = 'shopping';
   inspect(renderShopping({ state, catalog }));
+  state.crew = 3;
+  state.builderMeta = { kind: 'trip', days: 3 };
+  inspect(renderShopping({ state, catalog }));
+  state.builderMeta = null;
+  state.crew = 1;
   // Generator chapters: the contents, every base with each combination of single-choice
   // groups, and every base with each combinable option on its own.
   state.view = 'generators';
@@ -157,32 +162,37 @@ export function auditRenderedTranslations(language) {
         i.alternatives.map((a) => ({ choices: { [i.id]: a.id }, moduleIds: [] })),
       ),
     ];
-    for (const selection of variants) {
-      const prepared = prepareRecipe(recipe, selection.choices, {}, null, selection.moduleIds);
-      inspect(
-        renderRecipeDialog(recipe, prepared, {
-          state,
-          choices: selection.choices,
-          packSizes: {},
-          anchorId: prepared.anchorId,
-          moduleIds: selection.moduleIds,
-        }),
-      );
-      const raw = buildRecipeCard(recipe, {
-        choices: selection.choices,
-        modules: selection.moduleIds,
-      });
-      const translated = localizeRecipeCard(raw, t, language);
-      for (const value of [
-        translated.title,
-        ...translated.steps,
-        ...translated.notes,
-        ...translated.basics,
-        ...translated.utensils,
-        ...Object.values(translated.labels),
-      ])
-        if (/[А-Яа-яЁё]/u.test(value)) missing.add(value);
-    }
+    // A crew of two or four changes the pack counts, the per-person yield and the card label.
+    for (const [index, selection] of variants.entries())
+      for (const crew of index ? [1] : [1, 2, 4]) {
+        const prepared = prepareRecipe(recipe, selection.choices, {}, null, selection.moduleIds, {
+          crew,
+        });
+        inspect(
+          renderRecipeDialog(recipe, prepared, {
+            state,
+            choices: selection.choices,
+            packSizes: {},
+            anchorId: prepared.anchorId,
+            moduleIds: selection.moduleIds,
+          }),
+        );
+        const raw = buildRecipeCard(
+          recipe,
+          { choices: selection.choices, modules: selection.moduleIds },
+          { crew },
+        );
+        const translated = localizeRecipeCard(raw, t, language);
+        for (const value of [
+          translated.title,
+          ...translated.steps,
+          ...translated.notes,
+          ...translated.basics,
+          ...translated.utensils,
+          ...Object.values(translated.labels),
+        ])
+          if (/[А-Яа-яЁё]/u.test(value)) missing.add(value);
+      }
   }
   return [...new Set([...missingMessages, ...missing])]
     .filter((source) => /[А-Яа-яЁё]/u.test(t(source)))

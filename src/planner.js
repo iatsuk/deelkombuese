@@ -113,16 +113,20 @@ function tripEntry(recipe, day, slot, includeEggs) {
     source: 'builder',
   };
 }
+// Drinking and washing water are per person; cooking water follows the crew's portions.
 export function waterBudget(entries, options = {}) {
   const days = clamp(options.days, 1, 7, 1);
-  const drinking = days * clamp(options.drinkLitres, 2, 8, 3);
-  const washing = days * clamp(options.washLitres, 0, 10, 1.5);
+  const crew = Math.round(clamp(options.crew, 1, 4, 1));
+  const drinking = days * clamp(options.drinkLitres, 2, 8, 3) * crew;
+  const washing = days * clamp(options.washLitres, 0, 10, 1.5) * crew;
   let cooking = 0,
     preparation = 0;
   for (const entry of entries) {
     const recipe = recipeById[entry.recipeId];
     if (!recipe) continue;
-    const p = prepareRecipe(recipe, entry.choices, entry.packSizes, entry.anchorId, entry.modules);
+    const p = prepareRecipe(recipe, entry.choices, entry.packSizes, entry.anchorId, entry.modules, {
+      crew,
+    });
     cooking += (p.water * (entry.count || 1)) / 1000;
     preparation += (p.prepWater * (entry.count || 1)) / 1000;
   }
@@ -132,6 +136,7 @@ export function waterBudget(entries, options = {}) {
   const bottles = Math.ceil(total / 1.5);
   return {
     days,
+    crew,
     drinking,
     washing,
     cooking,
@@ -203,6 +208,7 @@ export function retailPurchases(items) {
 }
 export function buildTrip(options = {}) {
   const days = Math.round(clamp(options.days, 1, 7, 3));
+  const crew = Math.round(clamp(options.crew, 1, 4, 1));
   const includeEggs = !!options.includeEggs;
   const entries = [];
   for (let day = 1; day <= days; day++) {
@@ -228,6 +234,7 @@ export function buildTrip(options = {}) {
       e.packSizes,
       e.anchorId,
       e.modules,
+      { crew },
     ).ingredients,
   }));
   const exact = shoppingItems(plan, options.pantry || []);
@@ -237,13 +244,9 @@ export function buildTrip(options = {}) {
       item.id,
       entries
         .filter((e) =>
-          prepareRecipe(
-            recipeById[e.recipeId],
-            e.choices,
-            e.packSizes,
-            e.anchorId,
-            e.modules,
-          ).ingredients.some((i) => i.id === item.id),
+          prepareRecipe(recipeById[e.recipeId], e.choices, e.packSizes, e.anchorId, e.modules, {
+            crew,
+          }).ingredients.some((i) => i.id === item.id),
         )
         .map((e) => ({
           day: e.day,
@@ -254,7 +257,7 @@ export function buildTrip(options = {}) {
         })),
     ]),
   );
-  return { days, entries, items, uses, water: waterBudget(entries, { ...options, days }) };
+  return { days, crew, entries, items, uses, water: waterBudget(entries, { ...options, days }) };
 }
 
 const seasonalRates = [
@@ -286,8 +289,9 @@ const seasonalRates = [
   ['milkPowder', 10, 'г'],
   ['honey', 10, 'г'],
 ];
-export function buildSeason(days = 90, pantry = []) {
+export function buildSeason(days = 90, pantry = [], crew = 1) {
   days = Math.round(clamp(days, 30, 180, 90));
+  crew = Math.round(clamp(crew, 1, 4, 1));
   const inventory = new Set(pantry);
   const needs = seasonalRates
     .filter(([id]) => !inventory.has(id))
@@ -298,13 +302,13 @@ export function buildSeason(days = 90, pantry = []) {
         const pack = product.packages[0];
         return {
           id,
-          amount: Math.ceil(rate * coverage),
+          amount: Math.ceil(rate * coverage * crew),
           unit,
           key: `${id}:уп.:${pack.size}${pack.unit}`,
           package: { ...pack, count: 1 },
         };
       }
-      return { id, amount: rate * coverage, unit, key: `${id}:${unit}` };
+      return { id, amount: rate * coverage * crew, unit, key: `${id}:${unit}` };
     });
   const items = retailPurchases(needs);
   for (const item of items) {
@@ -312,7 +316,7 @@ export function buildSeason(days = 90, pantry = []) {
     if (coverage < days) {
       const rate = seasonalRates.find(([id]) => id === item.id);
       item.refillDays = coverage;
-      item.seasonDemand = rate[1] * days;
+      item.seasonDemand = rate[1] * days * crew;
       item.demandUnit = rate[2];
     }
   }

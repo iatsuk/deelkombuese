@@ -153,6 +153,7 @@ export function createCatalog(state) {
         entry.packSizes,
         entry.anchorId,
         entry.modules,
+        { crew: state.crew },
       ).ingredients,
     }));
   }

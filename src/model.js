@@ -166,6 +166,7 @@ export function prepareRecipe(
   packSizes = {},
   anchorId = null,
   moduleIds = [],
+  { crew = 1 } = {},
 ) {
   const modules = selectedRecipeModules(recipe, moduleIds);
   const resolved = effectiveIngredients(recipe, moduleIds, choices).map((i) => ({
@@ -179,26 +180,42 @@ export function prepareRecipe(
     ...recipe.defaultPacks,
     ...(recipe.generator && generatorProfile(recipe, choices).defaultPacks),
   };
+  // Whole packs for the crew. One cook gets the chosen or default pack. A larger crew gets
+  // as many of the chosen packs, or the pack size and number, that come closest to one
+  // default pack per person: a second can, or one larger can.
   const selectedPack = (i) => {
     const packs = productById[i.id].packages;
-    return packs.find((p) => p.size === Number(packSizes[i.id] ?? defaultPacks[i.id])) || packs[0];
+    const single =
+      packs.find((p) => p.size === Number(packSizes[i.id] ?? defaultPacks[i.id])) || packs[0];
+    if (crew === 1) return { ...single, count: 1 };
+    const target =
+      crew * (packs.find((p) => p.size === Number(defaultPacks[i.id])) || packs[0]).edible;
+    const chosen = packs.find((p) => p.size === Number(packSizes[i.id]));
+    return (chosen ? [chosen] : packs)
+      .map((p) => ({ ...p, count: Math.max(1, Math.round(target / p.edible)) }))
+      .reduce((best, p) => {
+        const miss = Math.abs(p.count * p.edible - target);
+        const bestMiss = Math.abs(best.count * best.edible - target);
+        return miss < bestMiss || (miss === bestMiss && p.count < best.count) ? p : best;
+      });
   };
   const anchor =
     packaged.find((i) => i.id === anchorId) ||
     packaged.find((i) => i.id === 'passata') ||
     packaged[0];
-  let scale = 1;
+  // Without a pack to anchor them, the dry ingredients simply scale with the crew.
+  let scale = crew;
   if (anchor) {
     const pack = selectedPack(anchor);
     const reference =
       anchor.unit === 'уп.' ? productById[anchor.id].packages[0].edible : anchor.amount;
-    scale = pack.edible / reference;
+    scale = (pack.count * pack.edible) / reference;
   }
   const ingredients = resolved.map((i) => {
     const product = productById[i.id];
     if (product.packages) {
       const pack = selectedPack(i);
-      return { ...i, amount: pack.edible, unit: pack.unit, package: { ...pack, count: 1 } };
+      return { ...i, amount: pack.count * pack.edible, unit: pack.unit, package: pack };
     }
     const scaled = i.amount * scale;
     let amount = Number(scaled.toFixed(2));
@@ -238,7 +255,7 @@ export function prepareRecipe(
     (sum, i) =>
       sum +
       (i.package
-        ? i.package.edible
+        ? i.package.edible * i.package.count
         : i.unit === 'г' || i.unit === 'мл'
           ? i.amount
           : i.unit === 'шт.' || i.unit === 'зубчик'
@@ -249,6 +266,7 @@ export function prepareRecipe(
   weight += water * (recipe.vessel === 'cold' ? 0 : 0.7);
   return {
     ingredients,
+    crew,
     title: recipeTitle(recipe, choices, moduleIds),
     generator: generated,
     anchorId: anchor?.id || null,
@@ -276,7 +294,8 @@ export function prepareRecipe(
     eggConditional: ingredients.some((i) => ['eggs', 'eggsCold'].includes(i.id)),
     prepWater:
       Math.round((recipe.prepWater || generated?.profile.prepWater || 0) * scale) +
-      (ingredients.some((i) => ['rice', 'lentils'].includes(i.id)) ? 100 : 0) +
+      // Rinsing rice or lentils: about 100 ml per person's portion.
+      (ingredients.some((i) => ['rice', 'lentils'].includes(i.id)) ? 100 * crew : 0) +
       Math.round(
         modules.reduce(
           (n, m) =>

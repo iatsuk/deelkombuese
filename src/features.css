@@ -527,6 +527,57 @@
 .day-buttons > button.active small {
   color: color-mix(in srgb, var(--on-ink) 75%, transparent);
 }
+/* Crew size: four compact toggles shaped like the trip-length buttons. */
+.crew-buttons {
+  display: flex;
+  gap: 6px;
+}
+.crew-buttons > button {
+  min-width: 42px;
+  min-height: 42px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--card);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 19px;
+  font-variant-numeric: tabular-nums;
+}
+.crew-buttons > button.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--on-ink);
+}
+.crew-setting {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+.crew-setting small {
+  max-width: 190px;
+  color: var(--faint);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.shopping-crew {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin: 0 0 16px;
+}
+.shopping-crew > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.shopping-crew small {
+  color: var(--faint);
+  font-size: 13px;
+}
 .planner-settings > .egg-option {
   display: grid;
   grid-template-columns: 17px 1fr;
@@ -925,6 +976,9 @@
     max-width: none;
     margin-top: 22px;
     font-size: 15px;
+  }
+  .planner-settings > .crew-setting {
+    margin-top: 22px;
   }
   .planner-settings > label {
     display: block;

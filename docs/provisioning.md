@@ -6,6 +6,8 @@ Product IDs and recipe IDs are stable. Quantities remain numbers with canonical 
 
 `prepareRecipe` resolves substitutions, chooses actual perishable packs, scales dry ingredients from an anchor, computes cooking and preparation water, estimates yield and exposes shore/egg restrictions. Every selected perishable pack is used whole. A large yield produces a visible warning rather than an assumption that leftovers can be refrigerated.
 
+The crew (one to four people) is a setting of the reader, not of a recipe. `prepareRecipe(…, { crew })` takes, for each perishable ingredient, the whole number of packs that comes closest to the crew times the default pack: a bigger pack or several of the same. Every pack size is tried unless the reader chose one, which is then multiplied. The anchor's total contents scale the dry ingredients, water and yield, and a recipe without packs is multiplied by the crew. A favourite keeps the one-person selection, so it serves any crew; the large-yield warning is judged per person.
+
 ## Flexible recipes
 
 A recipe has a required core and optional modules. Mutually exclusive groups select one sauce or protein; compatible vegetable and seasoning modules can combine. A substitution may change quantity, water and time, not merely the displayed name.
@@ -56,4 +58,4 @@ Dry products need a food-grade zip-lock plus a rigid airtight container. Whole f
 
 The passage planner rotates familiar meals and shares ingredients; it is not an optimiser for cost, calories or individual nutritional needs. The seasonal list is replenishable basic stock rather than a complete season's diet.
 
-Water is reported separately for drinking, cooking/reconstitution, preparation/rinsing, household use and reserve. Retail purchases round dry products to available packs and expose leftovers. All quantities and preparation times remain estimates to be checked against the actual product and galley conditions.
+Water is reported separately for drinking, cooking/reconstitution, preparation/rinsing, household use and reserve. Drinking and household water are per person per day; cooking water follows the crew's dishes. The seasonal kit multiplies its daily rates by the crew, and a seasonal shopping list, which stores products rather than dishes, is rebuilt when the crew changes. Retail purchases round dry products to available packs and expose leftovers. All quantities and preparation times remain estimates to be checked against the actual product and galley conditions.

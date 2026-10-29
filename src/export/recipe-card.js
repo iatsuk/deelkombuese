@@ -2,9 +2,10 @@ import { productById } from '../data.js';
 import { prepareRecipe, recipeSteps, formatAmount } from '../model.js';
 import { cookingBasics, recipeUtensils } from '../cooking-guide.js';
 
-export function buildRecipeCard(recipe, selection = {}) {
+export function buildRecipeCard(recipe, selection = {}, { crew = 1 } = {}) {
   const { choices = {}, packSizes = {}, anchorId = null, modules = [] } = selection;
-  const prepared = prepareRecipe(recipe, choices, packSizes, anchorId, modules);
+  const prepared = prepareRecipe(recipe, choices, packSizes, anchorId, modules, { crew });
+  const perPerson = Math.round(prepared.yieldGrams / prepared.crew);
   const notes = [];
   if (prepared.shore)
     notes.push(
@@ -18,7 +19,7 @@ export function buildRecipeCard(recipe, selection = {}) {
     notes.push(
       'Готовить на один раз. Открытые скоропортящиеся упаковки расходуются целиком. Без холодильника готовое блюдо — не более 2 часов, выше 32 °C — 1 час.',
     );
-  if (prepared.yieldGrams > 750 && !recipe.drySnack)
+  if (perPerson > 750 && !recipe.drySnack)
     notes.push(
       'Выход большой для одного приёма: выберите меньшую упаковку или разделите еду с попутчиком сейчас. На следующие вахты без холодильника не оставлять.',
     );
@@ -30,6 +31,8 @@ export function buildRecipeCard(recipe, selection = {}) {
     time: prepared.time,
     active: prepared.active,
     yieldGrams: prepared.yieldGrams,
+    crew: prepared.crew,
+    perPerson,
     variants: prepared.modules.map((m) => m.label),
     utensils: recipeUtensils(recipe, prepared),
     ingredients: prepared.ingredients.map((i) => ({
@@ -37,7 +40,7 @@ export function buildRecipeCard(recipe, selection = {}) {
       name: productById[i.id].name,
       amount: formatAmount(i.amount, i.unit),
       package: i.package
-        ? `Вся упаковка ${formatAmount(i.package.size, i.package.unit)}${i.package.edible !== i.package.size ? ' · количество в составе без заливки' : ''}`
+        ? `${i.package.count > 1 ? `${i.package.count} уп. ×` : 'Вся упаковка'} ${formatAmount(i.package.size, i.package.unit)}${i.package.edible !== i.package.size ? ' · количество в составе без заливки' : ''}`
         : null,
       note: i.note || null,
     })),

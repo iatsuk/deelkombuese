@@ -4,6 +4,7 @@ import { buildTrip, buildSeason, tripCandidates, mealSlots } from '../../planner
 import { productById, recipeById } from '../../data.js';
 import { formatAmount, formatShoppingAmount, recipeTitle } from '../../model.js';
 import { icon } from '../icons.js';
+import { renderCrew } from '../crew.js';
 import { plural } from '../../i18n/runtime.js';
 export function createPlannerView(state) {
   function tripOptions() {
@@ -13,6 +14,7 @@ export function createPlannerView(state) {
       drinkLitres: state.drinkLitres,
       washLitres: state.washLitres,
       reservePct: state.reservePct,
+      crew: state.crew,
       overrides: state.tripOverrides,
       pantry: state.pantry,
     };
@@ -24,12 +26,14 @@ export function createPlannerView(state) {
 
   function renderPlanner() {
     const season = state.plannerMode === 'season';
-    const plan = season ? buildSeason(state.seasonDays, state.pantry) : buildTrip(tripOptions());
-    return `<section class="page-intro"><div class="eyebrow">Провизия по плану</div><h1>От выхода в море <em>до закупки.</em></h1><p>Выберите длительность — получите меню, продукты и понятный расход.<br>Для одиночного камбуза без холодильника и открытых скоропортящихся остатков.</p></section><div class="meal-tabs planner-tabs"><button data-action="planner-mode" data-id="trip" class="${!season ? 'active' : ''}">Поход на 1–7 дней</button><button data-action="planner-mode" data-id="season" class="${season ? 'active' : ''}">Базовый набор на сезон</button></div>
+    const plan = season
+      ? buildSeason(state.seasonDays, state.pantry, state.crew)
+      : buildTrip(tripOptions());
+    return `<section class="page-intro"><div class="eyebrow">Провизия по плану</div><h1>От выхода в море <em>до закупки.</em></h1><p>Выберите длительность и экипаж — получите меню, продукты и понятный расход.<br>Для камбуза на 1–4 человека без холодильника и открытых скоропортящихся остатков.</p></section><div class="meal-tabs planner-tabs"><button data-action="planner-mode" data-id="trip" class="${!season ? 'active' : ''}">Поход на 1–7 дней</button><button data-action="planner-mode" data-id="season" class="${season ? 'active' : ''}">Базовый набор на сезон</button></div>
   ${
     season
-      ? `<section class="planner-settings"><div><span class="eyebrow small">Сезонный рундук</span><h2>Сухая основа и консервы</h2><p>Базовые крупы, белок в банках, масло, специи и сухой бульон. Это пополняемый запас основ, а не полный рацион без заходов в порт.</p></div><label>Длительность сезона<select data-builder-field="seasonDays" aria-label="Длительность сезона">${[30, 60, 90, 120, 180].map((n) => `<option value="${n}" ${state.seasonDays === n ? 'selected' : ''}>${n} дней</option>`).join('')}</select></label></section><div class="storage-banner">${icon('box')}<p>Рабочие пачки открывайте по очереди. Кокосовое молоко, охлаждённая еда и свежие овощи не входят в базовый набор. Короткие по хранению позиции покупаются на первую часть сезона, с явной отметкой пополнения. Воду рассчитывайте на конкретный выход во вкладке «Поход».</p></div>`
-      : `<section class="planner-settings"><div><span class="eyebrow small">Продолжительность выхода</span><div class="day-buttons">${[1, 2, 3, 4, 5, 6, 7].map((n) => `<button data-action="trip-days" data-id="${n}" class="${state.tripDays === n ? 'active' : ''}" aria-pressed="${state.tripDays === n}">${n}<small>${plural(n, 'день', 'дня', 'дней')}</small></button>`).join('')}</div></div><label class="egg-option"><input type="checkbox" data-builder-field="includeEggs" ${state.includeEggs ? 'checked' : ''}/> Яйца в первые два дня<small>Только подходящие яйца с известной датой кладки и стабильной прохладой. В жару оставьте выключенным.</small></label></section><div class="water-settings"><label>Питьё, л / день<input type="number" min="2" max="8" step="0.5" value="${state.drinkLitres}" data-builder-field="drinkLitres"/></label><label>Бытовые нужды, л / день<input type="number" min="0" max="10" step="0.5" value="${state.washLitres}" data-builder-field="washLitres"/></label><label>Резерв, %<input type="number" min="0" max="100" step="5" value="${state.reservePct}" data-builder-field="reservePct"/></label></div>${renderWater(plan.water)}
+      ? `<section class="planner-settings"><div><span class="eyebrow small">Сезонный рундук</span><h2>Сухая основа и консервы</h2><p>Базовые крупы, белок в банках, масло, специи и сухой бульон. Это пополняемый запас основ, а не полный рацион без заходов в порт.</p></div><label>Длительность сезона<select data-builder-field="seasonDays" aria-label="Длительность сезона">${[30, 60, 90, 120, 180].map((n) => `<option value="${n}" ${state.seasonDays === n ? 'selected' : ''}>${n} дней</option>`).join('')}</select></label><div class="crew-setting"><span class="eyebrow small">Экипаж</span>${renderCrew(state.crew)}</div></section><div class="storage-banner">${icon('box')}<p>Рабочие пачки открывайте по очереди. Кокосовое молоко, охлаждённая еда и свежие овощи не входят в базовый набор. Короткие по хранению позиции покупаются на первую часть сезона, с явной отметкой пополнения. Воду рассчитывайте на конкретный выход во вкладке «Поход».</p></div>`
+      : `<section class="planner-settings"><div><span class="eyebrow small">Продолжительность выхода</span><div class="day-buttons">${[1, 2, 3, 4, 5, 6, 7].map((n) => `<button data-action="trip-days" data-id="${n}" class="${state.tripDays === n ? 'active' : ''}" aria-pressed="${state.tripDays === n}">${n}<small>${plural(n, 'день', 'дня', 'дней')}</small></button>`).join('')}</div></div><div class="crew-setting"><span class="eyebrow small">Экипаж</span>${renderCrew(state.crew)}<small>Питьё и бытовая вода — на каждого</small></div><label class="egg-option"><input type="checkbox" data-builder-field="includeEggs" ${state.includeEggs ? 'checked' : ''}/> Яйца в первые два дня<small>Только подходящие яйца с известной датой кладки и стабильной прохладой. В жару оставьте выключенным.</small></label></section><div class="water-settings"><label>Питьё, л / день<input type="number" min="2" max="8" step="0.5" value="${state.drinkLitres}" data-builder-field="drinkLitres"/></label><label>Бытовые нужды, л / день<input type="number" min="0" max="10" step="0.5" value="${state.washLitres}" data-builder-field="washLitres"/></label><label>Резерв, %<input type="number" min="0" max="100" step="5" value="${state.reservePct}" data-builder-field="reservePct"/></label></div>${renderWater(plan.water)}
     <section class="trip-menu"><div class="section-heading"><div><div class="eyebrow small">Продукты будут использованы в этих блюдах</div><h2>Меню на ${plan.days} ${plural(plan.days, 'день', 'дня', 'дней')}</h2></div><span class="muted">3 приёма пищи + перекус</span></div>${Array.from(
       { length: plan.days },
       (_, index) => {

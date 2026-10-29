@@ -29,6 +29,12 @@ export function localizeRecipeCard(card, translate = (value) => value, language 
     summary: translate(
       `${card.time} мин всего · ${card.active} мин активной работы · выход ≈ ${card.yieldGrams} г`,
     ),
+    crew:
+      card.crew > 1
+        ? translate('Экипаж: {0}').replace('{0}', card.crew) +
+          ' · ' +
+          translate('≈ {0} г на человека').replace('{0}', card.perPerson)
+        : null,
     selected: translate('Выбрано:') + ' ' + localized.variants.join(' · '),
     utensils: translate('ЧТО ПОНАДОБИТСЯ'),
     ingredients: translate('ПРОДУКТЫ ДЛЯ ЭТОЙ ГОТОВКИ'),

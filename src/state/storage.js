@@ -73,6 +73,7 @@ export function loadState(storage) {
           : [],
         checked: Array.isArray(raw.checked) ? raw.checked.filter((x) => typeof x === 'string') : [],
         mode: raw.mode === 'shore' ? 'shore' : 'sea',
+        crew: Math.min(4, Math.max(1, Math.round(Number(raw.crew)) || 1)),
         builderMeta:
           raw.builderMeta && ['trip', 'season'].includes(raw.builderMeta.kind)
             ? {
@@ -116,6 +117,7 @@ export function saveState(storage, state) {
         manual: state.manual,
         checked: state.checked,
         mode: state.mode,
+        crew: state.crew,
         builderMeta: state.builderMeta,
       }),
     );

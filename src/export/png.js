@@ -93,6 +93,12 @@ export async function renderRecipePng(input) {
   });
   text(card.title, { font: '400 54px "Literata", serif', line: 72, gap: 20 });
   text(card.labels.summary, { font: '500 25px "Golos Text", sans-serif', line: 38 });
+  if (card.labels.crew)
+    text(card.labels.crew, {
+      font: '500 25px "Golos Text", sans-serif',
+      color: colors.copper,
+      line: 38,
+    });
   if (card.variants.length)
     text(card.labels.selected, {
       font: '400 24px "Golos Text", sans-serif',

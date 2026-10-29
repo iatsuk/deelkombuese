@@ -4,7 +4,7 @@ import { buildSeason, waterBudget, mealSlots } from '../planner.js';
 
 // Translate display fields separately; assembled lines are not translation lookup keys.
 export function buildShoppingText(
-  { items, checked = [], plan = [], builderMeta = null, pantry = [] },
+  { items, checked = [], plan = [], builderMeta = null, pantry = [], crew = 1 },
   { translate = String, language = 'ru' } = {},
 ) {
   const t = translate;
@@ -32,6 +32,7 @@ export function buildShoppingText(
     builderMeta?.kind === 'season'
       ? message('Базовый набор на {0} дней', builderMeta.days)
       : t('Закупка · готовим от целых упаковок'),
+    ...(crew > 1 ? [message('Экипаж: {0}', crew)] : []),
     '',
     ...items.map(
       (item) =>
@@ -39,7 +40,7 @@ export function buildShoppingText(
     ),
   ];
   if (builderMeta?.kind === 'trip') {
-    const water = waterBudget(plan, builderMeta);
+    const water = waterBudget(plan, { ...builderMeta, crew });
     lines.push('', message('ВОДА НА {0} ДНЕЙ', water.days));
     for (const [label, key] of [
       ['Питьё', 'drinking'],
@@ -67,7 +68,7 @@ export function buildShoppingText(
     lines.push(
       '',
       t('ПОПОЛНЕНИЕ СЕЗОННОГО НАБОРА'),
-      ...buildSeason(builderMeta.days, pantry)
+      ...buildSeason(builderMeta.days, pantry, crew)
         .items.filter((item) => item.refillDays)
         .map(
           (item) =>

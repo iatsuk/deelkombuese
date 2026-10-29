@@ -76,5 +76,6 @@ export function createAppState(saved, hash = '') {
     reservePct: saved.builderMeta?.reservePct ?? 25,
     seasonDays: saved.builderMeta?.kind === 'season' ? saved.builderMeta.days : 90,
     tripOverrides: saved.builderMeta?.overrides || {},
+    crew: saved.crew || 1,
   };
 }

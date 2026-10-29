@@ -211,6 +211,27 @@ function handlePlannerAction(action, id, button) {
     render();
     return true;
   }
+  if (action === 'crew') {
+    const inDetail = button.closest('#detail');
+    state.crew = Number(id);
+    // A season list is a snapshot of products, so it is rebuilt for the new crew.
+    if (state.builderMeta?.kind === 'season')
+      state.manual = [
+        ...state.manual.filter((p) => p.source !== 'builder'),
+        ...buildSeason(state.builderMeta.days, state.pantry, state.crew).items.map((i) => ({
+          ...i,
+          source: 'builder',
+        })),
+      ];
+    save();
+    if (inDetail && currentRecipe) openRecipe(currentRecipe, true);
+    render();
+    document
+      .querySelector(inDetail ? '#detail' : '#main')
+      .querySelector(`[data-action="crew"][data-id="${id}"]`)
+      ?.focus();
+    return true;
+  }
   if (action === 'trip-recipe') {
     const entry = buildTrip(tripOptions()).entries.find((e) => e.key === id);
     if (entry) {
@@ -233,7 +254,7 @@ function handlePlannerAction(action, id, button) {
       state.builderMeta = { kind: 'trip', ...tripOptions() };
       delete state.builderMeta.pantry;
     } else {
-      const plan = buildSeason(state.seasonDays, state.pantry);
+      const plan = buildSeason(state.seasonDays, state.pantry, state.crew);
       state.manual.push(...plan.items.map((i) => ({ ...i, source: 'builder' })));
       state.builderMeta = { kind: 'season', days: plan.days };
     }
@@ -301,6 +322,7 @@ function chapterView() {
     chapter.packSizes,
     chapter.anchorId,
     chapter.moduleIds,
+    { crew: state.crew },
   );
   return {
     recipe,
@@ -488,7 +510,9 @@ function saveCurrentFavorite() {
 function openCurrentStove() {
   const recipe = recipeById[currentRecipe];
   if (!recipe) return;
-  const prepared = prepareRecipe(recipe, choices, packSizes, anchorId, moduleIds);
+  const prepared = prepareRecipe(recipe, choices, packSizes, anchorId, moduleIds, {
+    crew: state.crew,
+  });
   openStove({
     title: prepared.title,
     prepared,
@@ -499,7 +523,9 @@ async function exportCurrentRecipe() {
   const recipe = recipeById[currentRecipe];
   if (!recipe) return;
   const card = localizeRecipeCard(
-    buildRecipeCard(recipe, selectionSnapshot(recipe, choices, packSizes, anchorId, moduleIds)),
+    buildRecipeCard(recipe, selectionSnapshot(recipe, choices, packSizes, anchorId, moduleIds), {
+      crew: state.crew,
+    }),
     t,
     language,
   );
@@ -531,6 +557,7 @@ function openRecipe(id, keepChoices = false) {
       packSizes,
       anchorId,
       normalizeSelection(r, choices, moduleIds),
+      { crew: state.crew },
     );
     anchorId = prepared.anchorId;
     moduleIds = prepared.modules.map((m) => m.id);
@@ -571,7 +598,9 @@ function openRecipe(id, keepChoices = false) {
   if (!keepChoices) showPage(pagePath(language, 'recipes', id), { dialog: 'recipe', id });
   currentRecipe = id;
   currentProduct = null;
-  const prepared = prepareRecipe(r, choices, packSizes, anchorId, moduleIds);
+  const prepared = prepareRecipe(r, choices, packSizes, anchorId, moduleIds, {
+    crew: state.crew,
+  });
   anchorId = prepared.anchorId;
   moduleIds = prepared.modules.map((m) => m.id);
   openDialog(
