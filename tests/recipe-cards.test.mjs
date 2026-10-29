@@ -113,9 +113,10 @@ test('Избранное мигрирует старую пасту, игнор�
     ['sauce-cream'],
   );
   assert.deepEqual(normalizeFavorites([...restored, repacked]), [repacked]);
-  const plain = selectionSnapshot(recipeById['bread-oil']);
+  // An ordinary recipe keeps one favourite whatever was substituted.
+  const plain = selectionSnapshot(recipeById['potato-skillet']);
   assert.deepEqual(
-    normalizeFavorites([plain, { ...plain, choices: { bread: 'crispbread' } }]).length,
+    normalizeFavorites([plain, { ...plain, choices: { driedOnion: 'onion' } }]).length,
     1,
   );
   assert.deepEqual(normalizeFavorites({}), []);

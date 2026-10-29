@@ -13,7 +13,7 @@ import { tripProfile } from './generator-engine.js';
 const breakfast = [
   'oatmeal',
   'fritters',
-  'bread-peanut',
+  'no-cook-generator',
   'oat-fritters',
   'savory-oats',
   'pan-muesli',
@@ -203,7 +203,7 @@ export function buildTrip(options = {}) {
       breakfast: includeEggs && day === 1 ? 'eggs-generator' : breakfast[day - 1],
       lunch: includeEggs && day === 2 ? 'eggs-generator' : lunch[day - 1],
       dinner: dinner[day - 1],
-      snack: includeEggs && day === 1 ? 'bread-oil' : 'nuts-raisins',
+      snack: includeEggs && day === 1 ? 'no-cook-generator' : 'nuts-raisins',
     };
     for (const [slot] of mealSlots) {
       const override = options.overrides?.[`${day}-${slot}`];

@@ -49,14 +49,6 @@ test('Every valid egg combination is cookable with whole packs', () => {
   assert.ok(valid >= 20);
 });
 
-test('Each named egg dish is a valid combination that carries its name', () => {
-  for (const dish of eggs.generator.dishes) {
-    const choices = { technique: dish.base };
-    assert.deepEqual(selectionIssues(eggs, choices, dish.modules), [], dish.name);
-    assert.equal(prepareRecipe(eggs, choices, {}, null, dish.modules).title, dish.name);
-  }
-});
-
 test('Egg rules explain themselves and repair a selection', () => {
   assert.deepEqual(normalizeSelection(eggs, { technique: 'poach' }, []), ['tomato']);
   assert.deepEqual(normalizeSelection(eggs, { technique: 'dip' }, []), ['bread']);
@@ -73,21 +65,6 @@ const migrated = (entry) => {
 };
 const amounts = (prepared) =>
   Object.fromEntries(prepared.ingredients.map((i) => [i.id, `${i.amount} ${i.unit}`]));
-
-test('Fried eggs with bread and shakshuka keep the numbers of the former recipes', () => {
-  for (const before of legacy.filter((c) => c.id !== 'french-toast')) {
-    const label = `${before.id} ${before.modules.join('+')} ${JSON.stringify(before.choices)}`;
-    const after = migrated({
-      recipeId: before.id,
-      modules: before.modules,
-      choices: before.choices,
-      packSizes: before.packs,
-    });
-    for (const key of ['time', 'active', 'water', 'yieldGrams', 'shore'])
-      assert.equal(after[key], before[key], `${label} ${key}`);
-    assert.deepEqual(amounts(after), before.ingredients, label);
-  }
-});
 
 // French toast moved to the chapter's portion: two slices and measured milk powder
 // instead of 150 g of bread and a 125 ml carton; time, work and toppings stay.

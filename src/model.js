@@ -4,6 +4,7 @@ import {
   generatorDefaults,
   generatorWater,
   generatorTitle,
+  generatorDish,
   generatorIssues,
   generatedSteps,
 } from './generator-engine.js';
@@ -12,7 +13,12 @@ import { absorptionWater, guidedGrainSteps } from './cooking-guide.js';
 export function migrateRecipeEntry(entry) {
   const migration = recipeMigrations[entry.recipeId];
   if (!migration) return entry;
-  const choices = { ...(migration.choices || {}), ...(entry.choices || {}) };
+  // A substitution keyed by a former ingredient moves to the ingredient that took its place.
+  const renamed = Object.entries(entry.choices || {}).map(([key, value]) => [
+    migration.choiceMap?.[key] || key,
+    value,
+  ]);
+  const choices = { ...(migration.choices || {}), ...Object.fromEntries(renamed) };
   if (entry.recipeId === 'pasta-milk' && entry.choices?.milkPowder)
     choices.cream = entry.choices.milkPowder;
   // A module that was split in the generator maps to several modules there.
@@ -229,6 +235,12 @@ export function prepareRecipe(
     packaged,
     modules,
     meal: modules.find((m) => m.meal)?.meal || recipe.meal,
+    // A generator dish or base may be more or less filling than the chapter as a whole.
+    satiety:
+      (generated &&
+        (generatorDish(recipe, generated.profile, modules)?.satiety ||
+          generated.profile.satiety)) ||
+      recipe.satiety,
     time:
       (generated?.profile.time ?? recipe.time) +
       resolved.reduce((n, i) => n + (i.timeDelta || 0), 0) +

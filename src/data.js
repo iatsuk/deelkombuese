@@ -2,6 +2,7 @@ import { createCabbageRecipe } from './catalog/cabbage-definition.js';
 import { expandRecipeLibrary } from './recipe-library.js';
 import { createPastaGenerator } from './catalog/generators/pasta.js';
 import { createEggGenerator } from './catalog/generators/eggs.js';
+import { createNoCookGenerator } from './catalog/generators/no-cook.js';
 // Storage periods are editorial rotation estimates, not results of yacht storage trials.
 export const sources = [
   {
@@ -1333,48 +1334,6 @@ export const recipes = [
     { tone: 'gold' },
   ),
   r(
-    'bread-oil',
-    'Хлеб с маслом и чесноком',
-    'bread',
-    3,
-    3,
-    'Оливковое масло, соль, перец и чеснок превращают хлеб в быстрый перекус.',
-    [
-      i('bread', 100, 'г', [
-        {
-          id: 'ryeBread',
-          amount: 100,
-          unit: 'г',
-          note: 'Открытый пастеризованный хлеб расходовать за 3–5 дней в сухой прохладе.',
-        },
-        {
-          id: 'crispbread',
-          amount: 50,
-          unit: 'г',
-          note: 'Хлебцы — сухой резерв. Маслом поливать только перед едой.',
-        },
-      ]),
-      i('oil', 15, 'мл'),
-      i('garlic', 1, 'зубчик', [
-        {
-          id: 'driedGarlic',
-          amount: 0.125,
-          unit: 'ч. л.',
-          note: 'Сухой чеснок вмешать непосредственно перед едой.',
-        },
-      ]),
-      i('salt', 0.125, 'ч. л.'),
-      i('pepper', 0.125, 'ч. л.'),
-    ],
-    0,
-    [
-      'В чистой маленькой миске или тарелке смешайте масло с солью, перцем и свеженарезанным либо сухим чесноком.',
-      'Нарежьте хлеб, макайте в масло или полейте ломтики.',
-      'Съешьте сразу. Масло со свежим чесноком не заготавливайте в бутылке: без холодильника такая смесь не является запасом.',
-    ],
-    { vessel: 'cold', meal: 'snack', satiety: '1–2 ч', tone: 'gold' },
-  ),
-  r(
     'warm-rolls',
     'Тёплые булочки на сковороде',
     'bread',
@@ -1395,51 +1354,6 @@ export const recipes = [
       'Смешайте масло с сухим чесноком, солью и перцем непосредственно перед едой. Смажьте тёплые булки и съешьте.',
     ],
     { vessel: 'pan', meal: 'breakfast', satiety: '1–2 ч', tone: 'brown' },
-  ),
-  r(
-    'tuna-toast',
-    'Хлеб с тунцом',
-    'bread',
-    5,
-    5,
-    'Целая банка тунца, хлеб и немного масла. Готовка не нужна.',
-    [
-      i('bread', 100, 'г', [
-        { id: 'crispbread', amount: 50, unit: 'г', note: 'Намазывать непосредственно перед едой.' },
-      ]),
-      fish(),
-      oil(),
-      i('pepper', 0.125, 'ч. л.'),
-    ],
-    0,
-    [
-      'Откройте выбранную банку рыбы и слейте жидкость. Разомните рыбу с маслом и перцем на тарелке.',
-      'Разложите всю рыбу по хлебу или хлебцам. Если рыбы много, добавьте хлеб к выходу закуски.',
-      'Съешьте сразу; открытую банку не оставляйте на следующую вахту.',
-    ],
-    { vessel: 'cold', meal: 'snack', tone: 'green', satiety: '2–3 ч' },
-  ),
-  r(
-    'bean-corn-salad',
-    'Фасоль с кукурузой без плиты',
-    'legumes',
-    5,
-    5,
-    'По одной банке фасоли и кукурузы, обе — целиком. Сытный холодный обед или закуска.',
-    [
-      i('beans', 1, 'уп.'),
-      i('corn', 1, 'уп.'),
-      oil(),
-      i('driedOnion', 3),
-      i('paprika', 0.5, 'ч. л.'),
-    ],
-    0,
-    [
-      'Слейте жидкость из обеих банок. Готовые фасоль и кукурузу целиком выложите в миску.',
-      'Добавьте масло, сушёный лук и паприку. Перемешайте, посолите по вкусу.',
-      'Дайте постоять пару минут для размягчения луковых хлопьев и съешьте. Объём зависит от выбранных банок.',
-    ],
-    { vessel: 'cold', meal: 'snack', tone: 'gold' },
   ),
   r(
     'nuts-raisins',
@@ -1705,25 +1619,6 @@ for (const recipe of recipes) {
 recipes.find((r) => r.id === 'oatmeal').meal = 'breakfast';
 recipes.find((r) => r.id === 'flatbread').meal = 'snack';
 
-recipes.push(
-  r(
-    'bread-peanut',
-    'Хлеб с арахисовой пастой',
-    'bread',
-    3,
-    3,
-    'Быстрый завтрак из общего запаса. Хлеб можно заменить хлебцами.',
-    [i('bread', 100), i('peanutButter', 50), i('raisins', 20)],
-    0,
-    [
-      'Намажьте хлеб или хлебцы арахисовой пастой.',
-      'Добавьте изюм; по желанию используйте немного мёда.',
-      'Съешьте сразу; сухие остатки продуктов закройте отдельно. Учитывайте аллергию на арахис.',
-    ],
-    { vessel: 'cold', meal: 'breakfast', tone: 'brown', satiety: '2–3 ч' },
-  ),
-);
-
 for (const id of ['curry', 'dal']) {
   const recipe = recipes.find((r) => r.id === id);
   recipe.ingredients = recipe.ingredients.filter((i) => i.id !== 'coconut');
@@ -1791,18 +1686,14 @@ recipes.find((r) => r.id === 'oatmeal').modules = [
       'Размешайте сухое молоко в воде для каши без комочков. Используйте тот же объём воды, что указан в составе.',
   },
 ];
-recipes.find((r) => r.id === 'bread-peanut').modules = [
-  {
-    id: 'honey',
-    label: 'Мёд',
-    ingredients: [i('honey', 15)],
-    instruction: 'Перед едой добавьте к пасте немного мёда.',
-  },
-];
 
 expandRecipeLibrary(recipes, { r, i, oil, aroma, tomato, fish });
 recipes.push(createCabbageRecipe({ r, i, tomato }));
-recipes.unshift(createEggGenerator({ r, i }), createPastaGenerator({ r, i, tomato, fish }));
+recipes.unshift(
+  createEggGenerator({ r, i }),
+  createPastaGenerator({ r, i, tomato, fish }),
+  createNoCookGenerator({ r, i, fish }),
+);
 const absorptionRecipes = new Set([
   'buckwheat-stew',
   'buckwheat-peas',
@@ -1835,6 +1726,16 @@ export const recipeMigrations = {
     modules: ['bread', 'milk'],
     choices: { technique: 'dip' },
     moduleMap: { 'ham-cheese': ['ham', 'cheese'] },
+  },
+  // Cold dishes became the no-stove chapter; a tin of beans is a base chosen through bread.
+  'bread-oil': { recipeId: 'no-cook-generator', modules: ['garlic-oil'] },
+  'tuna-toast': { recipeId: 'no-cook-generator', modules: ['tuna', 'oil-pepper'] },
+  'bread-peanut': { recipeId: 'no-cook-generator', modules: ['peanut'] },
+  'bean-corn-salad': {
+    recipeId: 'no-cook-generator',
+    modules: ['corn', 'onion-paprika'],
+    choices: { bread: 'beans' },
+    choiceMap: { beans: 'bread' },
   },
 };
 

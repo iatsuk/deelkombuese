@@ -75,7 +75,7 @@ export function renderRecipeDialog(
       prepared,
     )
       .map((item) => `<span>${item}</span>`)
-      .join('')}</dd></div><div><dt>Сытость</dt><dd>≈ ${recipe.satiety}*</dd></div></dl>`;
+      .join('')}</dd></div><div><dt>Сытость</dt><dd>≈ ${prepared.satiety}*</dd></div></dl>`;
   }
   const misses = prepared.ingredients.filter((i) => !state.pantry.includes(i.id));
   const isLarge = prepared.yieldGrams > 750 && !r.drySnack;
@@ -136,7 +136,7 @@ export function renderRecipeDialog(
     <p class="footnote">${r.vessel === 'cold' ? 'Только чистые руки, посуда и питьевая вода для мытья продуктов.' : 'Вода — ориентир: учитывайте испарение и добавляйте по необходимости. Соль и перец по вкусу, если не указаны в составе.'} Количество людей не задаёт граммовки.</p></section>
     ${renderCookingBasics(r, prepared)}${renderGrainDiagram(r, prepared)}<section class="detail-section"><h3>Как приготовить</h3><ol class="cooking-steps">${steps}</ol>${substituted ? `<div class="detail-notice">${icon('swap')}<p>Используйте выбранные ингредиенты и количества из состава выше. Свежий лук обжарьте 3–5 минут, сухие специи прогревайте несколько секунд. Пассата идёт с жидкостью, а не обжаривается как паста. Подготовку обычных сушёных овощей сверяйте с пачкой; для быстрого текстурата в генераторе заложены отдельные вода и время.</p></div>` : ''}</section>
     ${r.tip ? `<aside class="skipper-tip"><span>${icon('anchor')} Заметка из камбуза</span><p>${r.tip}</p></aside>` : ''}
-    ${!r.drySnack ? `<div class="detail-notice">${icon('info')}<p>Вскрытое скоропортящееся содержимое используйте всё в текущую готовку. Готовое блюдо без холодильника — максимум 2 часа, выше 32 °C — 1 час; остатки на следующую вахту не планировать. Хлеб и сухие специи живут по своим срокам после открытия.</p></div>` : ''}<p class="footnote">Сытость ≈ ${r.satiety}* для обычной порции блюда, не для всего увеличенного выхода. Ориентир условный.</p>
+    ${!r.drySnack ? `<div class="detail-notice">${icon('info')}<p>Вскрытое скоропортящееся содержимое используйте всё в текущую готовку. Готовое блюдо без холодильника — максимум 2 часа, выше 32 °C — 1 час; остатки на следующую вахту не планировать. Хлеб и сухие специи живут по своим срокам после открытия.</p></div>` : ''}<p class="footnote">Сытость ≈ ${prepared.satiety}* для обычной порции блюда, не для всего увеличенного выхода. Ориентир условный.</p>
     </div></div>
     <div class="recipe-sticky"><div><strong>${misses.length ? 'Проверить / купить: ' + misses.length : 'Всё есть в рундуке'}</strong><small>${prepared.packaged.length ? 'Размеры упаковок сохранятся в закупке' : 'Количество продуктов — в составе выше'}</small></div><button class="button primary" data-action="add-plan" data-id="${r.id}">${icon('bag')} ${state.view === 'planner' ? 'В закупку отдельно' : 'В закупку'}</button></div></article>`;
 }

@@ -1,0 +1,360 @@
+[
+ {
+  "id": "bread-oil",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "1–2 ч",
+  "time": 3,
+  "active": 3,
+  "water": 0,
+  "yieldGrams": 120,
+  "shore": false,
+  "ingredients": {
+   "bread": "100 г",
+   "oil": "15 мл",
+   "garlic": "1 зубчик",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "bread-oil",
+  "modules": [],
+  "choices": {
+   "bread": "ryeBread"
+  },
+  "packs": {},
+  "satiety": "1–2 ч",
+  "time": 3,
+  "active": 3,
+  "water": 0,
+  "yieldGrams": 120,
+  "shore": false,
+  "ingredients": {
+   "ryeBread": "100 г",
+   "oil": "15 мл",
+   "garlic": "1 зубчик",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "bread-oil",
+  "modules": [],
+  "choices": {
+   "bread": "crispbread"
+  },
+  "packs": {},
+  "satiety": "1–2 ч",
+  "time": 3,
+  "active": 3,
+  "water": 0,
+  "yieldGrams": 70,
+  "shore": false,
+  "ingredients": {
+   "crispbread": "50 г",
+   "oil": "15 мл",
+   "garlic": "1 зубчик",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "bread-oil",
+  "modules": [],
+  "choices": {
+   "garlic": "driedGarlic"
+  },
+  "packs": {},
+  "satiety": "1–2 ч",
+  "time": 3,
+  "active": 3,
+  "water": 0,
+  "yieldGrams": 120,
+  "shore": false,
+  "ingredients": {
+   "bread": "100 г",
+   "oil": "15 мл",
+   "driedGarlic": "0.125 ч. л.",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "tuna-toast",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 5,
+  "active": 5,
+  "water": 0,
+  "yieldGrams": 220,
+  "shore": false,
+  "ingredients": {
+   "bread": "100 г",
+   "tuna": "112 г",
+   "oil": "10 мл",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "tuna-toast",
+  "modules": [],
+  "choices": {
+   "bread": "crispbread"
+  },
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 5,
+  "active": 5,
+  "water": 0,
+  "yieldGrams": 170,
+  "shore": false,
+  "ingredients": {
+   "crispbread": "50 г",
+   "tuna": "112 г",
+   "oil": "10 мл",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "tuna-toast",
+  "modules": [],
+  "choices": {
+   "bread": "ryeBread"
+  },
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 5,
+  "active": 5,
+  "water": 0,
+  "yieldGrams": 220,
+  "shore": false,
+  "ingredients": {
+   "ryeBread": "100 г",
+   "tuna": "112 г",
+   "oil": "10 мл",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "tuna-toast",
+  "modules": [],
+  "choices": {
+   "tuna": "sardines"
+  },
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 5,
+  "active": 5,
+  "water": 0,
+  "yieldGrams": 200,
+  "shore": false,
+  "ingredients": {
+   "bread": "100 г",
+   "sardines": "90 г",
+   "oil": "10 мл",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "tuna-toast",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "tuna": 185
+  },
+  "satiety": "2–3 ч",
+  "time": 5,
+  "active": 5,
+  "water": 0,
+  "yieldGrams": 260,
+  "shore": false,
+  "ingredients": {
+   "bread": "115 г",
+   "tuna": "130 г",
+   "oil": "11.61 мл",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "bean-corn-salad",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 5,
+  "active": 5,
+  "water": 0,
+  "yieldGrams": 290,
+  "shore": false,
+  "ingredients": {
+   "beans": "130 г",
+   "corn": "140 г",
+   "oil": "10 мл",
+   "driedOnion": "3 г",
+   "paprika": "0.5 ч. л."
+  }
+ },
+ {
+  "id": "bean-corn-salad",
+  "modules": [],
+  "choices": {
+   "beans": "chickpeas"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 5,
+  "active": 5,
+  "water": 0,
+  "yieldGrams": 290,
+  "shore": false,
+  "ingredients": {
+   "chickpeas": "130 г",
+   "corn": "140 г",
+   "oil": "10 мл",
+   "driedOnion": "3 г",
+   "paprika": "0.5 ч. л."
+  }
+ },
+ {
+  "id": "bean-corn-salad",
+  "modules": [],
+  "choices": {
+   "driedOnion": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 5,
+  "active": 5,
+  "water": 0,
+  "yieldGrams": 360,
+  "shore": false,
+  "ingredients": {
+   "beans": "130 г",
+   "corn": "140 г",
+   "oil": "10 мл",
+   "onion": "1 шт.",
+   "paprika": "0.5 ч. л."
+  }
+ },
+ {
+  "id": "bean-corn-salad",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "beans": 400
+  },
+  "satiety": "3–4 ч",
+  "time": 5,
+  "active": 5,
+  "water": 0,
+  "yieldGrams": 410,
+  "shore": false,
+  "ingredients": {
+   "beans": "240 г",
+   "corn": "140 г",
+   "oil": "18.46 мл",
+   "driedOnion": "5.54 г",
+   "paprika": "0.875 ч. л."
+  }
+ },
+ {
+  "id": "bean-corn-salad",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "corn": 340
+  },
+  "satiety": "3–4 ч",
+  "time": 5,
+  "active": 5,
+  "water": 0,
+  "yieldGrams": 430,
+  "shore": false,
+  "ingredients": {
+   "beans": "130 г",
+   "corn": "285 г",
+   "oil": "10 мл",
+   "driedOnion": "3 г",
+   "paprika": "0.5 ч. л."
+  }
+ },
+ {
+  "id": "bread-peanut",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 3,
+  "active": 3,
+  "water": 0,
+  "yieldGrams": 170,
+  "shore": false,
+  "ingredients": {
+   "bread": "100 г",
+   "peanutButter": "50 г",
+   "raisins": "20 г"
+  }
+ },
+ {
+  "id": "bread-peanut",
+  "modules": [
+   "honey"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 3,
+  "active": 3,
+  "water": 0,
+  "yieldGrams": 190,
+  "shore": false,
+  "ingredients": {
+   "bread": "100 г",
+   "peanutButter": "50 г",
+   "raisins": "20 г",
+   "honey": "15 г"
+  }
+ },
+ {
+  "id": "bread-peanut",
+  "modules": [],
+  "choices": {
+   "bread": "ryeBread"
+  },
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 3,
+  "active": 3,
+  "water": 0,
+  "yieldGrams": 170,
+  "shore": false,
+  "ingredients": {
+   "ryeBread": "100 г",
+   "peanutButter": "50 г",
+   "raisins": "20 г"
+  }
+ },
+ {
+  "id": "bread-peanut",
+  "modules": [],
+  "choices": {
+   "bread": "crispbread"
+  },
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 3,
+  "active": 3,
+  "water": 0,
+  "yieldGrams": 120,
+  "shore": false,
+  "ingredients": {
+   "crispbread": "50 г",
+   "peanutButter": "50 г",
+   "raisins": "20 г"
+  }
+ }
+]
