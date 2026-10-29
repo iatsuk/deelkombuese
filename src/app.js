@@ -1,5 +1,5 @@
 import { buildShoppingText } from './export/shopping-list.js';
-import { createAppState, views } from './state/session.js';
+import { createAppState, parseRoute, routeHash } from './state/session.js';
 import {
   language,
   t,
@@ -17,6 +17,7 @@ import { renderMap } from './ui/views/map.js';
 import { renderPantry } from './ui/views/pantry.js';
 import { renderRecipes } from './ui/views/recipes.js';
 import { renderShopping } from './ui/views/shopping.js';
+import { renderGenerators } from './ui/views/generators.js';
 import { createPlannerView } from './ui/views/planner.js';
 import { drawGraph } from './ui/graph.js';
 import { initThemeToggle } from './theme.js';
@@ -33,6 +34,7 @@ import {
   starterPantry,
   variantGroups,
   productFamilies,
+  generatorBySlug,
 } from './data.js';
 import {
   formatAmount,
@@ -40,10 +42,13 @@ import {
   effectiveIngredients,
   recipeProductIds,
   choicesForSelection,
+  normalizeSelection,
 } from './model.js';
+import { generatorProfile } from './generator-engine.js';
 
 const titles = {
   map: 'Карта вкусов',
+  generators: 'Главы',
   pantry: 'Продукты',
   recipes: 'Рецепты',
   shopping: 'Список закупки',
@@ -76,6 +81,10 @@ let packSizes = {};
 let anchorId = null;
 let moduleIds = [];
 let lastFocus = null;
+// The open generator chapter keeps its own selection, apart from the recipe dialog.
+let chapter = null;
+let chapterActive = false;
+let chapterDirty = false;
 let toastTimer;
 
 function save() {
@@ -97,6 +106,7 @@ function shell() {
     <a class="brand" href="#map" aria-label="Дельный камбуз — главная"><span class="brand-mark">${icon('pot')}</span><span class="brand-name">Дельный камбуз</span></a>
     <nav class="site-nav" aria-label="Основная навигация">${[
       ['map', 'Карта вкусов'],
+      ['generators', 'Главы'],
       ['pantry', 'Продукты'],
       ['recipes', 'Рецепты'],
       ['planner', 'План похода'],
@@ -241,6 +251,97 @@ document.addEventListener(
   true,
 );
 
+function chapterFromRoute(route) {
+  const recipe = generatorBySlug[route.slug];
+  if (!recipe) return null;
+  const choices = { ...route.choices };
+  if (recipe.generator.bases.some((b) => b.id === route.base))
+    choices[recipe.generator.choiceKey] = route.base;
+  const kept = chapter?.recipeId === recipe.id ? chapter : null;
+  return {
+    recipeId: recipe.id,
+    choices,
+    packSizes: kept?.packSizes || {},
+    anchorId: kept?.anchorId || null,
+    moduleIds: normalizeSelection(recipe, choices, route.modules),
+  };
+}
+function chapterHash() {
+  const recipe = recipeById[chapter.recipeId];
+  const { choiceKey } = recipe.generator;
+  const swaps = Object.fromEntries(
+    Object.entries(chapter.choices).filter(([key]) => key !== choiceKey),
+  );
+  return routeHash({
+    view: 'generators',
+    slug: recipe.generator.slug,
+    base:
+      generatorProfile(recipe, chapter.choices).id === recipe.generator.bases[0].id
+        ? null
+        : generatorProfile(recipe, chapter.choices).id,
+    modules: chapter.moduleIds,
+    choices: swaps,
+  });
+}
+function chapterView() {
+  if (state.view !== 'generators' || !state.route.slug) return null;
+  if (!chapter || recipeById[chapter.recipeId].generator.slug !== state.route.slug)
+    chapter = chapterFromRoute(state.route);
+  if (!chapter) return null;
+  const recipe = recipeById[chapter.recipeId];
+  const prepared = prepareRecipe(
+    recipe,
+    chapter.choices,
+    chapter.packSizes,
+    chapter.anchorId,
+    chapter.moduleIds,
+  );
+  return {
+    recipe,
+    prepared,
+    selection: {
+      ...chapter,
+      moduleIds: prepared.modules.map((m) => m.id),
+      modules: prepared.modules,
+    },
+  };
+}
+// Runs a recipe action against the chapter's selection when it comes from the chapter page.
+function inChapterContext(target, run) {
+  if (!chapter || !target?.closest?.('.chapter-page')) return run();
+  const outer = { currentRecipe, choices, packSizes, anchorId, moduleIds };
+  ({ choices, packSizes, anchorId, moduleIds } = chapter);
+  choices = { ...choices };
+  packSizes = { ...packSizes };
+  moduleIds = [...moduleIds];
+  currentRecipe = chapter.recipeId;
+  chapterActive = true;
+  try {
+    return run();
+  } finally {
+    chapter = { recipeId: chapter.recipeId, choices, packSizes, anchorId, moduleIds };
+    ({ currentRecipe, choices, packSizes, anchorId, moduleIds } = outer);
+    chapterActive = false;
+    if (chapterDirty) {
+      chapterDirty = false;
+      window.history.replaceState(null, '', location.pathname + location.search + chapterHash());
+      state.route = parseRoute(location.hash);
+      render();
+    }
+  }
+}
+function openChapter(recipe, selection = {}) {
+  chapter = {
+    recipeId: recipe.id,
+    choices: { ...(selection.choices || {}) },
+    packSizes: { ...(selection.packSizes || {}) },
+    anchorId: selection.anchorId || null,
+    moduleIds: normalizeSelection(recipe, selection.choices || {}, selection.modules || []),
+  };
+  if (document.querySelector('#detail').open) document.querySelector('#detail').close();
+  location.hash = chapterHash();
+}
+
 function render() {
   const focus = document.activeElement;
   const searchFocused = focus?.id === 'search';
@@ -249,6 +350,7 @@ function render() {
     {
       map: () => renderMap({ state, catalog }),
       pantry: () => renderPantry({ state, catalog }),
+      generators: () => renderGenerators({ state, chapter: chapterView() }),
       recipes: () => renderRecipes({ state, catalog }),
       planner: renderPlanner,
       shopping: () => renderShopping({ state, catalog }),
@@ -264,7 +366,11 @@ function render() {
     n.setAttribute('aria-pressed', String(n.dataset.mode === state.mode));
   });
   document.querySelector('#cart-count').textContent = t(cartItems().length);
-  document.title = t(`${titles[state.view]} · Дельный камбуз · deelstuff`);
+  const chapterTitle =
+    state.view === 'generators' && chapter && state.route.slug
+      ? recipeById[chapter.recipeId].generator.chapter.title
+      : null;
+  document.title = t(`${chapterTitle || titles[state.view]} · Дельный камбуз · deelstuff`);
   refreshLanguageLinks();
   if (state.view === 'map') requestAnimationFrame(() => drawGraph(state));
   if (searchFocused) {
@@ -318,6 +424,8 @@ function openFavorite(key) {
   packSizes = { ...favorite.packSizes };
   anchorId = favorite.anchorId;
   moduleIds = [...favorite.modules];
+  const recipe = recipeById[favorite.recipeId];
+  if (recipe.generator?.chapter) return openChapter(recipe, { ...favorite });
   openRecipe(favorite.recipeId, true);
 }
 // A card star toggles every saved variant of its recipe; in the favourites view it
@@ -394,6 +502,19 @@ async function exportCurrentRecipe() {
 function openRecipe(id, keepChoices = false) {
   const r = recipeById[id];
   if (!r) return;
+  if (chapterActive && keepChoices) {
+    const prepared = prepareRecipe(
+      r,
+      choices,
+      packSizes,
+      anchorId,
+      normalizeSelection(r, choices, moduleIds),
+    );
+    anchorId = prepared.anchorId;
+    moduleIds = prepared.modules.map((m) => m.id);
+    chapterDirty = true;
+    return;
+  }
   if (!keepChoices) {
     choices = {};
     packSizes = {};
@@ -417,6 +538,8 @@ function openRecipe(id, keepChoices = false) {
     choices = { ...choices, ...inferred.choices };
     moduleIds = inferred.modules;
   }
+  if (r.generator?.chapter && !keepChoices)
+    return openChapter(r, { choices, packSizes, anchorId, modules: moduleIds });
   currentRecipe = id;
   currentProduct = null;
   const prepared = prepareRecipe(r, choices, packSizes, anchorId, moduleIds);
@@ -492,6 +615,10 @@ function exportList() {
 document.addEventListener('click', (event) => {
   const button = event.target.closest('[data-action]');
   if (!button) return;
+  if (button.dataset.blockedReason) return toast(button.dataset.blockedReason);
+  inChapterContext(button, () => handleClick(event, button));
+});
+function handleClick(event, button) {
   const { action, id } = button.dataset;
   if (action === 'favorite-recipe') return openFavorite(id);
   if (action === 'favorite-toggle') return toggleFavorite(id);
@@ -646,7 +773,7 @@ document.addEventListener('click', (event) => {
   if (action === 'export') return exportList();
   if (handlePlannerAction(action, id, button)) return;
   render();
-});
+}
 document.addEventListener('input', (event) => {
   if (event.target.id === 'search') {
     state.query = event.target.value;
@@ -661,7 +788,22 @@ document.addEventListener('input', (event) => {
     input.setSelectionRange(cursor, cursor);
   }
 });
-document.addEventListener('change', (event) => {
+document.addEventListener('change', (event) =>
+  inChapterContext(event.target, () => handleChange(event)),
+);
+function handleChange(event) {
+  // The chapter sentence: a base or a single-choice group such as the sauce or filling.
+  const axis = event.target.dataset.generatorAxis;
+  if (axis && currentRecipe) {
+    const recipe = recipeById[currentRecipe];
+    if (axis === 'base') choices[recipe.generator.choiceKey] = event.target.value;
+    else {
+      moduleIds = moduleIds.filter((id) => recipe.modules.find((m) => m.id === id)?.group !== axis);
+      if (event.target.value) moduleIds.push(event.target.value);
+    }
+    openRecipe(currentRecipe, true);
+    return;
+  }
   if (event.target.id === 'recipe-kind') {
     state.kind = event.target.value;
     render();
@@ -718,16 +860,16 @@ document.addEventListener('change', (event) => {
     save();
     render();
   }
-});
+}
 window.addEventListener('hashchange', () => {
-  const next = location.hash.slice(1);
-  if (views.includes(next)) {
-    state.view = next;
-    state.query = '';
-    render();
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    document.querySelector('#main').focus({ preventScroll: true });
-  }
+  const route = parseRoute(location.hash);
+  if (route.view === 'generators' && route.slug) chapter = chapterFromRoute(route);
+  state.route = route;
+  state.view = route.view;
+  state.query = '';
+  render();
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  document.querySelector('#main').focus({ preventScroll: true });
 });
 document.querySelector('#detail').addEventListener('close', () => {
   document.body.classList.remove('dialog-open');

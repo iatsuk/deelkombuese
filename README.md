@@ -12,6 +12,7 @@ Smart Galley is the cooking companion to [deelstuff](https://deelstuff.com). Sta
 
 - **Explore ingredients visually.** The flavour map filters recipes by compatible ingredients, including substitutions and optional additions.
 - **Plan for a humid boat.** Compare unopened and opened storage guidance, packaging advice and approximate satiety. Fresh and dried forms remain distinct.
+- **Cook by chapter.** Each chapter is a generator: pick the base, sauce and filling in one sentence and the dish, its water, time and shopping are worked out; every combination has its own link.
 - **Build a dish.** Choose a base, sauce and protein. Pasta, risotto, rice and potatoes use their own cooking method and water calculation. Fresh cabbage has its own braised / unstuffed cabbage-roll base.
 - **Use the whole pack.** Perishable tins, cartons and even a small cabbage head are planned as whole units; the recipe shows its resulting yield.
 - **Provision a passage.** Generate a one-to-seven-day menu, a shopping list and a water budget, or prepare a replenishable seasonal pantry.

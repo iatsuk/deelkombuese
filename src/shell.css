@@ -187,11 +187,14 @@
 }
 @media (max-width: 1439px) {
   .site-header {
-    gap: 14px;
-    padding-inline: 32px;
+    gap: 12px;
+    padding-inline: 28px;
   }
   .site-nav a {
-    padding-inline: 13px;
+    padding-inline: 10px;
+  }
+  .mode-switch button {
+    padding-inline: 10px;
   }
   .offline-state {
     font-size: 0;

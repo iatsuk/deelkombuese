@@ -37,6 +37,12 @@ Labels are sentence case in every language. When a label changes, its Russian so
 
 The recipe opens in the shared `#detail` dialog with the `recipe-sheet` class, which widens it to a page. Product and source notes keep the narrow drawer. Below 760 px the facts become a two-column block above the content. The markup does not depend on the dialog, so the same page can later be rendered as a standalone URL.
 
+## Chapters
+
+Generators are the chapters of the cookbook (`#generators`). The contents page lists each chapter with its number, title, formula and known dishes. A chapter page (`#generators/<slug>`) has a heading and a short paragraph on the principle, then the sentence builder: single-choice options — the base, the sauce, the filling — are underlined selects inside a sentence such as «Приготовить [пасту] [в томатном соусе] [с тунцом]». Options that can be combined stay as toggles below it, and known dishes are links that set the whole combination. The resulting recipe follows as a cookbook page with «Получится» above its title; the variants block of the recipe sheet is omitted because the sentence replaces it.
+
+Option phrases (`phrase` on bases and modules) are written to fit the sentence grammatically; labels keep serving buttons and lists. An option a rule blocks is disabled, and a blocked toggle explains its reason when pressed.
+
 ## Layout
 
 `src/shell.css` owns the header and footer: brand, section pills, the sea/shore switch, the theme switch and the language selector. Below 1180 px the section pills move to their own row; below 680 px they scroll horizontally under the brand row. Page sections keep their own stylesheet rules in `styles.css`, `features.css` and `visuals.css`.

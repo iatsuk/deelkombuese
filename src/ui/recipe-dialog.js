@@ -7,8 +7,9 @@ import { icon } from './icons.js';
 export function renderRecipeDialog(
   r,
   prepared,
-  { state, choices, packSizes, anchorId, moduleIds },
+  { state, choices, packSizes, anchorId, moduleIds, embedded = false },
 ) {
+  // Embedded in a generator chapter, the sentence builder replaces the variants block.
   function renderGeneratorChoices(recipe, prepared) {
     const presets = recipe.generator?.presets || recipe.presets || [];
     const profiles = presets.length
@@ -88,15 +89,17 @@ export function renderRecipeDialog(
         )}</div><small>Масса без жидкости у консервов типовая. Выход — расчётный ориентир, а не измеренная готовая порция.</small></section>`
     : '';
 
-  const kicker = prepared.shore
-    ? 'С берега · ' + (prepared.meal === 'main' ? 'основное блюдо' : 'готовить сразу')
-    : r.vessel === 'cold'
-      ? 'Без плиты'
-      : r.meal === 'breakfast'
-        ? 'Завтрак'
-        : r.vessel === 'pan'
-          ? 'Сковорода'
-          : 'Одна кастрюля';
+  const kicker = embedded
+    ? 'Получится'
+    : prepared.shore
+      ? 'С берега · ' + (prepared.meal === 'main' ? 'основное блюдо' : 'готовить сразу')
+      : r.vessel === 'cold'
+        ? 'Без плиты'
+        : r.meal === 'breakfast'
+          ? 'Завтрак'
+          : r.vessel === 'pan'
+            ? 'Сковорода'
+            : 'Одна кастрюля';
   const ingredientRows = prepared.ingredients
     .map((chosen) => {
       const original = effectiveIngredients(r, moduleIds).find((i) => i.id === chosen.originalId);
@@ -118,11 +121,11 @@ export function renderRecipeDialog(
     })
     .join('');
 
-  return `<article class="recipe-page"><header class="recipe-head ${r.tone}"><p class="recipe-kicker">${kicker}</p><h2>${prepared.title}</h2><p class="recipe-lead">${r.desc}</p></header>
+  return `<article class="recipe-page"><header class="recipe-head ${r.tone}"><p class="recipe-kicker">${kicker}</p><h2>${prepared.title}</h2>${embedded ? '' : `<p class="recipe-lead">${r.desc}</p>`}</header>
     <div class="recipe-layout"><aside class="recipe-margin" aria-label="Коротко о блюде">${renderFacts(r, prepared)}${recipeTools(r, prepared)}</aside><div class="recipe-main">
     ${prepared.shore ? `<div class="detail-notice warning">${icon('sun')}<p>Охлаждённые продукты готовить сразу после покупки. Без холода максимум 2 часа суммарно, выше 32 °C — 1 час.</p></div>` : ''}
     ${prepared.eggConditional ? `<div class="detail-notice">${icon('egg')}<p>Для яиц проверьте возраст от кладки и историю охлаждения. Немытые неохлаждённые яйца требуют стабильной прохлады; ориентир до 18 дней от кладки не действует для жаркого рундука. Охлаждённые яйца сохранять в холоде до готовки. Белок и желток готовить полностью.</p></div>` : ''}
-    ${renderRecipeModules(r, prepared)}${packageControls}${isLarge ? `<div class="detail-notice warning">${icon('person')}<p><strong>Выход большой для одного приёма: примерно ${prepared.yieldGrams} г.</strong> Выберите меньшую упаковку или разделите готовую еду с попутчиком сейчас. Без холодильника выход этой готовки нельзя распределять на следующие вахты. Для увеличенного объёма нужны подходящая посуда и дополнительное время.${prepared.ingredients.some((i) => i.id === 'passata') && r.id !== 'tomato-pack-soup' ? '<br><button class="pack-recipe-link" data-action="recipe" data-id="tomato-pack-soup">Использовать 500 г пассаты в компактном томатном супе →</button>' : ''}</p></div>` : ''}
+    ${embedded ? '' : renderRecipeModules(r, prepared)}${packageControls}${isLarge ? `<div class="detail-notice warning">${icon('person')}<p><strong>Выход большой для одного приёма: примерно ${prepared.yieldGrams} г.</strong> Выберите меньшую упаковку или разделите готовую еду с попутчиком сейчас. Без холодильника выход этой готовки нельзя распределять на следующие вахты. Для увеличенного объёма нужны подходящая посуда и дополнительное время.${prepared.ingredients.some((i) => i.id === 'passata') && r.id !== 'tomato-pack-soup' ? '<br><button class="pack-recipe-link" data-action="recipe" data-id="tomato-pack-soup">Использовать 500 г пассаты в компактном томатном супе →</button>' : ''}</p></div>` : ''}
     <section class="detail-section ingredients-section"><h3>Состав под вашу упаковку</h3><div class="ingredient-list">${ingredientRows}${waterRows}</div>
     <p class="footnote">${r.vessel === 'cold' ? 'Только чистые руки, посуда и питьевая вода для мытья продуктов.' : 'Вода — ориентир: учитывайте испарение и добавляйте по необходимости. Соль и перец по вкусу, если не указаны в составе.'} Количество людей не задаёт граммовки.</p></section>
     ${renderCookingBasics(r, prepared)}${renderGrainDiagram(r, prepared)}<section class="detail-section"><h3>Как приготовить</h3><ol class="cooking-steps">${steps}</ol>${Object.keys(choices).length ? `<div class="detail-notice">${icon('swap')}<p>Используйте выбранные ингредиенты и количества из состава выше. Свежий лук обжарьте 3–5 минут, сухие специи прогревайте несколько секунд. Пассата идёт с жидкостью, а не обжаривается как паста. Подготовку обычных сушёных овощей сверяйте с пачкой; для быстрого текстурата в генераторе заложены отдельные вода и время.</p></div>` : ''}</section>

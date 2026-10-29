@@ -153,3 +153,26 @@ test('Составы всех добавок и замен дают конечн
     }
   }
 });
+
+test('Generator links round-trip and ignore unknown views', async () => {
+  const { parseRoute, routeHash } = await import('../src/state/session.js');
+  const route = {
+    view: 'generators',
+    slug: 'pasta',
+    base: 'risottoRice',
+    modules: ['sauce-cream', 'peas'],
+    choices: { cream: 'milk' },
+  };
+  const hash = routeHash(route);
+  assert.equal(hash, '#generators/pasta?base=risottoRice&with=sauce-cream,peas&swap=cream:milk');
+  assert.deepEqual(parseRoute(hash), route);
+  assert.deepEqual(parseRoute('#recipes'), {
+    view: 'recipes',
+    slug: null,
+    base: null,
+    modules: [],
+    choices: {},
+  });
+  assert.equal(parseRoute('#nowhere/x').view, 'map');
+  assert.equal(parseRoute('').view, 'map');
+});

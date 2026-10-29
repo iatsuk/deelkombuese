@@ -159,10 +159,26 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
       },
       generator: {
         choiceKey: 'pasta',
+        slug: 'pasta',
+        chapter: {
+          order: 3,
+          title: 'Паста, ризотто, картофель',
+          formula: 'основа + соус + наполнитель',
+          principle:
+            'Соус и наполнитель переходят с одной основы на другую, а техника остаётся у основы. Короткая паста варится прямо в соусе, ризотто получает воду частями, рис впитывает её под крышкой, а картофель сначала размягчается — томаты идут в него только потом.',
+        },
+        // The sentence reads «Приготовить [пасту] [в томатном соусе] [с тунцом]».
+        sentence: [
+          'Приготовить',
+          { axis: 'base' },
+          { group: 'sauce' },
+          { group: 'protein', empty: 'без наполнителя' },
+        ],
         defaultModules: ['sauce-broth'],
         bases: [
           {
             id: 'pasta',
+            phrase: 'пасту',
             label: 'Паста',
             water: 300,
             minWater: 220,
@@ -172,6 +188,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
           },
           {
             id: 'risottoRice',
+            phrase: 'ризотто',
             label: 'Ризотто',
             water: 400,
             minWater: 320,
@@ -181,6 +198,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
           },
           {
             id: 'rice',
+            phrase: 'рис',
             label: 'Рис с соусом',
             absorption: true,
             water: 250,
@@ -192,6 +210,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
           },
           {
             id: 'potato',
+            phrase: 'картофель',
             label: 'Картофель',
             sauceCredit: false,
             water: 180,
@@ -251,6 +270,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
       modules: [
         {
           id: 'sauce-broth',
+          phrase: 'на воде или бульоне',
           label: 'Вода / бульон',
           shortLabel: 'на воде или бульоне',
           group: 'sauce',
@@ -259,6 +279,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
         },
         {
           id: 'sauce-tomato',
+          phrase: 'в томатном соусе',
           label: 'Томатная',
           shortLabel: 'томатный соус',
           group: 'sauce',
@@ -269,6 +290,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
         },
         {
           id: 'sauce-garlic',
+          phrase: 'с маслом и чесноком',
           label: 'Масло и чеснок',
           shortLabel: 'масло и чеснок',
           group: 'sauce',
@@ -277,6 +299,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
         },
         {
           id: 'sauce-cream',
+          phrase: 'в сливочном или молочном соусе',
           label: 'Сливочная / молочная',
           shortLabel: 'сливочный или молочный соус',
           titleLabel: 'сливочный соус',
@@ -305,6 +328,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
         },
         {
           id: 'sauce-pesto',
+          phrase: 'с песто',
           label: 'Песто из маленькой банки',
           shortLabel: 'песто',
           group: 'sauce',
@@ -314,6 +338,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
         },
         {
           id: 'sauce-peanut',
+          phrase: 'в арахисовом соусе',
           label: 'Арахисовая',
           shortLabel: 'арахисовый соус',
           group: 'sauce',
@@ -323,6 +348,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
         },
         {
           id: 'fish',
+          phrase: 'с тунцом или сардинами',
           label: 'Тунец / сардины',
           group: 'protein',
           ingredients: [fish()],
@@ -330,6 +356,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
         },
         {
           id: 'beans',
+          phrase: 'с фасолью или нутом',
           label: 'Фасоль / нут',
           group: 'protein',
           ingredients: [i('beans', 1, 'уп.')],
@@ -337,6 +364,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
         },
         {
           id: 'meat',
+          phrase: 'с мясными консервами',
           label: 'Мясные консервы',
           group: 'protein',
           ingredients: [i('stew', 1, 'уп.')],
@@ -344,6 +372,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
         },
         {
           id: 'soy',
+          phrase: 'с соевым фаршем',
           label: 'Соевый фарш',
           group: 'protein',
           ingredients: [i('soy', 40)],
@@ -353,6 +382,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
         },
         {
           id: 'mince',
+          phrase: 'с фаршем · с берега',
           label: 'Свежий фарш · с берега',
           group: 'protein',
           shore: true,
@@ -364,6 +394,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
         },
         {
           id: 'cheese',
+          phrase: 'с сыром · с берега',
           label: 'Сыр · с берега',
           group: 'protein',
           shore: true,

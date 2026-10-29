@@ -2248,6 +2248,11 @@ for (const product of products) {
                   : 'Добавки';
 }
 export const recipeById = Object.fromEntries(recipes.map((r) => [r.id, r]));
+// Generators are the chapters of the cookbook, in their editorial order.
+export const generators = recipes
+  .filter((r) => r.generator?.chapter)
+  .sort((a, b) => a.generator.chapter.order - b.generator.chapter.order);
+export const generatorBySlug = Object.fromEntries(generators.map((r) => [r.generator.slug, r]));
 export const starterPantry = [
   'rice',
   'pasta',

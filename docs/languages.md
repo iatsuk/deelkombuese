@@ -11,7 +11,7 @@ The pure `selectLanguage` function applies this precedence:
 3. The first supported entry in `navigator.languages`.
 4. English.
 
-The language selector retains the current query parameters and hash. An explicit supported choice is remembered when storage is available; blocked storage does not prevent selecting a language through the URL. Language detection is local and is not sent to a translation service.
+The language selector retains the current query parameters and hash, so a chapter link with its base, modules and substitutions (`#generators/pasta?base=risottoRice&with=sauce-cream`) opens the same dish in every language. An explicit supported choice is remembered when storage is available; blocked storage does not prevent selecting a language through the URL. Language detection is local and is not sent to a translation service.
 
 The interface changes `html[lang]` and translates the document title and accessible labels. Legal documents have generated language-specific paths under `impressum/` and `datenschutz/`, with links back to the matching application language.
 
