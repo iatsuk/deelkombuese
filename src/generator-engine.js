@@ -120,8 +120,11 @@ export function generatedSteps(recipe, prepared) {
   });
 }
 
-// Passage profiles are keyed by day (pasta dinners rotate) or by meal (eggs at breakfast).
+// Passage profiles are keyed by day and meal ('4-breakfast'), by day (pasta dinners
+// rotate) or by meal (eggs at breakfast), with a default.
 export function tripProfile(recipe, day, slot) {
   const profiles = recipe.generator?.tripProfiles;
-  return profiles ? profiles[day] || profiles[slot] || profiles.default : null;
+  return profiles
+    ? profiles[`${day}-${slot}`] || profiles[day] || profiles[slot] || profiles.default
+    : null;
 }

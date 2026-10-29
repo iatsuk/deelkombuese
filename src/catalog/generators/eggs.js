@@ -58,6 +58,8 @@ export function createEggGenerator({ r, i }) {
     [],
     {
       kind: 'generator',
+      // Dish kinds the chapter covers in the recipe filter.
+      kinds: ['eggs'],
       vessel: 'pan',
       meal: 'breakfast',
       mealTags: ['breakfast', 'main'],
@@ -126,7 +128,7 @@ export function createEggGenerator({ r, i }) {
             time: 7,
             active: 5,
             water: 0,
-            bowl: true,
+            utensils: ['миска для смешивания'],
             steps: [
               {
                 phase: 'eggs',
@@ -142,7 +144,7 @@ export function createEggGenerator({ r, i }) {
             time: 13,
             active: 4,
             water: 0,
-            bowl: true,
+            utensils: ['миска для смешивания'],
             steps: [
               {
                 phase: 'eggs',
@@ -159,7 +161,7 @@ export function createEggGenerator({ r, i }) {
             active: 8,
             water: 30,
             minWater: 30,
-            bowl: true,
+            utensils: ['миска для смешивания'],
             noSubstitutes: ['crispbread'],
             requires: ['bread'],
             reason: 'Гренки делают из хлеба: выберите «с хлебом».',

@@ -3,6 +3,7 @@ import { expandRecipeLibrary } from './recipe-library.js';
 import { createPastaGenerator } from './catalog/generators/pasta.js';
 import { createEggGenerator } from './catalog/generators/eggs.js';
 import { createNoCookGenerator } from './catalog/generators/no-cook.js';
+import { createBatterGenerator } from './catalog/generators/batter.js';
 // Storage periods are editorial rotation estimates, not results of yacht storage trials.
 export const sources = [
   {
@@ -1545,27 +1546,6 @@ export const recipes = [
     { tone: 'brown', satiety: '2–4 ч' },
   ),
   r(
-    'flatbread',
-    'Лепёшка на сковороде',
-    'flour',
-    18,
-    10,
-    'Мука, вода и масло. Когда хлеб на берегу уже закончился.',
-    [i('flour', 100), oil()],
-    60,
-    [
-      'Смешайте муку, питьевую воду, масло и щепотку соли прямо в холодной чистой сковороде. Замесите ложкой, затем руками; сырое тесто не пробуйте.',
-      'Выньте тесто на чистую тарелку, дайте отдохнуть 5 минут и разделите на две тонкие лепёшки. Эта версия требует тарелку для подготовки.',
-      'На сухой разогретой сковороде выпекайте по 2–3 минуты с каждой стороны. Лепёшки должны пропечься внутри.',
-    ],
-    {
-      tone: 'brown',
-      vessel: 'pan',
-      satiety: '2–3 ч',
-      tip: 'Лепёшка — основа, а не полноценный обед. Добавьте белок, например маленькую банку рыбы.',
-    },
-  ),
-  r(
     'chili-con',
     'Чили кон карне',
     'legumes',
@@ -1617,7 +1597,6 @@ for (const recipe of recipes) {
   }
 }
 recipes.find((r) => r.id === 'oatmeal').meal = 'breakfast';
-recipes.find((r) => r.id === 'flatbread').meal = 'snack';
 
 for (const id of ['curry', 'dal']) {
   const recipe = recipes.find((r) => r.id === id);
@@ -1693,6 +1672,7 @@ recipes.unshift(
   createEggGenerator({ r, i }),
   createPastaGenerator({ r, i, tomato, fish }),
   createNoCookGenerator({ r, i, fish }),
+  createBatterGenerator({ r, i, fish }),
 );
 const absorptionRecipes = new Set([
   'buckwheat-stew',
@@ -1737,6 +1717,25 @@ export const recipeMigrations = {
     choices: { bread: 'beans' },
     choiceMap: { beans: 'bread' },
   },
+  // Pan batters became the batter chapter; each former recipe is a base of its own.
+  pancakes: { recipeId: 'batter-generator', modules: [], choices: { technique: 'crepes' } },
+  fritters: { recipeId: 'batter-generator', modules: [], choices: { technique: 'fritters' } },
+  'oat-fritters': {
+    recipeId: 'batter-generator',
+    modules: [],
+    choices: { technique: 'oat-fritters' },
+  },
+  'oat-cutlets': {
+    recipeId: 'batter-generator',
+    modules: [],
+    choices: { technique: 'oat-cutlets' },
+  },
+  'potato-pancakes': {
+    recipeId: 'batter-generator',
+    modules: [],
+    choices: { technique: 'potato-pancakes' },
+  },
+  flatbread: { recipeId: 'batter-generator', modules: [], choices: { technique: 'flatbread' } },
 };
 
 export const productFamilies = [
@@ -1863,7 +1862,11 @@ for (const recipe of recipes) {
     });
   for (const ingredient of [
     ...recipe.ingredients,
-    ...recipe.modules.flatMap((m) => m.ingredients),
+    ...(recipe.generator?.bases || []).flatMap((base) => base.ingredients || []),
+    ...recipe.modules.flatMap((m) => [
+      ...m.ingredients,
+      ...Object.values(m.ingredientsByBase || {}).flat(),
+    ]),
   ]) {
     const family = productFamilies.find((f) => f.members.includes(ingredient.id));
     if (!family) continue;

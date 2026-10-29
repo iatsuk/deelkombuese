@@ -1,0 +1,688 @@
+[
+ {
+  "id": "potato-pancakes",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 14,
+  "water": 0,
+  "yieldGrams": 340,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "flour": "25 г",
+   "driedOnion": "4 г",
+   "oil": "15 мл"
+  }
+ },
+ {
+  "id": "potato-pancakes",
+  "modules": [
+   "garlic"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 14,
+  "water": 0,
+  "yieldGrams": 350,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "flour": "25 г",
+   "driedOnion": "4 г",
+   "oil": "15 мл",
+   "driedGarlic": "0.25 ч. л."
+  }
+ },
+ {
+  "id": "potato-pancakes",
+  "modules": [
+   "garlic"
+  ],
+  "choices": {
+   "driedGarlic": "garlic"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 14,
+  "water": 0,
+  "yieldGrams": 350,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "flour": "25 г",
+   "driedOnion": "4 г",
+   "oil": "15 мл",
+   "garlic": "2 зубчик"
+  }
+ },
+ {
+  "id": "potato-pancakes",
+  "modules": [
+   "fish"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 14,
+  "water": 0,
+  "yieldGrams": 460,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "flour": "25 г",
+   "driedOnion": "4 г",
+   "oil": "15 мл",
+   "tuna": "112 г"
+  }
+ },
+ {
+  "id": "potato-pancakes",
+  "modules": [
+   "fish"
+  ],
+  "choices": {
+   "tuna": "sardines"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 14,
+  "water": 0,
+  "yieldGrams": 430,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "flour": "25 г",
+   "driedOnion": "4 г",
+   "oil": "15 мл",
+   "sardines": "90 г"
+  }
+ },
+ {
+  "id": "potato-pancakes",
+  "modules": [],
+  "choices": {
+   "driedOnion": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 14,
+  "water": 0,
+  "yieldGrams": 420,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "flour": "25 г",
+   "onion": "1 шт.",
+   "oil": "15 мл"
+  }
+ },
+ {
+  "id": "pancakes",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 14,
+  "water": 180,
+  "yieldGrams": 280,
+  "shore": false,
+  "ingredients": {
+   "flour": "90 г",
+   "eggs": "1 шт.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "pancakes",
+  "modules": [
+   "milk"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 14,
+  "water": 180,
+  "yieldGrams": 300,
+  "shore": false,
+  "ingredients": {
+   "flour": "90 г",
+   "eggs": "1 шт.",
+   "oil": "10 мл",
+   "milkPowder": "20 г"
+  }
+ },
+ {
+  "id": "pancakes",
+  "modules": [
+   "milk"
+  ],
+  "choices": {
+   "milkPowder": "milk"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 14,
+  "water": 0,
+  "yieldGrams": 240,
+  "shore": false,
+  "ingredients": {
+   "flour": "55 г",
+   "eggs": "1 шт.",
+   "oil": "6.25 мл",
+   "milk": "125 мл"
+  }
+ },
+ {
+  "id": "pancakes",
+  "modules": [
+   "honey"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 14,
+  "water": 180,
+  "yieldGrams": 300,
+  "shore": false,
+  "ingredients": {
+   "flour": "90 г",
+   "eggs": "1 шт.",
+   "oil": "10 мл",
+   "honey": "20 г"
+  }
+ },
+ {
+  "id": "pancakes",
+  "modules": [
+   "jam"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 14,
+  "water": 180,
+  "yieldGrams": 310,
+  "shore": false,
+  "ingredients": {
+   "flour": "90 г",
+   "eggs": "1 шт.",
+   "oil": "10 мл",
+   "jam": "25 г"
+  }
+ },
+ {
+  "id": "pancakes",
+  "modules": [
+   "ham-cheese"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 16,
+  "water": 180,
+  "yieldGrams": 480,
+  "shore": true,
+  "ingredients": {
+   "flour": "90 г",
+   "eggs": "1 шт.",
+   "oil": "10 мл",
+   "ham": "100 г",
+   "cheese": "100 г"
+  }
+ },
+ {
+  "id": "pancakes",
+  "modules": [],
+  "choices": {
+   "eggs": "eggsCold"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 14,
+  "water": 180,
+  "yieldGrams": 280,
+  "shore": true,
+  "ingredients": {
+   "flour": "90 г",
+   "eggsCold": "1 шт.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "fritters",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 10,
+  "water": 120,
+  "yieldGrams": 200,
+  "shore": false,
+  "ingredients": {
+   "flour": "100 г",
+   "bakingPowder": "4 г",
+   "oil": "15 мл"
+  }
+ },
+ {
+  "id": "fritters",
+  "modules": [
+   "milk"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 10,
+  "water": 120,
+  "yieldGrams": 220,
+  "shore": false,
+  "ingredients": {
+   "flour": "100 г",
+   "bakingPowder": "4 г",
+   "oil": "15 мл",
+   "milkPowder": "15 г"
+  }
+ },
+ {
+  "id": "fritters",
+  "modules": [
+   "milk"
+  ],
+  "choices": {
+   "milkPowder": "milk"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 10,
+  "water": 0,
+  "yieldGrams": 230,
+  "shore": false,
+  "ingredients": {
+   "flour": "85 г",
+   "bakingPowder": "3.33 г",
+   "oil": "12.5 мл",
+   "milk": "125 мл"
+  }
+ },
+ {
+  "id": "fritters",
+  "modules": [
+   "honey"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 10,
+  "water": 120,
+  "yieldGrams": 220,
+  "shore": false,
+  "ingredients": {
+   "flour": "100 г",
+   "bakingPowder": "4 г",
+   "oil": "15 мл",
+   "honey": "20 г"
+  }
+ },
+ {
+  "id": "fritters",
+  "modules": [
+   "jam"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 10,
+  "water": 120,
+  "yieldGrams": 230,
+  "shore": false,
+  "ingredients": {
+   "flour": "100 г",
+   "bakingPowder": "4 г",
+   "oil": "15 мл",
+   "jam": "25 г"
+  }
+ },
+ {
+  "id": "fritters",
+  "modules": [
+   "ham-cheese"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 21,
+  "active": 12,
+  "water": 120,
+  "yieldGrams": 400,
+  "shore": true,
+  "ingredients": {
+   "flour": "100 г",
+   "bakingPowder": "4 г",
+   "oil": "15 мл",
+   "ham": "100 г",
+   "cheese": "100 г"
+  }
+ },
+ {
+  "id": "oat-fritters",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 12,
+  "water": 160,
+  "yieldGrams": 230,
+  "shore": false,
+  "ingredients": {
+   "oats": "70 г",
+   "flour": "30 г",
+   "bakingPowder": "3 г",
+   "oil": "15 мл"
+  }
+ },
+ {
+  "id": "oat-fritters",
+  "modules": [
+   "sweet"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 12,
+  "water": 160,
+  "yieldGrams": 270,
+  "shore": false,
+  "ingredients": {
+   "oats": "70 г",
+   "flour": "30 г",
+   "bakingPowder": "3 г",
+   "oil": "15 мл",
+   "raisins": "20 г",
+   "honey": "15 г"
+  }
+ },
+ {
+  "id": "oat-fritters",
+  "modules": [
+   "corn"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 28,
+  "active": 14,
+  "water": 140,
+  "yieldGrams": 360,
+  "shore": false,
+  "ingredients": {
+   "oats": "70 г",
+   "flour": "30 г",
+   "bakingPowder": "3 г",
+   "oil": "15 мл",
+   "corn": "140 г",
+   "driedOnion": "4 г"
+  }
+ },
+ {
+  "id": "oat-fritters",
+  "modules": [
+   "corn"
+  ],
+  "choices": {
+   "driedOnion": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 28,
+  "active": 14,
+  "water": 140,
+  "yieldGrams": 440,
+  "shore": false,
+  "ingredients": {
+   "oats": "70 г",
+   "flour": "30 г",
+   "bakingPowder": "3 г",
+   "oil": "15 мл",
+   "corn": "140 г",
+   "onion": "1 шт."
+  }
+ },
+ {
+  "id": "oat-fritters",
+  "modules": [
+   "milk"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 12,
+  "water": 160,
+  "yieldGrams": 250,
+  "shore": false,
+  "ingredients": {
+   "oats": "70 г",
+   "flour": "30 г",
+   "bakingPowder": "3 г",
+   "oil": "15 мл",
+   "milkPowder": "15 г"
+  }
+ },
+ {
+  "id": "oat-fritters",
+  "modules": [
+   "milk"
+  ],
+  "choices": {
+   "milkPowder": "milk"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 12,
+  "water": 21,
+  "yieldGrams": 240,
+  "shore": false,
+  "ingredients": {
+   "oats": "60 г",
+   "flour": "25 г",
+   "bakingPowder": "2.5 г",
+   "oil": "12.5 мл",
+   "milk": "125 мл"
+  }
+ },
+ {
+  "id": "oat-cutlets",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 12,
+  "water": 130,
+  "yieldGrams": 210,
+  "shore": false,
+  "ingredients": {
+   "oats": "80 г",
+   "flour": "20 г",
+   "driedOnion": "5 г",
+   "paprika": "0.5 ч. л.",
+   "oil": "15 мл"
+  }
+ },
+ {
+  "id": "oat-cutlets",
+  "modules": [
+   "fish"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 12,
+  "water": 110,
+  "yieldGrams": 310,
+  "shore": false,
+  "ingredients": {
+   "oats": "80 г",
+   "flour": "20 г",
+   "driedOnion": "5 г",
+   "paprika": "0.5 ч. л.",
+   "oil": "15 мл",
+   "tuna": "112 г"
+  }
+ },
+ {
+  "id": "oat-cutlets",
+  "modules": [
+   "fish"
+  ],
+  "choices": {
+   "tuna": "sardines"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 12,
+  "water": 110,
+  "yieldGrams": 290,
+  "shore": false,
+  "ingredients": {
+   "oats": "80 г",
+   "flour": "20 г",
+   "driedOnion": "5 г",
+   "paprika": "0.5 ч. л.",
+   "oil": "15 мл",
+   "sardines": "90 г"
+  }
+ },
+ {
+  "id": "oat-cutlets",
+  "modules": [
+   "beans"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 12,
+  "water": 110,
+  "yieldGrams": 330,
+  "shore": false,
+  "ingredients": {
+   "oats": "80 г",
+   "flour": "20 г",
+   "driedOnion": "5 г",
+   "paprika": "0.5 ч. л.",
+   "oil": "15 мл",
+   "beans": "130 г"
+  }
+ },
+ {
+  "id": "oat-cutlets",
+  "modules": [
+   "beans"
+  ],
+  "choices": {
+   "beans": "chickpeas"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 12,
+  "water": 110,
+  "yieldGrams": 330,
+  "shore": false,
+  "ingredients": {
+   "oats": "80 г",
+   "flour": "20 г",
+   "driedOnion": "5 г",
+   "paprika": "0.5 ч. л.",
+   "oil": "15 мл",
+   "chickpeas": "130 г"
+  }
+ },
+ {
+  "id": "oat-cutlets",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 12,
+  "water": 130,
+  "yieldGrams": 210,
+  "shore": false,
+  "ingredients": {
+   "oats": "80 г",
+   "flour": "20 г",
+   "driedOnion": "5 г",
+   "paprika": "0.5 ч. л.",
+   "oil": "15 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "oat-cutlets",
+  "modules": [],
+  "choices": {
+   "driedOnion": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 12,
+  "water": 130,
+  "yieldGrams": 290,
+  "shore": false,
+  "ingredients": {
+   "oats": "80 г",
+   "flour": "20 г",
+   "onion": "1 шт.",
+   "paprika": "0.5 ч. л.",
+   "oil": "15 мл"
+  }
+ },
+ {
+  "id": "flatbread",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 18,
+  "active": 10,
+  "water": 60,
+  "yieldGrams": 150,
+  "shore": false,
+  "ingredients": {
+   "flour": "100 г",
+   "oil": "10 мл"
+  }
+ }
+]

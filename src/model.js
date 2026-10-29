@@ -51,7 +51,7 @@ export function filterRecipes(
       (mode === 'shore' || !recipe.shore) &&
       recipeHasMeal(recipe, meal) &&
       recipeHasBase(recipe, base) &&
-      (kind === 'all' || recipe.kind === kind),
+      (kind === 'all' || recipe.kind === kind || recipe.kinds?.includes(kind)),
   );
 }
 
@@ -111,15 +111,26 @@ export function optionBlocked(recipe, choices = {}, moduleIds = [], optionId) {
   );
   return issue?.reason || null;
 }
+// The recipe's own ingredients and those every generator base brings, whichever is chosen.
+export function coreIngredients(recipe) {
+  return [
+    ...recipe.ingredients,
+    ...(recipe.generator?.bases || []).flatMap((base) => base.ingredients || []),
+  ];
+}
 export function effectiveIngredients(recipe, moduleIds = [], choices = null) {
+  // A generator base may bring its own ingredients (a batter), and a module may use other
+  // amounts with some bases (more milk powder for thin pancakes).
+  const profile = recipe.generator ? generatorProfile(recipe, choices || {}) : null;
   const items = [
     ...recipe.ingredients,
+    ...(profile?.ingredients || []),
     ...selectedRecipeModules(recipe, moduleIds).flatMap((m) =>
-      m.ingredients.map((i) => ({ ...i, moduleId: m.id })),
+      (m.ingredientsByBase?.[profile?.id] || m.ingredients).map((i) => ({ ...i, moduleId: m.id })),
     ),
   ];
   // A generator technique can rule out a substitute: crispbread does not soak up egg.
-  const excluded = choices && recipe.generator && generatorProfile(recipe, choices).noSubstitutes;
+  const excluded = choices && profile?.noSubstitutes;
   return excluded
     ? items.map((i) => ({
         ...i,
@@ -131,9 +142,9 @@ export function effectiveIngredients(recipe, moduleIds = [], choices = null) {
 export function resolveIngredient(ingredient, chosenId) {
   return ingredient.alternatives.find((a) => a.id === chosenId) || ingredient;
 }
-export function availableRecipe(recipe, pantry, moduleIds = []) {
+export function availableRecipe(recipe, pantry, moduleIds = [], choices = {}) {
   const inventory = new Set(pantry);
-  return effectiveIngredients(recipe, moduleIds).every(
+  return effectiveIngredients(recipe, moduleIds, choices).every(
     (i) => inventory.has(i.id) || i.alternatives.some((a) => inventory.has(a.id)),
   );
 }
@@ -377,43 +388,55 @@ export function recipeSteps(recipe, choices = {}, moduleIds = [], prepared = nul
 
 export function recipeProductIds(recipe, includeModules = true) {
   const ingredients = [
-    ...recipe.ingredients,
-    ...(includeModules ? (recipe.modules || []).flatMap((m) => m.ingredients) : []),
+    ...coreIngredients(recipe),
+    ...(includeModules
+      ? (recipe.modules || []).flatMap((m) => [
+          ...m.ingredients,
+          ...Object.values(m.ingredientsByBase || {}).flat(),
+        ])
+      : []),
   ];
   return [...new Set(ingredients.flatMap((i) => [i.id, ...i.alternatives.map((a) => a.id)]))];
 }
 export function recipeMatches(recipe, selectedIds = []) {
   if (!selectedIds.every((id) => recipeProductIds(recipe).includes(id))) return false;
   const inferred = choicesForSelection(recipe, selectedIds);
-  const ids = effectiveIngredients(recipe, inferred.modules).map(
+  const ids = effectiveIngredients(recipe, inferred.modules, inferred.choices).map(
     (i) => resolveIngredient(i, inferred.choices[i.id]).id,
   );
   return selectedIds.every((id) => ids.includes(id));
 }
 export function choicesForSelection(recipe, selectedIds = [], pantry = []) {
+  const has = (id) => (i) => i.id === id || i.alternatives.some((a) => a.id === id);
   const modules = [];
-  const choices = {};
   for (const id of selectedIds) {
-    if (!recipe.ingredients.some((i) => i.id === id || i.alternatives.some((a) => a.id === id))) {
-      const module = recipe.modules?.find((m) =>
-        m.ingredients.some((i) => i.id === id || i.alternatives.some((a) => a.id === id)),
-      );
+    if (!coreIngredients(recipe).some(has(id))) {
+      const module = recipe.modules?.find((m) => m.ingredients.some(has(id)));
       if (module) modules.push(module.id);
     }
   }
-  for (const i of effectiveIngredients(recipe, modules)) {
-    const chosen =
-      selectedIds.find((id) => id === i.id || i.alternatives.some((a) => a.id === id)) ||
-      (!pantry.includes(i.id) && i.alternatives.find((a) => pantry.includes(a.id))?.id);
-    if (chosen && chosen !== i.id) choices[i.id] = chosen;
-  }
   const unique = [...new Set(modules)];
-  // A generator takes the first base that keeps every inferred option within its rules.
+  // Substitutes the reader picked or keeps in the pantry instead of the listed product.
+  const substitutes = (base) => {
+    const choices = { ...base };
+    for (const i of effectiveIngredients(recipe, unique, base)) {
+      const chosen =
+        selectedIds.find((id) => has(id)(i)) ||
+        (!pantry.includes(i.id) && i.alternatives.find((a) => pantry.includes(a.id))?.id);
+      if (chosen && chosen !== i.id) choices[i.id] = chosen;
+    }
+    return choices;
+  };
+  const choices = substitutes({});
+  // A generator takes the first base that keeps every inferred option within its rules;
+  // a base that brings a picked product of its own comes first (oats → oat fritters).
   if (recipe.generator) {
     const { bases, choiceKey } = recipe.generator;
     const inferred = bases.find((base) => base.id === choices[choiceKey]);
-    for (const base of inferred ? [inferred] : bases) {
-      const candidate = { ...choices, [choiceKey]: base.id };
+    const owns = (base) =>
+      selectedIds.filter((id) => (base.ingredients || []).some(has(id))).length;
+    for (const base of inferred ? [inferred] : [...bases].sort((a, b) => owns(b) - owns(a))) {
+      const candidate = substitutes({ ...choices, [choiceKey]: base.id });
       const valid = normalizeSelection(recipe, candidate, unique);
       if (
         unique.every((id) => valid.includes(id)) &&

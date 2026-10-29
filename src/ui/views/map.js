@@ -21,7 +21,8 @@ export function renderMap({ state, catalog }) {
         return (
           (!state.quick ||
             prepareRecipe(r, inferred.choices, {}, null, inferred.modules).time <= 20) &&
-          (!state.pantryOnly || availableRecipe(r, state.pantry, inferred.modules))
+          (!state.pantryOnly ||
+            availableRecipe(r, state.pantry, inferred.modules, inferred.choices))
         );
       }).length;
       return [p.id, count];

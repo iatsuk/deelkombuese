@@ -152,6 +152,8 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
     [],
     {
       kind: 'generator',
+      // Dish kinds the chapter covers in the recipe filter.
+      kinds: ['pasta'],
       tone: 'green',
       template: {
         core: ['pasta'],

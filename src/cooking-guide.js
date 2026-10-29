@@ -138,7 +138,8 @@ export function cookingBasics(recipe, prepared) {
     tips.push(
       `Консервы без заливки в этом рецепте: ${drained.join(', ')}. «Без жидкости» — слейте заливку, придерживая содержимое ложкой или крышкой. В блюдо идёт всё содержимое без заливки.`,
     );
-  if (ids.has('potato') && recipe.id !== 'potato-pancakes')
+  // Grated potatoes (potato pancakes) need no advice on dicing.
+  if (ids.has('potato') && !prepared.generator?.profile.grated)
     tips.push(
       'Кубики картофеля до 1 см — примерно с ноготь большого пальца. Крупные куски готовятся дольше указанного времени.',
     );
@@ -154,12 +155,7 @@ export function recipeUtensils(recipe, prepared) {
         : ['кастрюля с крышкой', 'ложка'];
   if (recipe.grainCooking || prepared.generator?.profile.absorption)
     items.push('сухая кружка или стакан для мерки');
-  if (
-    prepared.generator?.profile.bowl ||
-    (recipe.vessel === 'pan' && recipe.id === 'pancakes') ||
-    ['fritters', 'oat-fritters', 'oat-cutlets', 'potato-pancakes'].includes(recipe.id)
-  )
-    items.push('миска для смешивания');
-  if (recipe.id === 'potato-pancakes') items.push('тёрка');
+  // A generator base names what its technique needs beyond the vessel: a bowl, a grater.
+  items.push(...(prepared.generator?.profile.utensils || []));
   return items;
 }

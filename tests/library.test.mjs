@@ -13,12 +13,12 @@ import { tripCandidates, buildTrip } from '../src/planner.js';
 
 test('Единый завтрак включает яйца и хлеб, а овсянка является отдельной основой', () => {
   const breakfasts = filterRecipes(recipes, { meal: 'breakfast' }).map((r) => r.id);
-  for (const id of ['oatmeal', 'eggs-generator', 'pancakes', 'fritters', 'oat-fritters'])
+  for (const id of ['oatmeal', 'eggs-generator', 'batter-generator'])
     assert.ok(breakfasts.includes(id), id);
   assert.equal(bases.find((b) => b.id === 'oats').name, 'Овсянка');
   assert.ok(!bases.some((b) => /завтрак/i.test(b.name)));
   const oats = filterRecipes(recipes, { meal: 'breakfast', base: 'oats' }).map((r) => r.id);
-  assert.ok(oats.includes('oat-fritters'));
+  assert.ok(oats.includes('batter-generator'));
   assert.ok(!oats.includes('eggs-generator'));
   for (const id of breakfasts)
     if (!recipeById[id].eggConditional)
@@ -85,22 +85,19 @@ test('Прежние записи пасты и болоньезе сохран�
   }
 });
 test('Овсянка и картофель имеют несколько техник, варианты без яиц доступны в море', () => {
-  for (const id of [
-    'oat-fritters',
-    'oat-cutlets',
-    'savory-oats',
-    'pan-muesli',
-    'fritters',
-    'potato-pancakes',
-    'potato-mash',
-    'potato-skillet',
-  ]) {
+  for (const id of ['savory-oats', 'pan-muesli', 'potato-mash', 'potato-skillet']) {
     const p = prepareRecipe(recipeById[id]);
     assert.equal(p.eggConditional, false, id);
     assert.equal(p.shore, false, id);
   }
+  for (const technique of ['oat-fritters', 'oat-cutlets', 'fritters', 'potato-pancakes']) {
+    const p = prepareRecipe(recipeById['batter-generator'], { technique });
+    assert.equal(p.eggConditional, false, technique);
+    assert.equal(p.shore, false, technique);
+  }
   assert.ok(prepareRecipe(recipeById['potato-skillet'], {}, {}, null, ['eggs']).eggConditional);
-  assert.ok(filterRecipes(recipes, { base: 'oats' }).length >= 6);
+  // A chapter counts once, however many oat batters it has.
+  assert.ok(filterRecipes(recipes, { base: 'oats' }).length >= 4);
   assert.ok(filterRecipes(recipes, { base: 'potato' }).length >= 7);
   const plan = buildTrip({ days: 7 });
   assert.ok(plan.items.some((i) => i.id === 'bakingPowder'));

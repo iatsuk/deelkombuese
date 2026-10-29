@@ -89,7 +89,7 @@ export function createCatalog(state) {
         (!state.pantryOnly ||
           (favoriteView
             ? prepared.ingredients.every((i) => state.pantry.includes(i.id))
-            : availableRecipe(r, state.pantry, selected.modules))) &&
+            : availableRecipe(r, state.pantry, selected.modules, selected.choices))) &&
         (!q ||
           searchText([
             r.title,
@@ -115,7 +115,7 @@ export function createCatalog(state) {
     const favoriteView = state.view === 'recipes' && state.favoritesOnly,
       favorite = favoriteView || state.favorites.some((f) => f.recipeId === r.id),
       cardId = (favoriteView && r.favoriteKey) || r.id;
-    const possible = availableRecipe(r, state.pantry, selected.modules);
+    const possible = availableRecipe(r, state.pantry, selected.modules, selected.choices);
     return `<article class="recipe-card-shell"><button class="recipe-card ${r.tone} ${compact ? 'compact' : ''}" data-action="${favoriteView ? 'favorite-recipe' : 'recipe'}" data-id="${cardId}">
     <span class="recipe-card-top"><span class="dish-icon">${icon(recipeGlyph(r))}</span><span class="recipe-kind">${r.generator ? 'Конструктор' : r.shore ? 'С берега' : r.vessel === 'cold' ? 'Без плиты' : r.meal === 'breakfast' ? (r.mealTags?.includes('main') ? 'Завтрак / обед' : 'Завтрак') : r.vessel === 'pan' ? 'На сковороде' : 'Одна кастрюля'}</span></span>
     <strong>${favoriteView || searchedDish(r) ? prepared.title : r.title}</strong><span class="recipe-desc">${favoriteView && prepared.modules.length ? prepared.modules.map((m) => m.label).join(' · ') : r.desc}</span>

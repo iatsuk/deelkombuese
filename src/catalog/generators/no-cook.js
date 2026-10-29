@@ -76,6 +76,8 @@ export function createNoCookGenerator({ r, i, fish }) {
     [],
     {
       kind: 'generator',
+      // Dish kinds the chapter covers in the recipe filter.
+      kinds: ['snack', 'bread'],
       vessel: 'cold',
       meal: 'snack',
       mealTags: ['snack', 'breakfast'],

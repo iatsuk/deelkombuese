@@ -8,13 +8,13 @@ import {
   recipeTitle,
   normalizeSelection,
 } from './model.js';
-import { tripProfile } from './generator-engine.js';
+import { tripProfile, generatorProfile } from './generator-engine.js';
 
 const breakfast = [
   'oatmeal',
-  'fritters',
+  'batter-generator',
   'no-cook-generator',
-  'oat-fritters',
+  'batter-generator',
   'savory-oats',
   'pan-muesli',
   'oatmeal',
@@ -59,7 +59,16 @@ export function tripCandidates(slot, day, includeEggs = false) {
 function tripEntry(recipe, day, slot, includeEggs) {
   const choices = {};
   const modules = [];
-  for (const i of recipe.ingredients) {
+  const profile = tripProfile(recipe, day, slot);
+  if (profile) {
+    modules.push(...profile.modules);
+    Object.assign(choices, profile.choices);
+  }
+  // Shelf-stable forms for a passage, for the recipe's own ingredients and those of the
+  // generator base the profile chose; the profile's own choices stay.
+  const own = recipe.generator ? generatorProfile(recipe, choices).ingredients || [] : [];
+  for (const i of [...recipe.ingredients, ...own]) {
+    if (i.id in choices) continue;
     const preferred =
       i.id === 'carrot'
         ? 'driedCarrot'
@@ -77,13 +86,6 @@ function tripEntry(recipe, day, slot, includeEggs) {
                     ? 'crispbread'
                     : null;
     if (preferred && i.alternatives.some((a) => a.id === preferred)) choices[i.id] = preferred;
-  }
-  if (recipe.id === 'fritters' && slot === 'breakfast') modules.push('honey');
-  if (recipe.id === 'oat-fritters' && slot === 'breakfast') modules.push('sweet');
-  const profile = tripProfile(recipe, day, slot);
-  if (profile) {
-    modules.push(...profile.modules);
-    Object.assign(choices, profile.choices);
   }
   if (recipe.id === 'potato-skillet') modules.push('beans');
   if (recipe.id === 'cabbage-soup') modules.push('rinse');
