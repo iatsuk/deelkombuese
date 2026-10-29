@@ -122,6 +122,17 @@ dialog.recipe-sheet {
   margin-block: 0;
   border-radius: 10px;
 }
+/* Sources under a safety notice (the thermos). */
+.detail-notice .notice-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 16px;
+  margin-top: 6px;
+}
+.notice-sources a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
 .recipe-main > .detail-notice + .detail-notice {
   margin-top: 12px;
 }

@@ -1,7 +1,7 @@
 import { selectionSnapshot, sameSelection, favoriteKey } from '../preferences.js';
 import { cookingBasics, recipeUtensils } from '../cooking-guide.js';
 import { cookingAction, grainDiagram } from '../cooking-visuals.js';
-import { productById } from '../data.js';
+import { productById, sources } from '../data.js';
 import { formatAmount, recipeSteps, effectiveIngredients } from '../model.js';
 import { icon } from './icons.js';
 import { renderCrew } from './crew.js';
@@ -28,6 +28,7 @@ export function renderRecipeDialog(
     const groups = [
       ['sauce', '2. Соус', 'одна основа'],
       ['style', 'Вид супа', 'можно включить или убрать'],
+      ['method', 'Способ', 'можно включить или убрать'],
       ['protein', recipe.generator ? '3. Наполнитель' : 'Наполнитель', 'один вариант или без него'],
       ['vegetables', recipe.generator ? '4. Овощи' : 'Овощи', 'можно сочетать'],
       ['finish', 'Подача', 'один вариант или без неё'],
@@ -63,6 +64,15 @@ export function renderRecipeDialog(
       : '';
   }
 
+  // Food in a thermos must stay above 60 °C; rice is left out because of Bacillus cereus.
+  function renderThermosNotice() {
+    const links = ['thermos', 'rice-cereus']
+      .map((id) => sources.find((s) => s.id === id))
+      .map((s) => `<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.title} ↗</a>`)
+      .join('');
+    return `<div class="detail-notice warning">${icon('thermos')}<div><p>Термос — не холодильник: в нём держат только горячую еду, от 60 °C. Ешьте в течение 3 часов после того, как закрыли термос. Рис так не готовим: споры Bacillus cereus переживают варку и прорастают в тёплом рисе.</p><p class="notice-sources">${links}</p></div></div>`;
+  }
+
   // The margin column of a cookbook page: what to expect before reading the method.
   function renderFacts(recipe, prepared) {
     const water = prepared.water || prepared.prepWater;
@@ -72,7 +82,7 @@ export function renderRecipeDialog(
         ? `и ≈ ${prepared.prepWater} мл на подготовку`
         : 'на готовку';
     const crew = prepared.crew;
-    return `<dl class="recipe-facts"><div class="fact-crew"><dt>Экипаж</dt><dd>${renderCrew(crew)}<small>${crew > 1 ? 'упаковки на всех' : 'один едок'}</small></dd></div><div><dt>Время</dt><dd>${prepared.time} мин<small>с выбранными добавками</small></dd></div><div><dt>${recipe.vessel === 'cold' ? 'Подготовка' : 'У плиты'}</dt><dd>${prepared.active} мин<small>${recipe.vessel === 'cold' ? 'подготовки' : 'активной готовки'}</small></dd></div><div><dt>Выход</dt><dd>≈ ${prepared.yieldGrams} г<small>${crew > 1 ? `≈ ${Math.round(prepared.yieldGrams / crew)} г на человека` : 'выход из упаковок'}</small></dd></div>${water ? `<div><dt>Вода</dt><dd>≈ ${water} мл<small>${waterNote}</small></dd></div>` : ''}<div><dt>Посуда</dt><dd class="recipe-utensils">${recipeUtensils(
+    return `<dl class="recipe-facts"><div class="fact-crew"><dt>Экипаж</dt><dd>${renderCrew(crew)}<small>${crew > 1 ? 'упаковки на всех' : 'один едок'}</small></dd></div><div><dt>Время</dt><dd>${prepared.time} мин<small>с выбранными добавками</small></dd></div><div><dt>${recipe.vessel === 'cold' ? 'Подготовка' : 'У плиты'}</dt><dd>${prepared.active} мин<small>${recipe.vessel === 'cold' ? 'подготовки' : 'активной готовки'}</small></dd></div><div><dt>Выход</dt><dd>≈ ${prepared.yieldGrams} г<small>${crew > 1 ? `≈ ${Math.round(prepared.yieldGrams / crew)} г на человека` : 'выход из упаковок'}</small></dd></div>${water ? `<div><dt>Вода</dt><dd>≈ ${water} мл<small>${waterNote}</small></dd></div>` : ''}${prepared.burner ? `<div><dt>Горелка</dt><dd>≈ ${prepared.burner} мин<small>≈ ${Math.round((prepared.burner * state.burnerRate) / 60)} г газа</small></dd></div>` : ''}<div><dt>Посуда</dt><dd class="recipe-utensils">${recipeUtensils(
       recipe,
       prepared,
     )
@@ -139,6 +149,7 @@ export function renderRecipeDialog(
   return `<article class="recipe-page"><header class="recipe-head ${r.tone}"><p class="recipe-kicker">${kicker}</p><h2>${prepared.title}</h2>${embedded ? '' : `<p class="recipe-lead">${r.desc}</p>`}</header>
     <div class="recipe-layout"><aside class="recipe-margin" aria-label="Коротко о блюде">${renderFacts(r, prepared)}${recipeTools(r, prepared)}</aside><div class="recipe-main">
     ${prepared.shore ? `<div class="detail-notice warning">${icon('sun')}<p>Охлаждённые продукты готовить сразу после покупки. Без холода максимум 2 часа суммарно, выше 32 °C — 1 час.</p></div>` : ''}
+    ${prepared.generator?.profile.thermos ? renderThermosNotice() : ''}
     ${prepared.eggConditional ? `<div class="detail-notice">${icon('egg')}<p>Для яиц проверьте возраст от кладки и историю охлаждения. Немытые неохлаждённые яйца требуют стабильной прохлады; ориентир до 18 дней от кладки не действует для жаркого рундука. Охлаждённые яйца сохранять в холоде до готовки. Белок и желток готовить полностью.</p></div>` : ''}
     ${embedded ? '' : renderRecipeModules(r, prepared)}${packageControls}${isLarge ? `<div class="detail-notice warning">${icon('person')}<p><strong>${prepared.crew > 1 ? `Выход большой: ≈ ${perPerson} г на человека.` : `Выход большой для одного приёма: примерно ${prepared.yieldGrams} г.`}</strong> Выберите меньшую упаковку или разделите готовую еду с попутчиком сейчас. Без холодильника выход этой готовки нельзя распределять на следующие вахты. Для увеличенного объёма нужны подходящая посуда и дополнительное время.${prepared.ingredients.some((i) => i.id === 'passata') && prepared.generator?.profile.id !== 'tomato' ? '<br><a class="pack-recipe-link" href="#generators/soup?base=tomato">Использовать 500 г пассаты в компактном томатном супе →</a>' : ''}</p></div>` : ''}
     <section class="detail-section ingredients-section"><h3>Состав под вашу упаковку</h3><div class="ingredient-list">${ingredientRows}${waterRows}</div>

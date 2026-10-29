@@ -54,6 +54,7 @@ function sentenceSelect(recipe, selection, part, state) {
 function renderAdditions(recipe, selection, state) {
   const inSentence = new Set(recipe.generator.sentence.map((part) => part.group).filter(Boolean));
   const groups = [
+    ['method', 'Способ'],
     ['vegetables', 'Овощи'],
     ['finish', 'Подача'],
     [null, 'Специи и добавки'],

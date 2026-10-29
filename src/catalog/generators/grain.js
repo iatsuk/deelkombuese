@@ -1,4 +1,4 @@
-import { guidedGrainSteps } from '../../cooking-guide.js';
+import { guidedGrainSteps, grainMeasuringStep } from '../../cooking-guide.js';
 
 // Grain in one pot: rice or buckwheat absorb measured water under a lid, couscous steeps off
 // the heat and savoury oats simmer in stock. A spice, one whole can and vegetables name the
@@ -9,7 +9,7 @@ const cans = ['stew', 'tuna', 'chickpeas', 'peas', 'corn'];
 const GRAIN_STEPS = [
   {
     phase: 'add',
-    when: (c) => c.base === 'oats' && cans.some((id) => c.moduleIds.has(id)),
+    when: (c) => c.base === 'oats' && !c.profile.thermos && cans.some((id) => c.moduleIds.has(id)),
     text: 'Добавьте все выбранные консервы целиком, рыбу и овощи без жидкости, и полностью прогрейте.',
   },
 ];
@@ -21,6 +21,8 @@ const grainBase = (i, id, label, phrase, time, method) => ({
   ingredients: [i(id, 90), i('oil', 10, 'мл')],
   time,
   active: 4,
+  // The grain rests 5 minutes off the heat.
+  burner: time - 5,
   water: 0,
   grainCooking: true,
   method,
@@ -28,6 +30,29 @@ const grainBase = (i, id, label, phrase, time, method) => ({
 });
 // Options that only rice and buckwheat take: they cook with the grain under the lid.
 const underTheLid = (reason) => ({ requires: ['rice', 'buckwheat'], reason });
+
+// The thermos method: the grain swells in a preheated food jar instead of over a flame, which
+// saves gas and keeps the dish hot until the watch. The water stays as on the stove; the
+// burner only boils it. Food must stay above 60 °C in the jar, so the steps say to preheat
+// it, fill it to the top and eat within three hours.
+const jar = 'пищевой термос с широким горлом, около 0,5 л на порцию';
+const preheat = {
+  phase: 'boil',
+  text: 'Прогрейте пищевой термос: налейте в него кипяток почти доверху, закройте и оставьте на 5 минут. Эту воду потом можно пустить на чай или мытьё посуды.',
+};
+const eatHot = {
+  phase: 'finish',
+  text: 'Ешьте, пока каша горячая, — в течение 3 часов после того, как закрыли термос. Если она стала лишь тёплой, доешьте сразу и в следующий раз заполняйте термос плотнее; на следующую вахту не оставляйте.',
+};
+const inThermos = (method, time, burner, steps) => ({
+  thermos: true,
+  time,
+  active: 4,
+  burner,
+  method,
+  utensils: [jar],
+  steps: [preheat, ...steps, eatHot],
+});
 
 export function createGrainGenerator({ i, r, aroma, tomato, fish, meat }) {
   return r(
@@ -96,6 +121,8 @@ export function createGrainGenerator({ i, r, aroma, tomato, fish, meat }) {
             water: 120,
             time: 10,
             active: 3,
+            // The burner only boils the water; the couscous steeps off the heat.
+            burner: 5,
             tip: 'Кускус не равен рису по способу готовки: его запаривают после выключения огня.',
             steps: [
               {
@@ -317,6 +344,89 @@ export function createGrainGenerator({ i, r, aroma, tomato, fish, meat }) {
           extraMinutes: 3,
           extraActive: 3,
           ...underTheLid('Морковь обжаривают и томят с рисом или гречкой под крышкой.'),
+          excludes: ['thermos'],
+        },
+        {
+          id: 'thermos',
+          label: 'В термосе',
+          group: 'method',
+          ingredients: [],
+          // Boiling water to preheat the jar; it can go on into tea or the washing-up.
+          prepWater: 300,
+          requires: ['buckwheat', 'couscous', 'oats'],
+          reason:
+            'Рис в термосе не готовим: споры Bacillus cereus переживают варку и прорастают в тёплом рисе. Рис варите на плите.',
+          byBase: {
+            buckwheat: inThermos(
+              'Гречка с кипятком доходит в прогретом термосе за час-полтора: горелка нужна только вскипятить воду.',
+              70,
+              8,
+              [
+                { phase: 'boil', text: (c) => grainMeasuringStep(c.prepared) },
+                {
+                  phase: 'boil',
+                  text: 'Добавьте масло и всё выбранное из состава: сухие лук и специи, бульон, консервы — рыбу и овощи без заливки, мясо с соком. Доведите до кипения и кипятите 3 минуты, помешивая.',
+                },
+                {
+                  phase: 'cook',
+                  text: 'Слейте воду из термоса и сразу, за полминуты, переложите в него кипящую гречку со всей жидкостью. Заполните термос почти доверху и плотно закройте.',
+                },
+                {
+                  phase: 'cook',
+                  text: 'Оставьте на 60–90 минут, не открывая. Гречка готова, когда вода впиталась, а крупинки мягкие внутри.',
+                },
+                { phase: 'finish', text: 'Разрыхлите ложкой, попробуйте и посолите по вкусу.' },
+              ],
+            ),
+            couscous: inThermos(
+              'Кускус запаривают в прогретом термосе: он остаётся горячим до вахты.',
+              17,
+              5,
+              [
+                {
+                  phase: 'boil',
+                  text: 'В кастрюле доведите питьевую воду до кипения вместе со всеми выбранными добавками: консервы — без жидкости, сухие лук и пряности — сразу.',
+                },
+                {
+                  phase: 'cook',
+                  text: 'Слейте воду из термоса, насыпьте в него кускус, добавьте масло и сразу залейте кипящей водой со всеми добавками. Перемешайте и плотно закройте.',
+                },
+                {
+                  phase: 'cook',
+                  text: 'Оставьте на 10 минут. Проверьте соотношение воды и кускуса на упаковке: для некоторых марок нужно больше воды.',
+                },
+                { phase: 'finish', text: 'Разрыхлите ложкой, попробуйте и посолите.' },
+              ],
+            ),
+            oats: inThermos(
+              'Быстрые хлопья заливают кипящим бульоном в прогретом термосе.',
+              20,
+              5,
+              [
+                {
+                  phase: 'boil',
+                  text: 'Вскипятите воду с сухим луком и бульоном.',
+                },
+                {
+                  phase: 'boil',
+                  when: (c) => cans.some((id) => c.moduleIds.has(id)),
+                  text: 'Прогрейте в этом бульоне все выбранные консервы до кипения: рыбу и овощи — без жидкости.',
+                },
+                {
+                  phase: 'cook',
+                  text: 'Слейте воду из термоса, насыпьте в него быстрые овсяные хлопья, добавьте масло и залейте кипящим бульоном со всеми добавками. Перемешайте и плотно закройте.',
+                },
+                {
+                  phase: 'cook',
+                  text: 'Оставьте на 10–15 минут. Плотным хлопьям нужно до 30 минут и больше воды.',
+                },
+                {
+                  phase: 'finish',
+                  text: 'Перемешайте. Сначала попробуйте, затем досаливайте: бульон уже солёный.',
+                },
+              ],
+            ),
+          },
         },
         {
           id: 'aromatics',
@@ -337,7 +447,7 @@ export function createGrainGenerator({ i, r, aroma, tomato, fish, meat }) {
           label: 'Кокосовое молоко · по желанию',
           ingredients: [i('coconut', 150, 'мл')],
           requires: ['curry'],
-          excludes: ['couscous', 'oats'],
+          excludes: ['couscous', 'oats', 'thermos'],
           reason: 'Кокосовое молоко томят с рисом или гречкой в соусе карри.',
         },
         {
@@ -371,7 +481,13 @@ export function createGrainGenerator({ i, r, aroma, tomato, fish, meat }) {
           steps: [
             {
               phase: 'add',
+              when: (c) => !c.profile.thermos,
               text: 'Вмешайте весь сыр из небольшой упаковки и прогрейте. Сыр сохранять в холоде до этой готовки.',
+            },
+            {
+              phase: 'finish',
+              when: (c) => c.profile.thermos,
+              text: 'Вмешайте весь сыр в горячую овсянку, как только откроете термос. Сыр сохранять в холоде до этой готовки.',
             },
           ],
         },

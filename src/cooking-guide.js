@@ -124,7 +124,11 @@ export function guidedGrainSteps(recipe, prepared) {
 export function cookingBasics(recipe, prepared) {
   const ids = new Set(prepared.ingredients.map((i) => i.id));
   const tips = [];
-  if (recipe.vessel === 'pan')
+  if (prepared.generator?.profile.thermos)
+    tips.push(
+      'Термос держит кашу горячей, только если он прогрет кипятком, заполнен почти доверху и закрыт сразу. Неполный или холодный термос остывает до опасной для еды температуры.',
+    );
+  else if (recipe.vessel === 'pan')
     tips.push(
       'Средний огонь: масло прогрелось, но не дымится. Если снаружи уже темнеет, а внутри сыро, уменьшите нагрев и готовьте дольше.',
     );

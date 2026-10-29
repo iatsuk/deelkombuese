@@ -74,6 +74,9 @@ export function loadState(storage) {
         checked: Array.isArray(raw.checked) ? raw.checked.filter((x) => typeof x === 'string') : [],
         mode: raw.mode === 'shore' ? 'shore' : 'sea',
         crew: Math.min(4, Math.max(1, Math.round(Number(raw.crew)) || 1)),
+        // The stove's gas rate (g/h on a full flame) and kettle minutes per person per day.
+        burnerRate: Math.min(400, Math.max(50, Number(raw.burnerRate) || 150)),
+        kettleMinutes: Math.min(30, Math.max(0, Number(raw.kettleMinutes ?? 5) || 0)),
         builderMeta:
           raw.builderMeta && ['trip', 'season'].includes(raw.builderMeta.kind)
             ? {
@@ -118,6 +121,8 @@ export function saveState(storage, state) {
         checked: state.checked,
         mode: state.mode,
         crew: state.crew,
+        burnerRate: state.burnerRate,
+        kettleMinutes: state.kettleMinutes,
         builderMeta: state.builderMeta,
       }),
     );

@@ -69,6 +69,24 @@ export const sources = [
     text: 'Вода нужна для питья, готовки и гигиены; в жару расход растёт. Параметры конструктора — регулируемые предположения, не индивидуальная норма.',
   },
   {
+    id: 'gas-energy',
+    title: 'Engineering ToolBox · теплота сгорания газов',
+    url: 'https://www.engineeringtoolbox.com/gross-net-heating-values-d_420.html',
+    text: 'Низшая теплота сгорания пропана и бутана — около 46 МДж/кг. Отсюда 1 кВт мощности конфорки на полном огне сжигает примерно 80 г газа в час.',
+  },
+  {
+    id: 'thermos',
+    title: 'USDA FSIS · горячая еда в термосе',
+    url: 'https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/keeping-bag-lunches-safe',
+    text: 'Термос прогревают кипятком несколько минут, сливают воду и сразу кладут очень горячую еду. Закрытый, он должен держать её при 60 °C и выше: между 4 и 60 °C бактерии быстро размножаются.',
+  },
+  {
+    id: 'rice-cereus',
+    title: 'CFS Гонконг · Bacillus cereus в рисе',
+    url: 'https://cfs.gov.hk/english/multimedia/multimedia_pub/multimedia_pub_fsf_192_03.html',
+    text: 'Варка убивает бактерии, но не их споры. В рисе, который долго остаётся тёплым, споры прорастают и выделяют устойчивые к нагреву токсины. Еду, которую не съели сразу, держат выше 60 °C или при 4 °C и ниже.',
+  },
+  {
     id: 'milk',
     title: 'School Nutrition Association · UHT-молоко',
     url: 'https://schoolnutrition.org/wp-content/uploads/2022/09/ISS-2021-Shelf-Stable-Milk-FAQ-Online.pdf',
@@ -1298,7 +1316,7 @@ export const recipes = [
       'Варите по инструкции хлопьев, обычно 3–7 минут, помешивая. Для плотных хлопьев может понадобиться больше времени и воды.',
       'Выключите огонь. Добавьте арахис и щепотку соли. Дайте постоять 1–2 минуты.',
     ],
-    { tone: 'brown', satiety: '2–4 ч' },
+    { tone: 'brown', satiety: '2–4 ч', burner: 8 },
   ),
 ];
 for (const recipe of recipes) {

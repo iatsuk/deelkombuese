@@ -1574,3 +1574,9 @@
     padding-right: 26px;
   }
 }
+/* Gas shares the water panel's layout; copper marks the flame. */
+.gas-budget .water-heading > .icon,
+.gas-budget .water-buy > b,
+.gas-budget .water-breakdown strong {
+  color: var(--copper);
+}

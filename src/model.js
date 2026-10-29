@@ -264,6 +264,24 @@ export function prepareRecipe(
     0,
   );
   weight += water * (recipe.vessel === 'cold' ? 0 : 0.7);
+  const yieldGrams = Math.max(10, Math.round(weight / 10) * 10);
+  // Minutes with the burner lit: a base's own estimate where the dish rests or soaks off the
+  // heat, otherwise its whole time; additions that take minutes take them at the stove.
+  const hot = recipe.vessel !== 'cold';
+  const timeDeltas = resolved.reduce((n, i) => n + (i.timeDelta || 0), 0);
+  const burner = hot
+    ? (generated?.profile.burner ?? recipe.burner ?? generated?.profile.time ?? recipe.time) +
+      timeDeltas +
+      modules.reduce((n, m) => n + (m.extraBurner ?? m.extraMinutes ?? 0), 0)
+    : 0;
+  // A crew's bigger pot needs about 6 more minutes per extra kilogram to come to the boil;
+  // a pan fries in batches, so each extra person adds half the frying time.
+  const crewMinutes =
+    !hot || crew === 1
+      ? 0
+      : recipe.vessel === 'pan'
+        ? Math.round(burner * 0.5 * (crew - 1))
+        : Math.round(((yieldGrams * (crew - 1)) / crew / 1000) * 6);
   return {
     ingredients,
     crew,
@@ -272,7 +290,7 @@ export function prepareRecipe(
     anchorId: anchor?.id || null,
     scale,
     water,
-    yieldGrams: Math.max(10, Math.round(weight / 10) * 10),
+    yieldGrams,
     packaged,
     modules,
     meal: modules.find((m) => m.meal)?.meal || recipe.meal,
@@ -282,8 +300,10 @@ export function prepareRecipe(
     tip: generatedFact(recipe, generated, modules, 'tip'),
     time:
       (generated?.profile.time ?? recipe.time) +
-      resolved.reduce((n, i) => n + (i.timeDelta || 0), 0) +
-      modules.reduce((n, m) => n + (m.extraMinutes || 0), 0),
+      timeDeltas +
+      modules.reduce((n, m) => n + (m.extraMinutes || 0), 0) +
+      crewMinutes,
+    burner: burner + crewMinutes,
     active:
       (generated?.profile.active ?? recipe.active) +
       modules.reduce((n, m) => n + (m.extraActive || 0), 0),

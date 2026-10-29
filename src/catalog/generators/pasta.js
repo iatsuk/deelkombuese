@@ -208,6 +208,8 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
             minWater: 125,
             time: 26,
             active: 5,
+            // The rice rests 5 minutes off the heat.
+            burner: 21,
             method:
               'Обычный белый рис впитывает воду на слабом огне под крышкой. У арборио другая техника.',
           },

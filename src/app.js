@@ -909,6 +909,8 @@ function handleChange(event) {
             Number(event.target.max) || Infinity,
             Math.max(Number(event.target.min) || 0, Number(event.target.value) || 0),
           );
+    // The stove's gas rate and the kettle belong to the galley, not to one list.
+    if (['burnerRate', 'kettleMinutes'].includes(field)) save();
     render();
   }
   if (event.target.dataset.shoppingKey) {

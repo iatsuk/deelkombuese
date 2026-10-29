@@ -147,6 +147,39 @@ export function waterBudget(entries, options = {}) {
     buyLitres: bottles * 1.5,
   };
 }
+// Gas for a passage: the burner minutes of every dish for the crew, a kettle for hot drinks
+// (minutes per person per day) and the reserve, at the stove's rate on a full flame
+// (grams per hour; 1 kW burns about 80 g of propane or butane an hour). A low flame burns
+// less, so the estimate errs on the side of more gas.
+export function gasBudget(entries, options = {}) {
+  const days = clamp(options.days, 1, 7, 1);
+  const crew = Math.round(clamp(options.crew, 1, 4, 1));
+  const rate = clamp(options.burnerRate, 50, 400, 150);
+  const dishMinutes = entries.reduce((sum, entry) => {
+    const recipe = recipeById[entry.recipeId];
+    if (!recipe) return sum;
+    const p = prepareRecipe(recipe, entry.choices, entry.packSizes, entry.anchorId, entry.modules, {
+      crew,
+    });
+    return sum + p.burner * (entry.count || 1);
+  }, 0);
+  const kettleMinutes = days * crew * clamp(options.kettleMinutes, 0, 30, 5);
+  const grams = (minutes) => (minutes * rate) / 60;
+  const dishes = grams(dishMinutes);
+  const kettle = grams(kettleMinutes);
+  const reserve = ((dishes + kettle) * clamp(options.reservePct, 0, 100, 25)) / 100;
+  return {
+    days,
+    crew,
+    rate,
+    dishMinutes,
+    kettleMinutes,
+    dishes,
+    kettle,
+    reserve,
+    total: dishes + kettle + reserve,
+  };
+}
 function requiredInRetailUnit(item) {
   const product = productById[item.id];
   if (item.unit === 'ч. л.' && product.retail?.unit === 'г') {
@@ -257,7 +290,15 @@ export function buildTrip(options = {}) {
         })),
     ]),
   );
-  return { days, crew, entries, items, uses, water: waterBudget(entries, { ...options, days }) };
+  return {
+    days,
+    crew,
+    entries,
+    items,
+    uses,
+    water: waterBudget(entries, { ...options, days }),
+    gas: gasBudget(entries, { ...options, days }),
+  };
 }
 
 const seasonalRates = [

@@ -12,10 +12,13 @@ const sauceFractions = {
   milk: 0.9,
 };
 
-// The base is chosen through the alternatives of one core ingredient (`choiceKey`).
-export function generatorProfile(recipe, choices = {}) {
+// The base is chosen through the alternatives of one core ingredient (`choiceKey`). A method
+// option (cooking in a thermos) may override the base's technique, time and steps (`byBase`).
+export function generatorProfile(recipe, choices = {}, modules = []) {
   const { bases, choiceKey } = recipe.generator;
-  return bases.find((base) => base.id === choices[choiceKey]) || bases[0];
+  const base = bases.find((b) => b.id === choices[choiceKey]) || bases[0];
+  const overrides = modules.map((m) => m.byBase?.[base.id]).filter(Boolean);
+  return overrides.length ? Object.assign({}, base, ...overrides) : base;
 }
 
 // Modules that stand in when their group has no selection, e.g. a plain water/broth sauce.
@@ -29,7 +32,7 @@ export function generatorDefaults(recipe, selected) {
 }
 
 export function generatorWater(recipe, choices, ingredients, modules, scale) {
-  const profile = generatorProfile(recipe, choices);
+  const profile = generatorProfile(recipe, choices, modules);
   const sauce = modules.find((m) => m.group === 'sauce');
   const sauceWater = ingredients
     .filter((i) => i.moduleId === sauce?.id)

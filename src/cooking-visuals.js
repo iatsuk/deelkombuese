@@ -65,6 +65,8 @@ export function cookingAction(step) {
 
 export function grainDiagram(recipe, prepared) {
   const profile = prepared.generator?.profile;
+  // The lid-and-low-flame diagram does not describe grain swelling in a thermos.
+  if (profile?.thermos) return null;
   if (!recipe.grainCooking && !profile?.absorption && !profile?.grainCooking) return null;
   const adjusted =
     prepared.ingredients.some(

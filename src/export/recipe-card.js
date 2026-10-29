@@ -23,6 +23,10 @@ export function buildRecipeCard(recipe, selection = {}, { crew = 1 } = {}) {
     notes.push(
       'Выход большой для одного приёма: выберите меньшую упаковку или разделите еду с попутчиком сейчас. На следующие вахты без холодильника не оставлять.',
     );
+  if (prepared.generator?.profile.thermos)
+    notes.push(
+      'Термос: прогреть кипятком, заполнить горячей едой почти доверху и сразу закрыть. Есть в течение 3 часов, пока еда горячая, от 60 °C.',
+    );
   if (recipe.tip) notes.push(recipe.tip);
   return {
     recipeId: recipe.id,
@@ -32,6 +36,7 @@ export function buildRecipeCard(recipe, selection = {}, { crew = 1 } = {}) {
     active: prepared.active,
     yieldGrams: prepared.yieldGrams,
     crew: prepared.crew,
+    burner: prepared.burner,
     perPerson,
     variants: prepared.modules.map((m) => m.label),
     utensils: recipeUtensils(recipe, prepared),

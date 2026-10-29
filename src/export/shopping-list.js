@@ -1,10 +1,19 @@
 import { productById, recipeById } from '../data.js';
 import { formatAmount, recipeTitle } from '../model.js';
-import { buildSeason, waterBudget, mealSlots } from '../planner.js';
+import { buildSeason, waterBudget, gasBudget, mealSlots } from '../planner.js';
 
 // Translate display fields separately; assembled lines are not translation lookup keys.
 export function buildShoppingText(
-  { items, checked = [], plan = [], builderMeta = null, pantry = [], crew = 1 },
+  {
+    items,
+    checked = [],
+    plan = [],
+    builderMeta = null,
+    pantry = [],
+    crew = 1,
+    burnerRate = 150,
+    kettleMinutes = 5,
+  },
   { translate = String, language = 'ru' } = {},
 ) {
   const t = translate;
@@ -51,8 +60,21 @@ export function buildShoppingText(
       ['Всего', 'total'],
     ])
       lines.push(`${t(label)}: ${litres(water[key])}`);
+    const gas = gasBudget(plan, { ...builderMeta, crew, burnerRate, kettleMinutes });
+    const kilograms = (value) =>
+      `${new Intl.NumberFormat(language, { maximumFractionDigits: 2 }).format(value / 1000)} ${language === 'ru' ? 'кг' : 'kg'}`;
     lines.push(
       message('Купить: {0} × 1,5 л = {1}', water.bottles, litres(water.buyLitres)),
+      '',
+      message('ГАЗ НА {0} ДНЕЙ', gas.days),
+      ...[
+        ['Блюда', 'dishes'],
+        ['Чайник', 'kettle'],
+        ['Резерв', 'reserve'],
+      ].map(([label, key]) => `${t(label)}: ${t(`${Math.round(gas[key] / 5) * 5} г`)}`),
+      `${t('Всего')}: ${kilograms(gas.total)}`,
+      message('Расход горелки: {0} г/ч', gas.rate),
+      message('Минут горелки: {0}', Math.round(gas.dishMinutes + gas.kettleMinutes)),
       '',
       t('МЕНЮ'),
     );
@@ -86,7 +108,7 @@ export function buildShoppingText(
       'Сухой остаток упаковок хранить герметично. Вскрытые скоропортящиеся упаковки расходовать в текущую готовку.',
     ),
     t(
-      'Проверьте количество продуктов в рундуке. Вода — плановое предположение, регулируйте по погоде и нагрузке. Топливо рассчитывайте отдельно.',
+      'Проверьте количество продуктов в рундуке. Вода и газ — плановые предположения, регулируйте по погоде и нагрузке; баллон взвесьте перед выходом.',
     ),
   );
   return lines.join('\n');

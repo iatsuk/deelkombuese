@@ -72,6 +72,8 @@ export function createBatterGenerator({ r, i, fish }) {
             water: 180,
             time: 22,
             active: 14,
+            // The batter rests 5 minutes before the pan is lit.
+            burner: 17,
             utensils: [bowl],
             steps: [
               {
@@ -116,6 +118,8 @@ export function createBatterGenerator({ r, i, fish }) {
             water: 160,
             time: 25,
             active: 12,
+            // The oats soak 8–10 minutes before the pan is lit.
+            burner: 16,
             utensils: [bowl],
             steps: [
               {

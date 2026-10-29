@@ -1,5 +1,6 @@
 import { renderWater } from '../water.js';
-import { buildSeason, waterBudget } from '../../planner.js';
+import { renderGas } from '../gas.js';
+import { buildSeason, waterBudget, gasBudget } from '../../planner.js';
 import { products, productById, recipeById } from '../../data.js';
 import { formatShoppingAmount, recipeTitle } from '../../model.js';
 import { icon } from '../icons.js';
@@ -14,7 +15,16 @@ export function renderShopping({ state, catalog }) {
   return `<section class="page-intro"><div class="eyebrow">Следующий заход в порт</div><h1>На берег за <em>продуктами.</em></h1><p>Добавьте блюда или соберите <a class="inline-planner-link" href="#planner">план на 1–7 дней</a>.<br>Продукты из рундука исключены; проверьте их количество.</p></section>
     <div class="shopping-layout"><section>${
       state.builderMeta?.kind === 'trip'
-        ? renderWater(waterBudget(state.plan, { ...state.builderMeta, crew: state.crew }), true)
+        ? renderWater(waterBudget(state.plan, { ...state.builderMeta, crew: state.crew }), true) +
+          renderGas(
+            gasBudget(state.plan, {
+              ...state.builderMeta,
+              crew: state.crew,
+              burnerRate: state.burnerRate,
+              kettleMinutes: state.kettleMinutes,
+            }),
+            true,
+          )
         : state.builderMeta?.kind === 'season'
           ? `<div class="storage-banner season-cart-note">${icon('box')}<p><strong>Первичная закупка сезонной базы.</strong> Не весь запас хранится весь сезон. ${buildSeason(
               state.builderMeta.days,
@@ -47,7 +57,7 @@ export function renderShopping({ state, catalog }) {
       .map((p) => `<option value="${p.id}">${p.name}</option>`)
       .join(
         '',
-      )}</select><button class="button secondary" data-action="manual-select">${icon('plus')} Добавить</button></div></div><p class="footnote">Размер каждой целой упаковки указан в списке. Банки разного объёма учитываются отдельными строками. Список — потребность блюд, а не рассчитанный рацион на весь переход. Расчёт воды для походного плана показан отдельно; топливо планируйте самостоятельно; соль и перец для горячих блюд держите в общем запасе.</p></section>
+      )}</select><button class="button secondary" data-action="manual-select">${icon('plus')} Добавить</button></div></div><p class="footnote">Размер каждой целой упаковки указан в списке. Банки разного объёма учитываются отдельными строками. Список — потребность блюд, а не рассчитанный рацион на весь переход. Вода и газ для походного плана рассчитаны отдельно; соль и перец для горячих блюд держите в общем запасе.</p></section>
     <aside class="meal-plan"><span class="eyebrow small">Что готовим</span><h2>План камбуза</h2>${
       state.plan.length
         ? state.plan
