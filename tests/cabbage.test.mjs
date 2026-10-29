@@ -11,9 +11,10 @@ test('Whole fresh cabbage is a ventilated short-term provision; cut cabbage is u
   assert.ok(bases.some((base) => base.id === 'freshCabbage'));
 });
 test('Braised cabbage and unstuffed rolls share a base; optional rice, tomatoes and protein remain independent', () => {
-  const recipe = recipeById['cabbage-stew'];
-  const plain = prepareRecipe(recipe);
-  const rolls = prepareRecipe(recipe, {}, {}, null, ['rice', 'tomato', 'meat']);
+  const recipe = recipeById['braise-generator'];
+  const cabbage = { technique: 'cabbage' };
+  const plain = prepareRecipe(recipe, cabbage);
+  const rolls = prepareRecipe(recipe, cabbage, {}, null, ['rice', 'tomato', 'meat']);
   assert.ok(!plain.ingredients.some((i) => i.id === 'rice'));
   assert.ok(rolls.ingredients.some((i) => i.id === 'rice'));
   assert.ok(rolls.water > plain.water);
@@ -23,14 +24,14 @@ test('Braised cabbage and unstuffed rolls share a base; optional rice, tomatoes 
   assert.equal(rolls.ingredients.find((i) => i.id === 'freshCabbage').package.count, 1);
   assert.ok(recipeMatches(recipe, ['freshCabbage', 'rice', 'stew']));
   assert.ok(
-    recipeSteps(recipe, {}, ['rice', 'tomato', 'meat'], rolls)
+    recipeSteps(recipe, cabbage, ['rice', 'tomato', 'meat'], rolls)
       .join(' ')
       .includes('ещё две мерки сверху не добавляйте'),
   );
-  const shore = prepareRecipe(recipe, {}, {}, null, ['mince']);
+  const shore = prepareRecipe(recipe, cabbage, {}, null, ['mince']);
   assert.equal(shore.shore, true);
   for (const size of [600, 900, 1200]) {
-    const prepared = prepareRecipe(recipe, {}, { freshCabbage: size }, 'freshCabbage', [
+    const prepared = prepareRecipe(recipe, cabbage, { freshCabbage: size }, 'freshCabbage', [
       'rice',
       'meat',
     ]);

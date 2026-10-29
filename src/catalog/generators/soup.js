@@ -1,3 +1,5 @@
+import { tomatoesKeepingLiquid } from './tomatoes.js';
+
 // Soup in one pot: each base is its own soup with its liquid and thickener — stock with
 // potatoes, lentils, a whole pack of passata, sauerkraut or a can of vegetables to mash.
 // A protein and additions complete it; the whole pot is eaten at one meal.
@@ -19,17 +21,9 @@ const tomatoPack = (c) =>
       : has(c, 'ketchup')
         ? 'весь кетчуп с рассчитанной водой'
         : 'нарезанные свежие томаты';
-// Tomato paste in a soup: a substitute keeps the liquid of the paste it replaces.
-const tomatoWater = { passata: -100, tomato: -150, ketchup: 0 };
 
 export function createSoupGenerator({ r, i, aroma, tomato, fish, meat }) {
-  const tomatoes = () => {
-    const paste = tomato();
-    return {
-      ...paste,
-      alternatives: paste.alternatives.map((a) => ({ ...a, waterDelta: tomatoWater[a.id] })),
-    };
-  };
+  const tomatoes = () => tomatoesKeepingLiquid(tomato);
   return r(
     'soup-generator',
     'Генератор · суп',

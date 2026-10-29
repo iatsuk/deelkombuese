@@ -112,7 +112,10 @@ test('Adjacent template fields preserve the complete quantity rather than splitt
     const t = createTranslator(catalog(language), language);
     for (const amount of [600, 900, 1200]) {
       const card = localizeRecipeCard(
-        buildRecipeCard(recipeById['cabbage-stew'], { packSizes: { freshCabbage: amount } }),
+        buildRecipeCard(recipeById['braise-generator'], {
+          choices: { technique: 'cabbage' },
+          packSizes: { freshCabbage: amount },
+        }),
         t,
         language,
       );

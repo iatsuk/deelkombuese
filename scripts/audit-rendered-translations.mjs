@@ -36,7 +36,14 @@ export function auditRenderedTranslations(language) {
   inspect(renderPantry({ state, catalog }));
   state.view = 'recipes';
   inspect(renderRecipes({ state, catalog }));
-  state.favorites = [{ recipeId: 'cabbage-stew', choices: {}, packSizes: {}, modules: ['rice'] }];
+  state.favorites = [
+    {
+      recipeId: 'braise-generator',
+      choices: { technique: 'cabbage' },
+      packSizes: {},
+      modules: ['rice'],
+    },
+  ];
   state.favoritesOnly = true;
   inspect(renderRecipes({ state, catalog }));
   state.query = 'no matching dish';

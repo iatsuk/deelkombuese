@@ -1,4 +1,3 @@
-import { createCabbageRecipe } from './catalog/cabbage-definition.js';
 import { expandRecipeLibrary } from './recipe-library.js';
 import { createPastaGenerator } from './catalog/generators/pasta.js';
 import { createEggGenerator } from './catalog/generators/eggs.js';
@@ -6,6 +5,7 @@ import { createNoCookGenerator } from './catalog/generators/no-cook.js';
 import { createBatterGenerator } from './catalog/generators/batter.js';
 import { createGrainGenerator } from './catalog/generators/grain.js';
 import { createSoupGenerator } from './catalog/generators/soup.js';
+import { createBraiseGenerator } from './catalog/generators/braise.js';
 // Storage periods are editorial rotation estimates, not results of yacht storage trials.
 export const sources = [
   {
@@ -1285,57 +1285,6 @@ export const recipes = [
     { vessel: 'cold', meal: 'snack', satiety: '1–2 ч', tone: 'brown', drySnack: true },
   ),
   r(
-    'chili-sin',
-    'Чили син карне',
-    'legumes',
-    18,
-    5,
-    'Фасоль, томаты и соевый текстурат. Сытно без свежего мяса.',
-    [i('beans', 1, 'уп.'), i('soy', 40), tomato(), aroma(), i('cumin', 0.5, 'ч. л.'), oil()],
-    180,
-    [
-      'Подготовьте текстурат согласно его упаковке. Для варианта на 18 минут выбирайте быстро гидратирующийся текстурат; длительную подготовку прибавьте ко времени.',
-      'В кастрюле прогрейте масло, сухую смесь, кумин и томатную пасту около 30 секунд. Влейте питьевую воду и добавьте текстурат.',
-      'Добавьте всю фасоль из выбранной банки без жидкости. Томите 10 минут до нужной густоты, помешивая. Соль и острый перец — по вкусу.',
-    ],
-    {
-      tone: 'red',
-      tip: 'Сухая красная фасоль не является быстрой заменой консервированной: ей нужны замачивание и полноценное кипячение. Здесь используйте готовую фасоль.',
-    },
-  ),
-  r(
-    'stew',
-    'Картофельное рагу',
-    'potato',
-    25,
-    7,
-    'Картофель и мясные консервы в густом соусе с паприкой.',
-    [i('potato', 300), meat(), tomato(), aroma(), i('paprika', 1, 'ч. л.'), oil()],
-    250,
-    [
-      'Вымойте картофель питьевой водой и нарежьте кубиками около 1,5 см. Повреждённые и позеленевшие клубни не используйте.',
-      'Прогрейте масло, сухую смесь и паприку 20 секунд. Добавьте картофель, питьевую воду и томатную пасту.',
-      'Томите под крышкой 15–20 минут до мягкости картофеля. Вмешайте целую небольшую упаковку готового мяса и хорошо прогрейте. При необходимости добавьте воду.',
-    ],
-    { tone: 'brown' },
-  ),
-  r(
-    'dal',
-    'Красный чечевичный дал',
-    'legumes',
-    20,
-    4,
-    'Чечевица разваривается сама. Ни замачивания, ни отдельного гарнира.',
-    [i('lentils', 100), i('coconut', 150, 'мл'), aroma(), i('curry', 1, 'ч. л.'), oil()],
-    250,
-    [
-      'Быстро промойте чечевицу питьевой водой. Прогрейте масло с сухой смесью и карри 20 секунд.',
-      'Всыпьте чечевицу, влейте питьевую воду. Варите на слабом огне 12–15 минут, помешивая; ориентируйтесь на упаковку.',
-      'Добавьте кокосовое молоко, прогрейте ещё 3 минуты. Если дал слишком густой, долейте немного воды. Посолите в конце.',
-    ],
-    { tone: 'gold' },
-  ),
-  r(
     'oatmeal',
     'Овсянка с арахисом',
     'oats',
@@ -1350,26 +1299,6 @@ export const recipes = [
       'Выключите огонь. Добавьте арахис и щепотку соли. Дайте постоять 1–2 минуты.',
     ],
     { tone: 'brown', satiety: '2–4 ч' },
-  ),
-  r(
-    'chili-con',
-    'Чили кон карне',
-    'legumes',
-    25,
-    8,
-    'В день захода в порт: свежий фарш, фасоль и томаты.',
-    [i('beef', 180), i('beans', 1, 'уп.'), tomato(), aroma(), i('cumin', 0.5, 'ч. л.'), oil()],
-    100,
-    [
-      'Сразу после покупки прогрейте масло и обжарьте фарш, разбивая комки. Добавьте сухую смесь и кумин.',
-      'Добавьте томатную пасту, питьевую воду и всю фасоль из выбранной банки без жидкости. Томите 12–15 минут, помешивая.',
-      'Проверьте пищевым термометром: говяжий фарш должен достичь 71 °C в центре. Посолите и съешьте сразу.',
-    ],
-    {
-      tone: 'red',
-      shore: true,
-      tip: 'Говяжий фарш можно заменить 50 г сухого соевого текстурата с подготовкой по этикетке. Для полностью автономной версии откройте «Чили син карне».',
-    },
   ),
 ];
 for (const recipe of recipes) {
@@ -1404,46 +1333,6 @@ for (const recipe of recipes) {
 }
 recipes.find((r) => r.id === 'oatmeal').meal = 'breakfast';
 
-{
-  const recipe = recipes.find((r) => r.id === 'dal');
-  recipe.ingredients = recipe.ingredients.filter((i) => i.id !== 'coconut');
-  recipe.water += 150;
-  recipe.modules = [
-    {
-      id: 'coconut',
-      label: 'Кокосовое молоко · по желанию',
-      ingredients: [i('coconut', 150, 'мл')],
-      waterDelta: -150,
-      instruction:
-        'Вместе с жидкостью добавьте всё кокосовое молоко из выбранной упаковки. Чаще проверяйте дно: густой соус пригорает.',
-    },
-    {
-      id: 'bouillon',
-      label: 'Сухой бульон',
-      ingredients: [i('bouillon', 0.5, 'кубик')],
-      beforeStep: 1,
-      instruction:
-        'Растворите сухой бульон в воде для блюда. Он солёный — досаливайте только после пробы.',
-    },
-    {
-      id: 'ginger',
-      label: 'Имбирь',
-      ingredients: [i('driedGinger', 0.25, 'ч. л.')],
-      beforeStep: 0,
-      instruction: 'Имбирь добавьте к ароматам перед основной жидкостью.',
-    },
-  ];
-  recipe.template = {
-    core: ['lentils', 'curry'],
-    text: 'Пряная основа работает на воде или бульоне. Кокосовое молоко — дополнительный вкус, покупать его специально не нужно.',
-  };
-  recipe.modules.find((m) => m.id === 'coconut').beforeStep = 1;
-  recipe.steps = [
-    'Промойте чечевицу питьевой водой. Прогрейте масло с карри и ароматической основой.',
-    'Всыпьте чечевицу, влейте рассчитанную воду. Варите 12–15 минут, помешивая; при необходимости долейте.',
-    'Доведите до мягкости, подстройте густоту водой и посолите после пробы. Выбранные жидкие добавки полностью прогрейте в блюде.',
-  ];
-}
 productById.coconut.hint = 'Необязательная добавка · вне базовой закупки';
 productById.oil.life = '6–12 мес.';
 recipes.find((r) => r.id === 'oatmeal').modules = [
@@ -1464,7 +1353,6 @@ recipes.find((r) => r.id === 'oatmeal').modules = [
 ];
 
 expandRecipeLibrary(recipes, { r, i, oil, aroma, tomato, fish });
-recipes.push(createCabbageRecipe({ r, i, tomato }));
 recipes.unshift(
   createEggGenerator({ r, i }),
   createPastaGenerator({ r, i, tomato, fish }),
@@ -1472,6 +1360,7 @@ recipes.unshift(
   createBatterGenerator({ r, i, fish }),
   createGrainGenerator({ r, i, aroma, tomato, fish, meat }),
   createSoupGenerator({ r, i, aroma, tomato, fish, meat }),
+  createBraiseGenerator({ r, i, aroma, tomato }),
 );
 export const recipeMigrations = {
   'pasta-tuna': { recipeId: 'dish-generator', modules: ['sauce-tomato', 'fish'] },
@@ -1584,6 +1473,16 @@ export const recipeMigrations = {
     modules: [],
     choices: { technique: 'puree' },
   },
+  // Braises became the braise chapter; each former dish is a base of its own.
+  'cabbage-stew': {
+    recipeId: 'braise-generator',
+    modules: [],
+    choices: { technique: 'cabbage' },
+  },
+  stew: { recipeId: 'braise-generator', modules: [], choices: { technique: 'potato' } },
+  'chili-sin': { recipeId: 'braise-generator', modules: [], choices: { technique: 'chili-sin' } },
+  'chili-con': { recipeId: 'braise-generator', modules: [], choices: { technique: 'chili-con' } },
+  dal: { recipeId: 'braise-generator', modules: [], choices: { technique: 'dal' } },
 };
 
 export const productFamilies = [

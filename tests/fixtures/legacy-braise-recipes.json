@@ -1,0 +1,1266 @@
+[
+ {
+  "id": "cabbage-stew",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 25,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 690,
+  "shore": false,
+  "ingredients": {
+   "freshCabbage": "600 г",
+   "driedOnion": "5 г",
+   "oil": "15 мл"
+  }
+ },
+ {
+  "id": "cabbage-stew",
+  "modules": [
+   "rice"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 35,
+  "active": 8,
+  "water": 260,
+  "yieldGrams": 860,
+  "shore": false,
+  "ingredients": {
+   "freshCabbage": "600 г",
+   "driedOnion": "5 г",
+   "oil": "15 мл",
+   "rice": "60 г"
+  }
+ },
+ {
+  "id": "cabbage-stew",
+  "modules": [
+   "tomato"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 28,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 720,
+  "shore": false,
+  "ingredients": {
+   "freshCabbage": "600 г",
+   "driedOnion": "5 г",
+   "oil": "15 мл",
+   "tomatoPaste": "30 г"
+  }
+ },
+ {
+  "id": "cabbage-stew",
+  "modules": [
+   "tomato"
+  ],
+  "choices": {
+   "tomatoPaste": "ketchup"
+  },
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 28,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 730,
+  "shore": false,
+  "ingredients": {
+   "freshCabbage": "600 г",
+   "driedOnion": "5 г",
+   "oil": "15 мл",
+   "ketchup": "40 г"
+  }
+ },
+ {
+  "id": "cabbage-stew",
+  "modules": [
+   "tomato"
+  ],
+  "choices": {
+   "tomatoPaste": "passata"
+  },
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 28,
+  "active": 8,
+  "water": 0,
+  "yieldGrams": 830,
+  "shore": false,
+  "ingredients": {
+   "freshCabbage": "600 г",
+   "driedOnion": "6.67 г",
+   "oil": "20 мл",
+   "passata": "200 г"
+  }
+ },
+ {
+  "id": "cabbage-stew",
+  "modules": [
+   "tomato"
+  ],
+  "choices": {
+   "tomatoPaste": "tomato"
+  },
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 28,
+  "active": 8,
+  "water": 0,
+  "yieldGrams": 820,
+  "shore": false,
+  "ingredients": {
+   "freshCabbage": "600 г",
+   "driedOnion": "5 г",
+   "oil": "15 мл",
+   "tomato": "200 г"
+  }
+ },
+ {
+  "id": "cabbage-stew",
+  "modules": [
+   "meat"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 28,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 890,
+  "shore": false,
+  "ingredients": {
+   "freshCabbage": "600 г",
+   "driedOnion": "5 г",
+   "oil": "15 мл",
+   "stew": "200 г"
+  }
+ },
+ {
+  "id": "cabbage-stew",
+  "modules": [
+   "beans"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 28,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 820,
+  "shore": false,
+  "ingredients": {
+   "freshCabbage": "600 г",
+   "driedOnion": "5 г",
+   "oil": "15 мл",
+   "beans": "130 г"
+  }
+ },
+ {
+  "id": "cabbage-stew",
+  "modules": [
+   "beans"
+  ],
+  "choices": {
+   "beans": "chickpeas"
+  },
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 28,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 820,
+  "shore": false,
+  "ingredients": {
+   "freshCabbage": "600 г",
+   "driedOnion": "5 г",
+   "oil": "15 мл",
+   "chickpeas": "130 г"
+  }
+ },
+ {
+  "id": "cabbage-stew",
+  "modules": [
+   "mince"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 32,
+  "active": 12,
+  "water": 100,
+  "yieldGrams": 870,
+  "shore": true,
+  "ingredients": {
+   "freshCabbage": "600 г",
+   "driedOnion": "5 г",
+   "oil": "15 мл",
+   "beef": "180 г"
+  }
+ },
+ {
+  "id": "cabbage-stew",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 25,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 690,
+  "shore": false,
+  "ingredients": {
+   "freshCabbage": "600 г",
+   "driedOnion": "5 г",
+   "oil": "15 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "cabbage-stew",
+  "modules": [
+   "bouillon"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 25,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 690,
+  "shore": false,
+  "ingredients": {
+   "freshCabbage": "600 г",
+   "driedOnion": "5 г",
+   "oil": "15 мл",
+   "bouillon": "0.5 кубик"
+  }
+ },
+ {
+  "id": "cabbage-stew",
+  "modules": [],
+  "choices": {
+   "driedOnion": "onion"
+  },
+  "packs": {},
+  "satiety": "2–3 ч",
+  "time": 25,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 770,
+  "shore": false,
+  "ingredients": {
+   "freshCabbage": "600 г",
+   "onion": "1 шт.",
+   "oil": "15 мл"
+  }
+ },
+ {
+  "id": "cabbage-stew",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "freshCabbage": 900
+  },
+  "satiety": "2–3 ч",
+  "time": 25,
+  "active": 8,
+  "water": 150,
+  "yieldGrams": 1040,
+  "shore": false,
+  "ingredients": {
+   "freshCabbage": "900 г",
+   "driedOnion": "7.5 г",
+   "oil": "25 мл"
+  }
+ },
+ {
+  "id": "cabbage-stew",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "freshCabbage": 1200
+  },
+  "satiety": "2–3 ч",
+  "time": 25,
+  "active": 8,
+  "water": 200,
+  "yieldGrams": 1380,
+  "shore": false,
+  "ingredients": {
+   "freshCabbage": "1200 г",
+   "driedOnion": "10 г",
+   "oil": "30 мл"
+  }
+ },
+ {
+  "id": "stew",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 720,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "stew": "200 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "stew",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 720,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "stew": "200 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "stew",
+  "modules": [
+   "bouillon"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 730,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "stew": "200 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл",
+   "bouillon": "0.5 кубик"
+  }
+ },
+ {
+  "id": "stew",
+  "modules": [],
+  "choices": {
+   "stew": "soy"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 7,
+  "water": 375,
+  "yieldGrams": 660,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "soy": "50 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "stew",
+  "modules": [],
+  "choices": {
+   "tomatoPaste": "ketchup"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 730,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "stew": "200 г",
+   "ketchup": "40 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "stew",
+  "modules": [],
+  "choices": {
+   "tomatoPaste": "passata"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 7,
+  "water": 200,
+  "yieldGrams": 960,
+  "shore": false,
+  "ingredients": {
+   "potato": "400 г",
+   "stew": "200 г",
+   "passata": "200 г",
+   "aromatics": "1.375 ч. л.",
+   "paprika": "1.375 ч. л.",
+   "oil": "13.33 мл"
+  }
+ },
+ {
+  "id": "stew",
+  "modules": [],
+  "choices": {
+   "tomatoPaste": "tomato"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 7,
+  "water": 100,
+  "yieldGrams": 790,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "stew": "200 г",
+   "tomato": "200 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "stew",
+  "modules": [],
+  "choices": {
+   "aromatics": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 800,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "stew": "200 г",
+   "tomatoPaste": "30 г",
+   "onion": "1 шт.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "stew",
+  "modules": [],
+  "choices": {
+   "aromatics": "driedOnion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 720,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "stew": "200 г",
+   "tomatoPaste": "30 г",
+   "driedOnion": "5 г",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "stew",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "stew": 325
+  },
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 7,
+  "water": 406,
+  "yieldGrams": 1160,
+  "shore": false,
+  "ingredients": {
+   "potato": "490 г",
+   "stew": "325 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1.625 ч. л.",
+   "paprika": "1.625 ч. л.",
+   "oil": "16.25 мл"
+  }
+ },
+ {
+  "id": "stew",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "tomatoPaste": 70
+  },
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 760,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "stew": "200 г",
+   "tomatoPaste": "70 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "stew",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "tomatoPaste": 140
+  },
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 830,
+  "shore": false,
+  "ingredients": {
+   "potato": "300 г",
+   "stew": "200 г",
+   "tomatoPaste": "140 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-sin",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 5,
+  "water": 180,
+  "yieldGrams": 340,
+  "shore": false,
+  "ingredients": {
+   "beans": "130 г",
+   "soy": "40 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-sin",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 5,
+  "water": 180,
+  "yieldGrams": 340,
+  "shore": false,
+  "ingredients": {
+   "beans": "130 г",
+   "soy": "40 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "chili-sin",
+  "modules": [
+   "bouillon"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 5,
+  "water": 180,
+  "yieldGrams": 340,
+  "shore": false,
+  "ingredients": {
+   "beans": "130 г",
+   "soy": "40 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл",
+   "bouillon": "0.5 кубик"
+  }
+ },
+ {
+  "id": "chili-sin",
+  "modules": [],
+  "choices": {
+   "beans": "chickpeas"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 5,
+  "water": 180,
+  "yieldGrams": 340,
+  "shore": false,
+  "ingredients": {
+   "chickpeas": "130 г",
+   "soy": "40 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-sin",
+  "modules": [],
+  "choices": {
+   "tomatoPaste": "ketchup"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 5,
+  "water": 180,
+  "yieldGrams": 350,
+  "shore": false,
+  "ingredients": {
+   "beans": "130 г",
+   "soy": "40 г",
+   "ketchup": "40 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-sin",
+  "modules": [],
+  "choices": {
+   "tomatoPaste": "passata"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 5,
+  "water": 107,
+  "yieldGrams": 480,
+  "shore": false,
+  "ingredients": {
+   "beans": "130 г",
+   "soy": "55 г",
+   "passata": "200 г",
+   "aromatics": "1.375 ч. л.",
+   "cumin": "0.625 ч. л.",
+   "oil": "13.33 мл"
+  }
+ },
+ {
+  "id": "chili-sin",
+  "modules": [],
+  "choices": {
+   "tomatoPaste": "tomato"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 5,
+  "water": 30,
+  "yieldGrams": 410,
+  "shore": false,
+  "ingredients": {
+   "beans": "130 г",
+   "soy": "40 г",
+   "tomato": "200 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-sin",
+  "modules": [],
+  "choices": {
+   "aromatics": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 5,
+  "water": 180,
+  "yieldGrams": 420,
+  "shore": false,
+  "ingredients": {
+   "beans": "130 г",
+   "soy": "40 г",
+   "tomatoPaste": "30 г",
+   "onion": "1 шт.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-sin",
+  "modules": [],
+  "choices": {
+   "aromatics": "driedOnion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 5,
+  "water": 180,
+  "yieldGrams": 340,
+  "shore": false,
+  "ingredients": {
+   "beans": "130 г",
+   "soy": "40 г",
+   "tomatoPaste": "30 г",
+   "driedOnion": "5 г",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-sin",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "beans": 400
+  },
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 5,
+  "water": 332,
+  "yieldGrams": 610,
+  "shore": false,
+  "ingredients": {
+   "beans": "240 г",
+   "soy": "75 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1.875 ч. л.",
+   "cumin": "0.875 ч. л.",
+   "oil": "18.46 мл"
+  }
+ },
+ {
+  "id": "chili-sin",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "tomatoPaste": 70
+  },
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 5,
+  "water": 180,
+  "yieldGrams": 380,
+  "shore": false,
+  "ingredients": {
+   "beans": "130 г",
+   "soy": "40 г",
+   "tomatoPaste": "70 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-sin",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "tomatoPaste": 140
+  },
+  "satiety": "3–4 ч",
+  "time": 18,
+  "active": 5,
+  "water": 180,
+  "yieldGrams": 450,
+  "shore": false,
+  "ingredients": {
+   "beans": "130 г",
+   "soy": "40 г",
+   "tomatoPaste": "140 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-con",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 430,
+  "shore": true,
+  "ingredients": {
+   "beef": "180 г",
+   "beans": "130 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-con",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 430,
+  "shore": true,
+  "ingredients": {
+   "beef": "180 г",
+   "beans": "130 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "chili-con",
+  "modules": [
+   "bouillon"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 430,
+  "shore": true,
+  "ingredients": {
+   "beef": "180 г",
+   "beans": "130 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл",
+   "bouillon": "0.5 кубик"
+  }
+ },
+ {
+  "id": "chili-con",
+  "modules": [],
+  "choices": {
+   "beans": "chickpeas"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 430,
+  "shore": true,
+  "ingredients": {
+   "beef": "180 г",
+   "chickpeas": "130 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-con",
+  "modules": [],
+  "choices": {
+   "tomatoPaste": "ketchup"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 440,
+  "shore": true,
+  "ingredients": {
+   "beef": "180 г",
+   "beans": "130 г",
+   "ketchup": "40 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-con",
+  "modules": [],
+  "choices": {
+   "tomatoPaste": "passata"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 8,
+  "water": 0,
+  "yieldGrams": 590,
+  "shore": true,
+  "ingredients": {
+   "beef": "240 г",
+   "beans": "130 г",
+   "passata": "200 г",
+   "aromatics": "1.375 ч. л.",
+   "cumin": "0.625 ч. л.",
+   "oil": "13.33 мл"
+  }
+ },
+ {
+  "id": "chili-con",
+  "modules": [],
+  "choices": {
+   "tomatoPaste": "tomato"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 8,
+  "water": 0,
+  "yieldGrams": 530,
+  "shore": true,
+  "ingredients": {
+   "beef": "180 г",
+   "beans": "130 г",
+   "tomato": "200 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-con",
+  "modules": [],
+  "choices": {
+   "aromatics": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 500,
+  "shore": true,
+  "ingredients": {
+   "beef": "180 г",
+   "beans": "130 г",
+   "tomatoPaste": "30 г",
+   "onion": "1 шт.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-con",
+  "modules": [],
+  "choices": {
+   "aromatics": "driedOnion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 430,
+  "shore": true,
+  "ingredients": {
+   "beef": "180 г",
+   "beans": "130 г",
+   "tomatoPaste": "30 г",
+   "driedOnion": "5 г",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-con",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "beans": 400
+  },
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 8,
+  "water": 185,
+  "yieldGrams": 760,
+  "shore": true,
+  "ingredients": {
+   "beef": "330 г",
+   "beans": "240 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1.875 ч. л.",
+   "cumin": "0.875 ч. л.",
+   "oil": "18.46 мл"
+  }
+ },
+ {
+  "id": "chili-con",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "tomatoPaste": 70
+  },
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 470,
+  "shore": true,
+  "ingredients": {
+   "beef": "180 г",
+   "beans": "130 г",
+   "tomatoPaste": "70 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "chili-con",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "tomatoPaste": 140
+  },
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 8,
+  "water": 100,
+  "yieldGrams": 540,
+  "shore": true,
+  "ingredients": {
+   "beef": "180 г",
+   "beans": "130 г",
+   "tomatoPaste": "140 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "dal",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 20,
+  "active": 4,
+  "water": 400,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "lentils": "100 г",
+   "aromatics": "1 ч. л.",
+   "curry": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "dal",
+  "modules": [
+   "coconut"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 20,
+  "active": 4,
+  "water": 333,
+  "yieldGrams": 590,
+  "shore": false,
+  "ingredients": {
+   "lentils": "135 г",
+   "aromatics": "1.375 ч. л.",
+   "curry": "1.375 ч. л.",
+   "oil": "13.33 мл",
+   "coconut": "200 мл"
+  }
+ },
+ {
+  "id": "dal",
+  "modules": [
+   "bouillon"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 20,
+  "active": 4,
+  "water": 400,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "lentils": "100 г",
+   "aromatics": "1 ч. л.",
+   "curry": "1 ч. л.",
+   "oil": "10 мл",
+   "bouillon": "0.5 кубик"
+  }
+ },
+ {
+  "id": "dal",
+  "modules": [
+   "ginger"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 20,
+  "active": 4,
+  "water": 400,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "lentils": "100 г",
+   "aromatics": "1 ч. л.",
+   "curry": "1 ч. л.",
+   "oil": "10 мл",
+   "driedGinger": "0.25 ч. л."
+  }
+ },
+ {
+  "id": "dal",
+  "modules": [
+   "ginger"
+  ],
+  "choices": {
+   "driedGinger": "ginger"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 20,
+  "active": 4,
+  "water": 400,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "lentils": "100 г",
+   "aromatics": "1 ч. л.",
+   "curry": "1 ч. л.",
+   "oil": "10 мл",
+   "ginger": "5 г"
+  }
+ },
+ {
+  "id": "dal",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 20,
+  "active": 4,
+  "water": 400,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "lentils": "100 г",
+   "aromatics": "1 ч. л.",
+   "curry": "1 ч. л.",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "dal",
+  "modules": [],
+  "choices": {
+   "aromatics": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 20,
+  "active": 4,
+  "water": 400,
+  "yieldGrams": 470,
+  "shore": false,
+  "ingredients": {
+   "lentils": "100 г",
+   "onion": "1 шт.",
+   "curry": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "dal",
+  "modules": [],
+  "choices": {
+   "aromatics": "driedOnion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 20,
+  "active": 4,
+  "water": 400,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "lentils": "100 г",
+   "driedOnion": "5 г",
+   "curry": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ }
+]

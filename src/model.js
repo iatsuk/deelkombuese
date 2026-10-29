@@ -275,7 +275,7 @@ export function prepareRecipe(
       ingredients.some((i) => productById[i.id].state === 'shore'),
     eggConditional: ingredients.some((i) => ['eggs', 'eggsCold'].includes(i.id)),
     prepWater:
-      Math.round((recipe.prepWater || 0) * scale) +
+      Math.round((recipe.prepWater || generated?.profile.prepWater || 0) * scale) +
       (ingredients.some((i) => ['rice', 'lentils'].includes(i.id)) ? 100 : 0) +
       Math.round(
         modules.reduce(
@@ -418,18 +418,22 @@ export function recipeMatches(recipe, selectedIds = []) {
 }
 export function choicesForSelection(recipe, selectedIds = [], pantry = []) {
   const has = (id) => (i) => i.id === id || i.alternatives.some((a) => a.id === id);
-  const modules = [];
-  for (const id of selectedIds) {
-    if (!coreIngredients(recipe).some(has(id))) {
-      const module = recipe.modules?.find((m) => m.ingredients.some(has(id)));
-      if (module) modules.push(module.id);
-    }
-  }
-  const unique = [...new Set(modules)];
+  // Picked products that neither the recipe nor the chosen generator base brings select a
+  // module: canned meat is the potato stew's own, but a module for braised cabbage.
+  const modulesFor = (base) => [
+    ...new Set(
+      selectedIds
+        .filter(
+          (id) => !recipe.ingredients.some(has(id)) && !(base?.ingredients || []).some(has(id)),
+        )
+        .map((id) => recipe.modules?.find((m) => m.ingredients.some(has(id)))?.id)
+        .filter(Boolean),
+    ),
+  ];
   // Substitutes the reader picked or keeps in the pantry instead of the listed product.
-  const substitutes = (base) => {
+  const substitutes = (base, modules) => {
     const choices = { ...base };
-    for (const i of effectiveIngredients(recipe, unique, base)) {
+    for (const i of effectiveIngredients(recipe, modules, base)) {
       const chosen =
         selectedIds.find((id) => has(id)(i)) ||
         (!pantry.includes(i.id) && i.alternatives.find((a) => pantry.includes(a.id))?.id);
@@ -437,26 +441,28 @@ export function choicesForSelection(recipe, selectedIds = [], pantry = []) {
     }
     return choices;
   };
-  const choices = substitutes({});
+  if (!recipe.generator) {
+    const modules = modulesFor(null);
+    return { choices: substitutes({}, modules), modules };
+  }
   // A generator takes the first base that keeps every inferred option within its rules;
   // a base that brings a picked product of its own comes first (oats → oat fritters).
-  if (recipe.generator) {
-    const { bases, choiceKey } = recipe.generator;
-    const inferred = bases.find((base) => base.id === choices[choiceKey]);
-    const owns = (base) =>
-      selectedIds.filter((id) => (base.ingredients || []).some(has(id))).length;
-    for (const base of inferred ? [inferred] : [...bases].sort((a, b) => owns(b) - owns(a))) {
-      const candidate = substitutes({ ...choices, [choiceKey]: base.id });
-      const valid = normalizeSelection(recipe, candidate, unique);
-      if (
-        unique.every((id) => valid.includes(id)) &&
-        !selectionIssues(recipe, candidate, valid).length
-      )
-        return { choices: candidate, modules: valid };
-    }
-    return { choices, modules: normalizeSelection(recipe, choices, unique) };
+  const { bases, choiceKey } = recipe.generator;
+  const first = modulesFor(bases[0]);
+  const choices = substitutes({}, first);
+  const inferred = bases.find((base) => base.id === choices[choiceKey]);
+  const owns = (base) => selectedIds.filter((id) => (base.ingredients || []).some(has(id))).length;
+  for (const base of inferred ? [inferred] : [...bases].sort((a, b) => owns(b) - owns(a))) {
+    const unique = modulesFor(base);
+    const candidate = substitutes({ ...choices, [choiceKey]: base.id }, unique);
+    const valid = normalizeSelection(recipe, candidate, unique);
+    if (
+      unique.every((id) => valid.includes(id)) &&
+      !selectionIssues(recipe, candidate, valid).length
+    )
+      return { choices: candidate, modules: valid };
   }
-  return { choices, modules: unique };
+  return { choices, modules: normalizeSelection(recipe, choices, first) };
 }
 export function storageDays(value) {
   const text = String(value).toLowerCase();

@@ -33,9 +33,9 @@ const dinner = [
   'dish-generator',
   'potato-skillet',
   'dish-generator',
-  'chili-sin',
+  'braise-generator',
   'dish-generator',
-  'dal',
+  'braise-generator',
   'dish-generator',
 ];
 export const mealSlots = [

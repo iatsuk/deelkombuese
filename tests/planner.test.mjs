@@ -72,7 +72,10 @@ test('В рецептах все томатные формы связаны, н�
 });
 test('Кокосовое молоко не требуется карри и далу, но доступно как целая добавка', () => {
   const curry = [recipeById['grain-generator'], { technique: 'rice' }, ['chickpeas', 'curry']];
-  for (const [recipe, choices, modules] of [curry, [recipeById.dal, {}, []]]) {
+  for (const [recipe, choices, modules] of [
+    curry,
+    [recipeById['braise-generator'], { technique: 'dal' }, []],
+  ]) {
     assert.ok(
       !prepareRecipe(recipe, choices, {}, null, modules).ingredients.some(
         (i) => i.id === 'coconut',

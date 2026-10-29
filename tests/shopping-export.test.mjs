@@ -34,7 +34,12 @@ test('Shopping exports translate trip menus, measured water, checked products an
 });
 test('Seasonal replenishment and manually added configured dishes remain translated in shopping exports', () => {
   const season = buildSeason(90, []);
-  const extra = { recipeId: 'cabbage-stew', modules: ['rice', 'meat'], count: 1 };
+  const extra = {
+    recipeId: 'braise-generator',
+    choices: { technique: 'cabbage' },
+    modules: ['rice', 'meat'],
+    count: 1,
+  };
   for (const language of ['en', 'de']) {
     const translate = createTranslator(
       JSON.parse(readFileSync(`locales/${language}.json`)),
@@ -51,7 +56,12 @@ test('Seasonal replenishment and manually added configured dishes remain transla
     const manual = buildShoppingText(
       {
         items: shoppingItems(
-          [{ ...prepareRecipe(recipeById[extra.recipeId], {}, {}, null, extra.modules), count: 1 }],
+          [
+            {
+              ...prepareRecipe(recipeById[extra.recipeId], extra.choices, {}, null, extra.modules),
+              count: 1,
+            },
+          ],
           [],
           [{ id: 'freshCabbage', amount: 1, unit: 'уп.' }],
         ),
