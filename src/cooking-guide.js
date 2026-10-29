@@ -168,3 +168,19 @@ export function recipeUtensils(recipe, prepared) {
   items.push(...(prepared.generator?.profile.utensils || []));
   return items;
 }
+
+// The first cooking time a step names ('Тушите 12–15 минут', 'около 20 секунд'), for the
+// stove timer: it starts at the shorter time so the cook checks before it is overdone.
+// A recipe variant's total ('для варианта на 18 минут') is not a step time.
+export function stepDuration(text) {
+  const pattern = /(\d+)(?:\s*[–-]\s*(\d+))?\s*(минут|секунд)/g;
+  for (const match of String(text).matchAll(pattern)) {
+    if (/вариант\S*\s+на\s*$/.test(text.slice(Math.max(0, match.index - 20), match.index)))
+      continue;
+    const from = Number(match[1]);
+    const to = match[2] ? Number(match[2]) : from;
+    const unit = match[3] === 'минут' ? 'min' : 'sec';
+    return { from, to, unit, seconds: from * (unit === 'min' ? 60 : 1) };
+  }
+  return null;
+}

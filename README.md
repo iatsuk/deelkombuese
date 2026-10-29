@@ -17,6 +17,7 @@ Smart Galley is the cooking companion to [deelstuff](https://deelstuff.com). Sta
 - **Find a dish from a search.** Every chapter, dish, recipe and product has its own page in each language (for example `/generators/eggs/shakshuka/` or `/en/products/passata/`), readable without JavaScript and listed in the sitemap; the app opens on it.
 - **Use the whole pack.** Perishable tins, cartons and even a small cabbage head are planned as whole units; the recipe shows its resulting yield.
 - **Provision a passage.** Generate a one-to-seven-day menu, a shopping list and a water budget, or prepare a replenishable seasonal pantry.
+- **Cook at the stove.** «At the stove» shows one large step per screen, starts a timer from the time the step names, keeps timers of earlier steps running and keeps the screen on where the browser allows it; arrow keys move between steps.
 - **Keep instructions handy.** Save a configured favourite in your browser and download its ingredients and illustrated steps as a PNG card. After the initial cache is ready, the app works offline.
 
 The interface, provisions, instructions, exports and legal pages are available in **Russian, English and German**. An explicit language choice wins over a saved preference; a first visit uses the first supported browser language, falling back to English. Shareable links use `?lang=en`, `?lang=de` or `?lang=ru` and retain the current section; a page address carries its language itself (`/en/…`, `/de/…`, Russian at the root).

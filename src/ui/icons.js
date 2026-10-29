@@ -1,6 +1,7 @@
 import { visualPaths } from '../cooking-visuals.js';
 const paths = {
   ...visualPaths,
+  pause: 'M9 5v14M15 5v14',
   star: 'm12 2 3.1 6.3 7 .9-5 4.9 1.2 6.9-6.3-3.3L5.7 21l1.2-6.9-5-4.9 7-.9L12 2Z',
   bread: 'M5 10c-5-1-5-7 0-8 3-2 11-2 14 0 5 1 5 7 0 8v12H5V10Zm3 3v5m4-5v5m4-5v5',
   egg: 'M20 15c0 11-16 11-16 0C4 9 9 1 12 1s8 8 8 14Z',

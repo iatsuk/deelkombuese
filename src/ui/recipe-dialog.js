@@ -46,7 +46,7 @@ export function renderRecipeDialog(
     const snapshot = selectionSnapshot(recipe, choices, packSizes, anchorId, moduleIds),
       saved = state.favorites.find((f) => favoriteKey(f) === favoriteKey(snapshot)),
       same = saved && sameSelection(saved, snapshot);
-    return `<div class="recipe-tools"><button class="button secondary ${same ? 'is-favorite' : ''}" data-action="favorite-current" aria-pressed="${Boolean(same)}">${icon('star')} ${same ? 'Убрать из избранного' : saved ? 'Обновить избранное' : 'В избранное'}</button><button class="button secondary" data-action="recipe-png">${icon('download')} Скачать PNG</button><p>Звёздочка хранит один ваш вариант этого рецепта: замены, добавки и размеры упаковок. PNG сохраняет состав и шаги, которые выбраны сейчас.</p></div>`;
+    return `<div class="recipe-tools"><button class="button primary" data-action="stove">${icon('pot')} У плиты</button><button class="button secondary ${same ? 'is-favorite' : ''}" data-action="favorite-current" aria-pressed="${Boolean(same)}">${icon('star')} ${same ? 'Убрать из избранного' : saved ? 'Обновить избранное' : 'В избранное'}</button><button class="button secondary" data-action="recipe-png">${icon('download')} Скачать PNG</button><p>Звёздочка хранит один ваш вариант этого рецепта: замены, добавки и размеры упаковок. PNG сохраняет состав и шаги, которые выбраны сейчас. «У плиты» показывает по шагу на экран с таймером.</p></div>`;
   }
 
   function renderGrainDiagram(recipe, prepared) {

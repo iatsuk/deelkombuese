@@ -43,6 +43,10 @@ Generators are the chapters of the cookbook (`#generators`). The contents page l
 
 Option phrases (`phrase` on bases and modules) are written to fit the sentence grammatically; labels keep serving buttons and lists. An option a rule blocks is disabled, and a blocked toggle explains its reason when pressed.
 
+## Cooking mode
+
+«У плиты» (`src/stove.css`) fills the screen with one step at a time for a moving boat: the step in large serif type, a timer of 44–72 px tabular figures when the step names a time, and step buttons at least 60–72 px tall. The first screen lays out the ingredients with dotted leaders. Running timers of other steps stay as chips at the top and lead back to their step; a finished timer turns copper and beeps where the device allows it. Both themes use the page colour as the backdrop. Arrow keys move between steps and Escape closes the mode; the key hint is hidden on touch screens.
+
 ## Layout
 
 `src/shell.css` owns the header and footer: brand, section pills, the sea/shore switch, the theme switch and the language selector. Below 1180 px the section pills move to their own row; below 680 px they scroll horizontally under the brand row. Page sections keep their own stylesheet rules in `styles.css`, `features.css` and `visuals.css`.

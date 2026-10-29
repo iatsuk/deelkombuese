@@ -20,6 +20,7 @@ import { renderShopping } from './ui/views/shopping.js';
 import { renderGenerators } from './ui/views/generators.js';
 import { renderShell } from './ui/shell.js';
 import { renderProductDetail } from './ui/product-detail.js';
+import { openStove } from './stove.js';
 import { createPlannerView } from './ui/views/planner.js';
 import { drawGraph } from './ui/graph.js';
 import { initThemeToggle } from './theme.js';
@@ -37,6 +38,7 @@ import {
 } from './data.js';
 import {
   prepareRecipe,
+  recipeSteps,
   effectiveIngredients,
   recipeProductIds,
   choicesForSelection,
@@ -482,6 +484,17 @@ function saveCurrentFavorite() {
   );
 }
 
+// The cooking mode takes the dish as it is selected now, in the drawer or the chapter.
+function openCurrentStove() {
+  const recipe = recipeById[currentRecipe];
+  if (!recipe) return;
+  const prepared = prepareRecipe(recipe, choices, packSizes, anchorId, moduleIds);
+  openStove({
+    title: prepared.title,
+    prepared,
+    steps: recipeSteps(recipe, choices, moduleIds, prepared),
+  });
+}
 async function exportCurrentRecipe() {
   const recipe = recipeById[currentRecipe];
   if (!recipe) return;
@@ -640,6 +653,7 @@ function handleClick(event, button) {
   if (action === 'favorite-toggle') return toggleFavorite(id);
   if (action === 'favorite-current') return saveCurrentFavorite();
   if (action === 'recipe-png') return exportCurrentRecipe();
+  if (action === 'stove') return openCurrentStove();
   if (action === 'recipe') return openRecipe(id);
   if (action === 'planned-recipe') {
     const entry = state.plan.find((p) => p.key === id);

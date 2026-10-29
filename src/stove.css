@@ -1,0 +1,190 @@
+/* Cooking mode («У плиты»): one step per screen, large type and controls for a moving boat. */
+dialog.stove {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--paper);
+  color: var(--ink);
+}
+dialog.stove::backdrop {
+  background: var(--paper);
+}
+body.stove-open {
+  overflow: hidden;
+}
+/* A column where only the step grows, whichever optional rows (timer chips) are present. */
+.stove-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 880px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 20px 24px max(20px, env(safe-area-inset-bottom));
+}
+.stove-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.stove-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--serif);
+  font-size: 20px;
+}
+.stove-bar .icon-button {
+  width: 52px;
+  height: 52px;
+}
+.stove-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.stove-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+}
+.stove-chip.done,
+.stove-timer.done output {
+  border-color: var(--copper);
+  color: var(--copper);
+}
+.stove-progress {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line);
+  overflow: hidden;
+}
+.stove-progress i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+.stove-step {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+.stove-kicker {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--muted);
+  font-size: 18px;
+}
+.stove-text {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(26px, 3.6vw, 40px);
+  line-height: 1.4;
+}
+.stove-ingredients {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(20px, 2.6vw, 26px);
+}
+.stove-ingredients li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.stove-ingredients .leader {
+  flex: 1;
+  border-bottom: 1px dotted var(--line-deep);
+}
+.stove-ingredients strong {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.stove-timer {
+  display: grid;
+  gap: 14px;
+  margin-top: 28px;
+}
+.stove-timer output {
+  justify-self: start;
+  padding: 4px 18px;
+  border: 2px solid var(--line-strong);
+  border-radius: 14px;
+  font-size: clamp(44px, 8vw, 72px);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.stove-alarm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--copper);
+  font-size: 20px;
+}
+.stove-timer-actions,
+.stove-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.stove-timer-actions .button,
+.stove-nav .button {
+  min-height: 60px;
+  padding: 0 24px;
+  font-size: 19px;
+}
+.stove-nav {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+}
+.stove-nav .button {
+  justify-content: center;
+  min-height: 72px;
+  font-size: 22px;
+}
+.stove-nav .button:disabled {
+  opacity: 0.4;
+}
+.icon.flip {
+  transform: scaleX(-1);
+}
+.stove-note {
+  margin: 0;
+  color: var(--faint);
+  font-size: 14px;
+}
+/* Touch screens have no arrow keys to mention. */
+@media (hover: none) {
+  .stove-keys {
+    display: none;
+  }
+}
+@media (max-width: 680px) {
+  .stove-shell {
+    gap: 12px;
+    padding: 14px 16px max(14px, env(safe-area-inset-bottom));
+  }
+  .stove-title {
+    font-size: 17px;
+  }
+  .stove-timer-actions .button {
+    flex: 1 1 auto;
+  }
+}

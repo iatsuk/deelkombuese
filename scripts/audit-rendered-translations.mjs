@@ -10,6 +10,8 @@ import { renderShopping } from '../src/ui/views/shopping.js';
 import { renderGenerators } from '../src/ui/views/generators.js';
 import { createPlannerView } from '../src/ui/views/planner.js';
 import { renderRecipeDialog } from '../src/ui/recipe-dialog.js';
+import { renderCookingMode } from '../src/ui/cooking-mode.js';
+import { stepDuration } from '../src/cooking-guide.js';
 import { recipes, products, generators } from '../src/data.js';
 import {
   prepareRecipe,
@@ -109,6 +111,41 @@ export function auditRenderedTranslations(language) {
           }),
         );
       }
+  }
+  // Cooking mode: every screen of every dish and recipe, with a step timer idle, paused,
+  // running and finished, and each wake-lock state.
+  const cookingScreens = (recipe, choices, moduleIds) => {
+    const prepared = prepareRecipe(recipe, choices, {}, null, moduleIds);
+    const steps = recipeSteps(recipe, choices, moduleIds, prepared);
+    for (let index = 0; index <= steps.length; index++)
+      for (const [timer, wakeLock] of [
+        [null, 'on'],
+        [{ running: false, remaining: 30 }, 'off'],
+        [{ running: true, endsAt: 1000 * 60 }, 'wait'],
+        [{ running: false, remaining: 0 }, 'on'],
+      ]) {
+        if (timer && !(index && stepDuration(steps[index - 1]))) continue;
+        inspect(
+          renderCookingMode({
+            title: prepared.title,
+            prepared,
+            steps,
+            index,
+            timers: timer ? { [index]: timer, [steps.length + 1]: timer } : {},
+            now: 0,
+            wakeLock,
+          }),
+        );
+      }
+  };
+  for (const recipe of recipes) {
+    if (!recipe.generator) cookingScreens(recipe, {}, []);
+    for (const dish of recipe.generator?.dishes || [])
+      cookingScreens(
+        recipe,
+        { [recipe.generator.choiceKey]: dish.base },
+        normalizeSelection(recipe, { [recipe.generator.choiceKey]: dish.base }, dish.modules),
+      );
   }
   state.view = 'recipes';
   state.mode = 'shore';
