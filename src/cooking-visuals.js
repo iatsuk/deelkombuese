@@ -64,7 +64,8 @@ export function cookingAction(step) {
 }
 
 export function grainDiagram(recipe, prepared) {
-  if (!recipe.grainCooking && !prepared.generator?.profile.absorption) return null;
+  const profile = prepared.generator?.profile;
+  if (!recipe.grainCooking && !profile?.absorption && !profile?.grainCooking) return null;
   const adjusted =
     prepared.ingredients.some(
       (i) =>

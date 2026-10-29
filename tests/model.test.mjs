@@ -110,12 +110,16 @@ test('Банки одного продукта разного размера н�
 });
 
 test('Сухая морковь доступна вместо свежей, а дополнительная вода учитывается', () => {
-  const recipe = recipeById.pilaf;
-  const pantry = recipe.ingredients.map((i) => (i.id === 'carrot' ? 'driedCarrot' : i.id));
-  assert.equal(availableRecipe(recipe, pantry), true);
-  const prepared = prepareRecipe(recipe, { carrot: 'driedCarrot' });
+  const recipe = recipeById['grain-generator'];
+  const pilaf = ['stew', 'cumin', 'carrot', 'aromatics'];
+  const rice = { technique: 'rice' };
+  const pantry = prepareRecipe(recipe, rice, {}, null, pilaf).ingredients.map((i) =>
+    i.id === 'carrot' ? 'driedCarrot' : i.id,
+  );
+  assert.equal(availableRecipe(recipe, pantry, pilaf, rice), true);
+  const prepared = prepareRecipe(recipe, { ...rice, carrot: 'driedCarrot' }, {}, null, pilaf);
   assert.equal(prepared.ingredients.find((i) => i.id === 'driedCarrot').amount, 12);
-  assert.equal(prepared.water, prepareRecipe(recipe).water + 60);
+  assert.equal(prepared.water, prepareRecipe(recipe, rice, {}, null, pilaf).water + 60);
 });
 
 test('У каждого продукта есть самостоятельный срок и условия после открытия', () => {

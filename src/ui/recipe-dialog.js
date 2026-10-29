@@ -118,8 +118,8 @@ export function renderRecipeDialog(
     })
     .join('');
   const waterRows = `${prepared.water ? `<div class="ingredient-row water"><div class="ingredient-line"><span>${icon('drop')} ${r.generator ? 'Вода на готовку и восстановление' : 'Питьевая вода, начальный объём'}</span><i class="leader" aria-hidden="true"></i><strong class="ingredient-amount">≈ ${prepared.water} мл</strong></div></div>` : ''}${prepared.prepWater ? `<div class="ingredient-row water"><div class="ingredient-line"><span>${icon('drop')} Отдельно на подготовку / промывание</span><i class="leader" aria-hidden="true"></i><strong class="ingredient-amount">≈ ${prepared.prepWater} мл</strong></div></div>` : ''}`;
-  // A generator base may carry its own galley note (a flatbread is not a full meal).
-  const tip = prepared.generator?.profile.tip || r.tip;
+  // A generator dish or base may carry its own galley note (a flatbread is not a full meal).
+  const tip = prepared.tip;
   // A generator base is a choice too, but only a real substitution needs the note.
   const substituted = Object.keys(choices).some((key) => key !== r.generator?.choiceKey);
   const steps = recipeSteps(r, choices, moduleIds, prepared)

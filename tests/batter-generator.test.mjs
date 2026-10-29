@@ -53,7 +53,7 @@ test('Batter utensils, notes and steps follow the chosen batter', () => {
   ]);
   assert.deepEqual(utensils('flatbread'), ['сковорода', 'лопатка']);
   assert.ok(!cookingBasics(batter, prepared('potato-pancakes')).some((t) => /Кубики/.test(t)));
-  assert.match(prepared('flatbread').generator.profile.tip, /не полноценный обед/);
+  assert.match(prepared('flatbread').tip, /не полноценный обед/);
   const uht = { technique: 'crepes', milkPowder: 'milk' };
   assert.match(recipeSteps(batter, uht, ['milk'])[0], /Вместо воды/);
   assert.match(recipeSteps(batter, base('crepes')).at(-1), /сырым яйцом/);

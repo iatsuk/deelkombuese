@@ -155,6 +155,11 @@ export function missingIngredients(recipe, pantry) {
   );
 }
 
+function generatedFact(recipe, generated, modules, key) {
+  if (!generated) return recipe[key];
+  const dish = generatorDish(recipe, generated.profile, modules);
+  return dish?.[key] || generated.profile[key] || recipe[key];
+}
 export function prepareRecipe(
   recipe,
   choices = {},
@@ -214,7 +219,12 @@ export function prepareRecipe(
   const generated = recipe.generator
     ? generatorWater(recipe, choices, ingredients, modules, scale)
     : null;
+  // A grain base of a generator measures its water by the mug rule like a grain recipe.
+  const grainWater = generated?.profile.grainCooking
+    ? absorptionWater(recipe, ingredients, extraWater, true)
+    : null;
   const water =
+    grainWater ??
     generated?.water ??
     absorptionWater(recipe, ingredients, extraWater) ??
     Math.max(
@@ -246,12 +256,10 @@ export function prepareRecipe(
     packaged,
     modules,
     meal: modules.find((m) => m.meal)?.meal || recipe.meal,
-    // A generator dish or base may be more or less filling than the chapter as a whole.
-    satiety:
-      (generated &&
-        (generatorDish(recipe, generated.profile, modules)?.satiety ||
-          generated.profile.satiety)) ||
-      recipe.satiety,
+    // A generator dish or base may be more or less filling than the chapter as a whole,
+    // and may carry its own galley note.
+    satiety: generatedFact(recipe, generated, modules, 'satiety'),
+    tip: generatedFact(recipe, generated, modules, 'tip'),
     time:
       (generated?.profile.time ?? recipe.time) +
       resolved.reduce((n, i) => n + (i.timeDelta || 0), 0) +

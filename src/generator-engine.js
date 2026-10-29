@@ -79,8 +79,13 @@ export function generatorTitle(recipe, choices, modules) {
   const profile = generatorProfile(recipe, choices);
   const dish = generatorDish(recipe, profile, modules);
   if (dish) return dish.name;
+  // Without a named dish: the base, its sauce and every other option that names itself.
   const sauce = modules.find((m) => m.group === 'sauce');
-  return sauce ? profile.label + ' · ' + moduleTitle(sauce, choices) : profile.label;
+  return [
+    profile.label,
+    ...(sauce ? [moduleTitle(sauce, choices)] : []),
+    ...modules.filter((m) => m !== sauce && m.titleLabel).map((m) => m.titleLabel),
+  ].join(' · ');
 }
 
 // Options may require one of several other options or exclude some; each rule has a reason.

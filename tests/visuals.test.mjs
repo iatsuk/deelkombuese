@@ -10,15 +10,19 @@ import { grainDiagram, cookingAction } from '../src/cooking-visuals.js';
 const root = fileURLToPath(new URL('../', import.meta.url));
 
 test('Схема крупы различает две мерки и уже рассчитанную воду соуса', () => {
-  const plain = recipeById['buckwheat-peas'],
-    p = prepareRecipe(plain),
-    diagram = grainDiagram(plain, p);
+  const grain = recipeById['grain-generator'],
+    p = prepareRecipe(grain, { technique: 'buckwheat' }, {}, null, ['peas']),
+    diagram = grainDiagram(grain, p);
   assert.equal(diagram.adjusted, false);
   assert.equal(diagram.water, 250);
-  const curry = recipeById.curry,
-    withCoconut = prepareRecipe(curry, {}, {}, null, ['coconut']);
-  assert.equal(grainDiagram(curry, withCoconut).adjusted, true);
-  assert.equal(grainDiagram(curry, withCoconut).water, withCoconut.water);
+  const withCoconut = prepareRecipe(grain, { technique: 'rice' }, {}, null, [
+    'chickpeas',
+    'curry',
+    'coconut',
+  ]);
+  assert.equal(grainDiagram(grain, withCoconut).adjusted, true);
+  assert.equal(grainDiagram(grain, withCoconut).water, withCoconut.water);
+  assert.equal(grainDiagram(grain, prepareRecipe(grain, { technique: 'couscous' })), null);
   const generator = recipeById['dish-generator'];
   assert.equal(grainDiagram(generator, prepareRecipe(generator, { pasta: 'risottoRice' })), null);
   assert.equal(

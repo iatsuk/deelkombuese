@@ -1,0 +1,1336 @@
+[
+ {
+  "id": "pilaf",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 590,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "stew": "200 г",
+   "carrot": "1 шт.",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "pilaf",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 590,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "stew": "200 г",
+   "carrot": "1 шт.",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "pilaf",
+  "modules": [
+   "bouillon"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 590,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "stew": "200 г",
+   "carrot": "1 шт.",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл",
+   "bouillon": "0.5 кубик"
+  }
+ },
+ {
+  "id": "pilaf",
+  "modules": [],
+  "choices": {
+   "stew": "soy"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 35,
+  "active": 7,
+  "water": 375,
+  "yieldGrams": 530,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "soy": "50 г",
+   "carrot": "1 шт.",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "pilaf",
+  "modules": [],
+  "choices": {
+   "carrot": "driedCarrot"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 7,
+  "water": 310,
+  "yieldGrams": 550,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "stew": "200 г",
+   "driedCarrot": "12 г",
+   "aromatics": "1 ч. л.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "pilaf",
+  "modules": [],
+  "choices": {
+   "aromatics": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 670,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "stew": "200 г",
+   "carrot": "1 шт.",
+   "onion": "1 шт.",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "pilaf",
+  "modules": [],
+  "choices": {
+   "aromatics": "driedOnion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 590,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "stew": "200 г",
+   "carrot": "1 шт.",
+   "driedOnion": "5 г",
+   "cumin": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "pilaf",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "stew": 325
+  },
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 7,
+  "water": 413,
+  "yieldGrams": 1010,
+  "shore": false,
+  "ingredients": {
+   "rice": "165 г",
+   "stew": "325 г",
+   "carrot": "2 шт.",
+   "aromatics": "1.625 ч. л.",
+   "cumin": "0.875 ч. л.",
+   "oil": "16.25 мл"
+  }
+ },
+ {
+  "id": "paella",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 229,
+  "yieldGrams": 420,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "tuna": "112 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "paella",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 229,
+  "yieldGrams": 420,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "tuna": "112 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "paella",
+  "modules": [
+   "bouillon"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 229,
+  "yieldGrams": 420,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "tuna": "112 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл",
+   "bouillon": "0.5 кубик"
+  }
+ },
+ {
+  "id": "paella",
+  "modules": [],
+  "choices": {
+   "tuna": "sardines"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 229,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "sardines": "90 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "paella",
+  "modules": [],
+  "choices": {
+   "tomatoPaste": "ketchup"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 222,
+  "yieldGrams": 430,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "tuna": "112 г",
+   "ketchup": "40 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "paella",
+  "modules": [],
+  "choices": {
+   "tomatoPaste": "passata"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 169,
+  "yieldGrams": 590,
+  "shore": false,
+  "ingredients": {
+   "rice": "135 г",
+   "tuna": "112 г",
+   "passata": "200 г",
+   "aromatics": "1.375 ч. л.",
+   "paprika": "1.375 ч. л.",
+   "oil": "13.33 мл"
+  }
+ },
+ {
+  "id": "paella",
+  "modules": [],
+  "choices": {
+   "tomatoPaste": "tomato"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 125,
+  "yieldGrams": 520,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "tuna": "112 г",
+   "tomato": "200 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "paella",
+  "modules": [],
+  "choices": {
+   "aromatics": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 229,
+  "yieldGrams": 500,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "tuna": "112 г",
+   "tomatoPaste": "30 г",
+   "onion": "1 шт.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "paella",
+  "modules": [],
+  "choices": {
+   "aromatics": "driedOnion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 229,
+  "yieldGrams": 420,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "tuna": "112 г",
+   "tomatoPaste": "30 г",
+   "driedOnion": "5 г",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "paella",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "tuna": 185
+  },
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 267,
+  "yieldGrams": 480,
+  "shore": false,
+  "ingredients": {
+   "rice": "115 г",
+   "tuna": "130 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1.125 ч. л.",
+   "paprika": "1.125 ч. л.",
+   "oil": "11.61 мл"
+  }
+ },
+ {
+  "id": "paella",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "tomatoPaste": 70
+  },
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 201,
+  "yieldGrams": 440,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "tuna": "112 г",
+   "tomatoPaste": "70 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "paella",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "tomatoPaste": 140
+  },
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 152,
+  "yieldGrams": 480,
+  "shore": false,
+  "ingredients": {
+   "rice": "100 г",
+   "tuna": "112 г",
+   "tomatoPaste": "140 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "curry",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 225,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "rice": "90 г",
+   "chickpeas": "130 г",
+   "aromatics": "1 ч. л.",
+   "curry": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "curry",
+  "modules": [
+   "coconut"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 113,
+  "yieldGrams": 520,
+  "shore": false,
+  "ingredients": {
+   "rice": "90 г",
+   "chickpeas": "130 г",
+   "aromatics": "1 ч. л.",
+   "curry": "1 ч. л.",
+   "oil": "10 мл",
+   "coconut": "200 мл"
+  }
+ },
+ {
+  "id": "curry",
+  "modules": [
+   "bouillon"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 225,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "rice": "90 г",
+   "chickpeas": "130 г",
+   "aromatics": "1 ч. л.",
+   "curry": "1 ч. л.",
+   "oil": "10 мл",
+   "bouillon": "0.5 кубик"
+  }
+ },
+ {
+  "id": "curry",
+  "modules": [
+   "ginger"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 225,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "rice": "90 г",
+   "chickpeas": "130 г",
+   "aromatics": "1 ч. л.",
+   "curry": "1 ч. л.",
+   "oil": "10 мл",
+   "driedGinger": "0.25 ч. л."
+  }
+ },
+ {
+  "id": "curry",
+  "modules": [
+   "ginger"
+  ],
+  "choices": {
+   "driedGinger": "ginger"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 225,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "rice": "90 г",
+   "chickpeas": "130 г",
+   "aromatics": "1 ч. л.",
+   "curry": "1 ч. л.",
+   "oil": "10 мл",
+   "ginger": "5 г"
+  }
+ },
+ {
+  "id": "curry",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 225,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "rice": "90 г",
+   "chickpeas": "130 г",
+   "aromatics": "1 ч. л.",
+   "curry": "1 ч. л.",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "curry",
+  "modules": [],
+  "choices": {
+   "chickpeas": "beans"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 225,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "rice": "90 г",
+   "beans": "130 г",
+   "aromatics": "1 ч. л.",
+   "curry": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "curry",
+  "modules": [],
+  "choices": {
+   "aromatics": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 225,
+  "yieldGrams": 470,
+  "shore": false,
+  "ingredients": {
+   "rice": "90 г",
+   "chickpeas": "130 г",
+   "onion": "1 шт.",
+   "curry": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "curry",
+  "modules": [],
+  "choices": {
+   "aromatics": "driedOnion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 225,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "rice": "90 г",
+   "chickpeas": "130 г",
+   "driedOnion": "5 г",
+   "curry": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "curry",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "chickpeas": 400
+  },
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 413,
+  "yieldGrams": 730,
+  "shore": false,
+  "ingredients": {
+   "rice": "165 г",
+   "chickpeas": "240 г",
+   "aromatics": "1.875 ч. л.",
+   "curry": "1.875 ч. л.",
+   "oil": "18.46 мл"
+  }
+ },
+ {
+  "id": "buckwheat-stew",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 27,
+  "active": 5,
+  "water": 250,
+  "yieldGrams": 580,
+  "shore": false,
+  "ingredients": {
+   "buckwheat": "90 г",
+   "stew": "200 г",
+   "carrot": "1 шт.",
+   "aromatics": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "buckwheat-stew",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 27,
+  "active": 5,
+  "water": 250,
+  "yieldGrams": 580,
+  "shore": false,
+  "ingredients": {
+   "buckwheat": "90 г",
+   "stew": "200 г",
+   "carrot": "1 шт.",
+   "aromatics": "1 ч. л.",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "buckwheat-stew",
+  "modules": [
+   "bouillon"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 27,
+  "active": 5,
+  "water": 250,
+  "yieldGrams": 580,
+  "shore": false,
+  "ingredients": {
+   "buckwheat": "90 г",
+   "stew": "200 г",
+   "carrot": "1 шт.",
+   "aromatics": "1 ч. л.",
+   "oil": "10 мл",
+   "bouillon": "0.5 кубик"
+  }
+ },
+ {
+  "id": "buckwheat-stew",
+  "modules": [],
+  "choices": {
+   "stew": "soy"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 32,
+  "active": 5,
+  "water": 375,
+  "yieldGrams": 520,
+  "shore": false,
+  "ingredients": {
+   "buckwheat": "90 г",
+   "soy": "50 г",
+   "carrot": "1 шт.",
+   "aromatics": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "buckwheat-stew",
+  "modules": [],
+  "choices": {
+   "carrot": "driedCarrot"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 27,
+  "active": 5,
+  "water": 310,
+  "yieldGrams": 530,
+  "shore": false,
+  "ingredients": {
+   "buckwheat": "90 г",
+   "stew": "200 г",
+   "driedCarrot": "12 г",
+   "aromatics": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "buckwheat-stew",
+  "modules": [],
+  "choices": {
+   "aromatics": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 27,
+  "active": 5,
+  "water": 250,
+  "yieldGrams": 660,
+  "shore": false,
+  "ingredients": {
+   "buckwheat": "90 г",
+   "stew": "200 г",
+   "carrot": "1 шт.",
+   "onion": "1 шт.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "buckwheat-stew",
+  "modules": [],
+  "choices": {
+   "aromatics": "driedOnion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 27,
+  "active": 5,
+  "water": 250,
+  "yieldGrams": 580,
+  "shore": false,
+  "ingredients": {
+   "buckwheat": "90 г",
+   "stew": "200 г",
+   "carrot": "1 шт.",
+   "driedOnion": "5 г",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "buckwheat-stew",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "stew": 325
+  },
+  "satiety": "3–4 ч",
+  "time": 27,
+  "active": 5,
+  "water": 403,
+  "yieldGrams": 970,
+  "shore": false,
+  "ingredients": {
+   "buckwheat": "145 г",
+   "stew": "325 г",
+   "carrot": "2 шт.",
+   "aromatics": "1.625 ч. л.",
+   "oil": "16.25 мл"
+  }
+ },
+ {
+  "id": "buckwheat-peas",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 4,
+  "water": 250,
+  "yieldGrams": 410,
+  "shore": false,
+  "ingredients": {
+   "buckwheat": "90 г",
+   "peas": "130 г",
+   "driedOnion": "5 г",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "buckwheat-peas",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 4,
+  "water": 250,
+  "yieldGrams": 410,
+  "shore": false,
+  "ingredients": {
+   "buckwheat": "90 г",
+   "peas": "130 г",
+   "driedOnion": "5 г",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "buckwheat-peas",
+  "modules": [
+   "bouillon"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 4,
+  "water": 250,
+  "yieldGrams": 410,
+  "shore": false,
+  "ingredients": {
+   "buckwheat": "90 г",
+   "peas": "130 г",
+   "driedOnion": "5 г",
+   "oil": "10 мл",
+   "bouillon": "0.5 кубик"
+  }
+ },
+ {
+  "id": "buckwheat-peas",
+  "modules": [],
+  "choices": {
+   "driedOnion": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 4,
+  "water": 250,
+  "yieldGrams": 490,
+  "shore": false,
+  "ingredients": {
+   "buckwheat": "90 г",
+   "peas": "130 г",
+   "onion": "1 шт.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "buckwheat-peas",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "peas": 400
+  },
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 4,
+  "water": 458,
+  "yieldGrams": 750,
+  "shore": false,
+  "ingredients": {
+   "buckwheat": "165 г",
+   "peas": "240 г",
+   "driedOnion": "9.23 г",
+   "oil": "18.46 мл"
+  }
+ },
+ {
+  "id": "rice-corn",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 27,
+  "active": 4,
+  "water": 225,
+  "yieldGrams": 510,
+  "shore": false,
+  "ingredients": {
+   "rice": "90 г",
+   "corn": "140 г",
+   "tuna": "112 г",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "rice-corn",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 27,
+  "active": 4,
+  "water": 225,
+  "yieldGrams": 510,
+  "shore": false,
+  "ingredients": {
+   "rice": "90 г",
+   "corn": "140 г",
+   "tuna": "112 г",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "rice-corn",
+  "modules": [
+   "bouillon"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 27,
+  "active": 4,
+  "water": 225,
+  "yieldGrams": 510,
+  "shore": false,
+  "ingredients": {
+   "rice": "90 г",
+   "corn": "140 г",
+   "tuna": "112 г",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл",
+   "bouillon": "0.5 кубик"
+  }
+ },
+ {
+  "id": "rice-corn",
+  "modules": [],
+  "choices": {
+   "tuna": "sardines"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 27,
+  "active": 4,
+  "water": 225,
+  "yieldGrams": 490,
+  "shore": false,
+  "ingredients": {
+   "rice": "90 г",
+   "corn": "140 г",
+   "sardines": "90 г",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "rice-corn",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "corn": 340
+  },
+  "satiety": "3–4 ч",
+  "time": 27,
+  "active": 4,
+  "water": 463,
+  "yieldGrams": 930,
+  "shore": false,
+  "ingredients": {
+   "rice": "185 г",
+   "corn": "285 г",
+   "tuna": "112 г",
+   "paprika": "1 ч. л.",
+   "oil": "20 мл"
+  }
+ },
+ {
+  "id": "rice-corn",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "tuna": 185
+  },
+  "satiety": "3–4 ч",
+  "time": 27,
+  "active": 4,
+  "water": 225,
+  "yieldGrams": 530,
+  "shore": false,
+  "ingredients": {
+   "rice": "90 г",
+   "corn": "140 г",
+   "tuna": "130 г",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "couscous",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 10,
+  "active": 3,
+  "water": 120,
+  "yieldGrams": 340,
+  "shore": false,
+  "ingredients": {
+   "couscous": "90 г",
+   "chickpeas": "130 г",
+   "raisins": "20 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "couscous",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 10,
+  "active": 3,
+  "water": 120,
+  "yieldGrams": 340,
+  "shore": false,
+  "ingredients": {
+   "couscous": "90 г",
+   "chickpeas": "130 г",
+   "raisins": "20 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "couscous",
+  "modules": [
+   "bouillon"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 10,
+  "active": 3,
+  "water": 120,
+  "yieldGrams": 340,
+  "shore": false,
+  "ingredients": {
+   "couscous": "90 г",
+   "chickpeas": "130 г",
+   "raisins": "20 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл",
+   "bouillon": "0.5 кубик"
+  }
+ },
+ {
+  "id": "couscous",
+  "modules": [],
+  "choices": {
+   "chickpeas": "beans"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 10,
+  "active": 3,
+  "water": 120,
+  "yieldGrams": 340,
+  "shore": false,
+  "ingredients": {
+   "couscous": "90 г",
+   "beans": "130 г",
+   "raisins": "20 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "couscous",
+  "modules": [],
+  "choices": {
+   "aromatics": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 10,
+  "active": 3,
+  "water": 120,
+  "yieldGrams": 420,
+  "shore": false,
+  "ingredients": {
+   "couscous": "90 г",
+   "chickpeas": "130 г",
+   "raisins": "20 г",
+   "onion": "1 шт.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "couscous",
+  "modules": [],
+  "choices": {
+   "aromatics": "driedOnion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 10,
+  "active": 3,
+  "water": 120,
+  "yieldGrams": 340,
+  "shore": false,
+  "ingredients": {
+   "couscous": "90 г",
+   "chickpeas": "130 г",
+   "raisins": "20 г",
+   "driedOnion": "5 г",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "couscous",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "chickpeas": 400
+  },
+  "satiety": "3–4 ч",
+  "time": 10,
+  "active": 3,
+  "water": 222,
+  "yieldGrams": 620,
+  "shore": false,
+  "ingredients": {
+   "couscous": "165 г",
+   "chickpeas": "240 г",
+   "raisins": "35 г",
+   "aromatics": "1.875 ч. л.",
+   "paprika": "0.875 ч. л.",
+   "oil": "18.46 мл"
+  }
+ },
+ {
+  "id": "savory-oats",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 10,
+  "active": 3,
+  "water": 280,
+  "yieldGrams": 290,
+  "shore": false,
+  "ingredients": {
+   "oats": "80 г",
+   "bouillon": "0.5 кубик",
+   "driedOnion": "3 г",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "savory-oats",
+  "modules": [
+   "fish"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 10,
+  "active": 3,
+  "water": 280,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "oats": "80 г",
+   "bouillon": "0.5 кубик",
+   "driedOnion": "3 г",
+   "oil": "10 мл",
+   "tuna": "112 г"
+  }
+ },
+ {
+  "id": "savory-oats",
+  "modules": [
+   "fish"
+  ],
+  "choices": {
+   "tuna": "sardines"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 10,
+  "active": 3,
+  "water": 280,
+  "yieldGrams": 380,
+  "shore": false,
+  "ingredients": {
+   "oats": "80 г",
+   "bouillon": "0.5 кубик",
+   "driedOnion": "3 г",
+   "oil": "10 мл",
+   "sardines": "90 г"
+  }
+ },
+ {
+  "id": "savory-oats",
+  "modules": [
+   "peas"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 10,
+  "active": 3,
+  "water": 280,
+  "yieldGrams": 420,
+  "shore": false,
+  "ingredients": {
+   "oats": "80 г",
+   "bouillon": "0.5 кубик",
+   "driedOnion": "3 г",
+   "oil": "10 мл",
+   "peas": "130 г"
+  }
+ },
+ {
+  "id": "savory-oats",
+  "modules": [
+   "cheese"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 10,
+  "active": 3,
+  "water": 280,
+  "yieldGrams": 390,
+  "shore": true,
+  "ingredients": {
+   "oats": "80 г",
+   "bouillon": "0.5 кубик",
+   "driedOnion": "3 г",
+   "oil": "10 мл",
+   "cheese": "100 г"
+  }
+ },
+ {
+  "id": "savory-oats",
+  "modules": [],
+  "choices": {
+   "driedOnion": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 10,
+  "active": 3,
+  "water": 280,
+  "yieldGrams": 370,
+  "shore": false,
+  "ingredients": {
+   "oats": "80 г",
+   "bouillon": "0.5 кубик",
+   "onion": "1 шт.",
+   "oil": "10 мл"
+  }
+ }
+]

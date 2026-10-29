@@ -15,18 +15,18 @@ const breakfast = [
   'batter-generator',
   'no-cook-generator',
   'batter-generator',
-  'savory-oats',
+  'grain-generator',
   'pan-muesli',
   'oatmeal',
 ];
 const lunch = [
-  'buckwheat-peas',
+  'grain-generator',
   'tomato-pack-soup',
   'broth-soup',
-  'rice-corn',
+  'grain-generator',
   'soup',
   'cabbage-soup',
-  'couscous',
+  'grain-generator',
 ];
 const dinner = [
   'dish-generator',

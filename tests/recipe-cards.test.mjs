@@ -6,10 +6,14 @@ import { buildRecipeCard } from '../src/recipe-export.js';
 import { selectionSnapshot, sameSelection, normalizeFavorites } from '../src/preferences.js';
 
 test('Рис и гречка подробно объясняют мерку, слабый огонь, крышку и проверку готовности', () => {
-  for (const id of ['rice-corn', 'buckwheat-peas']) {
-    const recipe = recipeById[id],
-      prepared = prepareRecipe(recipe),
-      steps = recipeSteps(recipe, {}, [], prepared).join('\n');
+  const grain = recipeById['grain-generator'];
+  const dishes = [
+    [{ technique: 'rice' }, ['corn', 'tuna', 'paprika']],
+    [{ technique: 'buckwheat', aromatics: 'driedOnion' }, ['peas', 'aromatics']],
+  ];
+  for (const [choices, modules] of dishes) {
+    const prepared = prepareRecipe(grain, choices, {}, null, modules),
+      steps = recipeSteps(grain, choices, modules, prepared).join('\n');
     assert.match(steps, /ту же ёмкость/);
     assert.match(steps, /повторите ещё раз/);
     assert.match(steps, /самого слабого огня/);
@@ -18,20 +22,21 @@ test('Рис и гречка подробно объясняют мерку, с�
     assert.match(steps, /2–3 столовые ложки/);
     assert.match(steps, /выключите горелку/);
   }
-  assert.equal(prepareRecipe(recipeById['buckwheat-peas']).water, 250);
-  assert.equal(prepareRecipe(recipeById['rice-corn']).water, 225);
+  assert.equal(prepareRecipe(grain, dishes[1][0], {}, null, dishes[1][1]).water, 250);
+  assert.equal(prepareRecipe(grain, dishes[0][0], {}, null, dishes[0][1]).water, 225);
 });
 test('Соус и восстановление овощей используют воду карточки без второй порции сверху', () => {
-  const recipe = recipeById.pilaf,
-    choices = { carrot: 'driedCarrot' };
-  const prepared = prepareRecipe(recipe, choices);
-  assert.equal(prepared.water, 310);
-  assert.match(recipeSteps(recipe, choices, [], prepared).join(' '), /310 мл/);
-  assert.match(recipeSteps(recipe, choices, [], prepared).join(' '), /сверху добавлять не нужно/);
-  const curry = recipeById.curry,
-    p = prepareRecipe(curry, {}, {}, null, ['coconut']);
+  const grain = recipeById['grain-generator'],
+    choices = { technique: 'rice', carrot: 'driedCarrot' },
+    pilaf = ['stew', 'cumin', 'carrot', 'aromatics'];
+  const prepared = prepareRecipe(grain, choices, {}, null, pilaf);
+  assert.equal(prepared.water, 285);
+  assert.match(recipeSteps(grain, choices, pilaf, prepared).join(' '), /285 мл/);
+  assert.match(recipeSteps(grain, choices, pilaf, prepared).join(' '), /сверху добавлять не нужно/);
+  const curry = ['chickpeas', 'curry', 'aromatics', 'coconut'],
+    p = prepareRecipe(grain, { technique: 'rice' }, {}, null, curry);
   assert.ok(p.water > 100 && p.water < 300);
-  assert.match(recipeSteps(curry, {}, ['coconut'], p).join(' '), /жидкий соус/);
+  assert.match(recipeSteps(grain, { technique: 'rice' }, curry, p).join(' '), /жидкий соус/);
 });
 test('Обычный рис в генераторе готовится под крышкой, арборио — с доливанием', () => {
   const recipe = recipeById['dish-generator'];

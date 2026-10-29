@@ -4,6 +4,7 @@ import { createPastaGenerator } from './catalog/generators/pasta.js';
 import { createEggGenerator } from './catalog/generators/eggs.js';
 import { createNoCookGenerator } from './catalog/generators/no-cook.js';
 import { createBatterGenerator } from './catalog/generators/batter.js';
+import { createGrainGenerator } from './catalog/generators/grain.js';
 // Storage periods are editorial rotation estimates, not results of yacht storage trials.
 export const sources = [
   {
@@ -1273,68 +1274,6 @@ export const recipes = [
     },
   ),
   r(
-    'buckwheat-stew',
-    'Гречка с мясом и морковью',
-    'buckwheat',
-    22,
-    5,
-    'Одна целая банка мяса задаёт количество гречки. Морковь можно взять сушёную.',
-    [
-      i('buckwheat', 90),
-      meat(),
-      i('carrot', 1, 'шт.', [
-        {
-          id: 'driedCarrot',
-          amount: 12,
-          unit: 'г',
-          waterExtra: 60,
-          note: '12 г мелкой быстро восстанавливаемой моркови вместо свежей. Добавить около 60 мл воды; для обычных кусочков отдельно учесть замачивание 20–60 минут.',
-        },
-      ]),
-      aroma(),
-      oil(),
-    ],
-    200,
-    [
-      'Свежую морковь мелко нарежьте и прогрейте в масле. Сушёную подготовьте по способу восстановления; быстро восстанавливаемые хлопья можно добавить с водой.',
-      'Добавьте гречку, ароматическую основу и рассчитанную питьевую воду. Готовьте под крышкой 15–20 минут до мягкости крупы, при необходимости доливая.',
-      'Добавьте всё содержимое выбранной мясной банки и полностью прогрейте. Сухой текстурат при замене заранее восстановите.',
-    ],
-    { tone: 'brown' },
-  ),
-  r(
-    'buckwheat-peas',
-    'Гречка с зелёным горошком',
-    'buckwheat',
-    20,
-    4,
-    'Откройте одну банку горошка и отправьте её в кашу целиком.',
-    [i('buckwheat', 90), i('peas', 1, 'уп.'), i('driedOnion', 5), oil()],
-    200,
-    [
-      'Залейте гречку питьевой водой, добавьте сушёный лук и готовьте под крышкой до мягкости, примерно 15–20 минут.',
-      'Слейте жидкость из банки горошка. Всё содержимое без жидкости добавьте в кашу.',
-      'Добавьте масло, соль и перец. Хорошо прогрейте горошек вместе с гречкой.',
-    ],
-    { tone: 'green' },
-  ),
-  r(
-    'rice-corn',
-    'Рис с кукурузой и тунцом',
-    'rice',
-    22,
-    4,
-    'Две открытые банки — тунец и кукуруза — расходуются полностью.',
-    [i('rice', 90), i('corn', 1, 'уп.'), fish(), i('paprika', 0.5, 'ч. л.'), oil()],
-    210,
-    [
-      'В кастрюлю отправьте рис, питьевую воду и паприку. Готовьте под крышкой до мягкости риса.',
-      'Слейте жидкость из кукурузы и рыбы. Добавьте всё содержимое обеих банок.',
-      'Добавьте масло, посолите по вкусу и полностью прогрейте блюдо.',
-    ],
-    { tone: 'gold' },
-  ),
-  r(
     'warm-rolls',
     'Тёплые булочки на сковороде',
     'bread',
@@ -1373,25 +1312,6 @@ export const recipes = [
     { vessel: 'cold', meal: 'snack', satiety: '1–2 ч', tone: 'brown', drySnack: true },
   ),
   r(
-    'pilaf',
-    'Походный плов',
-    'rice',
-    25,
-    7,
-    'Рис, мясные консервы и зира. Знакомый вкус в одной кастрюле.',
-    [i('rice', 100), meat(), i('carrot', 1, 'шт.'), aroma(), i('cumin', 0.5, 'ч. л.'), oil()],
-    220,
-    [
-      'Мелко нарежьте морковь. Прогрейте масло в кастрюле и обжарьте морковь 3 минуты. Сухую ароматическую смесь и зиру добавьте на 20 секунд, не пережаривайте.',
-      'Всыпьте рис, добавьте питьевую воду и немного соли. Перемешайте один раз, накройте крышкой и варите на слабом огне по времени на упаковке риса, обычно 15–18 минут.',
-      'Добавьте всё содержимое выбранной упаковки готовых мясных консервов, прогрейте всё вместе до горячего состояния. Выключите и оставьте под крышкой на 3 минуты.',
-    ],
-    {
-      tone: 'gold',
-      tip: 'Если нет моркови, можно обойтись без неё. Получится рис с мясом и зирой, а подготовка займёт меньше времени.',
-    },
-  ),
-  r(
     'chili-sin',
     'Чили син карне',
     'legumes',
@@ -1411,32 +1331,6 @@ export const recipes = [
     },
   ),
   r(
-    'curry',
-    'Рис с нутом карри',
-    'rice',
-    25,
-    5,
-    'Сухие специи, нут и немного кокосового молока.',
-    [
-      i('rice', 90),
-      i('chickpeas', 1, 'уп.'),
-      i('coconut', 150, 'мл'),
-      aroma(),
-      i('curry', 1, 'ч. л.'),
-      oil(),
-    ],
-    150,
-    [
-      'Прогрейте масло и сухие специи 20 секунд. Всыпьте рис и перемешайте.',
-      'Влейте питьевую воду и кокосовое молоко. Добавьте весь нут из выбранной упаковки без жидкости. Доведите до слабого кипения.',
-      'Накройте крышкой и готовьте по времени на упаковке риса, обычно 15–18 минут. Изредка проверяйте дно: кокосовое молоко может пригорать. Дайте постоять 3 минуты.',
-    ],
-    {
-      tone: 'gold',
-      tip: 'Кокосовое молоко можно заменить водой того же объёма. Вкус станет менее сливочным; нут остаётся источником белка.',
-    },
-  ),
-  r(
     'stew',
     'Картофельное рагу',
     'potato',
@@ -1453,32 +1347,6 @@ export const recipes = [
     { tone: 'brown' },
   ),
   r(
-    'couscous',
-    'Кускус после вахты',
-    'couscous',
-    10,
-    3,
-    'Нут, изюм и паприка. Почти всё время кастрюля стоит без огня.',
-    [
-      i('couscous', 90),
-      i('chickpeas', 1, 'уп.'),
-      i('raisins', 20),
-      aroma(),
-      i('paprika', 0.5, 'ч. л.'),
-      oil(),
-    ],
-    120,
-    [
-      'В кастрюле доведите питьевую воду до кипения вместе с всем нутом из выбранной упаковки без жидкости, сухой смесью, изюмом и паприкой.',
-      'Выключите огонь, всыпьте кускус и добавьте масло. Проверьте соотношение воды и кускуса на упаковке: для некоторых марок нужно больше воды.',
-      'Накройте на 5 минут. Разрыхлите ложкой, попробуйте и посолите.',
-    ],
-    {
-      tone: 'gold',
-      tip: 'Кускус не равен рису по способу готовки: его запаривают после выключения огня.',
-    },
-  ),
-  r(
     'dal',
     'Красный чечевичный дал',
     'legumes',
@@ -1493,25 +1361,6 @@ export const recipes = [
       'Добавьте кокосовое молоко, прогрейте ещё 3 минуты. Если дал слишком густой, долейте немного воды. Посолите в конце.',
     ],
     { tone: 'gold' },
-  ),
-  r(
-    'paella',
-    'Рис с рыбой и паприкой',
-    'rice',
-    25,
-    5,
-    'По мотивам паэльи: доступные консервы и одна горелка.',
-    [i('rice', 100), fish(), tomato(), aroma(), i('paprika', 1, 'ч. л.'), oil()],
-    230,
-    [
-      'Прогрейте масло, сухую смесь, паприку и томатную пасту около 30 секунд.',
-      'Добавьте рис и питьевую воду. Накройте и готовьте на слабом огне по инструкции риса, обычно 15–18 минут.',
-      'Выложите рыбу из всей выбранной банки поверх риса. Хорошо прогрейте под крышкой и оставьте на 3 минуты без огня.',
-    ],
-    {
-      tone: 'red',
-      tip: 'Это упрощённый походный вариант, а не традиционная паэлья. Сардины подходят так же хорошо, как тунец.',
-    },
   ),
   r(
     'soup',
@@ -1598,8 +1447,8 @@ for (const recipe of recipes) {
 }
 recipes.find((r) => r.id === 'oatmeal').meal = 'breakfast';
 
-for (const id of ['curry', 'dal']) {
-  const recipe = recipes.find((r) => r.id === id);
+{
+  const recipe = recipes.find((r) => r.id === 'dal');
   recipe.ingredients = recipe.ingredients.filter((i) => i.id !== 'coconut');
   recipe.water += 150;
   recipe.modules = [
@@ -1628,24 +1477,15 @@ for (const id of ['curry', 'dal']) {
     },
   ];
   recipe.template = {
-    core: [id === 'curry' ? 'rice' : 'lentils', id === 'curry' ? 'chickpeas' : 'curry'],
+    core: ['lentils', 'curry'],
     text: 'Пряная основа работает на воде или бульоне. Кокосовое молоко — дополнительный вкус, покупать его специально не нужно.',
   };
   recipe.modules.find((m) => m.id === 'coconut').beforeStep = 1;
-  if (id === 'curry')
-    recipe.desc = 'Рис, нут и карри на воде или бульоне. Кокосовое молоко необязательно.';
-  recipe.steps =
-    id === 'curry'
-      ? [
-          'Прогрейте масло и смесь карри несколько секунд. Добавьте ароматическую основу и рис.',
-          'Влейте рассчитанную питьевую воду, добавьте весь нут без жидкости. Если выбраны дополнительные жидкие продукты, добавьте их на этом этапе.',
-          'Готовьте под крышкой до мягкости риса, обычно 15–18 минут. Проверяйте дно и доливайте воду по необходимости. Дайте постоять 3 минуты.',
-        ]
-      : [
-          'Промойте чечевицу питьевой водой. Прогрейте масло с карри и ароматической основой.',
-          'Всыпьте чечевицу, влейте рассчитанную воду. Варите 12–15 минут, помешивая; при необходимости долейте.',
-          'Доведите до мягкости, подстройте густоту водой и посолите после пробы. Выбранные жидкие добавки полностью прогрейте в блюде.',
-        ];
+  recipe.steps = [
+    'Промойте чечевицу питьевой водой. Прогрейте масло с карри и ароматической основой.',
+    'Всыпьте чечевицу, влейте рассчитанную воду. Варите 12–15 минут, помешивая; при необходимости долейте.',
+    'Доведите до мягкости, подстройте густоту водой и посолите после пробы. Выбранные жидкие добавки полностью прогрейте в блюде.',
+  ];
 }
 productById.coconut.hint = 'Необязательная добавка · вне базовой закупки';
 productById.oil.life = '6–12 мес.';
@@ -1673,20 +1513,8 @@ recipes.unshift(
   createPastaGenerator({ r, i, tomato, fish }),
   createNoCookGenerator({ r, i, fish }),
   createBatterGenerator({ r, i, fish }),
+  createGrainGenerator({ r, i, aroma, tomato, fish, meat }),
 );
-const absorptionRecipes = new Set([
-  'buckwheat-stew',
-  'buckwheat-peas',
-  'rice-corn',
-  'pilaf',
-  'paella',
-  'curry',
-]);
-for (const recipe of recipes)
-  if (absorptionRecipes.has(recipe.id)) {
-    recipe.grainCooking = true;
-    recipe.time += 5;
-  }
 export const recipeMigrations = {
   'pasta-tuna': { recipeId: 'dish-generator', modules: ['sauce-tomato', 'fish'] },
   bolognese: { recipeId: 'dish-generator', modules: ['sauce-tomato', 'mince'] },
@@ -1736,6 +1564,50 @@ export const recipeMigrations = {
     choices: { technique: 'potato-pancakes' },
   },
   flatbread: { recipeId: 'batter-generator', modules: [], choices: { technique: 'flatbread' } },
+  // One-pot grains became the grain chapter: grain, spice, one can and vegetables.
+  pilaf: {
+    recipeId: 'grain-generator',
+    modules: ['stew', 'cumin', 'carrot', 'aromatics'],
+    choices: { technique: 'rice' },
+  },
+  paella: {
+    recipeId: 'grain-generator',
+    modules: ['tuna', 'tomato-paprika', 'aromatics'],
+    choices: { technique: 'rice' },
+  },
+  curry: {
+    recipeId: 'grain-generator',
+    modules: ['chickpeas', 'curry', 'aromatics'],
+    choices: { technique: 'rice' },
+  },
+  // The can of corn comes first: like the former recipe, it sets the pack scale.
+  'rice-corn': {
+    recipeId: 'grain-generator',
+    modules: ['corn', 'tuna', 'paprika'],
+    choices: { technique: 'rice' },
+  },
+  'buckwheat-stew': {
+    recipeId: 'grain-generator',
+    modules: ['stew', 'carrot', 'aromatics'],
+    choices: { technique: 'buckwheat' },
+  },
+  'buckwheat-peas': {
+    recipeId: 'grain-generator',
+    modules: ['peas', 'aromatics'],
+    choices: { technique: 'buckwheat', aromatics: 'driedOnion' },
+    choiceMap: { driedOnion: 'aromatics' },
+  },
+  couscous: {
+    recipeId: 'grain-generator',
+    modules: ['chickpeas', 'paprika', 'raisins', 'aromatics'],
+    choices: { technique: 'couscous' },
+  },
+  'savory-oats': {
+    recipeId: 'grain-generator',
+    modules: [],
+    choices: { technique: 'oats' },
+    moduleMap: { fish: ['tuna'] },
+  },
 };
 
 export const productFamilies = [
@@ -1823,18 +1695,10 @@ for (const recipe of recipes) {
           ? 'eggs'
           : recipe.base === 'flour'
             ? 'pancakes'
-            : [
-                  'oatmeal',
-                  'buckwheat-stew',
-                  'buckwheat-peas',
-                  'pilaf',
-                  'rice-corn',
-                  'paella',
-                  'couscous',
-                ].includes(recipe.id)
+            : recipe.id === 'oatmeal'
               ? 'porridge'
               : 'stew';
-  if (recipe.meal === 'main') {
+  if (recipe.meal === 'main' && !recipe.modules.some((m) => m.id === 'seasoning')) {
     const seasoning = [i('salt', 0.125, 'ч. л.'), i('pepper', 0.125, 'ч. л.')].filter(
       (i) => !recipe.ingredients.some((base) => base.id === i.id),
     );

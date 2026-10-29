@@ -16,8 +16,9 @@ const drainedNames = {
   olives: 'оливки',
 };
 
-export function absorptionWater(recipe, ingredients, extraWater = 0) {
-  if (!recipe.grainCooking) return null;
+// Water by the mug rule for grain cooked under a lid: for grain recipes and generator bases.
+export function absorptionWater(recipe, ingredients, extraWater = 0, grainCooking = false) {
+  if (!recipe.grainCooking && !grainCooking) return null;
   const grain = ingredients.find((i) => ['rice', 'buckwheat'].includes(i.id));
   if (!grain) return null;
   // Approximate conversion from the volume rule to the card's gram quantities.
@@ -127,7 +128,11 @@ export function cookingBasics(recipe, prepared) {
     tips.push(
       'Средний огонь: масло прогрелось, но не дымится. Если снаружи уже темнеет, а внутри сыро, уменьшите нагрев и готовьте дольше.',
     );
-  else if (recipe.vessel !== 'cold' && !recipe.grainCooking)
+  else if (
+    recipe.vessel !== 'cold' &&
+    !recipe.grainCooking &&
+    !prepared.generator?.profile.grainCooking
+  )
     tips.push(
       'После закипания уменьшите огонь: «томить» — значит поддерживать редкие небольшие пузырьки, а не бурное кипение.',
     );
@@ -153,7 +158,11 @@ export function recipeUtensils(recipe, prepared) {
       : recipe.vessel === 'pan'
         ? ['сковорода', 'лопатка']
         : ['кастрюля с крышкой', 'ложка'];
-  if (recipe.grainCooking || prepared.generator?.profile.absorption)
+  if (
+    recipe.grainCooking ||
+    prepared.generator?.profile.absorption ||
+    prepared.generator?.profile.grainCooking
+  )
     items.push('сухая кружка или стакан для мерки');
   // A generator base names what its technique needs beyond the vessel: a bowl, a grater.
   items.push(...(prepared.generator?.profile.utensils || []));

@@ -85,7 +85,7 @@ test('Прежние записи пасты и болоньезе сохран�
   }
 });
 test('Овсянка и картофель имеют несколько техник, варианты без яиц доступны в море', () => {
-  for (const id of ['savory-oats', 'pan-muesli', 'potato-mash', 'potato-skillet']) {
+  for (const id of ['pan-muesli', 'potato-mash', 'potato-skillet']) {
     const p = prepareRecipe(recipeById[id]);
     assert.equal(p.eggConditional, false, id);
     assert.equal(p.shore, false, id);

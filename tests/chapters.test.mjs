@@ -68,6 +68,9 @@ test('A former recipe opens as its dish in the chapter', () => {
 // into a chapter: the default, each module, substitute and pack size.
 const deliberate = {
   'french-toast': 'moved to the chapter portion; checked in eggs-generator.test.mjs',
+  pilaf: 'one portion of 90 g rice; checked in grain-generator.test.mjs',
+  paella: 'one portion of 90 g rice; checked in grain-generator.test.mjs',
+  'buckwheat-stew': 'carrot takes the same time as in pilaf; checked in grain-generator.test.mjs',
 };
 test('Recipes folded into chapters keep their recorded numbers', () => {
   const folder = new URL('./fixtures/', import.meta.url);
