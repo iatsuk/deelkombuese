@@ -118,7 +118,7 @@ export function createCatalog(state) {
     const possible = availableRecipe(r, state.pantry, selected.modules, selected.choices);
     return `<article class="recipe-card-shell"><button class="recipe-card ${r.tone} ${compact ? 'compact' : ''}" data-action="${favoriteView ? 'favorite-recipe' : 'recipe'}" data-id="${cardId}">
     <span class="recipe-card-top"><span class="dish-icon">${icon(recipeGlyph(r))}</span><span class="recipe-kind">${r.generator ? 'Конструктор' : r.shore ? 'С берега' : r.vessel === 'cold' ? 'Без плиты' : r.meal === 'breakfast' ? (r.mealTags?.includes('main') ? 'Завтрак / обед' : 'Завтрак') : r.vessel === 'pan' ? 'На сковороде' : 'Одна кастрюля'}</span></span>
-    <strong>${favoriteView || searchedDish(r) ? prepared.title : r.title}</strong><span class="recipe-desc">${favoriteView && prepared.modules.length ? prepared.modules.map((m) => m.label).join(' · ') : r.desc}</span>
+    <strong>${favoriteView || searchedDish(r) ? prepared.title : r.generator?.chapter.title || r.title}</strong><span class="recipe-desc">${favoriteView && prepared.modules.length ? prepared.modules.map((m) => m.label).join(' · ') : r.desc}</span>
     <span class="recipe-ingredient-icons" aria-hidden="true">${prepared.ingredients
       .slice(0, 4)
       .map(
