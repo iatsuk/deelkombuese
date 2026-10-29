@@ -8,6 +8,7 @@ import {
   choicesForSelection,
   migrateRecipeEntry,
   recipeSteps,
+  selectionIssues,
 } from '../src/model.js';
 import { tripCandidates, buildTrip } from '../src/planner.js';
 
@@ -25,11 +26,11 @@ test('Единый завтрак включает яйца и хлеб, а ов
       assert.ok(tripCandidates('breakfast', 3, false).includes(id));
 });
 test('Виды блюда и основы пересекаются: суп с пастой находится по обоим фильтрам', () => {
-  assert.ok(filterRecipes(recipes, { kind: 'soup' }).length >= 4);
+  assert.ok(filterRecipes(recipes, { kind: 'soup' }).some((r) => r.id === 'soup-generator'));
   const soup = filterRecipes(recipes, { kind: 'soup', base: 'pasta' });
   assert.deepEqual(
     soup.map((r) => r.id),
-    ['broth-soup'],
+    ['soup-generator'],
   );
   const inferred = choicesForSelection(soup[0], ['pasta']);
   const prepared = prepareRecipe(soup[0], inferred.choices);
@@ -120,6 +121,8 @@ test('Составы всех добавок и замен дают конечн
   for (const recipe of recipes) {
     for (const module of [null, ...recipe.modules]) {
       const ids = module ? [module.id] : [];
+      // A chapter checks its own valid combinations (tests/chapters.test.mjs).
+      if (recipe.generator && selectionIssues(recipe, {}, ids).length) continue;
       const prepared = prepareRecipe(recipe, {}, {}, null, ids);
       for (const ingredient of [...recipe.ingredients, ...(module?.ingredients || [])])
         assert.equal(

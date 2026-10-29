@@ -174,12 +174,14 @@ export function prepareRecipe(
     moduleId: i.moduleId,
   }));
   const packaged = resolved.filter((i) => productById[i.id].packages);
+  // A generator base may choose its own default pack (the tomato soup takes 500 g passata).
+  const defaultPacks = {
+    ...recipe.defaultPacks,
+    ...(recipe.generator && generatorProfile(recipe, choices).defaultPacks),
+  };
   const selectedPack = (i) => {
     const packs = productById[i.id].packages;
-    return (
-      packs.find((p) => p.size === Number(packSizes[i.id] ?? recipe.defaultPacks?.[i.id])) ||
-      packs[0]
-    );
+    return packs.find((p) => p.size === Number(packSizes[i.id] ?? defaultPacks[i.id])) || packs[0];
   };
   const anchor =
     packaged.find((i) => i.id === anchorId) ||

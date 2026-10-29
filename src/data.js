@@ -5,6 +5,7 @@ import { createEggGenerator } from './catalog/generators/eggs.js';
 import { createNoCookGenerator } from './catalog/generators/no-cook.js';
 import { createBatterGenerator } from './catalog/generators/batter.js';
 import { createGrainGenerator } from './catalog/generators/grain.js';
+import { createSoupGenerator } from './catalog/generators/soup.js';
 // Storage periods are editorial rotation estimates, not results of yacht storage trials.
 export const sources = [
   {
@@ -1246,34 +1247,6 @@ const r = (id, title, base, time, active, desc, ingredients, water, steps, extra
 });
 export const recipes = [
   r(
-    'tomato-pack-soup',
-    'Томатный суп из целого пакета',
-    'legumes',
-    12,
-    4,
-    'Пассата 500 г расходуется вся: густой суп с фасолью и хлебом, без большой кастрюли пасты.',
-    [
-      i('passata', 500),
-      i('beans', 1, 'уп.'),
-      i('bread', 60),
-      i('driedOnion', 5),
-      i('driedGarlic', 0.25, 'ч. л.'),
-      i('paprika', 0.5, 'ч. л.'),
-      oil(),
-    ],
-    20,
-    [
-      'Прогрейте масло с сушёным луком, чесноком и паприкой несколько секунд. Влейте весь выбранный пакет пассаты.',
-      'Слейте жидкость из фасоли и добавьте всю банку. Томите 7–10 минут, помешивая. Суп густой; питьевую воду добавляйте понемногу, если нужно.',
-      'Посолите по вкусу и подайте с рассчитанным количеством хлеба. В этой схеме весь пакет томатов и вся банка фасоли уходят в текущий обед.',
-    ],
-    {
-      tone: 'red',
-      defaultPacks: { passata: 500 },
-      tip: 'Для одиночного камбуза большой пакет томатов удобнее превратить в густой суп, чем пропорционально увеличивать сухую пасту. Меньше лишнего выхода при полном расходе пассаты.',
-    },
-  ),
-  r(
     'warm-rolls',
     'Тёплые булочки на сковороде',
     'bread',
@@ -1361,22 +1334,6 @@ export const recipes = [
       'Добавьте кокосовое молоко, прогрейте ещё 3 минуты. Если дал слишком густой, долейте немного воды. Посолите в конце.',
     ],
     { tone: 'gold' },
-  ),
-  r(
-    'soup',
-    'Густой чечевичный суп',
-    'legumes',
-    22,
-    5,
-    'Томаты, чечевица и копчёная паприка — из сухого запаса.',
-    [i('lentils', 100), tomato(), aroma(), i('paprika', 1, 'ч. л.'), oil()],
-    450,
-    [
-      'Промойте чечевицу питьевой водой. В кастрюле прогрейте масло с ароматической смесью и паприкой около 20 секунд.',
-      'Добавьте чечевицу и питьевую воду. Варите 12 минут на слабом огне.',
-      'Добавьте томатную пасту и томите ещё 5–8 минут до мягкости. Подстройте густоту водой, посолите.',
-    ],
-    { tone: 'red' },
   ),
   r(
     'oatmeal',
@@ -1514,6 +1471,7 @@ recipes.unshift(
   createNoCookGenerator({ r, i, fish }),
   createBatterGenerator({ r, i, fish }),
   createGrainGenerator({ r, i, aroma, tomato, fish, meat }),
+  createSoupGenerator({ r, i, aroma, tomato, fish, meat }),
 );
 export const recipeMigrations = {
   'pasta-tuna': { recipeId: 'dish-generator', modules: ['sauce-tomato', 'fish'] },
@@ -1607,6 +1565,24 @@ export const recipeMigrations = {
     modules: [],
     choices: { technique: 'oats' },
     moduleMap: { fish: ['tuna'] },
+  },
+  // Soups became the soup chapter; each former soup is a base of its own.
+  'broth-soup': { recipeId: 'soup-generator', modules: [], choices: { technique: 'broth' } },
+  soup: { recipeId: 'soup-generator', modules: [], choices: { technique: 'lentil' } },
+  'tomato-pack-soup': {
+    recipeId: 'soup-generator',
+    modules: [],
+    choices: { technique: 'tomato' },
+  },
+  'cabbage-soup': {
+    recipeId: 'soup-generator',
+    modules: [],
+    choices: { technique: 'sauerkraut' },
+  },
+  'pea-potato-soup': {
+    recipeId: 'soup-generator',
+    modules: [],
+    choices: { technique: 'puree' },
   },
 };
 

@@ -55,7 +55,9 @@ export function generatorWater(recipe, choices, ingredients, modules, scale) {
           (profile.minWater || 0) * scale,
           (profile.water || 0) * scale + moduleWater + substitutes,
         );
-  return { water: Math.round(cooking + hydration), hydrationWater: Math.round(hydration), profile };
+  // With substitutes that keep their liquid, soy's own water is already among them.
+  const total = cooking + (substitutes === null ? hydration : 0);
+  return { water: Math.round(total), hydrationWater: Math.round(hydration), profile };
 }
 
 // A named dish matches when its base and every listed module are selected; the most specific wins.

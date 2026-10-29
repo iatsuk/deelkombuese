@@ -162,7 +162,7 @@ test('Все скоропортящиеся упаковки каждого ва
 });
 
 test('Для целого пакета пассаты 500 г есть компактный суп для одной готовки', () => {
-  const prepared = prepareRecipe(recipeById['tomato-pack-soup']);
+  const prepared = prepareRecipe(recipeById['soup-generator'], { technique: 'tomato' });
   assert.equal(prepared.ingredients.find((i) => i.id === 'passata').amount, 500);
   assert.ok(prepared.yieldGrams <= 750);
   assert.ok(prepared.ingredients.every((i) => !i.package || i.amount === i.package.edible));

@@ -1,0 +1,1343 @@
+[
+ {
+  "id": "tomato-pack-soup",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 12,
+  "active": 4,
+  "water": 20,
+  "yieldGrams": 720,
+  "shore": false,
+  "ingredients": {
+   "passata": "500 г",
+   "beans": "130 г",
+   "bread": "60 г",
+   "driedOnion": "5 г",
+   "driedGarlic": "0.25 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "tomato-pack-soup",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 12,
+  "active": 4,
+  "water": 20,
+  "yieldGrams": 720,
+  "shore": false,
+  "ingredients": {
+   "passata": "500 г",
+   "beans": "130 г",
+   "bread": "60 г",
+   "driedOnion": "5 г",
+   "driedGarlic": "0.25 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "tomato-pack-soup",
+  "modules": [
+   "bouillon"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 12,
+  "active": 4,
+  "water": 20,
+  "yieldGrams": 720,
+  "shore": false,
+  "ingredients": {
+   "passata": "500 г",
+   "beans": "130 г",
+   "bread": "60 г",
+   "driedOnion": "5 г",
+   "driedGarlic": "0.25 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл",
+   "bouillon": "0.5 кубик"
+  }
+ },
+ {
+  "id": "tomato-pack-soup",
+  "modules": [],
+  "choices": {
+   "passata": "tomatoPaste"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 12,
+  "active": 4,
+  "water": 120,
+  "yieldGrams": 270,
+  "shore": false,
+  "ingredients": {
+   "tomatoPaste": "30 г",
+   "beans": "130 г",
+   "bread": "18 г",
+   "driedOnion": "1.5 г",
+   "driedGarlic": "0.125 ч. л.",
+   "paprika": "0.125 ч. л.",
+   "oil": "3 мл"
+  }
+ },
+ {
+  "id": "tomato-pack-soup",
+  "modules": [],
+  "choices": {
+   "passata": "tomato"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 12,
+  "active": 4,
+  "water": 0,
+  "yieldGrams": 870,
+  "shore": false,
+  "ingredients": {
+   "tomato": "665 г",
+   "beans": "130 г",
+   "bread": "60 г",
+   "driedOnion": "5 г",
+   "driedGarlic": "0.25 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "tomato-pack-soup",
+  "modules": [],
+  "choices": {
+   "passata": "ketchup"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 12,
+  "active": 4,
+  "water": 377,
+  "yieldGrams": 610,
+  "shore": false,
+  "ingredients": {
+   "ketchup": "135 г",
+   "beans": "130 г",
+   "bread": "60 г",
+   "driedOnion": "5 г",
+   "driedGarlic": "0.25 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "tomato-pack-soup",
+  "modules": [],
+  "choices": {
+   "beans": "chickpeas"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 12,
+  "active": 4,
+  "water": 20,
+  "yieldGrams": 720,
+  "shore": false,
+  "ingredients": {
+   "passata": "500 г",
+   "chickpeas": "130 г",
+   "bread": "60 г",
+   "driedOnion": "5 г",
+   "driedGarlic": "0.25 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "tomato-pack-soup",
+  "modules": [],
+  "choices": {
+   "bread": "ryeBread"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 12,
+  "active": 4,
+  "water": 20,
+  "yieldGrams": 720,
+  "shore": false,
+  "ingredients": {
+   "passata": "500 г",
+   "beans": "130 г",
+   "ryeBread": "60 г",
+   "driedOnion": "5 г",
+   "driedGarlic": "0.25 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "tomato-pack-soup",
+  "modules": [],
+  "choices": {
+   "bread": "crispbread"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 12,
+  "active": 4,
+  "water": 20,
+  "yieldGrams": 690,
+  "shore": false,
+  "ingredients": {
+   "passata": "500 г",
+   "beans": "130 г",
+   "crispbread": "30 г",
+   "driedOnion": "5 г",
+   "driedGarlic": "0.25 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "tomato-pack-soup",
+  "modules": [],
+  "choices": {
+   "driedOnion": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 12,
+  "active": 4,
+  "water": 20,
+  "yieldGrams": 800,
+  "shore": false,
+  "ingredients": {
+   "passata": "500 г",
+   "beans": "130 г",
+   "bread": "60 г",
+   "onion": "1 шт.",
+   "driedGarlic": "0.25 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "tomato-pack-soup",
+  "modules": [],
+  "choices": {
+   "driedGarlic": "garlic"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 12,
+  "active": 4,
+  "water": 20,
+  "yieldGrams": 730,
+  "shore": false,
+  "ingredients": {
+   "passata": "500 г",
+   "beans": "130 г",
+   "bread": "60 г",
+   "driedOnion": "5 г",
+   "garlic": "2 зубчик",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "tomato-pack-soup",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "passata": 500
+  },
+  "satiety": "3–4 ч",
+  "time": 12,
+  "active": 4,
+  "water": 20,
+  "yieldGrams": 720,
+  "shore": false,
+  "ingredients": {
+   "passata": "500 г",
+   "beans": "130 г",
+   "bread": "60 г",
+   "driedOnion": "5 г",
+   "driedGarlic": "0.25 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "tomato-pack-soup",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "passata": 700
+  },
+  "satiety": "3–4 ч",
+  "time": 12,
+  "active": 4,
+  "water": 28,
+  "yieldGrams": 960,
+  "shore": false,
+  "ingredients": {
+   "passata": "700 г",
+   "beans": "130 г",
+   "bread": "85 г",
+   "driedOnion": "7 г",
+   "driedGarlic": "0.375 ч. л.",
+   "paprika": "0.75 ч. л.",
+   "oil": "14 мл"
+  }
+ },
+ {
+  "id": "tomato-pack-soup",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "beans": 400
+  },
+  "satiety": "3–4 ч",
+  "time": 12,
+  "active": 4,
+  "water": 20,
+  "yieldGrams": 830,
+  "shore": false,
+  "ingredients": {
+   "passata": "500 г",
+   "beans": "240 г",
+   "bread": "60 г",
+   "driedOnion": "5 г",
+   "driedGarlic": "0.25 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "soup",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 460,
+  "shore": false,
+  "ingredients": {
+   "lentils": "100 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "soup",
+  "modules": [
+   "curry"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 470,
+  "shore": false,
+  "ingredients": {
+   "lentils": "100 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл",
+   "curry": "0.5 ч. л."
+  }
+ },
+ {
+  "id": "soup",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 460,
+  "shore": false,
+  "ingredients": {
+   "lentils": "100 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "soup",
+  "modules": [
+   "bouillon"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 470,
+  "shore": false,
+  "ingredients": {
+   "lentils": "100 г",
+   "tomatoPaste": "30 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл",
+   "bouillon": "0.5 кубик"
+  }
+ },
+ {
+  "id": "soup",
+  "modules": [],
+  "choices": {
+   "tomatoPaste": "ketchup"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 470,
+  "shore": false,
+  "ingredients": {
+   "lentils": "100 г",
+   "ketchup": "40 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "soup",
+  "modules": [],
+  "choices": {
+   "tomatoPaste": "passata"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 5,
+  "water": 467,
+  "yieldGrams": 690,
+  "shore": false,
+  "ingredients": {
+   "lentils": "135 г",
+   "passata": "200 г",
+   "aromatics": "1.375 ч. л.",
+   "paprika": "1.375 ч. л.",
+   "oil": "13.33 мл"
+  }
+ },
+ {
+  "id": "soup",
+  "modules": [],
+  "choices": {
+   "tomatoPaste": "tomato"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 5,
+  "water": 300,
+  "yieldGrams": 530,
+  "shore": false,
+  "ingredients": {
+   "lentils": "100 г",
+   "tomato": "200 г",
+   "aromatics": "1 ч. л.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "soup",
+  "modules": [],
+  "choices": {
+   "aromatics": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 540,
+  "shore": false,
+  "ingredients": {
+   "lentils": "100 г",
+   "tomatoPaste": "30 г",
+   "onion": "1 шт.",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "soup",
+  "modules": [],
+  "choices": {
+   "aromatics": "driedOnion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 460,
+  "shore": false,
+  "ingredients": {
+   "lentils": "100 г",
+   "tomatoPaste": "30 г",
+   "driedOnion": "5 г",
+   "paprika": "1 ч. л.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "soup",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "tomatoPaste": 70
+  },
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 5,
+  "water": 1050,
+  "yieldGrams": 1080,
+  "shore": false,
+  "ingredients": {
+   "lentils": "235 г",
+   "tomatoPaste": "70 г",
+   "aromatics": "2.375 ч. л.",
+   "paprika": "2.375 ч. л.",
+   "oil": "25 мл"
+  }
+ },
+ {
+  "id": "soup",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "tomatoPaste": 140
+  },
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 5,
+  "water": 2100,
+  "yieldGrams": 2160,
+  "shore": false,
+  "ingredients": {
+   "lentils": "465 г",
+   "tomatoPaste": "140 г",
+   "aromatics": "4.625 ч. л.",
+   "paprika": "4.625 ч. л.",
+   "oil": "45 мл"
+  }
+ },
+ {
+  "id": "cabbage-soup",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 28,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 500,
+  "shore": false,
+  "ingredients": {
+   "sauerkraut": "150 г",
+   "potato": "150 г",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "bouillon": "0.5 кубик",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "cabbage-soup",
+  "modules": [
+   "borscht"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 8,
+  "water": 250,
+  "yieldGrams": 680,
+  "shore": false,
+  "ingredients": {
+   "sauerkraut": "150 г",
+   "potato": "150 г",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "bouillon": "0.5 кубик",
+   "oil": "10 мл",
+   "beetCanned": "180 г"
+  }
+ },
+ {
+  "id": "cabbage-soup",
+  "modules": [
+   "tomatoes"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 28,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 530,
+  "shore": false,
+  "ingredients": {
+   "sauerkraut": "150 г",
+   "potato": "150 г",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "bouillon": "0.5 кубик",
+   "oil": "10 мл",
+   "tomatoPaste": "30 г"
+  }
+ },
+ {
+  "id": "cabbage-soup",
+  "modules": [
+   "tomatoes"
+  ],
+  "choices": {
+   "tomatoPaste": "ketchup"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 28,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 540,
+  "shore": false,
+  "ingredients": {
+   "sauerkraut": "150 г",
+   "potato": "150 г",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "bouillon": "0.5 кубик",
+   "oil": "10 мл",
+   "ketchup": "40 г"
+  }
+ },
+ {
+  "id": "cabbage-soup",
+  "modules": [
+   "tomatoes"
+  ],
+  "choices": {
+   "tomatoPaste": "passata"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 28,
+  "active": 7,
+  "water": 333.3333333333333,
+  "yieldGrams": 810,
+  "shore": false,
+  "ingredients": {
+   "sauerkraut": "150 г",
+   "potato": "200 г",
+   "driedCarrot": "10.67 г",
+   "driedOnion": "4 г",
+   "bouillon": "0.67 кубик",
+   "oil": "13.33 мл",
+   "passata": "200 г"
+  }
+ },
+ {
+  "id": "cabbage-soup",
+  "modules": [
+   "tomatoes"
+  ],
+  "choices": {
+   "tomatoPaste": "tomato"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 28,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 700,
+  "shore": false,
+  "ingredients": {
+   "sauerkraut": "150 г",
+   "potato": "150 г",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "bouillon": "0.5 кубик",
+   "oil": "10 мл",
+   "tomato": "200 г"
+  }
+ },
+ {
+  "id": "cabbage-soup",
+  "modules": [
+   "rinse"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 28,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 500,
+  "shore": false,
+  "ingredients": {
+   "sauerkraut": "150 г",
+   "potato": "150 г",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "bouillon": "0.5 кубик",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "cabbage-soup",
+  "modules": [
+   "beans"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 28,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 630,
+  "shore": false,
+  "ingredients": {
+   "sauerkraut": "150 г",
+   "potato": "150 г",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "bouillon": "0.5 кубик",
+   "oil": "10 мл",
+   "beans": "130 г"
+  }
+ },
+ {
+  "id": "cabbage-soup",
+  "modules": [
+   "beans"
+  ],
+  "choices": {
+   "beans": "chickpeas"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 28,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 630,
+  "shore": false,
+  "ingredients": {
+   "sauerkraut": "150 г",
+   "potato": "150 г",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "bouillon": "0.5 кубик",
+   "oil": "10 мл",
+   "chickpeas": "130 г"
+  }
+ },
+ {
+  "id": "cabbage-soup",
+  "modules": [
+   "meat"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 28,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 700,
+  "shore": false,
+  "ingredients": {
+   "sauerkraut": "150 г",
+   "potato": "150 г",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "bouillon": "0.5 кубик",
+   "oil": "10 мл",
+   "stew": "200 г"
+  }
+ },
+ {
+  "id": "cabbage-soup",
+  "modules": [
+   "meat"
+  ],
+  "choices": {
+   "stew": "soy"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 33,
+  "active": 7,
+  "water": 375,
+  "yieldGrams": 640,
+  "shore": false,
+  "ingredients": {
+   "sauerkraut": "150 г",
+   "potato": "150 г",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "bouillon": "0.5 кубик",
+   "oil": "10 мл",
+   "soy": "50 г"
+  }
+ },
+ {
+  "id": "cabbage-soup",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 28,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 500,
+  "shore": false,
+  "ingredients": {
+   "sauerkraut": "150 г",
+   "potato": "150 г",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "bouillon": "0.5 кубик",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "cabbage-soup",
+  "modules": [],
+  "choices": {
+   "driedCarrot": "carrot"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 28,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 590,
+  "shore": false,
+  "ingredients": {
+   "sauerkraut": "150 г",
+   "potato": "150 г",
+   "carrot": "1 шт.",
+   "driedOnion": "3 г",
+   "bouillon": "0.5 кубик",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "cabbage-soup",
+  "modules": [],
+  "choices": {
+   "driedOnion": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 28,
+  "active": 7,
+  "water": 250,
+  "yieldGrams": 580,
+  "shore": false,
+  "ingredients": {
+   "sauerkraut": "150 г",
+   "potato": "150 г",
+   "driedCarrot": "8 г",
+   "onion": "1 шт.",
+   "bouillon": "0.5 кубик",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "cabbage-soup",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "sauerkraut": 400
+  },
+  "satiety": "3–4 ч",
+  "time": 28,
+  "active": 7,
+  "water": 583.3333333333334,
+  "yieldGrams": 1160,
+  "shore": false,
+  "ingredients": {
+   "sauerkraut": "350 г",
+   "potato": "350 г",
+   "driedCarrot": "18.67 г",
+   "driedOnion": "7 г",
+   "bouillon": "1.17 кубик",
+   "oil": "25 мл"
+  }
+ },
+ {
+  "id": "broth-soup",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 530,
+  "shore": false,
+  "ingredients": {
+   "potato": "200 г",
+   "bouillon": "0.5 кубик",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "oil": "5 мл"
+  }
+ },
+ {
+  "id": "broth-soup",
+  "modules": [
+   "fish"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 650,
+  "shore": false,
+  "ingredients": {
+   "potato": "200 г",
+   "bouillon": "0.5 кубик",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "oil": "5 мл",
+   "tuna": "112 г"
+  }
+ },
+ {
+  "id": "broth-soup",
+  "modules": [
+   "fish"
+  ],
+  "choices": {
+   "tuna": "sardines"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 620,
+  "shore": false,
+  "ingredients": {
+   "potato": "200 г",
+   "bouillon": "0.5 кубик",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "oil": "5 мл",
+   "sardines": "90 г"
+  }
+ },
+ {
+  "id": "broth-soup",
+  "modules": [
+   "beans"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 660,
+  "shore": false,
+  "ingredients": {
+   "potato": "200 г",
+   "bouillon": "0.5 кубик",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "oil": "5 мл",
+   "beans": "130 г"
+  }
+ },
+ {
+  "id": "broth-soup",
+  "modules": [
+   "beans"
+  ],
+  "choices": {
+   "beans": "chickpeas"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 660,
+  "shore": false,
+  "ingredients": {
+   "potato": "200 г",
+   "bouillon": "0.5 кубик",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "oil": "5 мл",
+   "chickpeas": "130 г"
+  }
+ },
+ {
+  "id": "broth-soup",
+  "modules": [
+   "meat"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 730,
+  "shore": false,
+  "ingredients": {
+   "potato": "200 г",
+   "bouillon": "0.5 кубик",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "oil": "5 мл",
+   "stew": "200 г"
+  }
+ },
+ {
+  "id": "broth-soup",
+  "modules": [
+   "meat"
+  ],
+  "choices": {
+   "stew": "soy"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 30,
+  "active": 5,
+  "water": 575,
+  "yieldGrams": 670,
+  "shore": false,
+  "ingredients": {
+   "potato": "200 г",
+   "bouillon": "0.5 кубик",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "oil": "5 мл",
+   "soy": "50 г"
+  }
+ },
+ {
+  "id": "broth-soup",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 530,
+  "shore": false,
+  "ingredients": {
+   "potato": "200 г",
+   "bouillon": "0.5 кубик",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "oil": "5 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "broth-soup",
+  "modules": [],
+  "choices": {
+   "potato": "pasta"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 15,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 380,
+  "shore": false,
+  "ingredients": {
+   "pasta": "50 г",
+   "bouillon": "0.5 кубик",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "oil": "5 мл"
+  }
+ },
+ {
+  "id": "broth-soup",
+  "modules": [],
+  "choices": {
+   "potato": "rice"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 22,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 380,
+  "shore": false,
+  "ingredients": {
+   "rice": "50 г",
+   "bouillon": "0.5 кубик",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "oil": "5 мл"
+  }
+ },
+ {
+  "id": "broth-soup",
+  "modules": [],
+  "choices": {
+   "potato": "oats"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 13,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 370,
+  "shore": false,
+  "ingredients": {
+   "oats": "40 г",
+   "bouillon": "0.5 кубик",
+   "driedCarrot": "8 г",
+   "driedOnion": "3 г",
+   "oil": "5 мл"
+  }
+ },
+ {
+  "id": "broth-soup",
+  "modules": [],
+  "choices": {
+   "driedCarrot": "carrot"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 630,
+  "shore": false,
+  "ingredients": {
+   "potato": "200 г",
+   "bouillon": "0.5 кубик",
+   "carrot": "1 шт.",
+   "driedOnion": "3 г",
+   "oil": "5 мл"
+  }
+ },
+ {
+  "id": "broth-soup",
+  "modules": [],
+  "choices": {
+   "driedOnion": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 25,
+  "active": 5,
+  "water": 450,
+  "yieldGrams": 610,
+  "shore": false,
+  "ingredients": {
+   "potato": "200 г",
+   "bouillon": "0.5 кубик",
+   "driedCarrot": "8 г",
+   "onion": "1 шт.",
+   "oil": "5 мл"
+  }
+ },
+ {
+  "id": "pea-potato-soup",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 23,
+  "active": 6,
+  "water": 300,
+  "yieldGrams": 510,
+  "shore": false,
+  "ingredients": {
+   "potato": "150 г",
+   "peas": "130 г",
+   "bouillon": "0.5 кубик",
+   "driedOnion": "3 г",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "pea-potato-soup",
+  "modules": [
+   "milk"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 23,
+  "active": 6,
+  "water": 300,
+  "yieldGrams": 520,
+  "shore": false,
+  "ingredients": {
+   "potato": "150 г",
+   "peas": "130 г",
+   "bouillon": "0.5 кубик",
+   "driedOnion": "3 г",
+   "oil": "10 мл",
+   "milkPowder": "15 г"
+  }
+ },
+ {
+  "id": "pea-potato-soup",
+  "modules": [
+   "milk"
+  ],
+  "choices": {
+   "milkPowder": "milk"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 23,
+  "active": 6,
+  "water": 165,
+  "yieldGrams": 540,
+  "shore": false,
+  "ingredients": {
+   "potato": "150 г",
+   "peas": "130 г",
+   "bouillon": "0.5 кубик",
+   "driedOnion": "3 г",
+   "oil": "10 мл",
+   "milk": "125 мл"
+  }
+ },
+ {
+  "id": "pea-potato-soup",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 23,
+  "active": 6,
+  "water": 300,
+  "yieldGrams": 510,
+  "shore": false,
+  "ingredients": {
+   "potato": "150 г",
+   "peas": "130 г",
+   "bouillon": "0.5 кубик",
+   "driedOnion": "3 г",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "pea-potato-soup",
+  "modules": [],
+  "choices": {
+   "peas": "corn"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 23,
+  "active": 6,
+  "water": 300,
+  "yieldGrams": 520,
+  "shore": false,
+  "ingredients": {
+   "potato": "150 г",
+   "corn": "140 г",
+   "bouillon": "0.5 кубик",
+   "driedOnion": "3 г",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "pea-potato-soup",
+  "modules": [],
+  "choices": {
+   "driedOnion": "onion"
+  },
+  "packs": {},
+  "satiety": "3–4 ч",
+  "time": 23,
+  "active": 6,
+  "water": 300,
+  "yieldGrams": 580,
+  "shore": false,
+  "ingredients": {
+   "potato": "150 г",
+   "peas": "130 г",
+   "bouillon": "0.5 кубик",
+   "onion": "1 шт.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "pea-potato-soup",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "peas": 400
+  },
+  "satiety": "3–4 ч",
+  "time": 23,
+  "active": 6,
+  "water": 554,
+  "yieldGrams": 930,
+  "shore": false,
+  "ingredients": {
+   "potato": "275 г",
+   "peas": "240 г",
+   "bouillon": "0.92 кубик",
+   "driedOnion": "5.54 г",
+   "oil": "18.46 мл"
+  }
+ }
+]

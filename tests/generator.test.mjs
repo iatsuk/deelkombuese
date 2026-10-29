@@ -132,9 +132,12 @@ test('Группы карты делят овощи и специи и не вы
   assert.ok(!mapProductGroups.some((g) => g.id === 'tomatoes'));
 });
 test('Щи превращаются в борщ модулем свёклы; все открытые консервы расходуются целиком', () => {
-  const recipe = recipeById['cabbage-soup'];
-  const shchi = prepareRecipe(recipe);
-  const borscht = prepareRecipe(recipe, {}, {}, null, ['borscht', 'tomatoes']);
+  const recipe = recipeById['soup-generator'];
+  const shchi = prepareRecipe(recipe, { technique: 'sauerkraut' });
+  const borscht = prepareRecipe(recipe, { technique: 'sauerkraut' }, {}, null, [
+    'borscht',
+    'tomatoes',
+  ]);
   assert.ok(shchi.title.startsWith('Щи'));
   assert.ok(borscht.title.startsWith('Борщ'));
   assert.ok(!shchi.ingredients.some((i) => i.id === 'beetCanned'));
@@ -142,25 +145,30 @@ test('Щи превращаются в борщ модулем свёклы; в�
   assert.ok(borscht.yieldGrams <= 750);
   for (const item of borscht.ingredients)
     if (item.package) assert.equal(item.amount, item.package.edible);
-  assert.ok(recipeSteps(recipe).some((s) => s.includes('до полной мягкости картофеля')));
+  assert.ok(
+    recipeSteps(recipe, { technique: 'sauerkraut' }).some((s) =>
+      s.includes('до полной мягкости картофеля'),
+    ),
+  );
 });
 test('Промывание капусты отдельно добавляет воду и зависит от её упаковки', () => {
-  const recipe = recipeById['cabbage-soup'];
-  const plain = prepareRecipe(recipe);
-  const rinsed = prepareRecipe(recipe, {}, {}, null, ['rinse']);
+  const recipe = recipeById['soup-generator'];
+  const shchi = { technique: 'sauerkraut' };
+  const plain = prepareRecipe(recipe, shchi);
+  const rinsed = prepareRecipe(recipe, shchi, {}, null, ['rinse']);
   assert.equal(rinsed.water, plain.water);
   assert.equal(rinsed.prepWater - plain.prepWater, 300);
   const otherAnchor = prepareRecipe(
     recipe,
-    { tomatoPaste: 'passata' },
+    { ...shchi, tomatoPaste: 'passata' },
     { passata: 500 },
     'passata',
     ['rinse', 'tomatoes'],
   );
   assert.equal(otherAnchor.prepWater, 300);
-  const large = prepareRecipe(recipe, {}, { sauerkraut: 400 }, null, ['rinse']);
+  const large = prepareRecipe(recipe, shchi, { sauerkraut: 400 }, null, ['rinse']);
   assert.equal(large.prepWater, 700);
-  const entry = { recipeId: recipe.id, choices: {}, modules: ['rinse'] };
+  const entry = { recipeId: recipe.id, choices: shchi, modules: ['rinse'] };
   assert.equal(waterBudget([entry]).preparation, 0.3);
   const week = buildTrip({ days: 7 });
   assert.ok(week.entries.some((e) => e.recipeId === recipe.id && e.modules.includes('rinse')));

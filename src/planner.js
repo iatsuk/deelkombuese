@@ -7,6 +7,7 @@ import {
   recipeHasMeal,
   recipeTitle,
   normalizeSelection,
+  optionBlocked,
 } from './model.js';
 import { tripProfile, generatorProfile } from './generator-engine.js';
 
@@ -21,11 +22,11 @@ const breakfast = [
 ];
 const lunch = [
   'grain-generator',
-  'tomato-pack-soup',
-  'broth-soup',
+  'soup-generator',
+  'soup-generator',
   'grain-generator',
-  'soup',
-  'cabbage-soup',
+  'soup-generator',
+  'soup-generator',
   'grain-generator',
 ];
 const dinner = [
@@ -88,9 +89,13 @@ function tripEntry(recipe, day, slot, includeEggs) {
     if (preferred && i.alternatives.some((a) => a.id === preferred)) choices[i.id] = preferred;
   }
   if (recipe.id === 'potato-skillet') modules.push('beans');
-  if (recipe.id === 'cabbage-soup') modules.push('rinse');
-  if (recipe.id === 'broth-soup') modules.push('fish');
-  if (slot === 'lunch' && day % 2 === 1 && recipe.modules.some((m) => m.id === 'bouillon'))
+  // Stock on odd lunches, where the dish takes it (a generator base may already have it).
+  if (
+    slot === 'lunch' &&
+    day % 2 === 1 &&
+    recipe.modules.some((m) => m.id === 'bouillon') &&
+    !optionBlocked(recipe, choices, modules, 'bouillon')
+  )
     modules.push('bouillon');
   if (recipe.modules.some((m) => m.id === 'seasoning') && !modules.includes('bouillon'))
     modules.push('seasoning');

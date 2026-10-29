@@ -69,7 +69,10 @@ test('PNG получает финальные замены, размеры уп�
   selection.packSizes.passata = 200;
   assert.match(card.title, /Картофель/);
   assert.ok(card.ingredients.some((i) => i.id === 'passata' && i.amount === '500 г'));
-  const soup = buildRecipeCard(recipeById['cabbage-soup'], { modules: ['borscht', 'rinse'] });
+  const soup = buildRecipeCard(recipeById['soup-generator'], {
+    choices: { technique: 'sauerkraut' },
+    modules: ['borscht', 'rinse'],
+  });
   assert.equal(soup.prepWater, 300);
   assert.match(soup.title, /Борщ/);
 });
