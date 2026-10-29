@@ -1,0 +1,254 @@
+[
+ {
+  "id": "eggs-bread",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "time": 8,
+  "active": 5,
+  "water": 0,
+  "yieldGrams": 220,
+  "shore": false,
+  "ingredients": {
+   "eggs": "2 шт.",
+   "bread": "100 г",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "eggs-bread",
+  "modules": [
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "time": 8,
+  "active": 5,
+  "water": 0,
+  "yieldGrams": 220,
+  "shore": false,
+  "ingredients": {
+   "eggs": "2 шт.",
+   "bread": "100 г",
+   "oil": "10 мл",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "eggs-bread",
+  "modules": [],
+  "choices": {
+   "bread": "ryeBread"
+  },
+  "packs": {},
+  "time": 8,
+  "active": 5,
+  "water": 0,
+  "yieldGrams": 220,
+  "shore": false,
+  "ingredients": {
+   "eggs": "2 шт.",
+   "ryeBread": "100 г",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "shakshuka",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "time": 15,
+  "active": 5,
+  "water": 20,
+  "yieldGrams": 330,
+  "shore": false,
+  "ingredients": {
+   "passata": "200 г",
+   "eggs": "2 шт.",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "shakshuka",
+  "modules": [
+   "potato"
+  ],
+  "choices": {},
+  "packs": {},
+  "time": 30,
+  "active": 9,
+  "water": 100,
+  "yieldGrams": 540,
+  "shore": false,
+  "ingredients": {
+   "passata": "200 г",
+   "eggs": "2 шт.",
+   "oil": "10 мл",
+   "potato": "150 г"
+  }
+ },
+ {
+  "id": "shakshuka",
+  "modules": [
+   "aromatics",
+   "paprika"
+  ],
+  "choices": {},
+  "packs": {},
+  "time": 15,
+  "active": 5,
+  "water": 20,
+  "yieldGrams": 340,
+  "shore": false,
+  "ingredients": {
+   "passata": "200 г",
+   "eggs": "2 шт.",
+   "oil": "10 мл",
+   "driedOnion": "5 г",
+   "driedGarlic": "0.25 ч. л.",
+   "paprika": "0.5 ч. л."
+  }
+ },
+ {
+  "id": "shakshuka",
+  "modules": [
+   "potato",
+   "aromatics",
+   "paprika",
+   "seasoning"
+  ],
+  "choices": {},
+  "packs": {},
+  "time": 30,
+  "active": 9,
+  "water": 100,
+  "yieldGrams": 550,
+  "shore": false,
+  "ingredients": {
+   "passata": "200 г",
+   "eggs": "2 шт.",
+   "oil": "10 мл",
+   "potato": "150 г",
+   "driedOnion": "5 г",
+   "driedGarlic": "0.25 ч. л.",
+   "paprika": "0.5 ч. л.",
+   "salt": "0.125 ч. л.",
+   "pepper": "0.125 ч. л."
+  }
+ },
+ {
+  "id": "shakshuka",
+  "modules": [],
+  "choices": {
+   "passata": "tomatoPaste"
+  },
+  "packs": {},
+  "time": 15,
+  "active": 5,
+  "water": 129,
+  "yieldGrams": 240,
+  "shore": false,
+  "ingredients": {
+   "tomatoPaste": "30 г",
+   "eggs": "2 шт.",
+   "oil": "7.5 мл"
+  }
+ },
+ {
+  "id": "shakshuka",
+  "modules": [],
+  "choices": {},
+  "packs": {
+   "passata": 500
+  },
+  "time": 15,
+  "active": 5,
+  "water": 50,
+  "yieldGrams": 840,
+  "shore": false,
+  "ingredients": {
+   "passata": "500 г",
+   "eggs": "5 шт.",
+   "oil": "25 мл"
+  }
+ },
+ {
+  "id": "french-toast",
+  "modules": [],
+  "choices": {},
+  "packs": {},
+  "time": 12,
+  "active": 8,
+  "water": 0,
+  "yieldGrams": 400,
+  "shore": false,
+  "ingredients": {
+   "bread": "150 г",
+   "eggs": "2 шт.",
+   "milk": "125 мл",
+   "oil": "10 мл"
+  }
+ },
+ {
+  "id": "french-toast",
+  "modules": [
+   "honey"
+  ],
+  "choices": {},
+  "packs": {},
+  "time": 12,
+  "active": 8,
+  "water": 0,
+  "yieldGrams": 420,
+  "shore": false,
+  "ingredients": {
+   "bread": "150 г",
+   "eggs": "2 шт.",
+   "milk": "125 мл",
+   "oil": "10 мл",
+   "honey": "20 г"
+  }
+ },
+ {
+  "id": "french-toast",
+  "modules": [
+   "jam"
+  ],
+  "choices": {},
+  "packs": {},
+  "time": 12,
+  "active": 8,
+  "water": 0,
+  "yieldGrams": 420,
+  "shore": false,
+  "ingredients": {
+   "bread": "150 г",
+   "eggs": "2 шт.",
+   "milk": "125 мл",
+   "oil": "10 мл",
+   "jam": "25 г"
+  }
+ },
+ {
+  "id": "french-toast",
+  "modules": [
+   "ham-cheese"
+  ],
+  "choices": {},
+  "packs": {},
+  "time": 15,
+  "active": 10,
+  "water": 0,
+  "yieldGrams": 600,
+  "shore": true,
+  "ingredients": {
+   "bread": "150 г",
+   "eggs": "2 шт.",
+   "milk": "125 мл",
+   "oil": "10 мл",
+   "ham": "100 г",
+   "cheese": "100 г"
+  }
+ }
+]

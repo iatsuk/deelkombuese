@@ -18,32 +18,43 @@ test('Граф сужается по И, учитывая замены и нео
   const potato = tomatoes.filter((r) => recipeMatches(r, ['eggs', 'ketchup', 'potato']));
   assert.ok(eggs.length > tomatoes.length);
   assert.ok(tomatoes.length >= potato.length);
-  assert.ok(potato.some((r) => r.id === 'shakshuka'));
-  const inferred = choicesForSelection(recipeById.shakshuka, ['eggs', 'tomatoPaste', 'potato']);
+  assert.ok(potato.some((r) => r.id === 'eggs-generator'));
+  const eggsChapter = recipeById['eggs-generator'];
+  const inferred = choicesForSelection(eggsChapter, ['eggs', 'tomatoPaste', 'potato']);
   assert.equal(inferred.choices.passata, 'tomatoPaste');
   assert.ok(inferred.modules.includes('potato'));
+  assert.equal(
+    prepareRecipe(eggsChapter, inferred.choices, {}, null, inferred.modules).title,
+    'Шакшука с картофелем',
+  );
 });
 test('Шакшука без картофеля и с ним имеет разные состав, воду и время', () => {
-  const plain = prepareRecipe(recipeById.shakshuka);
-  const potato = prepareRecipe(recipeById.shakshuka, {}, {}, null, ['potato']);
+  const eggsChapter = recipeById['eggs-generator'];
+  const shakshuka = { technique: 'poach' };
+  const plain = prepareRecipe(eggsChapter, shakshuka, {}, null, ['tomato']);
+  const potato = prepareRecipe(eggsChapter, shakshuka, {}, null, ['tomato', 'potato']);
   assert.ok(!plain.ingredients.some((i) => i.id === 'potato'));
   assert.ok(potato.ingredients.some((i) => i.id === 'potato'));
   assert.ok(potato.water > plain.water);
   assert.ok(potato.time > plain.time);
-  assert.ok(recipeSteps(recipeById.shakshuka, {}, ['potato']).some((s) => s.includes('12–18')));
+  assert.ok(
+    recipeSteps(eggsChapter, shakshuka, ['tomato', 'potato']).some((s) => s.includes('12–15')),
+  );
 });
 test('У французских тостов меняется подача, но сохраняется обязательная основа', () => {
-  const base = prepareRecipe(recipeById['french-toast']);
-  for (const id of ['bread', 'eggs', 'milk']) assert.ok(base.ingredients.some((i) => i.id === id));
+  const eggsChapter = recipeById['eggs-generator'];
+  const toast = { technique: 'dip' };
+  const base = prepareRecipe(eggsChapter, toast, {}, null, ['bread', 'milk']);
+  for (const id of ['bread', 'eggs', 'milkPowder'])
+    assert.ok(base.ingredients.some((i) => i.id === id));
   assert.ok(!base.ingredients.some((i) => i.id === 'honey' || i.id === 'ham'));
-  const sweet = prepareRecipe(recipeById['french-toast'], {}, {}, null, ['honey']);
+  const sweet = prepareRecipe(eggsChapter, toast, {}, null, ['bread', 'milk', 'honey']);
   assert.ok(sweet.ingredients.some((i) => i.id === 'honey'));
-  const savoury = prepareRecipe(recipeById['french-toast'], {}, {}, null, ['honey', 'ham-cheese']);
+  const savoury = prepareRecipe(eggsChapter, toast, {}, null, ['bread', 'milk', 'ham', 'cheese']);
   assert.equal(savoury.shore, true);
-  assert.ok(!savoury.ingredients.some((i) => i.id === 'honey'));
   for (const id of ['ham', 'cheese'])
     assert.equal(savoury.ingredients.find((i) => i.id === id).package.count, 1);
-  assert.equal(recipeMatches(recipeById['french-toast'], ['honey', 'ham']), false);
+  assert.equal(recipeMatches(eggsChapter, ['honey', 'ham']), false);
 });
 test('В рецептах все томатные формы связаны, но хлебцы не подменяют мягкий хлеб для тостов', () => {
   for (const recipe of recipes) {
@@ -53,7 +64,9 @@ test('В рецептах все томатные формы связаны, н�
           assert.ok(i.id === id || i.alternatives.some((a) => a.id === id), `${recipe.id}:${id}`);
     }
   }
-  assert.equal(recipeMatches(recipeById['french-toast'], ['crispbread']), false);
+  // Crispbread goes with fried eggs but does not soak up egg for French toast.
+  const crisp = choicesForSelection(recipeById['eggs-generator'], ['eggs', 'crispbread']);
+  assert.notEqual(crisp.choices.technique, 'dip');
   for (const p of products) assert.ok(p.role, p.id);
   for (const f of productFamilies) for (const id of f.members) assert.ok(productById[id]);
 });
@@ -120,7 +133,7 @@ test('Питьё, рецепт, подготовка, бытовой расхо�
 });
 test('При разрешённых яйцах сухое молоко получает воду для восстановления', () => {
   const plan = buildTrip({ days: 1, includeEggs: true });
-  const toast = plan.entries.find((e) => e.recipeId === 'french-toast');
+  const toast = plan.entries.find((e) => e.recipeId === 'eggs-generator');
   assert.ok(toast);
   const p = prepareRecipe(
     recipeById[toast.recipeId],
@@ -129,8 +142,8 @@ test('При разрешённых яйцах сухое молоко полу�
     toast.anchorId,
     toast.modules,
   );
-  assert.equal(p.ingredients.find((i) => i.id === 'milkPowder').amount, 12.5);
-  assert.equal(p.water, 113);
+  assert.equal(p.ingredients.find((i) => i.id === 'milkPowder').amount, 15);
+  assert.equal(p.water, 75);
 });
 test('Сезонный набор исключает охлаждённые и редкие добавки, все позиции имеют рецепты', () => {
   const season = buildSeason(90);

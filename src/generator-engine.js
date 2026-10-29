@@ -37,14 +37,24 @@ export function generatorWater(recipe, choices, ingredients, modules, scale) {
   const hydration = ingredients
     .filter((i) => i.id === 'soy')
     .reduce((sum, i) => sum + i.amount * 2.5, 0);
+  const moduleWater = modules.reduce((sum, m) => sum + (m.waterDelta || 0), 0) * scale;
+  // Water on top of a whole sauce: a substitute keeps the sauce's liquid, so diluting
+  // tomato paste adds the water the passata would have brought.
+  const substitutes = recipe.generator.substitutesKeepLiquid
+    ? ingredients.reduce((sum, i) => sum + (i.waterDelta || 0) + (i.waterExtra || 0), 0) * scale
+    : null;
   // Potatoes soften before acidic sauces go in, so their water is not reduced by the sauce.
   // Modules that cook in their own water (a side of rice, a curry sauce) add it on top.
   const cooking =
-    Math.max(
-      (profile.minWater || 0) * scale,
-      (profile.water || 0) * scale - (profile.sauceCredit === false ? 0 : sauceWater),
-    ) +
-    modules.reduce((sum, m) => sum + (m.waterDelta || 0), 0) * scale;
+    substitutes === null
+      ? Math.max(
+          (profile.minWater || 0) * scale,
+          (profile.water || 0) * scale - (profile.sauceCredit === false ? 0 : sauceWater),
+        ) + moduleWater
+      : Math.max(
+          (profile.minWater || 0) * scale,
+          (profile.water || 0) * scale + moduleWater + substitutes,
+        );
   return { water: Math.round(cooking + hydration), hydrationWater: Math.round(hydration), profile };
 }
 
@@ -110,7 +120,8 @@ export function generatedSteps(recipe, prepared) {
   });
 }
 
-export function tripProfile(recipe, day) {
+// Passage profiles are keyed by day (pasta dinners rotate) or by meal (eggs at breakfast).
+export function tripProfile(recipe, day, slot) {
   const profiles = recipe.generator?.tripProfiles;
-  return profiles ? profiles[day] || profiles.default : null;
+  return profiles ? profiles[day] || profiles[slot] || profiles.default : null;
 }

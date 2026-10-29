@@ -13,21 +13,13 @@ import { tripCandidates, buildTrip } from '../src/planner.js';
 
 test('Единый завтрак включает яйца и хлеб, а овсянка является отдельной основой', () => {
   const breakfasts = filterRecipes(recipes, { meal: 'breakfast' }).map((r) => r.id);
-  for (const id of [
-    'oatmeal',
-    'french-toast',
-    'eggs-bread',
-    'shakshuka',
-    'pancakes',
-    'fritters',
-    'oat-fritters',
-  ])
+  for (const id of ['oatmeal', 'eggs-generator', 'pancakes', 'fritters', 'oat-fritters'])
     assert.ok(breakfasts.includes(id), id);
   assert.equal(bases.find((b) => b.id === 'oats').name, 'Овсянка');
   assert.ok(!bases.some((b) => /завтрак/i.test(b.name)));
   const oats = filterRecipes(recipes, { meal: 'breakfast', base: 'oats' }).map((r) => r.id);
   assert.ok(oats.includes('oat-fritters'));
-  assert.ok(!oats.includes('french-toast'));
+  assert.ok(!oats.includes('eggs-generator'));
   for (const id of breakfasts)
     if (!recipeById[id].eggConditional)
       assert.ok(tripCandidates('breakfast', 3, false).includes(id));

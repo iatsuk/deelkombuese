@@ -104,7 +104,9 @@ export function renderRecipeDialog(
             : 'Одна кастрюля';
   const ingredientRows = prepared.ingredients
     .map((chosen) => {
-      const original = effectiveIngredients(r, moduleIds).find((i) => i.id === chosen.originalId);
+      const original = effectiveIngredients(r, moduleIds, choices).find(
+        (i) => i.id === chosen.originalId,
+      );
       const owned = state.pantry.includes(chosen.id);
       const name = original.alternatives.length
         ? `<label class="sr-only" for="swap-${original.id}">Заменить ${productById[original.id].name}</label><select class="ingredient-swap" id="swap-${original.id}" data-swap="${original.id}"><option value="${original.id}" ${chosen.id === original.id ? 'selected' : ''}>${productById[original.id].name}</option>${original.alternatives.map((a) => `<option value="${a.id}" ${chosen.id === a.id ? 'selected' : ''}>↔ ${productById[a.id].name}</option>`).join('')}</select>`
@@ -116,6 +118,8 @@ export function renderRecipeDialog(
     })
     .join('');
   const waterRows = `${prepared.water ? `<div class="ingredient-row water"><div class="ingredient-line"><span>${icon('drop')} ${r.generator ? 'Вода на готовку и восстановление' : 'Питьевая вода, начальный объём'}</span><i class="leader" aria-hidden="true"></i><strong class="ingredient-amount">≈ ${prepared.water} мл</strong></div></div>` : ''}${prepared.prepWater ? `<div class="ingredient-row water"><div class="ingredient-line"><span>${icon('drop')} Отдельно на подготовку / промывание</span><i class="leader" aria-hidden="true"></i><strong class="ingredient-amount">≈ ${prepared.prepWater} мл</strong></div></div>` : ''}`;
+  // A generator base is a choice too, but only a real substitution needs the note.
+  const substituted = Object.keys(choices).some((key) => key !== r.generator?.choiceKey);
   const steps = recipeSteps(r, choices, moduleIds, prepared)
     .map((step, n) => {
       const action = cookingAction(step);
@@ -130,7 +134,7 @@ export function renderRecipeDialog(
     ${embedded ? '' : renderRecipeModules(r, prepared)}${packageControls}${isLarge ? `<div class="detail-notice warning">${icon('person')}<p><strong>Выход большой для одного приёма: примерно ${prepared.yieldGrams} г.</strong> Выберите меньшую упаковку или разделите готовую еду с попутчиком сейчас. Без холодильника выход этой готовки нельзя распределять на следующие вахты. Для увеличенного объёма нужны подходящая посуда и дополнительное время.${prepared.ingredients.some((i) => i.id === 'passata') && r.id !== 'tomato-pack-soup' ? '<br><button class="pack-recipe-link" data-action="recipe" data-id="tomato-pack-soup">Использовать 500 г пассаты в компактном томатном супе →</button>' : ''}</p></div>` : ''}
     <section class="detail-section ingredients-section"><h3>Состав под вашу упаковку</h3><div class="ingredient-list">${ingredientRows}${waterRows}</div>
     <p class="footnote">${r.vessel === 'cold' ? 'Только чистые руки, посуда и питьевая вода для мытья продуктов.' : 'Вода — ориентир: учитывайте испарение и добавляйте по необходимости. Соль и перец по вкусу, если не указаны в составе.'} Количество людей не задаёт граммовки.</p></section>
-    ${renderCookingBasics(r, prepared)}${renderGrainDiagram(r, prepared)}<section class="detail-section"><h3>Как приготовить</h3><ol class="cooking-steps">${steps}</ol>${Object.keys(choices).length ? `<div class="detail-notice">${icon('swap')}<p>Используйте выбранные ингредиенты и количества из состава выше. Свежий лук обжарьте 3–5 минут, сухие специи прогревайте несколько секунд. Пассата идёт с жидкостью, а не обжаривается как паста. Подготовку обычных сушёных овощей сверяйте с пачкой; для быстрого текстурата в генераторе заложены отдельные вода и время.</p></div>` : ''}</section>
+    ${renderCookingBasics(r, prepared)}${renderGrainDiagram(r, prepared)}<section class="detail-section"><h3>Как приготовить</h3><ol class="cooking-steps">${steps}</ol>${substituted ? `<div class="detail-notice">${icon('swap')}<p>Используйте выбранные ингредиенты и количества из состава выше. Свежий лук обжарьте 3–5 минут, сухие специи прогревайте несколько секунд. Пассата идёт с жидкостью, а не обжаривается как паста. Подготовку обычных сушёных овощей сверяйте с пачкой; для быстрого текстурата в генераторе заложены отдельные вода и время.</p></div>` : ''}</section>
     ${r.tip ? `<aside class="skipper-tip"><span>${icon('anchor')} Заметка из камбуза</span><p>${r.tip}</p></aside>` : ''}
     ${!r.drySnack ? `<div class="detail-notice">${icon('info')}<p>Вскрытое скоропортящееся содержимое используйте всё в текущую готовку. Готовое блюдо без холодильника — максимум 2 часа, выше 32 °C — 1 час; остатки на следующую вахту не планировать. Хлеб и сухие специи живут по своим срокам после открытия.</p></div>` : ''}<p class="footnote">Сытость ≈ ${r.satiety}* для обычной порции блюда, не для всего увеличенного выхода. Ориентир условный.</p>
     </div></div>

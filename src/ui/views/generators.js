@@ -50,11 +50,12 @@ function sentenceSelect(recipe, selection, part, state) {
   return `<span class="sentence-slot"><select class="sentence-choice" data-generator-axis="${part.group}" aria-label="${modules[0]?.label || part.group}">${options.join('')}</select></span>`;
 }
 
-// Options outside the sentence (vegetables, spices) stay as toggles.
+// Options outside the sentence (vegetables, toppings, spices) stay as toggles.
 function renderAdditions(recipe, selection, state) {
   const inSentence = new Set(recipe.generator.sentence.map((part) => part.group).filter(Boolean));
   const groups = [
     ['vegetables', 'Овощи'],
+    ['finish', 'Подача'],
     [null, 'Специи и добавки'],
   ];
   return groups

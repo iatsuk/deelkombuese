@@ -6,6 +6,7 @@ import {
   storageDays,
   recipeHasMeal,
   recipeTitle,
+  normalizeSelection,
 } from './model.js';
 import { tripProfile } from './generator-engine.js';
 
@@ -77,10 +78,9 @@ function tripEntry(recipe, day, slot, includeEggs) {
                     : null;
     if (preferred && i.alternatives.some((a) => a.id === preferred)) choices[i.id] = preferred;
   }
-  if (recipe.id === 'french-toast' && slot === 'breakfast') modules.push('honey');
   if (recipe.id === 'fritters' && slot === 'breakfast') modules.push('honey');
   if (recipe.id === 'oat-fritters' && slot === 'breakfast') modules.push('sweet');
-  const profile = tripProfile(recipe, day);
+  const profile = tripProfile(recipe, day, slot);
   if (profile) {
     modules.push(...profile.modules);
     Object.assign(choices, profile.choices);
@@ -88,7 +88,6 @@ function tripEntry(recipe, day, slot, includeEggs) {
   if (recipe.id === 'potato-skillet') modules.push('beans');
   if (recipe.id === 'cabbage-soup') modules.push('rinse');
   if (recipe.id === 'broth-soup') modules.push('fish');
-  if (recipe.id === 'shakshuka') modules.push('aromatics');
   if (slot === 'lunch' && day % 2 === 1 && recipe.modules.some((m) => m.id === 'bouillon'))
     modules.push('bouillon');
   if (recipe.modules.some((m) => m.id === 'seasoning') && !modules.includes('bouillon'))
@@ -102,7 +101,8 @@ function tripEntry(recipe, day, slot, includeEggs) {
     choices,
     packSizes: {},
     anchorId: null,
-    modules,
+    // Generator rules drop what does not fit, e.g. salt on French toast with honey.
+    modules: normalizeSelection(recipe, choices, modules),
     source: 'builder',
   };
 }
@@ -200,8 +200,8 @@ export function buildTrip(options = {}) {
   const entries = [];
   for (let day = 1; day <= days; day++) {
     const defaults = {
-      breakfast: includeEggs && day === 1 ? 'french-toast' : breakfast[day - 1],
-      lunch: includeEggs && day === 2 ? 'shakshuka' : lunch[day - 1],
+      breakfast: includeEggs && day === 1 ? 'eggs-generator' : breakfast[day - 1],
+      lunch: includeEggs && day === 2 ? 'eggs-generator' : lunch[day - 1],
       dinner: dinner[day - 1],
       snack: includeEggs && day === 1 ? 'bread-oil' : 'nuts-raisins',
     };

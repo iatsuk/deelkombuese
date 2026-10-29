@@ -15,13 +15,15 @@ export function migrateRecipeEntry(entry) {
   const choices = { ...(migration.choices || {}), ...(entry.choices || {}) };
   if (entry.recipeId === 'pasta-milk' && entry.choices?.milkPowder)
     choices.cream = entry.choices.milkPowder;
+  // A module that was split in the generator maps to several modules there.
+  const modules = (Array.isArray(entry.modules) ? entry.modules : []).flatMap(
+    (id) => migration.moduleMap?.[id] || [id],
+  );
   return {
     ...entry,
     recipeId: migration.recipeId,
     choices,
-    modules: [
-      ...new Set([...migration.modules, ...(Array.isArray(entry.modules) ? entry.modules : [])]),
-    ],
+    modules: [...new Set([...migration.modules, ...modules])],
   };
 }
 export function recipeHasMeal(recipe, meal) {
@@ -103,13 +105,21 @@ export function optionBlocked(recipe, choices = {}, moduleIds = [], optionId) {
   );
   return issue?.reason || null;
 }
-export function effectiveIngredients(recipe, moduleIds = []) {
-  return [
+export function effectiveIngredients(recipe, moduleIds = [], choices = null) {
+  const items = [
     ...recipe.ingredients,
     ...selectedRecipeModules(recipe, moduleIds).flatMap((m) =>
       m.ingredients.map((i) => ({ ...i, moduleId: m.id })),
     ),
   ];
+  // A generator technique can rule out a substitute: crispbread does not soak up egg.
+  const excluded = choices && recipe.generator && generatorProfile(recipe, choices).noSubstitutes;
+  return excluded
+    ? items.map((i) => ({
+        ...i,
+        alternatives: i.alternatives.filter((a) => !excluded.includes(a.id)),
+      }))
+    : items;
 }
 
 export function resolveIngredient(ingredient, chosenId) {
@@ -136,7 +146,7 @@ export function prepareRecipe(
   moduleIds = [],
 ) {
   const modules = selectedRecipeModules(recipe, moduleIds);
-  const resolved = effectiveIngredients(recipe, moduleIds).map((i) => ({
+  const resolved = effectiveIngredients(recipe, moduleIds, choices).map((i) => ({
     ...resolveIngredient(i, choices[i.id]),
     originalId: i.id,
     moduleId: i.moduleId,

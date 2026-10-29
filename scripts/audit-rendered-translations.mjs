@@ -11,7 +11,12 @@ import { renderGenerators } from '../src/ui/views/generators.js';
 import { createPlannerView } from '../src/ui/views/planner.js';
 import { renderRecipeDialog } from '../src/ui/recipe-dialog.js';
 import { recipes, products, generators } from '../src/data.js';
-import { prepareRecipe, normalizeSelection } from '../src/model.js';
+import {
+  prepareRecipe,
+  normalizeSelection,
+  effectiveIngredients,
+  recipeSteps,
+} from '../src/model.js';
 import { buildTrip } from '../src/planner.js';
 import { visibleMessages } from './translation-html.mjs';
 import { buildRecipeCard } from '../src/export/recipe-card.js';
@@ -63,11 +68,23 @@ export function auditRenderedTranslations(language) {
       [[]],
     );
     const extras = recipe.modules.filter((m) => !m.group || m.multiple).map((m) => [m.id]);
+    // Rule reasons appear in toasts and tooltips of blocked options.
+    for (const option of [...recipe.generator.bases, ...recipe.modules])
+      if (option.reason) missing.add(option.reason);
     for (const base of recipe.generator.bases)
       for (const modules of [...combos, ...extras]) {
         const choices = { [recipe.generator.choiceKey]: base.id };
         const moduleIds = normalizeSelection(recipe, choices, modules);
         const prepared = prepareRecipe(recipe, choices, {}, null, moduleIds);
+        // Substitutes inside modules change the step wording (tomato paste is diluted).
+        for (const ingredient of effectiveIngredients(recipe, moduleIds, choices))
+          for (const alternative of ingredient.alternatives)
+            for (const step of recipeSteps(
+              recipe,
+              { ...choices, [ingredient.id]: alternative.id },
+              moduleIds,
+            ))
+              missing.add(step);
         inspect(
           renderGenerators({
             state,

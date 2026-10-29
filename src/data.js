@@ -1458,58 +1458,6 @@ export const recipes = [
     { vessel: 'cold', meal: 'snack', satiety: '1–2 ч', tone: 'brown', drySnack: true },
   ),
   r(
-    'eggs-bread',
-    'Яичница с хлебом',
-    'eggs',
-    8,
-    5,
-    'Два яйца и хлеб. Для прохладного рундука или дня закупки.',
-    [
-      i('eggs', 2, 'шт.', [
-        {
-          id: 'eggsCold',
-          amount: 2,
-          unit: 'шт.',
-          note: 'Охлаждённые яйца готовить сразу после покупки; соблюдать холодовую цепь.',
-        },
-      ]),
-      i('bread', 100),
-      oil(),
-    ],
-    0,
-    [
-      'Проверьте режим хранения яиц и целостность скорлупы. Разбейте яйца непосредственно перед готовкой; руки и поверхности после контакта со скорлупой вымойте.',
-      'Разогрейте масло на сковороде, добавьте яйца. Готовьте до полностью плотных белка и желтка, при необходимости под крышкой.',
-      'Подайте с хлебом и съешьте сразу. Разбитые яйца и готовую яичницу без холодильника на потом не оставлять.',
-    ],
-    { vessel: 'pan', meal: 'breakfast', satiety: '2–3 ч', tone: 'gold', eggConditional: true },
-  ),
-  r(
-    'shakshuka',
-    'Яйца в томатах',
-    'eggs',
-    15,
-    5,
-    'Целая упаковка пассаты задаёт выход; яйца добавляются к объёму соуса.',
-    [
-      i('passata', 200),
-      i('eggs', 2, 'шт.', [
-        { id: 'eggsCold', amount: 2, unit: 'шт.', note: 'Холодовую цепь сохранять до готовки.' },
-      ]),
-      i('driedOnion', 5),
-      i('driedGarlic', 0.25, 'ч. л.'),
-      i('paprika', 0.5, 'ч. л.'),
-      oil(),
-    ],
-    20,
-    [
-      'Прогрейте масло с сухим луком, чесноком и паприкой несколько секунд. Влейте всю выбранную упаковку пассаты и рассчитанную воду.',
-      'Доведите до кипения и томите 5–7 минут. Если соус слишком густой, долейте питьевую воду.',
-      'Сделайте углубления, разбейте яйца и готовьте под крышкой до полностью плотных белка и желтка. При большой упаковке нужен больший сотейник; весь выход съесть сейчас или разделить с попутчиком.',
-    ],
-    { vessel: 'pan', meal: 'breakfast', satiety: '2–3 ч', tone: 'red', eggConditional: true },
-  ),
-  r(
     'pilaf',
     'Походный плов',
     'rice',
@@ -1759,73 +1707,6 @@ recipes.find((r) => r.id === 'flatbread').meal = 'snack';
 
 recipes.push(
   r(
-    'french-toast',
-    'Французские тосты',
-    'bread',
-    12,
-    8,
-    'Хлеб, яйцо и молоко — обязательная основа. Сладкая или сытная подача выбирается отдельно.',
-    [
-      i('bread', 150),
-      i('eggs', 2, 'шт.', [
-        {
-          id: 'eggsCold',
-          amount: 2,
-          unit: 'шт.',
-          note: 'Только при сохранении холодовой цепи до готовки.',
-        },
-      ]),
-      i('milk', 125, 'мл'),
-      oil(),
-    ],
-    0,
-    [
-      'Взбейте яйца с молоком в тарелке. Если выбрали сухое молоко, сначала восстановите его указанной питьевой водой. Хлеб нарежьте толстыми ломтиками.',
-      'Пропитайте хлеб смесью с обеих сторон и обжарьте на небольшом количестве масла 2–3 минуты с каждой стороны, до полностью приготовленного яйца внутри. Для толстых ломтиков уменьшите огонь и накройте.',
-      'Используйте всю яично-молочную смесь: остаток вылейте на сковороду и полностью прожарьте. Добавьте выбранную подачу и съешьте сразу.',
-    ],
-    {
-      vessel: 'pan',
-      meal: 'breakfast',
-      tone: 'gold',
-      eggConditional: true,
-      template: {
-        core: ['bread', 'eggs', 'milk'],
-        text: 'Три обязательных продукта. Подача меняется, основа остаётся.',
-      },
-      modules: [
-        {
-          id: 'honey',
-          label: 'С мёдом',
-          group: 'finish',
-          ingredients: [i('honey', 20)],
-          instruction: 'Полейте готовые тосты мёдом перед едой.',
-        },
-        {
-          id: 'jam',
-          label: 'С вареньем',
-          group: 'finish',
-          ingredients: [i('jam', 25)],
-          instruction: 'Всю порционную баночку варенья подайте к готовым тостам.',
-        },
-        {
-          id: 'ham-cheese',
-          label: 'С ветчиной и сыром · с берега',
-          group: 'finish',
-          shore: true,
-          meal: 'main',
-          ingredients: [i('ham', 100), i('cheese', 100)],
-          extraMinutes: 3,
-          extraActive: 2,
-          instruction:
-            'Всю маленькую упаковку ветчины и сыра разложите по тостам. Прогрейте под крышкой до горячего состояния; охлаждённые продукты использовать сразу после покупки.',
-        },
-      ],
-    },
-  ),
-);
-recipes.push(
-  r(
     'bread-peanut',
     'Хлеб с арахисовой пастой',
     'bread',
@@ -1843,49 +1724,6 @@ recipes.push(
   ),
 );
 
-const shakshuka = recipes.find((r) => r.id === 'shakshuka');
-shakshuka.title = 'Шакшука · яйца в томатах';
-shakshuka.desc = 'Обязательны яйца и томаты. Картофель, лук и специи — отдельные добавки.';
-shakshuka.ingredients = shakshuka.ingredients.filter((i) =>
-  ['passata', 'eggs', 'oil'].includes(i.id),
-);
-shakshuka.template = {
-  core: ['eggs', 'passata'],
-  text: 'Яйца + любой подходящий томатный соус. Состав добавок не определяет блюдо.',
-};
-shakshuka.steps = [
-  'Прогрейте масло. Добавьте все выбранные томаты; концентрированную пасту или кетчуп разведите рассчитанной водой, свежие томаты нарежьте и размягчите.',
-  'Томите соус 5–7 минут. Для варианта с картофелем сначала доведите картофель до мягкости и только затем добавляйте яйца.',
-  'Разбейте яйца в углубления. Накройте и готовьте до полностью плотных белка и желтка. Съешьте всё сразу.',
-];
-shakshuka.modules = [
-  {
-    id: 'potato',
-    label: 'С картофелем',
-    ingredients: [i('potato', 150)],
-    waterDelta: 80,
-    extraMinutes: 15,
-    extraActive: 4,
-    beforeStep: 1,
-    instruction:
-      'Добавьте картофель кубиками не крупнее 1 см и дополнительную воду из расчёта. Томите под крышкой 12–18 минут до мягкости. Яйца добавляйте после картофеля.',
-  },
-  {
-    id: 'aromatics',
-    label: 'Лук и чеснок',
-    ingredients: [i('driedOnion', 5), i('driedGarlic', 0.25, 'ч. л.')],
-    beforeStep: 0,
-    instruction:
-      'В начале готовки коротко прогрейте выбранные ароматы в масле. Свежий лук обжаривайте 3–5 минут; сухой не пережаривайте.',
-  },
-  {
-    id: 'paprika',
-    label: 'Паприка',
-    ingredients: [i('paprika', 0.5, 'ч. л.')],
-    beforeStep: 0,
-    instruction: 'Прогрейте паприку в масле несколько секунд, затем добавьте томаты.',
-  },
-];
 for (const id of ['curry', 'dal']) {
   const recipe = recipes.find((r) => r.id === id);
   recipe.ingredients = recipe.ingredients.filter((i) => i.id !== 'coconut');
@@ -1989,6 +1827,15 @@ export const recipeMigrations = {
     modules: ['sauce-cream'],
     choices: { cream: 'milkPowder' },
   },
+  // The egg recipes became dishes of the eggs chapter; their module ids carried over.
+  'eggs-bread': { recipeId: 'eggs-generator', modules: ['bread'] },
+  shakshuka: { recipeId: 'eggs-generator', modules: ['tomato'], choices: { technique: 'poach' } },
+  'french-toast': {
+    recipeId: 'eggs-generator',
+    modules: ['bread', 'milk'],
+    choices: { technique: 'dip' },
+    moduleMap: { 'ham-cheese': ['ham', 'cheese'] },
+  },
 };
 
 export const productFamilies = [
@@ -2060,8 +1907,6 @@ const waterFractions = { tomatoPaste: 0.7, passata: 0.9, tomato: 0.9, ketchup: 0
 for (const recipe of recipes) {
   recipe.modules ||= [];
   for (const module of recipe.modules) if (module.group === 'vegetables') module.multiple = true;
-  if (recipe.id === 'french-toast' || recipe.id === 'shakshuka')
-    recipe.mealTags = ['breakfast', 'main'];
   recipe.mealTags = [
     ...new Set([
       recipe.meal,
@@ -2089,7 +1934,7 @@ for (const recipe of recipes) {
                 ].includes(recipe.id)
               ? 'porridge'
               : 'stew';
-  if (recipe.meal === 'main' || ['shakshuka', 'eggs-bread'].includes(recipe.id)) {
+  if (recipe.meal === 'main') {
     const seasoning = [i('salt', 0.125, 'ч. л.'), i('pepper', 0.125, 'ч. л.')].filter(
       (i) => !recipe.ingredients.some((base) => base.id === i.id),
     );
@@ -2127,7 +1972,7 @@ for (const recipe of recipes) {
       if (
         id === ingredient.id ||
         ingredient.alternatives.some((a) => a.id === id) ||
-        (recipe.id === 'french-toast' && id === 'crispbread')
+        ingredient.noSubstitutes?.includes(id)
       )
         continue;
       const target = family.refs[id];

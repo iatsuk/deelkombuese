@@ -23,6 +23,17 @@ export function createCatalog(state) {
         : [];
   }
 
+  // A search for a known dish (shakshuka, French toast) shows the chapter on that dish.
+  // A query that also fits the chapter's own title keeps the chapter's default.
+  function searchedDish(recipe) {
+    const q = state.query.trim().toLocaleLowerCase(language);
+    if (!q || !recipe.generator || state.view !== 'recipes' || state.favoritesOnly) return null;
+    if (searchText([recipe.title]).includes(q)) return null;
+    return (
+      (recipe.generator.dishes || []).find((dish) => searchText([dish.name]).includes(q)) || null
+    );
+  }
+
   function recipeContext(recipe) {
     if (state.view === 'recipes' && state.favoritesOnly)
       return (
@@ -30,6 +41,9 @@ export function createCatalog(state) {
           recipe.favoriteKey ? favoriteKey(f) === recipe.favoriteKey : f.recipeId === recipe.id,
         ) || {}
       );
+    const dish = searchedDish(recipe);
+    if (dish)
+      return { choices: { [recipe.generator.choiceKey]: dish.base }, modules: dish.modules };
     return choicesForSelection(recipe, activeRecipeSelection());
   }
 
@@ -81,6 +95,8 @@ export function createCatalog(state) {
             r.title,
             prepared.title,
             r.desc,
+            // A chapter is found by any of its dishes, e.g. shakshuka or French toast.
+            ...(r.generator?.dishes || []).map((dish) => dish.name),
             ...recipeProductIds(r).map((id) => productById[id].name),
           ]).includes(q))
       );
@@ -102,7 +118,7 @@ export function createCatalog(state) {
     const possible = availableRecipe(r, state.pantry, selected.modules);
     return `<article class="recipe-card-shell"><button class="recipe-card ${r.tone} ${compact ? 'compact' : ''}" data-action="${favoriteView ? 'favorite-recipe' : 'recipe'}" data-id="${cardId}">
     <span class="recipe-card-top"><span class="dish-icon">${icon(recipeGlyph(r))}</span><span class="recipe-kind">${r.generator ? 'Конструктор' : r.shore ? 'С берега' : r.vessel === 'cold' ? 'Без плиты' : r.meal === 'breakfast' ? (r.mealTags?.includes('main') ? 'Завтрак / обед' : 'Завтрак') : r.vessel === 'pan' ? 'На сковороде' : 'Одна кастрюля'}</span></span>
-    <strong>${favoriteView ? prepared.title : r.title}</strong><span class="recipe-desc">${favoriteView && prepared.modules.length ? prepared.modules.map((m) => m.label).join(' · ') : r.desc}</span>
+    <strong>${favoriteView || searchedDish(r) ? prepared.title : r.title}</strong><span class="recipe-desc">${favoriteView && prepared.modules.length ? prepared.modules.map((m) => m.label).join(' · ') : r.desc}</span>
     <span class="recipe-ingredient-icons" aria-hidden="true">${prepared.ingredients
       .slice(0, 4)
       .map(
@@ -147,6 +163,7 @@ export function createCatalog(state) {
   }
   return {
     activeRecipeSelection,
+    searchedDish,
     recipeContext,
     visibleRecipes,
     recipeCard,

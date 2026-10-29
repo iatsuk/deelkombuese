@@ -16,6 +16,13 @@ const pourInto = (c) =>
       : hasSide(c, 'potato')
         ? 'Влейте их к картофелю'
         : 'Вылейте на сковороду с маслом';
+// The tomato sauce follows the form of tomatoes chosen in the ingredients.
+const tomatoSauce = (c) =>
+  c.ids.has('passata')
+    ? 'Влейте всю пассату из упаковки и томите 5–7 минут, помешивая, пока соус не загустеет.'
+    : c.ids.has('tomato')
+      ? 'Нарежьте томаты и томите на сковороде 5–7 минут, пока они не размягчатся и не дадут сок.'
+      : `Разведите ${c.ids.has('ketchup') ? 'весь кетчуп' : 'всю томатную пасту'} водой из состава и томите 5–7 минут, помешивая, пока соус не загустеет.`;
 
 const EGG_STEPS = [
   {
@@ -119,6 +126,7 @@ export function createEggGenerator({ r, i }) {
             time: 7,
             active: 5,
             water: 0,
+            bowl: true,
             steps: [
               {
                 phase: 'eggs',
@@ -134,6 +142,7 @@ export function createEggGenerator({ r, i }) {
             time: 13,
             active: 4,
             water: 0,
+            bowl: true,
             steps: [
               {
                 phase: 'eggs',
@@ -150,6 +159,8 @@ export function createEggGenerator({ r, i }) {
             active: 8,
             water: 30,
             minWater: 30,
+            bowl: true,
+            noSubstitutes: ['crispbread'],
             requires: ['bread'],
             reason: 'Гренки делают из хлеба: выберите «с хлебом».',
             steps: [
@@ -177,10 +188,22 @@ export function createEggGenerator({ r, i }) {
           { name: 'Шакшука с хлебом', base: 'poach', modules: ['tomato', 'bread'] },
           { name: 'Яйца в карри', base: 'poach', modules: ['curry'] },
           { name: 'Яйца в карри с рисом', base: 'poach', modules: ['curry', 'rice'] },
-          { name: 'Французские тосты', base: 'dip', modules: ['bread'], legacyId: 'french-toast' },
+          { name: 'Гренки', base: 'dip', modules: ['bread'] },
+          {
+            name: 'Французские тосты',
+            base: 'dip',
+            modules: ['bread', 'milk'],
+            legacyId: 'french-toast',
+          },
         ],
         phases: ['prepare', 'side', 'aromatics', 'sauce', 'eggs', 'finish', 'serve'],
         steps: EGG_STEPS,
+        substitutesKeepLiquid: true,
+        // On a passage, eggs at breakfast are sweet French toast, otherwise shakshuka.
+        tripProfiles: {
+          breakfast: { choices: { technique: 'dip' }, modules: ['bread', 'milk', 'honey'] },
+          default: { choices: { technique: 'poach' }, modules: ['tomato', 'aromatics'] },
+        },
       },
       modules: [
         {
@@ -192,12 +215,7 @@ export function createEggGenerator({ r, i }) {
           extraMinutes: 5,
           excludes: ['fry', 'omelette', 'dip'],
           reason: 'Яйца с томатами томят в соусе или взбалтывают прямо в нём.',
-          steps: [
-            {
-              phase: 'sauce',
-              text: 'Влейте всю пассату из упаковки и томите 5–7 минут, помешивая, пока соус не загустеет.',
-            },
-          ],
+          steps: [{ phase: 'sauce', text: tomatoSauce }],
         },
         {
           id: 'curry',
@@ -213,7 +231,8 @@ export function createEggGenerator({ r, i }) {
           steps: [
             {
               phase: 'sauce',
-              text: 'Прогрейте карри и всю томатную пасту в масле 20 секунд, влейте воду из состава и томите 5 минут до лёгкой густоты.',
+              text: (c) =>
+                `Прогрейте карри и ${c.ids.has('tomatoPaste') ? 'всю томатную пасту' : 'все томаты'} в масле 20 секунд, влейте воду из состава и томите 5 минут до лёгкой густоты.`,
             },
           ],
         },
@@ -272,7 +291,6 @@ export function createEggGenerator({ r, i }) {
           id: 'aromatics',
           label: 'Лук и чеснок',
           ingredients: [i('driedOnion', 5), i('driedGarlic', 0.25, 'ч. л.')],
-          extraMinutes: 1,
           steps: [
             {
               phase: 'aromatics',
@@ -320,10 +338,34 @@ export function createEggGenerator({ r, i }) {
         {
           id: 'milk',
           label: 'Сухое молоко',
-          ingredients: [i('milkPowder', 15)],
+          // Powder is measured by the portion; an opened carton of UHT milk would not keep.
+          ingredients: [{ ...i('milkPowder', 15), noSubstitutes: ['milk'] }],
           waterDelta: 45,
           requires: ['scramble', 'omelette', 'dip'],
           reason: 'Сухое молоко добавляют во взбитые яйца.',
+        },
+        {
+          id: 'ham',
+          label: 'Ветчина · с берега',
+          shore: true,
+          ingredients: [i('ham', 100)],
+          extraMinutes: 2,
+          extraActive: 2,
+          excludes: ['poach', 'honey', 'jam'],
+          reason:
+            'Ветчину жарят с яйцами или кладут на несладкие тосты; в соус и к мёду её не добавляют.',
+          steps: [
+            {
+              phase: 'aromatics',
+              when: (c) => c.base !== 'dip',
+              text: 'Нарежьте всю упаковку ветчины и обжарьте в масле 1–2 минуты. Охлаждённую ветчину готовить в день покупки.',
+            },
+            {
+              phase: 'finish',
+              when: (c) => c.base === 'dip',
+              text: 'Разложите всю упаковку ветчины по готовым тостам, накройте крышкой и прогрейте 2 минуты до горячего состояния. Охлаждённую ветчину готовить в день покупки.',
+            },
+          ],
         },
         {
           id: 'cheese',
@@ -339,9 +381,31 @@ export function createEggGenerator({ r, i }) {
           ],
         },
         {
+          id: 'honey',
+          label: 'Мёд',
+          group: 'finish',
+          ingredients: [i('honey', 20)],
+          requires: ['dip'],
+          reason: 'Мёд и варенье подают к гренкам и французским тостам.',
+          steps: [{ phase: 'finish', text: 'Полейте готовые тосты мёдом перед едой.' }],
+        },
+        {
+          id: 'jam',
+          label: 'Варенье',
+          group: 'finish',
+          ingredients: [i('jam', 25)],
+          requires: ['dip'],
+          reason: 'Мёд и варенье подают к гренкам и французским тостам.',
+          steps: [
+            { phase: 'finish', text: 'Подайте к готовым тостам всю порционную баночку варенья.' },
+          ],
+        },
+        {
           id: 'seasoning',
           label: 'Соль и перец по вкусу',
           ingredients: [i('salt', 0.125, 'ч. л.'), i('pepper', 0.125, 'ч. л.')],
+          excludes: ['honey', 'jam'],
+          reason: 'Сладкие гренки и тосты с мёдом или вареньем не солят.',
           steps: [{ phase: 'finish', text: 'Посолите и поперчите по вкусу перед подачей.' }],
         },
       ],

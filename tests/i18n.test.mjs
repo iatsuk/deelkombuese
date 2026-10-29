@@ -93,12 +93,14 @@ test('Recipe and product searches use translated fields rather than concatenated
   ]) {
     configureLanguage(catalog(language), language);
     state.query = query;
-    assert.ok(
-      createCatalog(state)
-        .visibleRecipes()
-        .some((recipe) => recipe.id === 'french-toast'),
-    );
+    const found = createCatalog(state);
+    const eggs = found.visibleRecipes().find((recipe) => recipe.id === 'eggs-generator');
+    assert.ok(eggs);
+    // The card opens the chapter on the dish that was searched for.
+    assert.equal(found.searchedDish(eggs).name, 'Французские тосты');
   }
+  state.query = 'Eier';
+  assert.equal(createCatalog(state).searchedDish(recipeById['eggs-generator']), null);
   configureLanguage(catalog('de'), 'de');
   state.view = 'pantry';
   state.query = 'Weißkohl';

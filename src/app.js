@@ -63,6 +63,7 @@ const state = createAppState(persisted, location.hash);
 const catalog = createCatalog(state);
 const {
   activeRecipeSelection,
+  searchedDish,
   recipeContext,
   visibleRecipes,
   recipeCard,
@@ -538,6 +539,12 @@ function openRecipe(id, keepChoices = false) {
     choices = { ...choices, ...inferred.choices };
     moduleIds = inferred.modules;
   }
+  const dish = !keepChoices && searchedDish(r);
+  if (dish)
+    return openChapter(r, {
+      choices: { [r.generator.choiceKey]: dish.base },
+      modules: dish.modules,
+    });
   if (r.generator?.chapter && !keepChoices)
     return openChapter(r, { choices, packSizes, anchorId, modules: moduleIds });
   currentRecipe = id;

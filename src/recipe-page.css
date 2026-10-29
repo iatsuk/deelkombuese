@@ -316,8 +316,9 @@ dialog.recipe-sheet {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px 18px;
   }
+  /* Two buttons share a row while «Убрать из избранного» still fits; on a phone they stack. */
   .recipe-tools {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
     margin-top: 18px;
   }
   .recipe-tools p {

@@ -94,8 +94,9 @@ test('Пассата 500 г расходуется полностью, оста�
 });
 
 test('Банки одного продукта разного размера не объединяются в безразмерные граммы', () => {
-  const small = prepareRecipe(recipeById.shakshuka, {}, { passata: 200 });
-  const large = prepareRecipe(recipeById.shakshuka, {}, { passata: 500 });
+  const eggs = recipeById['eggs-generator'];
+  const small = prepareRecipe(eggs, { technique: 'poach' }, { passata: 200 }, null, ['tomato']);
+  const large = prepareRecipe(eggs, { technique: 'poach' }, { passata: 500 }, null, ['tomato']);
   const lines = shoppingItems(
     [
       { count: 1, ingredients: small.ingredients },

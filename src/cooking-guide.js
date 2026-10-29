@@ -155,7 +155,8 @@ export function recipeUtensils(recipe, prepared) {
   if (recipe.grainCooking || prepared.generator?.profile.absorption)
     items.push('сухая кружка или стакан для мерки');
   if (
-    (recipe.vessel === 'pan' && ['pancakes', 'french-toast'].includes(recipe.id)) ||
+    prepared.generator?.profile.bowl ||
+    (recipe.vessel === 'pan' && recipe.id === 'pancakes') ||
     ['fritters', 'oat-fritters', 'oat-cutlets', 'potato-pancakes'].includes(recipe.id)
   )
     items.push('миска для смешивания');

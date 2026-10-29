@@ -18,7 +18,7 @@ export function selectionSnapshot(
 ) {
   const prepared = prepareRecipe(recipe, choices, packSizes, anchorId, modules);
   const selectedChoices = {};
-  for (const ingredient of effectiveIngredients(recipe, modules)) {
+  for (const ingredient of effectiveIngredients(recipe, modules, choices)) {
     const chosen = resolveIngredient(ingredient, choices[ingredient.id]);
     if (chosen.id !== ingredient.id) selectedChoices[ingredient.id] = chosen.id;
   }
