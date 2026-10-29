@@ -69,7 +69,7 @@ test('Томатная паста — одна основа с взаимоис�
   const mince = prepareRecipe(recipe, {}, {}, null, ['mince']);
   assert.equal(mince.shore, true);
   assert.ok(recipeSteps(recipe, {}, ['mince']).some((s) => s.includes('71')));
-  assert.equal(recipes.filter((r) => r.generator).length, 1);
+  assert.ok(recipes.filter((r) => r.generator).some((r) => r.id === 'dish-generator'));
 });
 test('Прежние записи пасты и болоньезе сохраняют свой наполнитель после объединения', () => {
   for (const [oldId, module] of [

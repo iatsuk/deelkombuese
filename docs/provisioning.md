@@ -23,7 +23,11 @@ A generator is a recipe with a `generator` definition (`src/catalog/generators/`
 - **Chapter text**: `slug`, `chapter` (order, title, formula, principle) and `sentence` (words and option slots) describe the generator's chapter page; bases and modules may add a `phrase` that fits the sentence.
 - **Passage profiles** (`tripProfiles`) choose the modules and choices the passage planner uses on each day.
 
-The pasta/risotto/rice/potato generator keeps each base's technique; a golden test records its output. Ordinary rice absorbs measured water under a lid; risotto receives water gradually with stirring. Acidic tomato ingredients enter potatoes after they soften.
+The pasta/risotto/rice/potato generator keeps each base's technique; a golden test records its output.
+
+The eggs generator has techniques as its bases (`choiceKey: 'technique'`): fried, poached in sauce, scrambled, omelette and French toast. A single sauce (tomatoes or curry) and a single side (bread, potatoes or rice) name the dish — fried eggs with bread, shakshuka, menemen, tortilla, egg curry with rice. Rules keep the combinations sensible: poaching needs a sauce, French toast needs bread, curry is only a poaching sauce, and rice does not go into an omelette. Fried eggs with bread and shakshuka reproduce the numbers of the existing recipes, and every valid combination is tested for water, time, whole packs and its first and last safety steps.
+
+On the flavour map, a generator takes the first base that keeps every product the reader picked within its rules, so eggs and passata lead to shakshuka. Ordinary rice absorbs measured water under a lid; risotto receives water gradually with stirring. Acidic tomato ingredients enter potatoes after they soften.
 
 Fresh cabbage uses a separate braising technique. Plain cabbage, cabbage with rice, and added tomato/protein variants share one definition. Adding rice creates the unstuffed cabbage-roll variant. A small whole head is treated as the anchor unit; the opened remainder is not scheduled for another day. Fresh cabbage and canned sauerkraut are not presented as identical storage products or automatic one-for-one cooking substitutes.
 

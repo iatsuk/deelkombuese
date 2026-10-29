@@ -7,6 +7,9 @@ import { icon, esc } from '../icons.js';
 import { t, plural } from '../../i18n/runtime.js';
 
 const knownDishes = (recipe) => recipe.generator.dishes || recipe.generator.presets || [];
+// Each chapter has a gouache named after its slug (provenance in docs/visual-assets.md).
+const chapterImage = (recipe, loading) =>
+  `<img src="./assets/chapters/${recipe.generator.slug}.jpg" width="1200" height="800" alt="${esc(recipe.generator.chapter.alt)}" loading="${loading}" decoding="async"/>`;
 
 // Contents of the cookbook: one row per generator chapter.
 function renderContents() {
@@ -15,7 +18,7 @@ function renderContents() {
       .map((recipe, index) => {
         const { chapter, slug } = recipe.generator;
         const dishes = knownDishes(recipe);
-        return `<li><a href="#generators/${slug}"><span class="chapter-number">Глава ${index + 1}</span><strong>${chapter.title}</strong><span class="chapter-formula">${chapter.formula}</span><span class="chapter-dishes">${dishes
+        return `<li><a href="#generators/${slug}">${chapterImage(recipe, 'lazy')}<span class="chapter-number">Глава ${index + 1}</span><strong>${chapter.title}</strong><span class="chapter-formula">${chapter.formula}</span><span class="chapter-dishes">${dishes
           .slice(0, 5)
           .map((d) => d.name || d.label)
           .join(
@@ -65,14 +68,14 @@ function renderAdditions(recipe, selection, state) {
         .map((module) => {
           const active = selection.moduleIds.includes(module.id);
           const reason = optionBlocked(recipe, selection.choices, selection.moduleIds, module.id);
-          return `<button data-action="module" data-id="${module.id}" class="${active ? 'active' : ''}" aria-pressed="${active}" ${module.shore && state.mode !== 'shore' ? 'disabled' : ''} ${reason ? `data-blocked-reason="${esc(reason)}"` : ''}>${icon(active ? 'check' : 'plus')} ${module.label}</button>`;
+          return `<button data-action="module" data-id="${module.id}" class="${active ? 'active' : ''}" aria-pressed="${active}" ${module.shore && state.mode !== 'shore' ? 'disabled' : ''} ${reason ? `data-blocked-reason="${esc(reason)}" aria-disabled="true" title="${esc(reason)}"` : ''}>${icon(active ? 'check' : 'plus')} ${module.label}</button>`;
         })
         .join('')}</div></div>`;
     })
     .join('');
 }
 
-function renderKnown(recipe, selection, state) {
+function renderKnown(recipe, selection, state, prepared) {
   const base = generatorProfile(recipe, selection.choices).id;
   return `<div class="chapter-known"><span>Известные сочетания</span><div>${knownDishes(recipe)
     .map((dish) => {
@@ -82,7 +85,10 @@ function renderKnown(recipe, selection, state) {
         base: dish.base || base,
         modules: dish.modules,
       });
-      const active = dish.modules.every((id) => selection.moduleIds.includes(id));
+      // A named dish is active when it is the current title; a preset when its modules are on.
+      const active = dish.name
+        ? prepared.title === dish.name
+        : dish.modules.every((id) => selection.moduleIds.includes(id));
       return dish.shore && state.mode !== 'shore'
         ? `<span class="known-dish unavailable">${dish.name || dish.label}</span>`
         : `<a class="known-dish ${active ? 'active' : ''}" href="${href}">${dish.name || dish.label}</a>`;
@@ -95,15 +101,15 @@ export function renderGenerators({ state, chapter }) {
   const { recipe, prepared, selection } = chapter;
   const number = generators.indexOf(recipe) + 1;
   const { title, principle } = recipe.generator.chapter;
-  const sentence = recipe.generator.sentence
-    .map((part) =>
-      typeof part === 'string'
-        ? `<span>${part}</span>`
-        : sentenceSelect(recipe, selection, part, state),
-    )
-    .join(' ');
+  const parts = recipe.generator.sentence.map((part) =>
+    typeof part === 'string'
+      ? `<span>${part}</span>`
+      : sentenceSelect(recipe, selection, part, state),
+  );
+  // The full stop stays on the line of the last choice.
+  const sentence = `${parts.slice(0, -1).join(' ')} <span class="sentence-tail">${parts.at(-1)}.</span>`;
   return `<article class="chapter-page" data-generator="${recipe.id}"><nav class="chapter-crumb" aria-label="${t('Главы')}"><a href="#generators">Главы</a><span aria-hidden="true">/</span><span>Глава ${number}</span></nav>
-    <header class="chapter-head"><h1>${title}</h1><p>${principle}</p></header>
-    <section class="chapter-builder" aria-label="Собрать блюдо"><p class="chapter-sentence">${sentence}.</p>${renderAdditions(recipe, selection, state)}${renderKnown(recipe, selection, state)}</section>
+    <header class="chapter-head"><div><h1>${title}</h1><p>${principle}</p></div><figure>${chapterImage(recipe, 'eager')}</figure></header>
+    <section class="chapter-builder" aria-label="Собрать блюдо"><p class="chapter-sentence">${sentence}</p>${renderAdditions(recipe, selection, state)}${renderKnown(recipe, selection, state, prepared)}</section>
     ${renderRecipeDialog(recipe, prepared, { ...selection, state, embedded: true })}</article>`;
 }

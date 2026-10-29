@@ -21,7 +21,9 @@ export function renderRecipeDialog(
 
   function renderRecipeModules(recipe, prepared) {
     if (!recipe.modules?.length && !recipe.template) return '';
-    const core = recipe.generator ? [prepared.generator.profile.id] : recipe.template?.core;
+    // A generator base is a product (pasta) or a technique (fried eggs); only products are shown.
+    const base = prepared.generator?.profile.id;
+    const core = productById[base] ? [base] : recipe.template?.core;
     const groups = [
       ['sauce', '2. Соус', 'одна основа'],
       ['style', 'Вид супа', 'можно включить или убрать'],

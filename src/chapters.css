@@ -7,11 +7,12 @@
 }
 .chapter-list a {
   display: grid;
-  grid-template-columns: 110px minmax(0, 1fr) auto;
+  grid-template-columns: 180px minmax(0, 1fr) auto;
   grid-template-areas:
-    'number title count'
-    'number formula count'
-    'number dishes count';
+    'image number count'
+    'image title count'
+    'image formula count'
+    'image dishes count';
   gap: 4px 28px;
   padding: 24px 0;
   border-bottom: 1px solid var(--line);
@@ -20,9 +21,15 @@
 .chapter-list a:hover strong {
   color: var(--accent);
 }
+.chapter-list img {
+  grid-area: image;
+  align-self: center;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
 .chapter-number {
   grid-area: number;
-  padding-top: 8px;
   color: var(--faint);
   font-size: 14px;
 }
@@ -67,8 +74,20 @@
   text-underline-offset: 4px;
 }
 .chapter-head {
-  max-width: 860px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
   margin: 14px 0 28px;
+}
+.chapter-head figure {
+  margin: 0;
+}
+.chapter-head img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
 }
 .chapter-head h1 {
   margin: 0 0 16px;
@@ -100,6 +119,9 @@
 .sentence-slot {
   position: relative;
   display: inline-block;
+  white-space: nowrap;
+}
+.sentence-tail {
   white-space: nowrap;
 }
 .sentence-slot::after {
@@ -149,6 +171,10 @@
 .chapter-additions .module-buttons {
   margin: 0;
 }
+.chapter-additions [aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: help;
+}
 .chapter-known > div {
   display: flex;
   flex-wrap: wrap;
@@ -175,10 +201,19 @@
 .chapter-page .recipe-head h2 {
   font-size: clamp(30px, 3.4vw, 42px);
 }
+@media (max-width: 900px) {
+  .chapter-head {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .chapter-head figure {
+    order: -1;
+  }
+}
 @media (max-width: 680px) {
   .chapter-list a {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: 'number' 'title' 'formula' 'dishes' 'count';
+    grid-template-areas: 'image' 'number' 'title' 'formula' 'dishes' 'count';
     gap: 4px;
     padding: 20px 0;
   }
@@ -202,7 +237,8 @@
     font-size: 24px;
     line-height: 1.75;
   }
-  .sentence-slot {
+  .sentence-slot,
+  .sentence-tail {
     white-space: normal;
   }
   .chapter-additions,

@@ -38,10 +38,13 @@ export function generatorWater(recipe, choices, ingredients, modules, scale) {
     .filter((i) => i.id === 'soy')
     .reduce((sum, i) => sum + i.amount * 2.5, 0);
   // Potatoes soften before acidic sauces go in, so their water is not reduced by the sauce.
-  const cooking = Math.max(
-    (profile.minWater || 0) * scale,
-    (profile.water || 0) * scale - (profile.sauceCredit === false ? 0 : sauceWater),
-  );
+  // Modules that cook in their own water (a side of rice, a curry sauce) add it on top.
+  const cooking =
+    Math.max(
+      (profile.minWater || 0) * scale,
+      (profile.water || 0) * scale - (profile.sauceCredit === false ? 0 : sauceWater),
+    ) +
+    modules.reduce((sum, m) => sum + (m.waterDelta || 0), 0) * scale;
   return { water: Math.round(cooking + hydration), hydrationWater: Math.round(hydration), profile };
 }
 

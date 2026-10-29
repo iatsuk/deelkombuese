@@ -12,7 +12,6 @@ import { createPlannerView } from '../src/ui/views/planner.js';
 import { renderRecipeDialog } from '../src/ui/recipe-dialog.js';
 import { recipes, products, generators } from '../src/data.js';
 import { prepareRecipe, normalizeSelection } from '../src/model.js';
-import { generatorProfile } from '../src/generator-engine.js';
 import { buildTrip } from '../src/planner.js';
 import { visibleMessages } from './translation-html.mjs';
 import { buildRecipeCard } from '../src/export/recipe-card.js';
@@ -51,28 +50,42 @@ export function auditRenderedTranslations(language) {
   state.plan = buildTrip({ days: 3 }).entries;
   state.view = 'shopping';
   inspect(renderShopping({ state, catalog }));
-  // Generator chapters: the contents and every base with each known dish.
+  // Generator chapters: the contents, every base with each combination of single-choice
+  // groups, and every base with each combinable option on its own.
   state.view = 'generators';
   inspect(renderGenerators({ state, chapter: null }));
-  for (const recipe of generators)
+  for (const recipe of generators) {
+    const single = [
+      ...new Set(recipe.modules.filter((m) => m.group && !m.multiple).map((m) => m.group)),
+    ].map((group) => [null, ...recipe.modules.filter((m) => m.group === group).map((m) => m.id)]);
+    const combos = single.reduce(
+      (sets, options) => sets.flatMap((set) => options.map((id) => (id ? [...set, id] : set))),
+      [[]],
+    );
+    const extras = recipe.modules.filter((m) => !m.group || m.multiple).map((m) => [m.id]);
     for (const base of recipe.generator.bases)
-      for (const dish of [
-        { modules: [] },
-        ...(recipe.generator.dishes || recipe.generator.presets || []),
-      ]) {
+      for (const modules of [...combos, ...extras]) {
         const choices = { [recipe.generator.choiceKey]: base.id };
-        const moduleIds = normalizeSelection(recipe, choices, dish.modules);
+        const moduleIds = normalizeSelection(recipe, choices, modules);
         const prepared = prepareRecipe(recipe, choices, {}, null, moduleIds);
-        const selection = {
-          choices,
-          packSizes: {},
-          anchorId: prepared.anchorId,
-          moduleIds: prepared.modules.map((m) => m.id),
-          modules: prepared.modules,
-        };
-        if (generatorProfile(recipe, choices).id === base.id)
-          inspect(renderGenerators({ state, chapter: { recipe, prepared, selection } }));
+        inspect(
+          renderGenerators({
+            state,
+            chapter: {
+              recipe,
+              prepared,
+              selection: {
+                choices,
+                packSizes: {},
+                anchorId: prepared.anchorId,
+                moduleIds: prepared.modules.map((m) => m.id),
+                modules: prepared.modules,
+              },
+            },
+          }),
+        );
       }
+  }
   state.view = 'recipes';
   state.mode = 'shore';
   for (const recipe of recipes) {

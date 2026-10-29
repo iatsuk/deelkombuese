@@ -385,7 +385,23 @@ export function choicesForSelection(recipe, selectedIds = [], pantry = []) {
       (!pantry.includes(i.id) && i.alternatives.find((a) => pantry.includes(a.id))?.id);
     if (chosen && chosen !== i.id) choices[i.id] = chosen;
   }
-  return { choices, modules: [...new Set(modules)] };
+  const unique = [...new Set(modules)];
+  // A generator takes the first base that keeps every inferred option within its rules.
+  if (recipe.generator) {
+    const { bases, choiceKey } = recipe.generator;
+    const inferred = bases.find((base) => base.id === choices[choiceKey]);
+    for (const base of inferred ? [inferred] : bases) {
+      const candidate = { ...choices, [choiceKey]: base.id };
+      const valid = normalizeSelection(recipe, candidate, unique);
+      if (
+        unique.every((id) => valid.includes(id)) &&
+        !selectionIssues(recipe, candidate, valid).length
+      )
+        return { choices: candidate, modules: valid };
+    }
+    return { choices, modules: normalizeSelection(recipe, choices, unique) };
+  }
+  return { choices, modules: unique };
 }
 export function storageDays(value) {
   const text = String(value).toLowerCase();
