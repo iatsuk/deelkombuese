@@ -9,3 +9,11 @@ dist/
 impressum/
 datenschutz/
 offline-assets.js
+# Prerendered pages (scripts/static-pages.mjs)
+/generators/
+/recipes/
+/products/
+/en/
+/de/
+/sitemap.xml
+/robots.txt

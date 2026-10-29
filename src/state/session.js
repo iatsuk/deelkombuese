@@ -30,6 +30,22 @@ export function routeHash({ view, slug = null, base = null, modules = [], choice
   if (swaps.length) parts.push('swap=' + swaps.join(','));
   return '#' + [view, slug].filter(Boolean).join('/') + (parts.length ? '?' + parts.join('&') : '');
 }
+// Prerendered pages: Russian at the site root, other languages under their code, with
+// 'generators/<chapter>/<dish>/', 'recipes/<id>/' and 'products/<id>/' (ids are ASCII).
+export const pageLanguages = ['ru', 'en', 'de'];
+export function pagePath(language, ...segments) {
+  return [language === 'ru' ? '' : language + '/', ...segments.map((s) => s + '/')].join('');
+}
+export function parsePagePath(path = '') {
+  const parts = String(path).split(/[?#]/)[0].split('/').filter(Boolean);
+  const language = pageLanguages.includes(parts[0]) && parts[0] !== 'ru' ? parts.shift() : 'ru';
+  const [section, id = null, dish = null] = parts;
+  if (section === 'generators' && parts.length <= 3)
+    return { language, kind: id ? 'chapter' : 'contents', slug: id, dish };
+  if (['recipes', 'products'].includes(section) && id && parts.length === 2)
+    return { language, kind: section === 'recipes' ? 'recipe' : 'product', id };
+  return null;
+}
 export function createAppState(saved, hash = '') {
   const route = parseRoute(hash);
   return {

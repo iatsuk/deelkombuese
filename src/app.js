@@ -1,5 +1,5 @@
 import { buildShoppingText } from './export/shopping-list.js';
-import { createAppState, parseRoute, routeHash } from './state/session.js';
+import { createAppState, parseRoute, routeHash, parsePagePath, pagePath } from './state/session.js';
 import {
   language,
   t,
@@ -18,33 +18,31 @@ import { renderPantry } from './ui/views/pantry.js';
 import { renderRecipes } from './ui/views/recipes.js';
 import { renderShopping } from './ui/views/shopping.js';
 import { renderGenerators } from './ui/views/generators.js';
+import { renderShell } from './ui/shell.js';
+import { renderProductDetail } from './ui/product-detail.js';
 import { createPlannerView } from './ui/views/planner.js';
 import { drawGraph } from './ui/graph.js';
 import { initThemeToggle } from './theme.js';
 import { selectionSnapshot, sameSelection, favoriteKey } from './preferences.js';
 import { buildRecipeCard, downloadRecipePng } from './recipe-export.js';
 
-import { productGlyph } from './cooking-visuals.js';
 import { buildTrip, buildSeason } from './planner.js';
 import {
   productById,
-  recipes,
   recipeById,
   sources,
   starterPantry,
-  variantGroups,
   productFamilies,
   generatorBySlug,
 } from './data.js';
 import {
-  formatAmount,
   prepareRecipe,
   effectiveIngredients,
   recipeProductIds,
   choicesForSelection,
   normalizeSelection,
 } from './model.js';
-import { generatorProfile } from './generator-engine.js';
+import { generatorProfile, dishSlug } from './generator-engine.js';
 
 const titles = {
   map: 'Карта вкусов',
@@ -59,7 +57,28 @@ const restored = loadState(storage);
 let storageFailed = restored.failed;
 
 const persisted = restored.saved;
-const state = createAppState(persisted, location.hash);
+// The app's root, also when it boots on a prerendered page deeper in the site; that page
+// gives the starting view (a chapter, a dish, a recipe or product drawer) unless a hash does.
+const rootPath = new URL('../', import.meta.url).pathname;
+const pageAt = (pathname) =>
+  pathname.startsWith(rootPath) ? parsePagePath(pathname.slice(rootPath.length)) : null;
+function pageHash(page) {
+  if (!page) return '';
+  if (page.kind === 'contents') return '#generators';
+  if (page.kind === 'chapter') {
+    const recipe = generatorBySlug[page.slug];
+    const dish = recipe?.generator.dishes?.find((d) => dishSlug(recipe, d) === page.dish);
+    return routeHash({
+      view: 'generators',
+      slug: page.slug,
+      base: dish?.base || null,
+      modules: dish?.modules || [],
+    });
+  }
+  return page.kind === 'recipe' ? '#recipes' : '#pantry';
+}
+const currentRoute = () => parseRoute(location.hash || pageHash(pageAt(location.pathname)));
+const state = createAppState(persisted, location.hash || pageHash(pageAt(location.pathname)));
 const catalog = createCatalog(state);
 const {
   activeRecipeSelection,
@@ -103,25 +122,9 @@ function toast(text) {
 }
 
 function shell() {
-  document.querySelector('#app').innerHTML = localizeMarkup(`<header class="site-header">
-    <a class="brand" href="#map" aria-label="Дельный камбуз — главная"><span class="brand-mark">${icon('pot')}</span><span class="brand-name">Дельный камбуз</span></a>
-    <nav class="site-nav" aria-label="Основная навигация">${[
-      ['map', 'Карта вкусов'],
-      ['generators', 'Главы'],
-      ['pantry', 'Продукты'],
-      ['recipes', 'Рецепты'],
-      ['planner', 'План похода'],
-      ['shopping', 'Закупка'],
-    ]
-      .map(
-        ([v, label]) =>
-          `<a href="#${v}" data-nav="${v}"><span>${label}</span>${v === 'shopping' ? '<span id="cart-count" class="nav-count">0</span>' : ''}</a>`,
-      )
-      .join('')}</nav>
-    <div class="header-tools"><span class="offline-state" id="offline-status"><i></i> Подготовка к работе без сети…</span><div class="mode-switch" role="group" aria-label="Условия закупки"><button data-action="mode" data-mode="sea">${icon('wave')} В море</button><button data-action="mode" data-mode="shore">${icon('anchor')} У берега</button></div><button class="theme-toggle" type="button" data-theme-toggle>${icon('moon', 'theme-moon')}${icon('sun', 'theme-sun')}</button>${languageSelector()}</div>
-  </header>
-  <main id="main" tabindex="-1"></main>
-  <footer class="page-footer"><a class="footer-brand" href="https://deelstuff.com" target="_blank" rel="noopener noreferrer">Дельный камбуз / deelstuff<small>жизнь под парусом</small></a><nav class="footer-links" aria-label="Информация о сайте"><button data-action="sources">О хранении и источниках</button><a href="${legalUrl('impressum')}">Impressum</a><a href="${legalUrl('datenschutz')}">Datenschutz</a></nav></footer>`);
+  document.querySelector('#app').innerHTML = localizeMarkup(
+    renderShell({ languageLinks: languageSelector(), legalUrl }),
+  );
   initThemeToggle(document.querySelector('[data-theme-toggle]'), t);
   render();
 }
@@ -233,7 +236,7 @@ function handlePlannerAction(action, id, button) {
       state.builderMeta = { kind: 'season', days: plan.days };
     }
     save();
-    location.hash = 'shopping';
+    goToHash('#shopping');
     toast('Список закупки сформирован');
     return true;
   }
@@ -339,8 +342,7 @@ function openChapter(recipe, selection = {}) {
     anchorId: selection.anchorId || null,
     moduleIds: normalizeSelection(recipe, selection.choices || {}, selection.modules || []),
   };
-  if (document.querySelector('#detail').open) document.querySelector('#detail').close();
-  location.hash = chapterHash();
+  goToHash(chapterHash());
 }
 
 function render() {
@@ -398,24 +400,30 @@ function openProduct(id) {
   if (!p) return;
   currentProduct = id;
   currentRecipe = null;
-  const related = recipes.filter(
-    (r) => (state.mode === 'shore' || !r.shore) && recipeProductIds(r).includes(id),
-  );
-  const group = variantGroups.find((g) => g.includes(id));
-  const source = sources.find((s) => s.id === p.source);
-  const family = productFamilies.find((f) => f.id === p.familyId);
-  openDialog(
-    `<div class="product-detail-head"><span class="product-symbol large ${p.state}">${icon(productGlyph(p))}</span><span class="tag">${p.category}</span><h2>${p.name}</h2><p>${p.hint}</p></div>
-    ${group ? `<div class="product-variants">${group.map((v) => `<button data-action="product" data-id="${v}" class="${v === id ? 'active' : ''}">${productById[v].name}</button>`).join('')}</div>` : ''}
-    <div class="product-role"><span>Роль в блюде: <strong>${p.role}</strong></span>${family ? `<h3>${family.name}</h3><p>${family.note}</p><div>${family.members.map((id) => `<button data-action="product" data-id="${id}" class="${id === p.id ? 'active' : ''}">${productById[id].name}</button>`).join('')}</div>` : '<p>Прямой универсальной замены нет. В рецептах проверяйте разрешённые варианты по той же роли.</p>'}</div><div class="storage-pair"><div><span>Закрытый / целый продукт</span><strong>${p.life}</strong></div><div><span>После открытия / подготовки</span><strong>${p.afterLife}</strong></div></div>
-    <section class="detail-section"><h3>${icon('box')} Как хранить на яхте</h3><p>${p.storage}</p></section><section class="detail-section"><h3>${icon('clock')} После открытия</h3><p>${p.after}</p></section>${p.note ? `<div class="detail-notice">${icon('info')}<p>${p.note}</p></div>` : ''}
-    ${p.packages ? `<section class="detail-section"><h3>Упаковки для планирования</h3><p>${p.packages.map((pack) => formatAmount(pack.size, pack.unit) + (pack.edible !== pack.size ? ` (примерно ${pack.edible} г без жидкости)` : '')).join(' · ')}. В рецепте выбирайте фактическую упаковку: открытое содержимое используется целиком. Масса без жидкости здесь типовая; проверяйте конкретную банку.</p></section>` : ''}
-    <div class="detail-stats"><div><span>Сытость*</span><strong>${p.satiety === 'Добавка' ? 'Добавка к блюду' : p.satiety}</strong><small>${p.portion}</small></div><div><span>Условия для ориентира</span><strong>Сухо и прохладно</strong><small>Желательно 15–21 °C, без конденсата</small></div></div>
-    <p class="footnote">Числа — ориентир для планирования запаса, ограниченный условиями продукта и остаточным сроком. Открытие не запускает срок заново. Сытость не измерена в часах и зависит от порции и нагрузки.</p>
-    <div class="detail-actions">${p.state !== 'shore' ? `<button class="button primary" data-action="toggle-pantry" data-id="${p.id}">${icon(state.pantry.includes(p.id) ? 'check' : 'plus')} ${state.pantry.includes(p.id) ? 'Есть в рундуке · убрать' : 'Есть в рундуке'}</button>` : ''}<button class="button secondary" data-action="manual" data-id="${p.id}">${icon('bag')} В закупку</button></div>
-    ${related.length ? `<section class="detail-section"><h3>Что из этого приготовить</h3><div class="related-recipes">${related.map((r) => `<button data-action="recipe" data-id="${r.id}"><span>${r.title}</span><small>${r.time} мин ${icon('arrow')}</small></button>`).join('')}</div></section>` : ''}<a class="source-link" href="${source.url}" target="_blank" rel="noopener noreferrer">${source.title} ↗</a>`,
-    'Продукты',
-  );
+  openDialog(renderProductDetail(p, state), 'Продукты');
+  showPage(pagePath(language, 'products', id), { dialog: 'product', id });
+}
+// A drawer takes the address of its prerendered page, so it can be shared and reloaded.
+function showPage(path, entry) {
+  if (location.pathname === rootPath + path) return;
+  // One history step per open drawer: moving between drawers replaces it.
+  if (window.history.state?.dialog) window.history.replaceState(entry, '', rootPath + path);
+  else window.history.pushState(entry, '', rootPath + path);
+  refreshLanguageLinks();
+}
+// Moves to an app view; away from a page address it keeps the document and its base.
+function goToHash(hash) {
+  if (location.pathname === rootPath) {
+    location.hash = hash;
+    return;
+  }
+  const dialog = document.querySelector('#detail');
+  if (dialog.open) {
+    leavingDrawer = true;
+    dialog.close();
+  }
+  window.history.pushState(null, '', rootPath + location.search + hash);
+  applyRoute();
 }
 
 function openFavorite(key) {
@@ -547,6 +555,7 @@ function openRecipe(id, keepChoices = false) {
     });
   if (r.generator?.chapter && !keepChoices)
     return openChapter(r, { choices, packSizes, anchorId, modules: moduleIds });
+  if (!keepChoices) showPage(pagePath(language, 'recipes', id), { dialog: 'recipe', id });
   currentRecipe = id;
   currentProduct = null;
   const prepared = prepareRecipe(r, choices, packSizes, anchorId, moduleIds);
@@ -868,8 +877,8 @@ function handleChange(event) {
     render();
   }
 }
-window.addEventListener('hashchange', () => {
-  const route = parseRoute(location.hash);
+function applyRoute() {
+  const route = currentRoute();
   if (route.view === 'generators' && route.slug) chapter = chapterFromRoute(route);
   state.route = route;
   state.view = route.view;
@@ -877,12 +886,46 @@ window.addEventListener('hashchange', () => {
   render();
   window.scrollTo({ top: 0, behavior: 'instant' });
   document.querySelector('#main').focus({ preventScroll: true });
+}
+window.addEventListener('hashchange', applyRoute);
+// Back and forward move between drawers and views; a drawer's own page reopens it.
+let leavingDrawer = false;
+window.addEventListener('popstate', (event) => {
+  const entry = event.state;
+  const page = pageAt(location.pathname);
+  const dialog = document.querySelector('#detail');
+  if (entry?.dialog === 'recipe') return openRecipe(entry.id);
+  if (entry?.dialog === 'product') return openProduct(entry.id);
+  if (dialog.open) {
+    leavingDrawer = true;
+    dialog.close();
+  }
+  if (route(state.route) !== route(currentRoute())) applyRoute();
+  refreshLanguageLinks();
+  if (!location.hash && page?.kind === 'recipe') openRecipe(page.id);
+  if (!location.hash && page?.kind === 'product') openProduct(page.id);
 });
+const route = (r) => JSON.stringify([r.view, r.slug, r.base, r.modules, r.choices]);
 document.querySelector('#detail').addEventListener('close', () => {
   document.body.classList.remove('dialog-open');
   currentRecipe = null;
   currentProduct = null;
   lastFocus?.isConnected && lastFocus.focus();
+  // Leave the drawer's address: back to where it was opened, or, for a reader who arrived
+  // on the drawer's own page, to the app view under it.
+  if (leavingDrawer) leavingDrawer = false;
+  else if (window.history.state?.dialog) window.history.back();
+  else if (['recipe', 'product'].includes(pageAt(location.pathname)?.kind))
+    window.history.replaceState(null, '', rootPath + location.search + '#' + state.view);
+  refreshLanguageLinks();
+});
+// Links to app views stay in the app, also on a prerendered page or a drawer's address.
+document.addEventListener('click', (event) => {
+  const link = event.target.closest('a[href^="#"]');
+  const hash = link?.getAttribute('href');
+  if (!hash || hash === '#main' || event.defaultPrevented || event.metaKey || event.ctrlKey) return;
+  event.preventDefault();
+  goToHash(hash);
 });
 document.querySelector('#detail').addEventListener('click', (event) => {
   const rect = event.currentTarget.getBoundingClientRect();
@@ -896,10 +939,16 @@ document.querySelector('#detail').addEventListener('click', (event) => {
     event.currentTarget.close();
 });
 shell();
+// A prerendered recipe or product page opens its drawer over the app view.
+{
+  const page = pageAt(location.pathname);
+  if (!location.hash && page?.kind === 'recipe') openRecipe(page.id);
+  if (!location.hash && page?.kind === 'product') openProduct(page.id);
+}
 if (storageFailed) toast('Сохранение в браузере недоступно. Данные останутся в текущей вкладке.');
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
-    .register('./sw.js')
+    .register(new URL('../sw.js', import.meta.url))
     .then(() => navigator.serviceWorker.ready)
     .then(() => {
       const el = document.querySelector('#offline-status');

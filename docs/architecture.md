@@ -24,32 +24,33 @@ The diagram shows responsibilities, not every import. `pnpm check:architecture` 
 
 ## Ownership and public entry points
 
-| Concern                           | Owner                                           | Contract                                                                                    |
-| --------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| Product and recipe identity       | `data.js`, `catalog/`, `recipe-library.js`      | Stable IDs and canonical units; no DOM, network or locale access                            |
-| Recipe calculations               | `model.js`                                      | `prepareRecipe`, substitutions, whole packs, filtering and shopping aggregation             |
-| Cooking techniques                | `cooking-guide.js`, `generator-engine.js`       | Water absorption, generator bases, rules, names and phase-ordered steps; no presentation    |
-| Passage and seasonal provisioning | `planner.js`                                    | Deterministic menus, retail rounding, usage and water budgets                               |
-| Configured favourites             | `preferences.js`                                | Normalised selections, per-variant keys for generators and legacy recipe migrations         |
-| Persistence                       | `state/storage.js`                              | Storage is injected; corrupt or unavailable storage does not prevent use                    |
-| Session defaults and routes       | `state/session.js`                              | `createAppState`, `parseRoute` and `routeHash`; chapter links carry base, modules and swaps |
-| UI catalogue                      | `ui/catalog.js`                                 | Shared cards, selection-aware filtering, search and shopping selectors                      |
-| Page rendering                    | `ui/views/`                                     | One module per primary section, with explicit state/catalogue inputs                        |
-| Generator chapters                | `ui/views/generators.js`, `chapters.css`        | Contents and chapter pages; the chapter keeps its own selection in the controller           |
-| Recipe detail                     | `ui/recipe-dialog.js`, `recipe-page.css`        | Cookbook-page presentation of an already prepared recipe; actions remain in the controller  |
-| Graph geometry                    | `ui/graph.js`                                   | DOM measurement and SVG connections only                                                    |
-| SVG and display formatting        | `ui/icons.js`, `ui/format.js`, `ui/water.js`    | Shared visual vocabulary and locale-aware display                                           |
-| Colour roles and site frame       | `tokens.css`, `shell.css`                       | Light/dark colour tokens; header and footer layout (see [design](design.md))                |
-| Language policy                   | `i18n/locale.js`                                | Pure precedence and shareable language URLs                                                 |
-| Display translation               | `i18n/messages.js`, `runtime.js`, `html.js`     | Exact messages and parameter patterns; only public text and accessible labels change        |
-| Browser language integration      | `i18n/browser.js`                               | Reads preferences, loads a catalogue and exposes the selector                               |
-| Theme switch                      | `theme.js`, root `theme-preference.js`          | Pins light or dark on `<html>`; the early script applies the saved choice before paint      |
-| PNG snapshot                      | `export/recipe-card.js`, `i18n/recipe-card.js`  | Captures the selected recipe before asynchronous rendering, then localises display fields   |
-| PNG drawing                       | `export/png.js`                                 | Reads a complete snapshot; never reads application state, the product catalogue or storage  |
-| Shopping text                     | `export/shopping-list.js`                       | Pure text export with explicit plan/items and translator/language inputs                    |
-| Compatibility exports             | `recipe-export.js`                              | Keeps the previous import path working without duplicating implementation                   |
-| Analytics                         | root `site-analytics.js`                        | Byte-identical copy of the authoritative `web-analytics` adapter                            |
-| Legal pages and offline manifest  | `scripts/legal-pages.mjs`, `offline-assets.mjs` | Deterministic generation from checked-in inputs                                             |
+| Concern                           | Owner                                                             | Contract                                                                                                                                               |
+| --------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Product and recipe identity       | `data.js`, `catalog/`, `recipe-library.js`                        | Stable IDs and canonical units; no DOM, network or locale access                                                                                       |
+| Recipe calculations               | `model.js`                                                        | `prepareRecipe`, substitutions, whole packs, filtering and shopping aggregation                                                                        |
+| Cooking techniques                | `cooking-guide.js`, `generator-engine.js`                         | Water absorption, generator bases, rules, names and phase-ordered steps; no presentation                                                               |
+| Passage and seasonal provisioning | `planner.js`                                                      | Deterministic menus, retail rounding, usage and water budgets                                                                                          |
+| Configured favourites             | `preferences.js`                                                  | Normalised selections, per-variant keys for generators and legacy recipe migrations                                                                    |
+| Persistence                       | `state/storage.js`                                                | Storage is injected; corrupt or unavailable storage does not prevent use                                                                               |
+| Session defaults and routes       | `state/session.js`                                                | `createAppState`, `parseRoute` and `routeHash`; chapter links carry base, modules and swaps; `pagePath` and `parsePagePath` name the prerendered pages |
+| UI catalogue                      | `ui/catalog.js`                                                   | Shared cards, selection-aware filtering, search and shopping selectors                                                                                 |
+| Page rendering                    | `ui/views/`                                                       | One module per primary section, with explicit state/catalogue inputs                                                                                   |
+| Generator chapters                | `ui/views/generators.js`, `chapters.css`                          | Contents and chapter pages; the chapter keeps its own selection in the controller                                                                      |
+| Recipe detail                     | `ui/recipe-dialog.js`, `recipe-page.css`                          | Cookbook-page presentation of an already prepared recipe; actions remain in the controller                                                             |
+| Graph geometry                    | `ui/graph.js`                                                     | DOM measurement and SVG connections only                                                                                                               |
+| SVG and display formatting        | `ui/icons.js`, `ui/format.js`, `ui/water.js`                      | Shared visual vocabulary and locale-aware display                                                                                                      |
+| Colour roles and site frame       | `tokens.css`, `shell.css`                                         | Light/dark colour tokens; header and footer layout (see [design](design.md))                                                                           |
+| Language policy                   | `i18n/locale.js`                                                  | Pure precedence and shareable language URLs                                                                                                            |
+| Display translation               | `i18n/messages.js`, `runtime.js`, `html.js`                       | Exact messages and parameter patterns; only public text and accessible labels change                                                                   |
+| Browser language integration      | `i18n/browser.js`                                                 | Reads preferences, loads a catalogue and exposes the selector                                                                                          |
+| Theme switch                      | `theme.js`, root `theme-preference.js`                            | Pins light or dark on `<html>`; the early script applies the saved choice before paint                                                                 |
+| PNG snapshot                      | `export/recipe-card.js`, `i18n/recipe-card.js`                    | Captures the selected recipe before asynchronous rendering, then localises display fields                                                              |
+| PNG drawing                       | `export/png.js`                                                   | Reads a complete snapshot; never reads application state, the product catalogue or storage                                                             |
+| Shopping text                     | `export/shopping-list.js`                                         | Pure text export with explicit plan/items and translator/language inputs                                                                               |
+| Compatibility exports             | `recipe-export.js`                                                | Keeps the previous import path working without duplicating implementation                                                                              |
+| Analytics                         | root `site-analytics.js`                                          | Byte-identical copy of the authoritative `web-analytics` adapter                                                                                       |
+| Legal pages and offline manifest  | `scripts/legal-pages.mjs`, `offline-assets.mjs`                   | Deterministic generation from checked-in inputs                                                                                                        |
+| Pages for search                  | `scripts/static-pages.mjs`, `ui/shell.js`, `ui/product-detail.js` | Prerenders every chapter, dish, standalone recipe and product in every language with the app's own views, plus `sitemap.xml` and `robots.txt`          |
 
 ## Architectural rules
 
@@ -58,6 +59,7 @@ The diagram shows responsibilities, not every import. `pnpm check:architecture` 
 - **ARCH-03 — Snapshot exports.** The PNG renderer receives prepared display data. Changing a selection while a download is being created cannot alter that download.
 - **ARCH-04 — Locale is presentation.** Never translate IDs, option values, `data-*` attributes, stored units, recipe choices or numeric measurements. Browser integration is isolated from the pure translator and locale policy.
 - **ARCH-05 — Checked dependencies.** Imports must be acyclic. New unresolved names and unused imports fail the architecture gate.
+- **ARCH-07 — Pages first, app as enhancement.** Every chapter, dish, standalone recipe and product has a real page: Russian at the site root, other languages under `en/` and `de/` (`generators/<chapter>/<dish>/`, `recipes/<id>/`, `products/<id>/`). A page carries its full text, a canonical link, `hreflang` alternates with `x-default` (English), Open Graph tags and, for dishes and recipes, schema.org `Recipe` data. Its `<base>` points at the site root, so assets and the app's hash links resolve there. The app boots on any page and opens its view; recipe and product drawers take their page address with `pushState` and give it back when they close. Hash links never reload the document, old hash links and `?lang=` keep working, and the language switch leads to the sibling page.
 - **ARCH-06 — Static delivery.** Only explicitly allowlisted runtime files enter `dist/`. Tests, documentation, development scripts, Git metadata and credentials are excluded.
 
 ## Applying design principles

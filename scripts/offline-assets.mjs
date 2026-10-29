@@ -12,6 +12,12 @@ export function generateOfflineAssets() {
     'site-analytics.js',
     'theme-preference.js',
     ...['src', 'fonts', 'assets', 'locales', 'impressum', 'datenschutz'].flatMap(walk),
+    // The chapter pages in every language; dish, recipe and product pages are cached when
+    // visited, and offline the app root opens on their view.
+    ...['generators', 'en/generators', 'de/generators']
+      .filter(existsSync)
+      .flatMap(walk)
+      .filter((file) => /^(?:(?:en|de)\/)?generators\/(?:[^/]+\/)?index\.html$/.test(file)),
   ].filter(existsSync);
   const hash = createHash('sha256');
   for (const file of files.sort()) {

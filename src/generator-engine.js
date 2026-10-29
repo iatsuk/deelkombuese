@@ -60,6 +60,16 @@ export function generatorWater(recipe, choices, ingredients, modules, scale) {
   return { water: Math.round(total), hydrationWater: Math.round(hydration), profile };
 }
 
+// A dish's page address inside its chapter: its own slug, the former recipe id when it had
+// one (shakshuka, pilaf), otherwise its base and modules ('poach-tomato-potato').
+export function dishSlug(recipe, dish) {
+  return (
+    dish.slug ||
+    dish.legacyId ||
+    [dish.base || recipe.generator.bases[0].id, ...(dish.modules || [])].join('-')
+  );
+}
+
 // A named dish matches when its base and every listed module are selected; the most specific wins.
 export function generatorDish(recipe, profile, modules) {
   const ids = new Set(modules.map((m) => m.id));

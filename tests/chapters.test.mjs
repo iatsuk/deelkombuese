@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { generators, recipeById, recipeMigrations } from '../src/data.js';
+import { dishSlug } from '../src/generator-engine.js';
 import {
   prepareRecipe,
   recipeSteps,
@@ -52,6 +53,14 @@ test('Each named dish of a chapter is a valid combination that carries its name'
       assert.deepEqual(selectionIssues(recipe, choices, dish.modules), [], dish.name);
       assert.equal(prepareRecipe(recipe, choices, {}, null, dish.modules).title, dish.name);
     }
+});
+
+test('Every dish of a chapter has its own page address', () => {
+  for (const recipe of generators) {
+    const slugs = (recipe.generator.dishes || []).map((dish) => dishSlug(recipe, dish));
+    assert.equal(new Set(slugs).size, slugs.length, recipe.id);
+    for (const slug of slugs) assert.match(slug, /^[a-z0-9-]+$/, slug);
+  }
 });
 
 test('A former recipe opens as its dish in the chapter', () => {

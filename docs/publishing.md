@@ -4,7 +4,9 @@ The app is served by GitHub Pages from the public [iatsuk/deelkombuese](https://
 
 ## Build and deployment
 
-Install the pinned development dependencies with `pnpm install --frozen-lockfile`. `pnpm build:pages` generates legal editions and a content-hashed offline asset manifest, then copies only the runtime allowlist into `dist/`.
+Install the pinned development dependencies with `pnpm install --frozen-lockfile`. `pnpm build:pages` generates legal editions, the pages for search engines (`scripts/static-pages.mjs`: every chapter, dish, standalone recipe and product in Russian, English and German, with `sitemap.xml` and `robots.txt` for `https://kombuese.deelstuff.com/`) and a content-hashed offline asset manifest, then copies only the runtime allowlist into `dist/`. `pnpm start` generates the same files at the repository root for local use; they are ignored by Git.
+
+The offline cache holds the app and the chapter pages in every language. Dish, recipe and product pages are cached when visited; a page never visited opens the app root offline on the page's language and view.
 
 The allowlist includes application HTML/modules/styles, local fonts, images, translation catalogues, generated legal pages, the shared analytics adapter and service worker. Git metadata, tests, development scripts, documentation and private configuration are excluded. No translations are downloaded during a build.
 

@@ -175,7 +175,8 @@ export function createGrainGenerator({ i, r, aroma, tomato, fish, meat }) {
             modules: ['stew', 'carrot'],
             legacyId: 'buckwheat-stew',
           },
-          { name: 'Гречка с мясом', base: 'buckwheat', modules: ['stew'] },
+          // Its own address: 'buckwheat-stew' is buckwheat with meat and carrot.
+          { name: 'Гречка с мясом', base: 'buckwheat', modules: ['stew'], slug: 'buckwheat-meat' },
           {
             name: 'Гречка с зелёным горошком',
             base: 'buckwheat',

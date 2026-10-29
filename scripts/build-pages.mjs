@@ -1,10 +1,12 @@
 import { generateLegalPages } from './legal-pages.mjs';
 import { generateOfflineAssets } from './offline-assets.mjs';
+import { generateStaticPages, generatedPaths } from './static-pages.mjs';
 import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const out = new URL('../dist/', import.meta.url);
 generateLegalPages();
+generateStaticPages();
 generateOfflineAssets();
 await rm(out, { recursive: true, force: true });
 await mkdir(out, { recursive: true });
@@ -22,6 +24,7 @@ for (const name of [
   'offline-assets.js',
   'impressum',
   'datenschutz',
+  ...generatedPaths,
 ]) {
   await cp(new URL(name, new URL('../', import.meta.url)), new URL(name, out), { recursive: true });
 }
