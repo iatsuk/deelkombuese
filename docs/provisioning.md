@@ -10,7 +10,7 @@ The crew (one to four people) is a setting of the reader, not of a recipe. `prep
 
 ## Flexible recipes
 
-A recipe has a required core and optional modules. Mutually exclusive groups select one sauce or protein; compatible vegetable and seasoning modules can combine. A substitution may change quantity, water and time, not merely the displayed name. Substitutions within a product family run both ways, so the note under an ingredient speaks about the product chosen: a family's `note` explains it on product pages, and `notes` holds the words for choosing a member that the general note does not describe.
+A recipe has a required core and optional modules. Mutually exclusive groups select one sauce or protein; compatible vegetable and seasoning modules can combine. A substitution may change quantity, water and time, not merely the displayed name. Substitutions within a product family run both ways, so the note under an ingredient speaks about the product chosen: a family's `note` explains it on product pages, and `notes` holds the words for choosing a member that the general note does not describe. Where the general note is about the dried form (`describes`), it also stands under that form when it is the recipe's own ingredient.
 
 ## Generators
 

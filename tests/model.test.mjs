@@ -207,4 +207,9 @@ test('A substitution note speaks about the product chosen, not the one it replac
   const soup = recipeById['soup-generator'];
   const fresh = prepareRecipe(soup, { technique: 'broth', driedOnion: 'onion' });
   assert.match(fresh.ingredients.find((i) => i.id === 'onion').note, /^Свежий лук/);
+  // The dried form carries its note as the recipe's own ingredient too, not only as a swap.
+  const dried = prepareRecipe(soup, { technique: 'broth' });
+  assert.match(dried.ingredients.find((i) => i.id === 'driedOnion').note, /^Сухой лук/);
+  assert.match(dried.ingredients.find((i) => i.id === 'driedCarrot').note, /^Сушёной моркови/);
+  assert.equal(dried.ingredients.find((i) => i.id === 'oil').note, undefined);
 });

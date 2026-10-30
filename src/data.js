@@ -1504,7 +1504,8 @@ export const recipeMigrations = {
 };
 
 // A family's `note` explains it on product pages. A swap runs either way, so `notes` holds the
-// words for choosing a member that the general note does not describe.
+// words for choosing a member that the general note does not describe. Where the note is about
+// one member (`describes`, the dried form), it also stands under that member in any recipe.
 export const productFamilies = [
   {
     id: 'tomatoes',
@@ -1522,6 +1523,7 @@ export const productFamilies = [
   {
     id: 'carrot',
     name: 'Морковь: свежая ↔ сушёная',
+    describes: 'driedCarrot',
     note: 'Сушёной моркови нужны вода и, в зависимости от продукта, восстановление.',
     notes: {
       carrot: 'Свежую морковь нарежьте мелкими кубиками: так она успеет свариться.',
@@ -1532,6 +1534,7 @@ export const productFamilies = [
   {
     id: 'onion',
     name: 'Лук: свежий ↔ сушёный',
+    describes: 'driedOnion',
     note: 'Сухой лук заменяет аромат и часть объёма, но не обжаривается столько же времени.',
     notes: {
       onion: 'Свежий лук нарежьте мелко. В горячем блюде сначала обжарьте его 3–5 минут.',
@@ -1542,6 +1545,7 @@ export const productFamilies = [
   {
     id: 'garlic',
     name: 'Чеснок: свежий ↔ сухой',
+    describes: 'driedGarlic',
     note: 'Начинайте с меньшего количества порошка, затем регулируйте вкус.',
     notes: {
       garlic: 'Свежий чеснок нарежьте мелко и не пережаривайте: он быстро подгорает.',
@@ -1552,6 +1556,7 @@ export const productFamilies = [
   {
     id: 'ginger',
     name: 'Имбирь: свежий ↔ сухой',
+    describes: 'driedGinger',
     note: 'Сухой имбирь сильнее и даёт другой профиль аромата.',
     notes: {
       ginger: 'Свежий имбирь мягче сухого: натрите его или нарежьте мелко.',
@@ -1576,6 +1581,7 @@ export const productFamilies = [
   {
     id: 'milk',
     name: 'Молоко: UHT ↔ сухое',
+    describes: 'milkPowder',
     note: 'Порошок сначала разводят питьевой водой. Восстановленное молоко не хранится как сухое.',
     notes: {
       milk: 'UHT-молоко разводить не нужно. Открытый пакет используется целиком.',
@@ -1654,6 +1660,7 @@ for (const recipe of recipes) {
   ]) {
     const family = productFamilies.find((f) => f.members.includes(ingredient.id));
     if (!family) continue;
+    if (family.describes === ingredient.id) ingredient.note ||= family.note;
     const ref = family.refs[ingredient.id];
     if (ingredient.unit !== ref[1]) continue;
     for (const id of family.members) {
