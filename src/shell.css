@@ -23,6 +23,7 @@
   border-radius: 9px;
   background: var(--sea);
   color: var(--on-ink);
+  flex-shrink: 0;
 }
 .brand-mark .icon {
   width: 20px;
@@ -245,6 +246,8 @@
   }
   .brand-name {
     font-size: 18px;
+    line-height: 1.1;
+    white-space: normal;
   }
   .theme-toggle,
   .language-switch {
