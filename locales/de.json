@@ -660,13 +660,6 @@
   "Грибы консервированные": "Pilze in Dosen",
   "Грибы консервированные: вся банка {0} г": "Pilzkonserven: ganze Dose {0} g",
   "Грибы консервированные: вся банка {0} г · без жидкости": "Pilzkonserven: ganze Dose {0} g ohne Flüssigkeit",
-  "Гуашь: ленивые голубцы с мясом и томатами в синей кастрюле, кочан капусты, открытая банка тушёнки и деревянная ложка на камбузе": "Gouache: Kohlrouladen ohne Wickeln mit Fleisch und Tomaten in einem blauen Topf, ein Kohlkopf, eine offene Dose Fleisch und ein Holzlöffel in der Kombüse",
-  "Гуашь: оладьи в синей сковороде, миска жидкого теста с венчиком, баночка мёда и бумажный пакет муки на камбузе": "Gouache: Puffer in einer blauen Pfanne, eine Schüssel Teig mit Schneebesen, ein Glas Honig und eine Papiertüte Mehl in der Kombüse",
-  "Гуашь: паста в томатном соусе с тунцом в синей кастрюле, банка тунца и банка с пастой на камбузе": "Gouache: Pasta in Tomatensoße mit Thunfisch in einem blauen Topf, eine offene Thunfischdose und ein Glas Pasta in der Kombüse",
-  "Гуашь: рис с морковью и нутом в синей кастрюле, банка гречки и мерная кружка риса на камбузе у иллюминатора": "Gouache: Reis mit Karotte und Kichererbsen in einem blauen Topf, ein Glas Buchweizen und ein Messbecher Reis in der Kombüse am Bullauge",
-  "Гуашь: суп с фасолью и овощами в синей кастрюле с половником, миска супа, открытая банка фасоли и бульонные кубики на камбузе": "Gouache: Suppe mit Bohnen und Gemüse in einem blauen Topf mit Schöpfkelle, eine Schale Suppe, eine offene Dose Bohnen und Brühwürfel in der Kombüse",
-  "Гуашь: хлеб с тунцом на синей тарелке, миска фасоли с нутом и кукурузой, хлебцы и бутылочка масла на камбузе у иллюминатора": "Gouache: Thunfischbrot auf einem blauen Teller, eine Schüssel Bohnen mit Kichererbsen und Mais, Knäckebrot und ein Ölfläschchen in der Kombüse am Bullauge",
-  "Гуашь: шакшука в синей сковороде, яйца в миске, ломоть хлеба и жареный картофель на камбузе у иллюминатора": "Gouache: Schakschuka in einer blauen Pfanne, Eier in einer Schüssel, eine Scheibe Brot und Bratkartoffeln in der Kombüse am Bullauge",
   "Густой чечевичный суп": "Dickflüssige Linsensuppe",
   "Дайте немного остыть и съешьте. Это порция для текущего завтрака, а не проверенная технология заготовки гранолы на сезон.": "Etwas abkühlen lassen und essen. Dies ist eine Portion für das aktuelle Frühstück und keine bewährte Technologie zur Zubereitung von Müsli für die Saison.",
   "Дал с кокосовым молоком": "Dal mit Kokosmilch",
@@ -2283,5 +2276,12 @@
   "ГАЗ НА {0} ДНЕЙ": "GAS FÜR {0} TAGE",
   "Расход горелки: {0} г/ч": "Brennerverbrauch: {0} g/h",
   "Минут горелки: {0}": "Brennerminuten: {0}",
-  "Проверьте количество продуктов в рундуке. Вода и газ — плановые предположения, регулируйте по погоде и нагрузке; баллон взвесьте перед выходом.": "Die tatsächlichen Vorräte an Bord prüfen. Wasser und Gas sind Planungsannahmen: an Wetter und Belastung anpassen und die Gasflasche vor dem Ablegen wiegen."
+  "Проверьте количество продуктов в рундуке. Вода и газ — плановые предположения, регулируйте по погоде и нагрузке; баллон взвесьте перед выходом.": "Die tatsächlichen Vorräte an Bord prüfen. Wasser und Gas sind Planungsannahmen: an Wetter und Belastung anpassen und die Gasflasche vor dem Ablegen wiegen.",
+  "Гуашь: шакшука с тремя яйцами в синей сковороде на шафрановом фоне": "Gouache: Shakshuka mit drei Eiern in einer blauen Pfanne auf safrangelbem Grund",
+  "Гуашь: миска томатного супа с белой фасолью и ложкой на бирюзовом фоне": "Gouache: eine Schale Tomatensuppe mit weißen Bohnen und Löffel auf türkisem Grund",
+  "Гуашь: вилка с намотанной пастой в томатном соусе на красном фоне": "Gouache: eine Gabel mit aufgewickelter Pasta in Tomatensoße auf rotem Grund",
+  "Гуашь: половина кочана белой капусты на сливовом фоне": "Gouache: ein halber Weißkohl auf pflaumenfarbenem Grund",
+  "Гуашь: из синей кружки сыплются рис и гречка, светлый фон": "Gouache: Reis und Buchweizen rieseln aus einem blauen Becher, heller Grund",
+  "Гуашь: высокая стопка блинов с мёдом на голубом фоне": "Gouache: ein hoher Stapel Pfannkuchen mit Honig auf hellblauem Grund",
+  "Гуашь: ломоть хлеба с тунцом и открытая банка на коралловом фоне": "Gouache: eine Scheibe Brot mit Thunfisch und eine geöffnete Dose auf korallfarbenem Grund"
 }
