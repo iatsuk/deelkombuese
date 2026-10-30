@@ -167,3 +167,44 @@ test('Для целого пакета пассаты 500 г есть компа
   assert.ok(prepared.yieldGrams <= 750);
   assert.ok(prepared.ingredients.every((i) => !i.package || i.amount === i.package.edible));
 });
+
+test('A substitution note speaks about the product chosen, not the one it replaces', () => {
+  // How a note about the replaced product reads; a family can be swapped in either direction.
+  const foreign = {
+    onion: /^Сух/,
+    garlic: /порошк/i,
+    ginger: /^Сухой/,
+    carrot: /^Сушён/,
+    milk: /порошк/i,
+    bread: /хлебц/i,
+    ryeBread: /хлебц/i,
+    tomato: /кетчуп/i,
+    tomatoPaste: /кетчуп/i,
+    passata: /кетчуп/i,
+  };
+  let checked = 0;
+  for (const recipe of recipes) {
+    const ingredients = [
+      ...recipe.ingredients,
+      ...(recipe.generator?.bases || []).flatMap((base) => base.ingredients || []),
+      ...recipe.modules.flatMap((m) => [
+        ...m.ingredients,
+        ...Object.values(m.ingredientsByBase || {}).flat(),
+      ]),
+    ];
+    for (const ingredient of ingredients)
+      for (const swap of ingredient.alternatives)
+        if (foreign[swap.id]) {
+          checked++;
+          assert.doesNotMatch(
+            swap.note || '',
+            foreign[swap.id],
+            `${recipe.id}: ${ingredient.id} → ${swap.id}`,
+          );
+        }
+  }
+  assert.ok(checked > 30);
+  const soup = recipeById['soup-generator'];
+  const fresh = prepareRecipe(soup, { technique: 'broth', driedOnion: 'onion' });
+  assert.match(fresh.ingredients.find((i) => i.id === 'onion').note, /^Свежий лук/);
+});

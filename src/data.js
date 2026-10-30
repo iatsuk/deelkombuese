@@ -1503,11 +1503,19 @@ export const recipeMigrations = {
   dal: { recipeId: 'braise-generator', modules: [], choices: { technique: 'dal' } },
 };
 
+// A family's `note` explains it on product pages. A swap runs either way, so `notes` holds the
+// words for choosing a member that the general note does not describe.
 export const productFamilies = [
   {
     id: 'tomatoes',
     name: 'Томаты и томатные соусы',
     note: 'Замены меняют концентрацию, воду, кислотность и сладость. Кетчуп — сладкая уксусная замена, а не нейтральный томат.',
+    notes: {
+      ketchup: 'Кетчуп — сладкая уксусная замена, а не нейтральный томат: соли добавьте меньше.',
+      tomato: 'Свежие томаты мелко нарежьте и дайте им размягчиться: вкус будет легче.',
+      tomatoPaste: 'Паста гуще и концентрированнее пассаты: разведите её водой из состава.',
+      passata: 'Пассата жиже томатной пасты: вводите её вместе с водой, а не обжаривайте.',
+    },
     members: ['tomatoPaste', 'passata', 'tomato', 'ketchup'],
     refs: { tomatoPaste: [30, 'г'], passata: [150, 'г'], tomato: [200, 'г'], ketchup: [40, 'г'] },
   },
@@ -1515,6 +1523,9 @@ export const productFamilies = [
     id: 'carrot',
     name: 'Морковь: свежая ↔ сушёная',
     note: 'Сушёной моркови нужны вода и, в зависимости от продукта, восстановление.',
+    notes: {
+      carrot: 'Свежую морковь нарежьте мелкими кубиками: так она успеет свариться.',
+    },
     members: ['carrot', 'driedCarrot'],
     refs: { carrot: [1, 'шт.'], driedCarrot: [12, 'г'] },
   },
@@ -1522,6 +1533,9 @@ export const productFamilies = [
     id: 'onion',
     name: 'Лук: свежий ↔ сушёный',
     note: 'Сухой лук заменяет аромат и часть объёма, но не обжаривается столько же времени.',
+    notes: {
+      onion: 'Свежий лук нарежьте мелко. В горячем блюде сначала обжарьте его 3–5 минут.',
+    },
     members: ['onion', 'driedOnion'],
     refs: { onion: [1, 'шт.'], driedOnion: [5, 'г'] },
   },
@@ -1529,6 +1543,9 @@ export const productFamilies = [
     id: 'garlic',
     name: 'Чеснок: свежий ↔ сухой',
     note: 'Начинайте с меньшего количества порошка, затем регулируйте вкус.',
+    notes: {
+      garlic: 'Свежий чеснок нарежьте мелко и не пережаривайте: он быстро подгорает.',
+    },
     members: ['garlic', 'driedGarlic'],
     refs: { garlic: [1, 'зубчик'], driedGarlic: [0.125, 'ч. л.'] },
   },
@@ -1536,6 +1553,9 @@ export const productFamilies = [
     id: 'ginger',
     name: 'Имбирь: свежий ↔ сухой',
     note: 'Сухой имбирь сильнее и даёт другой профиль аромата.',
+    notes: {
+      ginger: 'Свежий имбирь мягче сухого: натрите его или нарежьте мелко.',
+    },
     members: ['ginger', 'driedGinger'],
     refs: { ginger: [5, 'г'], driedGinger: [0.25, 'ч. л.'] },
   },
@@ -1557,6 +1577,9 @@ export const productFamilies = [
     id: 'milk',
     name: 'Молоко: UHT ↔ сухое',
     note: 'Порошок сначала разводят питьевой водой. Восстановленное молоко не хранится как сухое.',
+    notes: {
+      milk: 'UHT-молоко разводить не нужно. Открытый пакет используется целиком.',
+    },
     members: ['milk', 'milkPowder'],
     refs: { milk: [125, 'мл'], milkPowder: [12.5, 'г'] },
   },
@@ -1564,6 +1587,10 @@ export const productFamilies = [
     id: 'bread',
     name: 'Хлеб и сухие альтернативы',
     note: 'Хлебцы удобны для холодных закусок. Для французских тостов нужен мягкий хлеб; хлебцы не подставляются автоматически.',
+    notes: {
+      crispbread: 'Хлебцы — сухой резерв: подавайте их к блюду перед едой, чтобы не размокли.',
+      ryeBread: 'Открытый пастеризованный хлеб расходовать за 3–5 дней в сухой прохладе.',
+    },
     members: ['bread', 'ryeBread', 'crispbread'],
     refs: { bread: [100, 'г'], ryeBread: [100, 'г'], crispbread: [50, 'г'] },
   },
@@ -1638,7 +1665,12 @@ for (const recipe of recipes) {
         continue;
       const target = family.refs[id];
       const amount = Number(((ingredient.amount / ref[0]) * target[0]).toFixed(3));
-      const alternative = { id, amount, unit: target[1], note: family.note };
+      const alternative = {
+        id,
+        amount,
+        unit: target[1],
+        note: family.notes?.[id] ?? family.note,
+      };
       if (family.id === 'tomatoes')
         alternative.waterDelta = Math.round(
           ingredient.amount * waterFractions[ingredient.id] - amount * waterFractions[id],
