@@ -5,6 +5,7 @@
     'sy-aurora.de': 'https://stats.deelstuff.com/count',
     'kombuese.deelstuff.com': 'https://stats.deelstuff.com/count',
     'stunning-deutsch.deelstuff.com': 'https://stats.deelstuff.com/count',
+    'colreg.deelstuff.com': 'https://stats.deelstuff.com/count',
     'sy-rassvet.com': 'https://stats.deelstuff.com/count',
   };
   const endpoint = endpoints[location.hostname];
