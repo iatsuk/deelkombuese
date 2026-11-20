@@ -21,7 +21,6 @@ import { renderShell } from './ui/shell.js';
 import { renderProductDetail } from './ui/product-detail.js';
 import { openStove } from './stove.js';
 import { createPlannerView } from './ui/views/planner.js';
-import { drawGraph } from './ui/graph.js';
 import { initThemeToggle } from './theme.js';
 import { selectionSnapshot, sameSelection, favoriteKey } from './preferences.js';
 import { buildRecipeCard, downloadRecipePng } from './recipe-export.js';
@@ -151,22 +150,6 @@ function handlePlannerAction(action, id, button) {
     render();
     return true;
   }
-  if (action === 'graph-focus') {
-    state.graphFocus = state.graphFocus === id ? null : id;
-    if (state.graphFocus) {
-      const ids = recipeProductIds(recipeById[id]);
-      document.querySelectorAll('.network-group').forEach((group) => {
-        if (
-          [...group.querySelectorAll('[data-product-node]')].some((n) =>
-            ids.includes(n.dataset.productNode),
-          )
-        )
-          group.open = true;
-      });
-    }
-    requestAnimationFrame(() => drawGraph(state));
-    return true;
-  }
   if (action === 'graph-results') {
     document.querySelector('#graph-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
     return true;
@@ -265,18 +248,6 @@ function handlePlannerAction(action, id, button) {
   }
   return false;
 }
-window.addEventListener('resize', () => {
-  if (state.view === 'map') requestAnimationFrame(() => drawGraph(state));
-});
-document.fonts?.ready.then(() => requestAnimationFrame(() => drawGraph(state)));
-document.addEventListener(
-  'toggle',
-  (event) => {
-    if (event.target.classList?.contains('network-group'))
-      requestAnimationFrame(() => drawGraph(state));
-  },
-  true,
-);
 
 function chapterFromRoute(route) {
   const recipe = generatorBySlug[route.slug];
@@ -398,7 +369,6 @@ function render() {
       : null;
   document.title = t(`${chapterTitle || titles[state.view]} · Дельный камбуз · deelstuff`);
   refreshLanguageLinks();
-  if (state.view === 'map') requestAnimationFrame(() => drawGraph(state));
   if (searchFocused) {
     const input = document.querySelector('#search');
     input?.focus();

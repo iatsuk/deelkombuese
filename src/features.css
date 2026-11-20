@@ -45,7 +45,7 @@
   font-size: 15px;
   color: var(--muted);
 }
-.selected-products > button {
+.selected-products > button:not(.network-count) {
   background: var(--ink);
   color: var(--on-ink);
   padding: 7px 10px;
@@ -58,156 +58,87 @@
   text-decoration: underline;
   padding: 7px;
 }
-.ingredient-network {
-  position: relative;
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background-color: var(--paper);
-  background-image: radial-gradient(
-    color-mix(in srgb, var(--faint) 17%, transparent) 0.7px,
-    transparent 0.7px
-  );
-  background-size: 15px 15px;
-}
-.network-lines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: visible;
-  z-index: 0;
-}
-.network-lines path {
-  fill: none;
-  stroke: var(--faint);
-  stroke-width: 1.3;
-  opacity: 0.45;
-}
-.network-lines path.optional {
-  stroke: var(--copper);
-  stroke-dasharray: 4 5;
-  opacity: 0.5;
-}
-.network-products {
-  position: relative;
+/* The flavour map: product chips under plain group headings, no frames or lines. A selection
+   narrows the chips: the ones that still lead to a dish stay outlined in copper, the rest step
+   back or hide. */
+.map-groups {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 13px;
-  z-index: 1;
-  align-items: start;
+  gap: 26px;
+  margin: 8px 0 40px;
 }
-.network-group {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  overflow: hidden;
-}
-.network-group summary {
-  font-size: 15px;
-  font-weight: 500;
-  padding: 13px;
-  cursor: pointer;
-  line-height: 1.6;
-  list-style-position: inside;
-}
-.network-group summary > span {
-  float: right;
-  font-size: 13px;
-  color: var(--faint);
-}
-.network-group > div {
-  padding: 0 9px 9px;
+.map-group h3 {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 10px;
+  color: var(--ink);
+  font: 400 19px/1.3 var(--serif);
 }
-.network-group > p {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.8;
-  padding: 0 13px 5px;
-  margin: 0 0 9px;
-}
-.graph-node {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  justify-content: space-between;
-  border: 1px solid var(--line);
-  background: var(--card);
-  border-radius: 4px;
-  padding: 7px 8px;
-  min-height: 35px;
-  text-align: left;
-  position: relative;
-}
-.graph-node > span {
-  display: flex;
-  gap: 7px;
-  align-items: center;
-  font-size: 14px;
-  line-height: 1.5;
-  min-width: 0;
-  overflow-wrap: anywhere;
-  hyphens: auto;
-}
-.graph-node .icon {
-  width: 16px;
-  height: 16px;
+.map-group h3 span {
   color: var(--faint);
+  font: 13px var(--sans);
+  font-variant-numeric: tabular-nums;
 }
-.graph-node small {
-  font-size: 12px;
-  background: var(--surface);
-  color: var(--faint);
-  padding: 2px 5px;
-  border-radius: 3px;
-}
-.graph-node.selected {
-  background: var(--sea);
-  color: var(--on-ink);
-  border-color: var(--ink);
-}
-.graph-node.selected .icon {
-  color: color-mix(in srgb, var(--on-ink) 75%, transparent);
-}
-.graph-node.selected small {
-  color: var(--on-ink);
-  background: color-mix(in srgb, var(--card) 15%, transparent);
-}
-.graph-node.connected:not(.selected) {
-  border-color: var(--faint);
-  box-shadow: inset 2px 0 var(--faint);
-}
-.graph-node:hover:not(:disabled) {
-  border-color: var(--copper);
-}
-.graph-node:disabled {
-  opacity: 0.4;
-}
-.graph-legend {
+.map-chips {
   display: flex;
   flex-wrap: wrap;
-  position: relative;
-  gap: 15px;
-  font-size: 12px;
-  color: var(--faint);
-  padding: 25px 0 23px;
-  z-index: 1;
+  gap: 6px 8px;
 }
-.graph-legend span {
-  display: flex;
+.map-chip {
+  display: inline-flex;
   align-items: center;
-  gap: 5px;
-  background: var(--paper);
+  gap: 6px;
+  min-height: 38px;
+  padding: 5px 12px 5px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
 }
-.graph-legend i {
-  display: inline-block;
-  width: 18px;
-  border-top: 1px solid var(--faint);
+.map-chip .icon {
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
 }
-.graph-legend i.optional {
-  border-top: 1px dashed var(--copper);
+.map-chip small {
+  color: var(--faint);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.map-chip:hover:not(:disabled) {
+  border-color: var(--line-deep);
+}
+.map-groups.narrowed .map-chip:not([aria-pressed='true']):not(:disabled) {
+  border-color: var(--copper);
+}
+.map-chip[aria-pressed='true'] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--on-ink);
+}
+.map-chip[aria-pressed='true'] :is(.icon, small) {
+  color: inherit;
+}
+.map-chip:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.map-group > p {
+  margin: 8px 0 0;
+  color: var(--faint);
+  font-size: 13px;
+}
+@media (max-width: 680px) {
+  .map-groups {
+    gap: 20px;
+  }
+  .map-chip {
+    min-height: 36px;
+    font-size: 13px;
+  }
 }
 .network-results {
   position: relative;
@@ -224,43 +155,6 @@
 .network-recipes {
   margin-top: 22px;
   gap: 15px;
-}
-.graph-recipe {
-  border-radius: 7px;
-  position: relative;
-}
-.graph-recipe.focused {
-  outline: 1px solid var(--line-deep);
-  outline-offset: 3px;
-}
-.graph-recipe .recipe-card {
-  width: 100%;
-  height: calc(100% - 31px);
-  border-radius: 6px 6px 0 0;
-  min-height: 200px;
-}
-.graph-focus {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  width: 100%;
-  min-height: 32px;
-  border: 1px solid var(--line);
-  border-top: 0;
-  background: var(--surface);
-  border-radius: 0 0 6px 6px;
-  padding: 7px 12px;
-  text-align: left;
-  font-size: 12px;
-  color: var(--faint);
-}
-.graph-focus .icon {
-  width: 12px;
-  height: 12px;
-}
-.graph-recipe.focused .graph-focus {
-  background: var(--line);
-  color: var(--muted);
 }
 .flexible-recipe {
   padding: 20px;
@@ -863,12 +757,6 @@
   max-width: 520px;
 }
 @media (max-width: 1150px) {
-  .network-products {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .network-group > summary {
-    font-size: 14px;
-  }
   .network-results h2 {
     font-size: 23px;
   }
@@ -1014,49 +902,10 @@
   .network-intro p {
     font-size: 15px;
   }
-  .network-products {
-    grid-template-columns: 1fr 1fr;
-    gap: 9px;
-  }
-  .ingredient-network {
-    padding: 13px;
-  }
-  .network-group summary {
-    font-size: 13px;
-    padding: 11px 9px;
-  }
-  .network-group summary > span {
-    font-size: 12px;
-  }
-  .network-group > div {
-    padding: 0 6px 6px;
-    gap: 5px;
-  }
-  .graph-node {
-    padding: 7px 6px;
-    gap: 5px;
-    min-height: 40px;
-  }
-  .graph-node > span {
-    font-size: 12px;
-    gap: 5px;
-  }
-  .graph-node .icon {
-    width: 13px;
-    height: 13px;
-  }
-  .graph-node small {
-    font-size: 12px;
-    padding: 2px 4px;
-  }
-  .network-group > p {
-    font-size: 12px;
-    padding: 3px 9px 5px;
-  }
   .selected-products > span {
     font-size: 13px;
   }
-  .selected-products > button {
+  .selected-products > button:not(.network-count) {
     font-size: 12px;
     padding: 7px 8px;
     min-height: 33px;
@@ -1071,11 +920,6 @@
   }
   .network-controls {
     gap: 9px;
-  }
-  .graph-legend {
-    gap: 10px;
-    font-size: 11px;
-    padding-block: 24px;
   }
   .network-results .section-heading {
     display: block;
@@ -1094,15 +938,6 @@
   }
   .network-recipes .recipe-card {
     min-height: 230px;
-  }
-  .graph-focus {
-    font-size: 12px;
-    padding-inline: 10px;
-    line-height: 1.7;
-  }
-  .graph-focus .icon {
-    width: 10px;
-    height: 10px;
   }
   .flexible-recipe {
     padding: 16px;
@@ -1265,9 +1100,6 @@
   }
 }
 @media (max-width: 370px) {
-  .network-products {
-    grid-template-columns: 1fr;
-  }
   .day-buttons > button {
     width: 32px;
     min-height: 53px;
@@ -1280,19 +1112,6 @@
   }
   .network-recipes .recipe-card {
     min-height: 200px;
-  }
-}
-@media (min-width: 1400px) {
-  .network-group.dense > div {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 5px;
-  }
-  .network-group.dense .graph-node > span {
-    font-size: 13px;
-  }
-  .network-group.dense .graph-node {
-    min-height: 41px;
   }
 }
 .season-cart-note {
