@@ -2307,5 +2307,16 @@
   "Вмешайте в готовую кашу всю порционную баночку варенья.": "Stir the whole single-serving jar of jam into the finished porridge.",
   "Смешайте всю упаковку UHT-молока с водой из состава: на этой смеси и варите кашу.": "Mix the whole carton of UHT milk with the water from the ingredients and cook the porridge in it.",
   "Отдельные рецепты": "Recipes outside the chapters",
-  "Снимите один из фильтров или поищите другое блюдо.": "Remove one of the filters or search for another dish."
+  "Снимите один из фильтров или поищите другое блюдо.": "Remove one of the filters or search for another dish.",
+  "≈ {0} кружки": "≈ {0} mugs",
+  "≈ {0} кружек": "≈ {0} mugs",
+  "≈ {0} кружка": "≈ {0} mug",
+  "≈ ¼ кружки": "≈ ¼ mug",
+  "≈ ½ кружки": "≈ ½ mug",
+  "≈ ¾ кружки": "≈ ¾ mug",
+  "≈ {0} ст. л.": "≈ {0} tbsp",
+  "≈ {0} ч. л.": "≈ {0} tsp",
+  "Мерки: кружка 250 мл, ложки 15 и 5 мл без горки; граммы точнее.": "Measures: a 250 ml mug, level 15 and 5 ml spoons; grams are more precise.",
+  "USDA FoodData Central · вес чашки и ложки": "USDA FoodData Central · weight of a cup and a spoon",
+  "Таблицы бытовых мер SR Legacy: сколько граммов крупы, муки, орехов и изюма в чашке 237 мл и в ложке. Камбуз пересчитывает их на кружку 250 мл и ложки 15 и 5 мл без горки. Это подсказка рядом с граммами, а не замена весам: сорт, помол и плотность насыпки меняют вес.": "SR Legacy household measures: how many grams of grain, flour, nuts and raisins fill a 237 ml cup or a spoon. The galley converts them to a 250 ml mug and level 15 and 5 ml spoons. It is a hint next to the grams, not a substitute for scales: variety, grind and how loosely it is filled change the weight."
 }

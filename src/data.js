@@ -10,6 +10,12 @@ import { createBreakfastGenerator } from './catalog/generators/breakfast.js';
 // Storage periods are editorial rotation estimates, not results of yacht storage trials.
 export const sources = [
   {
+    id: 'usda-fdc',
+    title: 'USDA FoodData Central · вес чашки и ложки',
+    url: 'https://fdc.nal.usda.gov/',
+    text: 'Таблицы бытовых мер SR Legacy: сколько граммов крупы, муки, орехов и изюма в чашке 237 мл и в ложке. Камбуз пересчитывает их на кружку 250 мл и ложки 15 и 5 мл без горки. Это подсказка рядом с граммами, а не замена весам: сорт, помол и плотность насыпки меняют вес.',
+  },
+  {
     id: 'cabbage',
     title: 'UMN Extension · хранение капусты',
     url: 'https://extension.umn.edu/garden-and-home/yard-and-garden/gardening-in-minnesota/growing-cabbage',

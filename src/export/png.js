@@ -139,6 +139,12 @@ export async function renderRecipePng(input) {
   };
   for (const item of card.ingredients) {
     entry(item.name, item.amount);
+    if (item.measure)
+      text(item.measure, {
+        font: '400 24px "Golos Text", sans-serif',
+        color: colors.muted,
+        line: 36,
+      });
     if (item.package)
       text(item.package, {
         font: '400 24px "Golos Text", sans-serif',

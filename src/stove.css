@@ -131,6 +131,11 @@ body.stove-open {
   text-align: left;
   cursor: pointer;
 }
+.stove-measure {
+  display: block;
+  color: var(--muted);
+  font-size: 0.7em;
+}
 .stove-check {
   display: inline-grid;
   flex: none;

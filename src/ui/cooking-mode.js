@@ -2,6 +2,7 @@ import { productById } from '../data.js';
 import { formatAmount } from '../model.js';
 import { stepDuration } from '../cooking-guide.js';
 import { icon } from './icons.js';
+import { volumeHint } from '../catalog/measures.js';
 
 // Cooking mode («У плиты»): one screen per step with large controls. Screen 0 lays out the
 // ingredients; each later screen is one step and offers a timer when the step names a time.
@@ -48,8 +49,8 @@ function renderChips(timers, index, now) {
 export const cookingWaterKey = 'cooking-water';
 
 // A row of screen 0 is a toggle: the cook ticks what is already on the counter or in the pot.
-const prepRow = (key, label, amount, ticked) =>
-  `<li><button class="stove-prep" data-stove="tick" data-item="${key}" aria-pressed="${ticked.includes(key)}"><span class="stove-check" aria-hidden="true">${icon('check')}</span><span class="stove-prep-name">${label}</span><i class="leader" aria-hidden="true"></i><strong>${amount}</strong></button></li>`;
+const prepRow = (key, label, amount, ticked, measure = null) =>
+  `<li><button class="stove-prep" data-stove="tick" data-item="${key}" aria-pressed="${ticked.includes(key)}"><span class="stove-check" aria-hidden="true">${icon('check')}</span><span class="stove-prep-name">${label}${measure ? `<small class="stove-measure">${measure}</small>` : ''}</span><i class="leader" aria-hidden="true"></i><strong>${amount}</strong></button></li>`;
 
 export function renderCookingMode({
   title,
@@ -66,7 +67,15 @@ export function renderCookingMode({
   const body =
     index === 0
       ? `<span class="stove-kicker">Подготовьте</span><p class="stove-hint">Коснитесь продукта, когда он под рукой.</p><ul class="stove-ingredients">${prepared.ingredients
-          .map((i) => prepRow(i.id, productById[i.id].name, formatAmount(i.amount, i.unit), ticked))
+          .map((i) =>
+            prepRow(
+              i.id,
+              productById[i.id].name,
+              formatAmount(i.amount, i.unit),
+              ticked,
+              volumeHint(i.id, i.amount, i.unit),
+            ),
+          )
           .join('')}${
           prepared.water
             ? prepRow(

@@ -12,6 +12,7 @@ export function localizeRecipeCard(card, translate = (value) => value, language 
       ...item,
       name: translate(item.name),
       amount: translate(item.amount),
+      measure: item.measure ? translate(item.measure) : null,
       package: item.package ? translate(item.package) : null,
       note: item.note ? translate(item.note) : null,
     })),

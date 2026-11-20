@@ -1,6 +1,7 @@
 import { productById } from '../data.js';
 import { prepareRecipe, recipeSteps, formatAmount } from '../model.js';
 import { cookingBasics, recipeUtensils } from '../cooking-guide.js';
+import { volumeHint } from '../catalog/measures.js';
 
 export function buildRecipeCard(recipe, selection = {}, { crew = 1 } = {}) {
   const { choices = {}, packSizes = {}, anchorId = null, modules = [] } = selection;
@@ -44,6 +45,8 @@ export function buildRecipeCard(recipe, selection = {}, { crew = 1 } = {}) {
       id: i.id,
       name: productById[i.id].name,
       amount: formatAmount(i.amount, i.unit),
+      // A ready Russian string, translated with the rest of the snapshot.
+      measure: volumeHint(i.id, i.amount, i.unit),
       package: i.package
         ? `${i.package.count > 1 ? `${i.package.count} уп. ×` : 'Вся упаковка'} ${formatAmount(i.package.size, i.package.unit)}${i.package.edible !== i.package.size ? ' · количество в составе без заливки' : ''}`
         : null,

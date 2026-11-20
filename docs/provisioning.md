@@ -55,6 +55,10 @@ Shelf lives are short editorial purchasing/rotation estimates under the specifie
 
 Dry products need a food-grade zip-lock plus a rigid airtight container. Whole fresh vegetables need the ventilation appropriate to the product. Once a cabbage head is cut, the app plans to use it immediately; the whole-head estimate does not apply to a cut remainder.
 
+## Mugs and spoons
+
+Grams stay the unit every recipe is calculated in. For a galley without scales, `src/catalog/measures.js` adds a volume hint to loose goods measured in grams: grams per household measure from USDA FoodData Central, SR Legacy (`food_portion.csv`, April 2018, with each FoodData Central id), converted to a 250 ml mug and level 15 and 5 ml spoons. `volumeHint` returns Russian source text that views translate: quarter mugs from 60 ml, half tablespoons from 14 ml (so a US tablespoon reads as one), teaspoons in quarters up to one and halves above, and nothing below ¼ teaspoon. The hint follows the crew-scaled amount on the recipe page, the «У плиты» prep screen and the PNG card. Milk powder (instant and regular differ almost twofold), short pasta (the shape changes the weight from 64 to 122 g a cup), dried carrot and soy mince (no USDA measure), whole packs and fresh produce get no hint. Flour is the spooned-and-levelled weight; scooped from the bag a mug holds more.
+
 ## Burner minutes and gas
 
 Every dish reports `burner`, the minutes its burner is lit. It equals the dish's time unless a base or recipe sets its own `burner` because part of the time is off the heat: grain rests five minutes under the lid, crêpe batter rests, oats soak before fritters, couscous only needs its water boiled. Additions that take minutes take them at the stove (`extraBurner` overrides `extraMinutes` where they do not), and dishes without a stove light none. For a crew, a pot takes about six more minutes per extra kilogram of food to come to the boil, and a pan fries in batches, adding half its frying time per extra person; the dish's time grows by the same minutes.

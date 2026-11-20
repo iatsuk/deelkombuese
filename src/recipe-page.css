@@ -199,6 +199,17 @@ dialog.recipe-sheet {
   color: var(--faint);
   font-size: 13px;
 }
+/* Mugs and spoons stand under the amount, quieter than the grams. */
+.measure-hint {
+  margin-left: auto;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.measure-legend {
+  margin: 10px 0 0;
+  color: var(--faint);
+  font-size: 13px;
+}
 .ingredient-meta .icon {
   width: 14px;
   height: 14px;
