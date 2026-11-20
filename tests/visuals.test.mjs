@@ -69,6 +69,10 @@ test('Пакет Pages исключает исходники тестов и с�
   const manifest = readFileSync(resolve(output, 'offline-assets.js'), 'utf8');
   const assets = JSON.parse(manifest.match(/KAMBUZ_OFFLINE_ASSETS=(\[[^;]+\])/)[1]);
   for (const asset of assets) assert.ok(existsSync(resolve(output, asset)), asset);
+  // A cheat sheet opens on its own page offline, in every language.
+  for (const language of ['', 'en/', 'de/'])
+    for (const id of ['dry-stores', 'stowage', 'mug-rule', 'seawater', 'thermos-gas'])
+      assert.ok(assets.includes(`./${language}guides/${id}/index.html`), `${language}${id}`);
   const walk = (dir) =>
     readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
       e.isDirectory() ? walk(resolve(dir, e.name)) : [resolve(dir, e.name)],
