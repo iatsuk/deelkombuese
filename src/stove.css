@@ -39,9 +39,17 @@ body.stove-open {
   font-family: var(--serif);
   font-size: 20px;
 }
+.stove-bar-actions {
+  display: flex;
+  gap: 8px;
+}
 .stove-bar .icon-button {
   width: 52px;
   height: 52px;
+}
+.stove-bar .icon-button[aria-pressed='true'] {
+  border-color: var(--line-deep);
+  background: var(--surface-strong);
 }
 .stove-chips {
   display: flex;
@@ -95,18 +103,60 @@ body.stove-open {
   font-size: clamp(26px, 3.6vw, 40px);
   line-height: 1.4;
 }
+.stove-hint {
+  margin: -6px 0 14px;
+  color: var(--muted);
+  font-size: 16px;
+}
 .stove-ingredients {
   display: grid;
-  gap: 12px;
+  gap: 2px;
   margin: 0;
   padding: 0;
   list-style: none;
   font-size: clamp(20px, 2.6vw, 26px);
 }
-.stove-ingredients li {
+/* A whole row is the tap target: a moving boat needs large ones. */
+.stove-prep {
   display: flex;
   align-items: baseline;
   gap: 10px;
+  width: 100%;
+  min-height: 56px;
+  padding: 8px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.stove-check {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  align-self: center;
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--line-deep);
+  border-radius: 50%;
+}
+.stove-check .icon {
+  width: 18px;
+  height: 18px;
+  visibility: hidden;
+}
+.stove-prep[aria-pressed='true'] .stove-check {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--on-ink);
+}
+.stove-prep[aria-pressed='true'] .stove-check .icon {
+  visibility: visible;
+}
+.stove-prep[aria-pressed='true'] :is(.stove-prep-name, strong) {
+  color: var(--muted);
+  text-decoration: line-through;
 }
 .stove-ingredients .leader {
   flex: 1;
@@ -169,6 +219,38 @@ body.stove-open {
   margin: 0;
   color: var(--faint);
   font-size: 14px;
+}
+/* Red night light for a watch: black ground and one red for all text, so the screen does not
+   spoil night vision. The tokens are redefined inside the dialog, including the aliases that
+   tokens.css resolves on :root. Red on black stays above 4.5:1; size and weight set the order. */
+dialog.stove.night {
+  color-scheme: dark;
+  --paper: #000;
+  --card: #000;
+  --surface: #120302;
+  --surface-strong: #240604;
+  --soft: #240604;
+  --sand: #120302;
+  --ink: #ff4a3a;
+  --muted: #ff4a3a;
+  --faint: #ff4a3a;
+  --green: #ff4a3a;
+  --sea: #ff4a3a;
+  --sea-hover: #4a0c07;
+  --accent: #ff4a3a;
+  --copper: #ff4a3a;
+  --on-ink: #000;
+  --line: #3a0a06;
+  --line-strong: #5c120b;
+  --line-deep: #8a1c10;
+}
+dialog.stove.night .button.primary {
+  border-color: var(--line-deep);
+  background: #3a0905;
+  color: var(--ink);
+}
+dialog.stove.night .button.primary:hover {
+  background: var(--sea-hover);
 }
 /* Touch screens have no arrow keys to mention. */
 @media (hover: none) {

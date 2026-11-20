@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { recipes, recipeById } from '../src/data.js';
 import { prepareRecipe, recipeSteps, normalizeSelection } from '../src/model.js';
 import { stepDuration } from '../src/cooking-guide.js';
-import { renderCookingMode, clock } from '../src/ui/cooking-mode.js';
+import { renderCookingMode, clock, cookingWaterKey } from '../src/ui/cooking-mode.js';
 
 test('A step names its cooking time; a variant total is not one', () => {
   assert.deepEqual(stepDuration('Тушите 12–15 минут до мягкости капусты.'), {
@@ -62,4 +62,31 @@ test('Cooking mode lays out the ingredients, then one step per screen with its t
   // A running timer of another step stays reachable from every screen.
   assert.match(screen(1, { [timed]: { running: true, endsAt: 90000 } }), /data-stove="go"/);
   assert.match(screen(steps.length), /data-stove="close">Готово/);
+});
+
+test('The first screen ticks ingredients and water; the header carries the night light', () => {
+  const braise = recipeById['braise-generator'];
+  const choices = { technique: 'cabbage' };
+  const prepared = prepareRecipe(braise, choices, {}, null, ['rice']);
+  const steps = recipeSteps(braise, choices, ['rice'], prepared);
+  const screen = (options = {}) =>
+    renderCookingMode({
+      title: prepared.title,
+      prepared,
+      steps,
+      index: 0,
+      timers: {},
+      now: 0,
+      ...options,
+    });
+  const first = prepared.ingredients[0].id;
+  assert.equal(screen().match(/data-stove="tick"/g).length, prepared.ingredients.length + 1);
+  assert.match(screen(), new RegExp(`data-item="${first}" aria-pressed="false"`));
+  const ticked = screen({ ticked: [first, cookingWaterKey] });
+  assert.match(ticked, new RegExp(`data-item="${first}" aria-pressed="true"`));
+  assert.match(ticked, new RegExp(`data-item="${cookingWaterKey}" aria-pressed="true"`));
+  assert.match(screen(), /data-stove="night" aria-pressed="false"/);
+  assert.match(screen({ night: true }), /data-stove="night" aria-pressed="true"/);
+  // The water row's key never collides with the water product.
+  assert.ok(!prepared.ingredients.some((item) => item.id === cookingWaterKey));
 });

@@ -801,6 +801,22 @@ main {
   font-size: 14px;
   padding: 9px 11px;
 }
+/* Copy, share and download wrap as a group instead of pushing the heading off a phone screen. */
+.shopping-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+@media (max-width: 680px) {
+  .shopping-summary {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .shopping-actions {
+    justify-content: flex-start;
+  }
+}
 .shopping-progress {
   height: 3px;
   background: var(--surface-strong);

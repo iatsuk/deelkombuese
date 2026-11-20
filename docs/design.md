@@ -14,7 +14,7 @@ Browsers without `light-dark()` receive the light values from the `@supports` fa
 
 The system colour scheme applies by default. The header switch (`src/theme.js`) pins the opposite of the theme currently shown and stores it as `deelkombuese.theme`. `theme-preference.js` is a classic script in `<head>` that applies the stored choice before the first paint; the generated legal pages load it too. Storage failures leave the system theme in place.
 
-PNG recipe cards keep their light print palette regardless of the page theme.
+PNG recipe cards keep their light print palette regardless of the page theme: `colors` in `src/export/png.js` holds the light values of the tokens above, so change both together. A card lays out ingredients like the recipe page, with the amount flush right after a dotted leader on the name's last line.
 
 ## Type
 
@@ -45,7 +45,7 @@ Option phrases (`phrase` on bases and modules) are written to fit the sentence g
 
 ## Cooking mode
 
-«У плиты» (`src/stove.css`) fills the screen with one step at a time for a moving boat: the step in large serif type, a timer of 44–72 px tabular figures when the step names a time, and step buttons at least 60–72 px tall. The first screen lays out the ingredients with dotted leaders. Running timers of other steps stay as chips at the top and lead back to their step; a finished timer turns copper and beeps where the device allows it. Both themes use the page colour as the backdrop. Arrow keys move between steps and Escape closes the mode; the key hint is hidden on touch screens.
+«У плиты» (`src/stove.css`) fills the screen with one step at a time for a moving boat: the step in large serif type, a timer of 44–72 px tabular figures when the step names a time, and step buttons at least 60–72 px tall. The first screen lays out the ingredients with dotted leaders; each row, water included, is a large toggle the cook taps once the item is at hand, and the ticks last for that dish within the visit, like its timers. Running timers of other steps stay as chips at the top and lead back to their step; a finished timer turns copper and beeps where the device allows it. Both themes use the page colour as the backdrop. The moon button in the mode's header switches on a red night light for a watch: the dialog redefines the colour tokens, the `var()` aliases included, as one red (`#ff4a3a`, 6.3:1) on black, primary buttons turn dark red, and both `theme-color` metas turn black while the mode is open. It lasts for the visit and is not stored. Arrow keys move between steps and Escape closes the mode; the key hint is hidden on touch screens.
 
 ## Layout
 

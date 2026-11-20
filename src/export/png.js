@@ -16,13 +16,14 @@ export async function renderRecipePng(input) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('Canvas недоступен');
+  // The light values of the site's colour tokens (src/tokens.css): a card is always printed light.
   const colors = {
-    paper: '#f7f6ef',
-    ink: '#203e3b',
-    muted: '#626d60',
+    paper: '#f7f5ef',
+    ink: '#10232b',
+    muted: '#4d5a61',
     copper: '#a3633b',
-    line: '#dce1d2',
-    panel: '#e9eddf',
+    line: '#e3ddd0',
+    leader: '#b9b1a0',
   };
   const commands = [];
   let y = 64;
@@ -116,8 +117,28 @@ export async function renderRecipePng(input) {
   heading(card.labels.utensils);
   text(card.utensils.join(' · '), { color: colors.muted, line: 42 });
   heading(card.labels.ingredients);
+  // An ingredient reads like the recipe page: the name, a dotted leader and the amount flush
+  // right on the name's last line. An amount too wide for that keeps the «name — amount» line.
+  const entry = (name, amount) => {
+    const font = '500 29px "Golos Text", sans-serif',
+      line = 43;
+    ctx.font = font;
+    const amountWidth = ctx.measureText(amount).width;
+    if (amountWidth > contentWidth * 0.45) return text(name + ' — ' + amount, { font, line });
+    const amountX = width - pad - amountWidth;
+    const rows = wrap(name, font, amountX - pad - 40);
+    rows.forEach((row, index) => {
+      commands.push({ type: 'text', value: row, x: pad, y, font, color: colors.ink });
+      if (index === rows.length - 1) {
+        const from = pad + ctx.measureText(row).width + 14;
+        commands.push({ type: 'leader', from, to: amountX - 14, y: y + 24 });
+        commands.push({ type: 'text', value: amount, x: amountX, y, font, color: colors.ink });
+      }
+      y += line;
+    });
+  };
   for (const item of card.ingredients) {
-    text(item.name + ' — ' + item.amount, { font: '500 29px "Golos Text", sans-serif', line: 43 });
+    entry(item.name, item.amount);
     if (item.package)
       text(item.package, {
         font: '400 24px "Golos Text", sans-serif',
@@ -187,6 +208,18 @@ export async function renderRecipePng(input) {
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.stroke(new Path2D(command.path));
+      ctx.restore();
+    } else if (command.type === 'leader') {
+      if (command.to <= command.from) continue;
+      ctx.save();
+      ctx.strokeStyle = colors.leader;
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+      ctx.setLineDash([0, 9]);
+      ctx.beginPath();
+      ctx.moveTo(command.from, command.y);
+      ctx.lineTo(command.to, command.y);
+      ctx.stroke();
       ctx.restore();
     } else {
       ctx.strokeStyle = colors.line;

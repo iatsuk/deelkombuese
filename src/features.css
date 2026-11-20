@@ -1411,31 +1411,6 @@
     width: 100%;
   }
 }
-/* Конструктор вкуса с независимым выбором основы. */
-.recipe-generator-banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 24px 26px;
-  margin: 0 0 32px;
-  border: 1px solid var(--line-strong);
-  background: var(--surface);
-  border-radius: 7px;
-}
-.recipe-generator-banner h2 {
-  font: 400 24px/1.5 var(--serif);
-  margin: 10px 0 7px;
-}
-.recipe-generator-banner p {
-  font-size: 15px;
-  line-height: 1.9;
-  color: var(--muted);
-  margin: 0;
-}
-.recipe-generator-banner .button {
-  flex-shrink: 0;
-}
 .generator-bases > div[role='group'],
 .generator-presets > div:last-of-type {
   display: flex;
@@ -1479,22 +1454,6 @@
   cursor: not-allowed;
 }
 @media (max-width: 680px) {
-  .recipe-generator-banner {
-    display: block;
-    padding: 19px;
-    margin-bottom: 25px;
-  }
-  .recipe-generator-banner h2 {
-    font-size: 24px;
-  }
-  .recipe-generator-banner p {
-    font-size: 14px;
-  }
-  .recipe-generator-banner .button {
-    margin-top: 17px;
-    font-size: 15px;
-    min-height: 42px;
-  }
   .generator-bases button,
   .generator-presets button {
     font-size: 14px;

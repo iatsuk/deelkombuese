@@ -63,10 +63,10 @@ export function auditRenderedTranslations(language) {
   inspect(planner.renderPlanner());
   state.plan = buildTrip({ days: 3 }).entries;
   state.view = 'shopping';
-  inspect(renderShopping({ state, catalog }));
+  inspect(renderShopping({ state, catalog, canShare: true }));
   state.crew = 3;
   state.builderMeta = { kind: 'trip', days: 3 };
-  inspect(renderShopping({ state, catalog }));
+  inspect(renderShopping({ state, catalog, canShare: true }));
   state.builderMeta = null;
   state.crew = 1;
   // Generator chapters: the contents, every base with each combination of single-choice
@@ -139,6 +139,8 @@ export function auditRenderedTranslations(language) {
             timers: timer ? { [index]: timer, [steps.length + 1]: timer } : {},
             now: 0,
             wakeLock,
+            ticked: index ? [] : [prepared.ingredients[0]?.id],
+            night: wakeLock === 'off',
           }),
         );
       }

@@ -89,6 +89,20 @@
   height: auto;
   border-radius: 12px;
 }
+/* Gouache grounds are painted for paper; on the night page they are dimmed and edged so that a
+   light ground (grain) does not glare. Browsers without light-dark() stay light (tokens.css). */
+@supports (color: light-dark(#000, #fff)) {
+  :root[data-theme='dark'] :is(.chapter-list, .chapter-head) img {
+    filter: brightness(0.82);
+    box-shadow: 0 0 0 1px var(--line);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) :is(.chapter-list, .chapter-head) img {
+      filter: brightness(0.82);
+      box-shadow: 0 0 0 1px var(--line);
+    }
+  }
+}
 .chapter-head h1 {
   margin: 0 0 16px;
   font-family: var(--serif);

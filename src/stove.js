@@ -6,6 +6,8 @@ import { localizeMarkup, t } from './i18n/browser.js';
 // buttons and keys, timers that keep running between steps, and a screen wake lock that
 // fails silently where the browser has none.
 let session = null;
+// The red night light stays on for the rest of the visit, whichever dish is open.
+let night = false;
 let ticker = null;
 let wakeLock = null;
 let audio = null;
@@ -31,7 +33,7 @@ function dialog() {
 // Keeps focus on the control just used (a timer button), otherwise on the step button.
 function render(focus = null) {
   const element = dialog();
-  element.innerHTML = localizeMarkup(renderCookingMode({ ...session, now: Date.now() }));
+  element.innerHTML = localizeMarkup(renderCookingMode({ ...session, night, now: Date.now() }));
   (
     (focus && element.querySelector(`[data-stove="${focus}"]`)) ||
     element.querySelector('.stove-nav .primary')
@@ -116,6 +118,18 @@ function onClick(event) {
   const action = button.dataset.stove;
   const timer = session.timers[session.index];
   if (action === 'close') return closeStove();
+  // Ticks and the night light change in place, so focus stays on the button just pressed.
+  if (action === 'tick') {
+    const key = button.dataset.item;
+    const on = !session.ticked.includes(key);
+    session.ticked = on ? [...session.ticked, key] : session.ticked.filter((item) => item !== key);
+    button.setAttribute('aria-pressed', String(on));
+  }
+  if (action === 'night') {
+    night = !night;
+    button.setAttribute('aria-pressed', String(night));
+    applyNight();
+  }
   if (action === 'next') go(session.index + 1);
   if (action === 'prev') go(session.index - 1);
   if (action === 'go') go(Number(button.dataset.step));
@@ -141,6 +155,16 @@ function onKey(event) {
   event.preventDefault();
 }
 
+// Black and red only: the screen, and the browser bar coloured by theme-color, keep night vision.
+function applyNight() {
+  const on = night && dialog().open;
+  dialog().classList.toggle('night', night);
+  for (const meta of document.querySelectorAll('meta[name="theme-color"]')) {
+    meta.dataset.day ??= meta.content;
+    meta.content = on ? '#000000' : meta.dataset.day;
+  }
+}
+
 function go(index) {
   if (index < 0 || index > session.steps.length) return;
   session.index = index;
@@ -164,13 +188,15 @@ document.addEventListener('visibilitychange', () => {
 // reopening the mode within the visit.
 export function openStove({ title, prepared, steps }) {
   const key = JSON.stringify([title, steps]);
-  if (session?.key !== key) session = { key, title, prepared, steps, timers: {}, index: 0 };
+  if (session?.key !== key)
+    session = { key, title, prepared, steps, timers: {}, ticked: [], index: 0 };
   session.prepared = prepared;
   session.wakeLock = 'wait';
   const element = dialog();
   render();
   if (!element.open) element.showModal();
   document.body.classList.add('stove-open');
+  applyNight();
   holdScreen();
   if (Object.values(session.timers).some((timer) => timer.running))
     ticker ||= window.setInterval(tick, 500);
@@ -180,6 +206,7 @@ export function closeStove() {
   const element = dialog();
   if (element.open) element.close();
   document.body.classList.remove('stove-open');
+  applyNight();
   wakeLock?.release?.().catch(() => {});
   wakeLock = null;
 }

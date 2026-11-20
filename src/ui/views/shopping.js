@@ -6,7 +6,8 @@ import { formatShoppingAmount, recipeTitle } from '../../model.js';
 import { icon } from '../icons.js';
 import { renderCrew } from '../crew.js';
 import { plural } from '../../i18n/runtime.js';
-export function renderShopping({ state, catalog }) {
+// canShare: the browser offers the system share sheet (navigator.share).
+export function renderShopping({ state, catalog, canShare = false }) {
   const { empty, cartItems } = catalog;
 
   const items = cartItems();
@@ -35,7 +36,7 @@ export function renderShopping({ state, catalog }) {
               .map((i) => `${productById[i.id].name}: пополнять через ${i.refillDays} дней`)
               .join('; ')}.</p></div>`
           : ''
-    }<div class="shopping-summary"><div><h2>Список закупки <span>${items.length}</span></h2><p>${checked} из ${items.length} отмечено · количества для выбранных блюд</p></div><button class="button secondary" data-action="export" ${!items.length ? 'disabled' : ''}>${icon('download')} Скачать .txt</button></div><div class="shopping-crew"><span>${icon('person')} Экипаж</span>${renderCrew(state.crew)}<small>Блюда, вода и сезонный набор пересчитаются на всех.</small></div><div class="shopping-progress"><span style="width:${items.length ? (checked / items.length) * 100 : 0}%"></span></div>
+    }<div class="shopping-summary"><div><h2>Список закупки <span>${items.length}</span></h2><p>${checked} из ${items.length} отмечено · количества для выбранных блюд</p></div><div class="shopping-actions"><button class="button secondary" data-action="copy-list" ${!items.length ? 'disabled' : ''}>${icon('copy')} Скопировать</button>${canShare ? `<button class="button secondary" data-action="share-list" ${!items.length ? 'disabled' : ''}>${icon('share')} Поделиться</button>` : ''}<button class="button secondary" data-action="export" ${!items.length ? 'disabled' : ''}>${icon('download')} Скачать .txt</button></div></div><div class="shopping-crew"><span>${icon('person')} Экипаж</span>${renderCrew(state.crew)}<small>Блюда, вода и сезонный набор пересчитаются на всех.</small></div><div class="shopping-progress"><span style="width:${items.length ? (checked / items.length) * 100 : 0}%"></span></div>
     ${
       items.length
         ? groups

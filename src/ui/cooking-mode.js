@@ -44,21 +44,42 @@ function renderChips(timers, index, now) {
   return chips.length ? `<div class="stove-chips">${chips.join('')}</div>` : '';
 }
 
-export function renderCookingMode({ title, prepared, steps, index, timers, now, wakeLock }) {
+// The water row's key; 'water' alone is a product id.
+export const cookingWaterKey = 'cooking-water';
+
+// A row of screen 0 is a toggle: the cook ticks what is already on the counter or in the pot.
+const prepRow = (key, label, amount, ticked) =>
+  `<li><button class="stove-prep" data-stove="tick" data-item="${key}" aria-pressed="${ticked.includes(key)}"><span class="stove-check" aria-hidden="true">${icon('check')}</span><span class="stove-prep-name">${label}</span><i class="leader" aria-hidden="true"></i><strong>${amount}</strong></button></li>`;
+
+export function renderCookingMode({
+  title,
+  prepared,
+  steps,
+  index,
+  timers,
+  now,
+  wakeLock,
+  ticked = [],
+  night = false,
+}) {
   const total = steps.length;
   const body =
     index === 0
-      ? `<span class="stove-kicker">Подготовьте</span><ul class="stove-ingredients">${prepared.ingredients
-          .map(
-            (i) =>
-              `<li><span>${productById[i.id].name}</span><i class="leader" aria-hidden="true"></i><strong>${formatAmount(i.amount, i.unit)}</strong></li>`,
-          )
-          .join(
-            '',
-          )}${prepared.water ? `<li><span>${icon('drop')} Вода на готовку</span><i class="leader" aria-hidden="true"></i><strong>≈ ${prepared.water} мл</strong></li>` : ''}</ul>`
+      ? `<span class="stove-kicker">Подготовьте</span><p class="stove-hint">Коснитесь продукта, когда он под рукой.</p><ul class="stove-ingredients">${prepared.ingredients
+          .map((i) => prepRow(i.id, productById[i.id].name, formatAmount(i.amount, i.unit), ticked))
+          .join('')}${
+          prepared.water
+            ? prepRow(
+                cookingWaterKey,
+                `${icon('drop')} Вода на готовку`,
+                `≈ ${prepared.water} мл`,
+                ticked,
+              )
+            : ''
+        }</ul>`
       : `<span class="stove-kicker">Шаг ${index} из ${total}</span><p class="stove-text">${steps[index - 1]}</p>${renderTimer(steps[index - 1], timers[index], now)}`;
   return `<div class="stove-shell">
-    <header class="stove-bar"><span class="stove-title">${icon('pot')} ${title}</span><button class="icon-button" data-stove="close" aria-label="Закрыть режим у плиты">${icon('close')}</button></header>
+    <header class="stove-bar"><span class="stove-title">${icon('pot')} ${title}</span><div class="stove-bar-actions"><button class="icon-button" data-stove="night" aria-pressed="${night}" aria-label="Красный свет для ночной вахты" title="Красный свет для ночной вахты">${icon('moon')}</button><button class="icon-button" data-stove="close" aria-label="Закрыть режим у плиты">${icon('close')}</button></div></header>
     ${renderChips(timers, index, now)}
     <div class="stove-progress" aria-hidden="true"><i style="width:${Math.round((index / total) * 100)}%"></i></div>
     <section class="stove-step" aria-live="polite">${body}</section>

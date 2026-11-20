@@ -109,18 +109,6 @@
   width: 16px;
   height: 16px;
 }
-.recipe-generator-banner {
-  position: relative;
-  overflow: hidden;
-}
-.generator-image {
-  width: 132px;
-  height: 132px;
-  object-fit: cover;
-  align-self: stretch;
-  border-radius: 7px;
-  flex-shrink: 0;
-}
 .meal-tabs button {
   display: inline-flex;
   align-items: center;
@@ -190,10 +178,6 @@
   .galley-cover img {
     height: 210px;
   }
-  .generator-image {
-    width: 95px;
-    height: 130px;
-  }
 }
 @media (max-width: 850px) {
   .network-intro {
@@ -222,9 +206,6 @@
     flex-direction: column;
     text-align: center;
     padding: 13px 8px;
-  }
-  .generator-image {
-    display: none;
   }
 }
 @media (max-width: 680px) {

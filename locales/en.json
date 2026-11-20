@@ -1301,7 +1301,6 @@
   "Овсяные хлопья": "Rolled oats",
   "один вариант или без него": "one option or no option",
   "один вариант или без неё": "one option or without it",
-  "Один вкус. Три разные основы.": "One taste. Three different bases.",
   "Один принцип.": "One principle.",
   "Одна готовка = выбранные упаковки, израсходованные целиком. Счётчик повторяет закупку для отдельных приготовлений. Выход каждого блюда указан в карточке.": "One cook = selected packages, consumed in their entirety. The counter repeats the purchase for individual preparations. The yield of each dish is indicated on the card.",
   "Одна кастрюля": "One pot",
@@ -1332,7 +1331,6 @@
   "основа": "base",
   "Основа": "Base",
   "основа · +{0}": "base +{0}",
-  "Основа → соус → наполнение": "Base → sauce → additions",
   "ОСНОВА → СОУС → НАПОЛНЕНИЕ": "BASE → SAUCE → FILLING",
   "Основа → соус → наполнитель. Знакомые сочетания можно перенести с пасты на рис или картофель.": "Base → sauce → filling. Familiar combinations can be transferred from pasta to rice or potatoes.",
   "Основа ↔ другая основа": "Base ↔ other base",
@@ -1406,7 +1404,6 @@
   "паста": "paste",
   "Паста": "Pasta",
   "Паста с соусом": "Pasta with sauce",
-  "Паста, ризотто или картофель — с отдельной техникой и расчётом воды.": "Pasta, risotto or potatoes, each with its own method and water calculation.",
   "паста, ризотто, картофель": "pasta, risotto, potatoes",
   "Паста, ризотто, картофель": "Pasta, risotto, potatoes",
   "пасту": "pasta",
@@ -2293,5 +2290,12 @@
   "Свежий чеснок нарежьте мелко и не пережаривайте: он быстро подгорает.": "Finely chop the fresh garlic and do not overcook it: it burns quickly.",
   "Свежий имбирь мягче сухого: натрите его или нарежьте мелко.": "Fresh ginger is milder than dried: grate it or chop it finely.",
   "UHT-молоко разводить не нужно. Открытый пакет используется целиком.": "UHT milk needs no mixing. The opened package is used in its entirety.",
-  "Хлебцы — сухой резерв: подавайте их к блюду перед едой, чтобы не размокли.": "Crispbread is a dry reserve: serve it just before eating so that it stays crisp."
+  "Хлебцы — сухой резерв: подавайте их к блюду перед едой, чтобы не размокли.": "Crispbread is a dry reserve: serve it just before eating so that it stays crisp.",
+  "Скопировать": "Copy",
+  "Поделиться": "Share",
+  "Список скопирован: вставьте его в чат или заметки": "List copied: paste it into a chat or your notes",
+  "Не удалось скопировать. Скачайте список файлом .txt.": "Could not copy. Download the list as a .txt file instead.",
+  "Не удалось открыть меню «Поделиться». Скопируйте список.": "Could not open the “Share” menu. Copy the list instead.",
+  "Коснитесь продукта, когда он под рукой.": "Tap an item once it is at hand.",
+  "Красный свет для ночной вахты": "Red light for the night watch"
 }

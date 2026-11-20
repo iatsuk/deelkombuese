@@ -5,7 +5,7 @@ export function renderRecipes({ state, catalog }) {
   const { visibleRecipes, recipeCard, searchBox, recipeFilters, empty } = catalog;
 
   const list = visibleRecipes();
-  return `<section class="page-intro"><div class="eyebrow">Одна основа, несколько вариантов</div><h1>Меню простого <em>камбуза.</em></h1><p>Выбирайте приём пищи, вид блюда и основу независимо.<br>В универсальной карточке меняйте соус, наполнитель и подачу.</p></section><div class="recipe-generator-banner"><img class="generator-image" src="./assets/galley.png" width="1536" height="1024" alt="" loading="lazy" decoding="async"/><div><span class="eyebrow small">Основа → соус → наполнение</span><h2>Один вкус. Три разные основы.</h2><p>Паста, ризотто или картофель — с отдельной техникой и расчётом воды.</p></div><button class="button primary" data-action="recipe" data-id="dish-generator">Собрать блюдо ${icon('arrow')}</button></div>
+  return `<section class="page-intro"><div class="eyebrow">Одна основа, несколько вариантов</div><h1>Меню простого <em>камбуза.</em></h1><p>Выбирайте приём пищи, вид блюда и основу независимо.<br>В универсальной карточке меняйте соус, наполнитель и подачу.</p></section>
     <div class="filter-caption">Приём пищи</div><div class="meal-tabs" role="group" aria-label="Приём пищи">${[
       ['all', 'Всё меню'],
       ['main', 'Обед и ужин'],

@@ -82,6 +82,8 @@ function pageHash(page) {
 const currentRoute = () => parseRoute(location.hash || pageHash(pageAt(location.pathname)));
 const state = createAppState(persisted, location.hash || pageHash(pageAt(location.pathname)));
 const catalog = createCatalog(state);
+// Phones and some desktop browsers offer the system share sheet for the shopping list.
+const canShare = typeof navigator.share === 'function';
 const {
   activeRecipeSelection,
   searchedDish,
@@ -380,7 +382,7 @@ function render() {
       generators: () => renderGenerators({ state, chapter: chapterView() }),
       recipes: () => renderRecipes({ state, catalog }),
       planner: renderPlanner,
-      shopping: () => renderShopping({ state, catalog }),
+      shopping: () => renderShopping({ state, catalog, canShare }),
     }[state.view](),
   );
   document.querySelectorAll('[data-nav]').forEach((n) => {
@@ -655,10 +657,11 @@ function addManual(id) {
   render();
   toast('Добавлено в список закупки');
 }
+const shoppingText = () =>
+  buildShoppingText({ ...state, items: cartItems() }, { translate: t, language });
 function exportList() {
-  const text = buildShoppingText({ ...state, items: cartItems() }, { translate: t, language });
   const url = URL.createObjectURL(
-    new Blob(['\uFEFF' + text], {
+    new Blob(['\uFEFF' + shoppingText()], {
       type: 'text/plain;charset=utf-8',
     }),
   );
@@ -668,6 +671,23 @@ function exportList() {
   link.click();
   setTimeout(() => URL.revokeObjectURL(url), 5000);
   toast('Список и меню сохранены в текстовый файл');
+}
+// The same text as the file, for a crew chat or notes; clipboard access needs a secure context.
+async function copyList() {
+  try {
+    await navigator.clipboard.writeText(shoppingText());
+    toast('Список скопирован: вставьте его в чат или заметки');
+  } catch {
+    toast('Не удалось скопировать. Скачайте список файлом .txt.');
+  }
+}
+async function shareList() {
+  try {
+    await navigator.share({ title: t('Список закупки'), text: shoppingText() });
+  } catch (error) {
+    if (error?.name !== 'AbortError')
+      toast('Не удалось открыть меню «Поделиться». Скопируйте список.');
+  }
 }
 
 document.addEventListener('click', (event) => {
@@ -830,6 +850,8 @@ function handleClick(event, button) {
     return;
   }
   if (action === 'export') return exportList();
+  if (action === 'copy-list') return copyList();
+  if (action === 'share-list') return shareList();
   if (handlePlannerAction(action, id, button)) return;
   render();
 }

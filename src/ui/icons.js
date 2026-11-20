@@ -31,6 +31,8 @@ const paths = {
   fridge: 'M5 2h14v20H5V2Zm0 8h14M9 5v1m0 7v3M2 2l20 20',
   drop: 'M12 2S4 11 4 16a8 8 0 0 0 16 0c0-5-8-14-8-14ZM8 15a4 4 0 0 0 4 4',
   download: 'M12 2v13m-5-5 5 5 5-5M3 16v6h18v-6',
+  copy: 'M9 8h11v14H9V8Zm-4 8H4V2h11v1',
+  share: 'M12 16V3M7 8l5-5 5 5M4 12v10h16V12',
   trash: 'M3 6h18M9 6V3h6v3M6 6l1 16h10l1-16M10 10v7m4-7v7',
   leaf: 'M20 3C8 2 1 7 5 16c8 5 16-1 15-13ZM4 21 17 7',
   grain:

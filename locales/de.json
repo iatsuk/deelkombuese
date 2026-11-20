@@ -1300,7 +1300,6 @@
   "Овсяные хлопья": "Haferflocken",
   "один вариант или без него": "eine Variante oder keine",
   "один вариант или без неё": "eine Variante oder keine",
-  "Один вкус. Три разные основы.": "Ein Geschmack. Drei verschiedene Basen.",
   "Один принцип.": "Ein Prinzip.",
   "Одна готовка = выбранные упаковки, израсходованные целиком. Счётчик повторяет закупку для отдельных приготовлений. Выход каждого блюда указан в карточке.": "Eine Zubereitung = die gewählten Packungen vollständig verbrauchen. Der Zähler vervielfacht die Einkaufsliste für einzelne Zubereitungen. Die Menge jedes Gerichts steht in der Rezeptkarte.",
   "Одна кастрюля": "Ein Topf",
@@ -1331,7 +1330,6 @@
   "основа": "Basis",
   "Основа": "Basis",
   "основа · +{0}": "Basis +{0}",
-  "Основа → соус → наполнение": "Basis → Soße → weitere Zutaten",
   "ОСНОВА → СОУС → НАПОЛНЕНИЕ": "BASIS → SOSSE → WEITERE ZUTATEN",
   "Основа → соус → наполнитель. Знакомые сочетания можно перенести с пасты на рис или картофель.": "Basis → Soße → weitere Zutaten. Bekannte Kombinationen lassen sich von Pasta auf Reis oder Kartoffeln übertragen.",
   "Основа ↔ другая основа": "Basis ↔ andere Basis",
@@ -1405,7 +1403,6 @@
   "паста": "Pasta",
   "Паста": "Pasta",
   "Паста с соусом": "Nudeln mit Soße",
-  "Паста, ризотто или картофель — с отдельной техникой и расчётом воды.": "Pasta, Risotto oder Kartoffeln — jeweils mit eigener Garmethode und Wassermenge.",
   "паста, ризотто, картофель": "Nudeln, Risotto, Kartoffeln",
   "Паста, ризотто, картофель": "Pasta, Risotto, Kartoffeln",
   "пасту": "Pasta",
@@ -2293,5 +2290,12 @@
   "Свежий чеснок нарежьте мелко и не пережаривайте: он быстро подгорает.": "Frischen Knoblauch fein schneiden und nicht zu lange braten: Er brennt schnell an.",
   "Свежий имбирь мягче сухого: натрите его или нарежьте мелко.": "Frischer Ingwer ist milder als getrockneter: reiben oder fein schneiden.",
   "UHT-молоко разводить не нужно. Открытый пакет используется целиком.": "H-Milch muss nicht verdünnt werden. Die geöffnete Packung wird vollständig verwendet.",
-  "Хлебцы — сухой резерв: подавайте их к блюду перед едой, чтобы не размокли.": "Knäckebrot ist eine trockene Reserve: erst kurz vor dem Essen dazugeben, damit es nicht aufweicht."
+  "Хлебцы — сухой резерв: подавайте их к блюду перед едой, чтобы не размокли.": "Knäckebrot ist eine trockene Reserve: erst kurz vor dem Essen dazugeben, damit es nicht aufweicht.",
+  "Скопировать": "Kopieren",
+  "Поделиться": "Teilen",
+  "Список скопирован: вставьте его в чат или заметки": "Liste kopiert: Fügen Sie sie in einen Chat oder Ihre Notizen ein",
+  "Не удалось скопировать. Скачайте список файлом .txt.": "Kopieren nicht möglich. Laden Sie die Liste als .txt-Datei herunter.",
+  "Не удалось открыть меню «Поделиться». Скопируйте список.": "Das Menü „Teilen“ ließ sich nicht öffnen. Kopieren Sie die Liste.",
+  "Коснитесь продукта, когда он под рукой.": "Tippen Sie auf eine Zutat, sobald sie bereitliegt.",
+  "Красный свет для ночной вахты": "Rotlicht für die Nachtwache"
 }

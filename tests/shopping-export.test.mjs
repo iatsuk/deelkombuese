@@ -6,6 +6,10 @@ import { buildTrip, buildSeason, waterBudget } from '../src/planner.js';
 import { createTranslator } from '../src/i18n/messages.js';
 import { shoppingItems, prepareRecipe } from '../src/model.js';
 import { recipeById } from '../src/data.js';
+import { createAppState } from '../src/state/session.js';
+import { loadState } from '../src/state/storage.js';
+import { createCatalog } from '../src/ui/catalog.js';
+import { renderShopping } from '../src/ui/views/shopping.js';
 
 test('Shopping exports translate trip menus, measured water, checked products and whole packs without changing inputs', () => {
   const trip = buildTrip({ days: 3 });
@@ -71,4 +75,14 @@ test('Seasonal replenishment and manually added configured dishes remain transla
     );
     assert.ok(!/[А-Яа-яЁё]/u.test(manual), manual);
   }
+});
+
+test('The shopping list offers copying everywhere and sharing only where the browser can', () => {
+  const state = createAppState(loadState({ getItem: () => null }).saved);
+  const catalog = createCatalog(state);
+  const plain = renderShopping({ state, catalog });
+  assert.match(plain, /data-action="copy-list"/);
+  assert.match(plain, /data-action="export"/);
+  assert.doesNotMatch(plain, /data-action="share-list"/);
+  assert.match(renderShopping({ state, catalog, canShare: true }), /data-action="share-list"/);
 });
