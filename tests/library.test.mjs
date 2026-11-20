@@ -9,12 +9,13 @@ import {
   migrateRecipeEntry,
   recipeSteps,
   selectionIssues,
+  recipeTitle,
 } from '../src/model.js';
 import { tripCandidates, buildTrip } from '../src/planner.js';
 
 test('Единый завтрак включает яйца и хлеб, а овсянка является отдельной основой', () => {
   const breakfasts = filterRecipes(recipes, { meal: 'breakfast' }).map((r) => r.id);
-  for (const id of ['oatmeal', 'eggs-generator', 'batter-generator'])
+  for (const id of ['breakfast-generator', 'eggs-generator', 'batter-generator'])
     assert.ok(breakfasts.includes(id), id);
   assert.equal(bases.find((b) => b.id === 'oats').name, 'Овсянка');
   assert.ok(!bases.some((b) => /завтрак/i.test(b.name)));
@@ -86,10 +87,15 @@ test('Прежние записи пасты и болоньезе сохран�
   }
 });
 test('Овсянка и картофель имеют несколько техник, варианты без яиц доступны в море', () => {
-  for (const id of ['pan-muesli', 'potato-mash', 'potato-skillet']) {
+  for (const id of ['potato-mash', 'potato-skillet']) {
     const p = prepareRecipe(recipeById[id]);
     assert.equal(p.eggConditional, false, id);
     assert.equal(p.shore, false, id);
+  }
+  for (const technique of ['porridge', 'muesli', 'mix', 'rolls']) {
+    const p = prepareRecipe(recipeById['breakfast-generator'], { technique });
+    assert.equal(p.eggConditional, false, technique);
+    assert.equal(p.shore, false, technique);
   }
   for (const technique of ['oat-fritters', 'oat-cutlets', 'fritters', 'potato-pancakes']) {
     const p = prepareRecipe(recipeById['batter-generator'], { technique });
@@ -103,9 +109,11 @@ test('Овсянка и картофель имеют несколько тех�
   const plan = buildTrip({ days: 7 });
   assert.ok(plan.items.some((i) => i.id === 'bakingPowder'));
   assert.ok(plan.items.some((i) => i.id === 'flour'));
-  assert.ok(
-    new Set(plan.entries.filter((e) => e.slot === 'breakfast').map((e) => e.recipeId)).size >= 5,
-  );
+  // Breakfasts vary by dish: a chapter gives porridge one day and muesli another.
+  const breakfastTitles = plan.entries
+    .filter((e) => e.slot === 'breakfast')
+    .map((e) => recipeTitle(recipeById[e.recipeId], e.choices, e.modules));
+  assert.ok(new Set(breakfastTitles).size >= 5);
 });
 test('Молочная соусная основа учитывает жидкое молоко вместо порошка', () => {
   const recipe = recipeById['dish-generator'];

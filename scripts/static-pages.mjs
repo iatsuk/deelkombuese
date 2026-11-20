@@ -50,6 +50,40 @@ export function sitePages() {
   return pages;
 }
 
+// A former standalone recipe that became a chapter dish keeps its address as a small page that
+// forwards readers and search engines to the dish: no app, no analytics, not in the sitemap.
+export function movedPages() {
+  return generators.flatMap((recipe) =>
+    (recipe.generator.dishes || [])
+      .filter((dish) => dish.legacyId)
+      .map((dish) => ({
+        from: ['recipes', dish.legacyId],
+        to: ['generators', recipe.generator.slug, dishSlug(recipe, dish)],
+        title: dish.name,
+      })),
+  );
+}
+function renderMoved(page, language) {
+  const from = pagePath(language, ...page.from);
+  const to = pagePath(language, ...page.to);
+  // Relative, so the forward also works on a local server; the canonical address is absolute.
+  const relative = '../'.repeat(from.split('/').filter(Boolean).length) + to;
+  const title = esc(`${t(page.title)} · ${t('Дельный камбуз')} · deelstuff`);
+  return `<!doctype html>
+<html lang="${language}">
+  <head>
+    <meta charset="UTF-8" />
+    <title>${title}</title>
+    <link rel="canonical" href="${siteOrigin}/${to}" />
+    <meta http-equiv="refresh" content="0; url=${relative}" />
+  </head>
+  <body>
+    <p><a href="${relative}">${esc(t(page.title))}</a></p>
+  </body>
+</html>
+`;
+}
+
 // The selection a chapter page or dish page shows, as the app's chapter view builds it.
 function chapterView(recipe, dish) {
   const choices = dish?.base ? { [recipe.generator.choiceKey]: dish.base } : {};
@@ -276,6 +310,14 @@ export function generateStaticPages(root = '.') {
       writeFileSync(join(root, path, 'index.html'), renderPage(template, page, language, catalogs));
       addresses.push(`${siteOrigin}/${path}`);
     }
+  for (const language of pageLanguages) {
+    configureLanguage(language === 'ru' ? {} : catalogs[language], language);
+    for (const page of movedPages()) {
+      const path = pagePath(language, ...page.from);
+      mkdirSync(join(root, path), { recursive: true });
+      writeFileSync(join(root, path, 'index.html'), renderMoved(page, language));
+    }
+  }
   configureLanguage({}, 'ru');
   writeFileSync(
     join(root, 'sitemap.xml'),

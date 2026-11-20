@@ -42,7 +42,7 @@ export function createBraiseGenerator({ r, i, aroma, tomato }) {
         choiceKey: 'technique',
         slug: 'braise',
         chapter: {
-          order: 4,
+          order: 5,
           title: 'Потушить: капуста, рагу, чили и дал',
           formula: 'основа + соус + банка',
           alt: 'Гуашь: половина кочана белой капусты на сливовом фоне',

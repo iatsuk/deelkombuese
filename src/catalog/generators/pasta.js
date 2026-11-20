@@ -163,7 +163,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
         choiceKey: 'pasta',
         slug: 'pasta',
         chapter: {
-          order: 3,
+          order: 4,
           title: 'Паста, ризотто, картофель',
           formula: 'основа + соус + наполнитель',
           alt: 'Гуашь: вилка с намотанной пастой в томатном соусе на красном фоне',

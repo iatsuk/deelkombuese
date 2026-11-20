@@ -96,7 +96,7 @@ test('Recipes folded into chapters keep their recorded numbers', () => {
       const modules = normalizeSelection(recipe, entry.choices, entry.modules);
       const after = prepareRecipe(recipe, entry.choices, entry.packSizes, null, modules);
       const label = `${before.id} ${before.modules.join('+')} ${JSON.stringify(before.choices)} ${JSON.stringify(before.packs)}`;
-      for (const key of ['time', 'active', 'yieldGrams', 'shore', 'satiety'])
+      for (const key of ['time', 'active', 'burner', 'yieldGrams', 'shore', 'satiety'])
         if (key in before) assert.equal(after[key], before[key], `${label} ${key}`);
       // A former minimum water times the pack scale could be fractional; chapters round it.
       assert.equal(after.water, Math.round(before.water), `${label} water`);

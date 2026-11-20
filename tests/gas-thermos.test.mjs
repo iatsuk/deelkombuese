@@ -29,7 +29,7 @@ test('Every dish names its burner minutes: none without a stove, never more than
         const p = prepareRecipe(recipe, choices, {}, null, [], { crew });
         const label = `${recipe.id} ${base} ×${crew}`;
         assert.ok(Number.isInteger(p.burner), label);
-        if (recipe.vessel === 'cold') assert.equal(p.burner, 0, label);
+        if (p.vessel === 'cold') assert.equal(p.burner, 0, label);
         else assert.ok(p.burner > 0 && p.burner <= p.time, label);
       }
   }

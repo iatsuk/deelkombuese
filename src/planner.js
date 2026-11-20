@@ -11,14 +11,15 @@ import {
 } from './model.js';
 import { tripProfile, generatorProfile } from './generator-engine.js';
 
+// The breakfast chapter gives porridge, and muesli on day six (its passage profiles).
 const breakfast = [
-  'oatmeal',
+  'breakfast-generator',
   'batter-generator',
   'no-cook-generator',
   'batter-generator',
   'grain-generator',
-  'pan-muesli',
-  'oatmeal',
+  'breakfast-generator',
+  'breakfast-generator',
 ];
 const lunch = [
   'grain-generator',
@@ -249,7 +250,7 @@ export function buildTrip(options = {}) {
       breakfast: includeEggs && day === 1 ? 'eggs-generator' : breakfast[day - 1],
       lunch: includeEggs && day === 2 ? 'eggs-generator' : lunch[day - 1],
       dinner: dinner[day - 1],
-      snack: includeEggs && day === 1 ? 'no-cook-generator' : 'nuts-raisins',
+      snack: includeEggs && day === 1 ? 'no-cook-generator' : 'breakfast-generator',
     };
     for (const [slot] of mealSlots) {
       const override = options.overrides?.[`${day}-${slot}`];

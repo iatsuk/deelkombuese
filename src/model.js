@@ -250,6 +250,9 @@ export function prepareRecipe(
       (recipe.minWater || 0) * scale,
       Math.round((recipe.water + adjustment) * scale + extraWater),
     );
+  // A chapter base may cook in its own vessel (porridge in a pot, rolls on a pan, a dry mix
+  // with none); every fact below that depends on the vessel follows the base.
+  const vessel = generated?.profile.vessel ?? recipe.vessel;
   const unitMass = { carrot: 100, onion: 80, garlic: 4, eggs: 55, eggsCold: 55 };
   let weight = ingredients.reduce(
     (sum, i) =>
@@ -263,11 +266,11 @@ export function prepareRecipe(
             : i.amount * 4),
     0,
   );
-  weight += water * (recipe.vessel === 'cold' ? 0 : 0.7);
+  weight += water * (vessel === 'cold' ? 0 : 0.7);
   const yieldGrams = Math.max(10, Math.round(weight / 10) * 10);
   // Minutes with the burner lit: a base's own estimate where the dish rests or soaks off the
   // heat, otherwise its whole time; additions that take minutes take them at the stove.
-  const hot = recipe.vessel !== 'cold';
+  const hot = vessel !== 'cold';
   const timeDeltas = resolved.reduce((n, i) => n + (i.timeDelta || 0), 0);
   const burner = hot
     ? (generated?.profile.burner ?? recipe.burner ?? generated?.profile.time ?? recipe.time) +
@@ -279,7 +282,7 @@ export function prepareRecipe(
   const crewMinutes =
     !hot || crew === 1
       ? 0
-      : recipe.vessel === 'pan'
+      : vessel === 'pan'
         ? Math.round(burner * 0.5 * (crew - 1))
         : Math.round(((yieldGrams * (crew - 1)) / crew / 1000) * 6);
   return {
@@ -293,7 +296,10 @@ export function prepareRecipe(
     yieldGrams,
     packaged,
     modules,
-    meal: modules.find((m) => m.meal)?.meal || recipe.meal,
+    vessel,
+    // A dry snack is measured out, not cooked: no notes on perishable leftovers.
+    drySnack: Boolean(generated?.profile.drySnack ?? recipe.drySnack),
+    meal: modules.find((m) => m.meal)?.meal || generated?.profile.meal || recipe.meal,
     // A generator dish or base may be more or less filling than the chapter as a whole,
     // and may carry its own galley note.
     satiety: generatedFact(recipe, generated, modules, 'satiety'),

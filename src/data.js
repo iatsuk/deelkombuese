@@ -6,6 +6,7 @@ import { createBatterGenerator } from './catalog/generators/batter.js';
 import { createGrainGenerator } from './catalog/generators/grain.js';
 import { createSoupGenerator } from './catalog/generators/soup.js';
 import { createBraiseGenerator } from './catalog/generators/braise.js';
+import { createBreakfastGenerator } from './catalog/generators/breakfast.js';
 // Storage periods are editorial rotation estimates, not results of yacht storage trials.
 export const sources = [
   {
@@ -1263,115 +1264,14 @@ const r = (id, title, base, time, active, desc, ingredients, water, steps, extra
   tone: 'green',
   ...extra,
 });
-export const recipes = [
-  r(
-    'warm-rolls',
-    'Тёплые булочки на сковороде',
-    'bread',
-    7,
-    3,
-    'Весь небольшой пакет готовых булок — к завтраку, с чесночным маслом.',
-    [
-      i('rolls', 100),
-      i('oil', 15, 'мл'),
-      i('driedGarlic', 0.125, 'ч. л.'),
-      i('salt', 0.125, 'ч. л.'),
-      i('pepper', 0.125, 'ч. л.'),
-    ],
-    0,
-    [
-      'Откройте пакет полностью выпеченных булок. Все булочки разрежьте вдоль.',
-      'Прогрейте срезом вниз на сухой сковороде 2–3 минуты, затем ещё 1–2 минуты на слабом огне под крышкой. Это разогрев готового хлеба, не выпечка сырого теста.',
-      'Смешайте масло с сухим чесноком, солью и перцем непосредственно перед едой. Смажьте тёплые булки и съешьте.',
-    ],
-    { vessel: 'pan', meal: 'breakfast', satiety: '1–2 ч', tone: 'brown' },
-  ),
-  r(
-    'nuts-raisins',
-    'Арахис и изюм на вахту',
-    'snacks',
-    1,
-    1,
-    'Сухой перекус, который можно заранее отмерить в отдельный пакет.',
-    [i('peanuts', 40), i('raisins', 30)],
-    0,
-    [
-      'Отмерьте сухие арахис и изюм в чистый сухой zip-lock. Смешайте.',
-      'Закройте и держите вдали от солёных брызг; не брать мокрыми руками.',
-      'Это перекус, а не замена обеду. Учитывайте аллергию на арахис.',
-    ],
-    { vessel: 'cold', meal: 'snack', satiety: '1–2 ч', tone: 'brown', drySnack: true },
-  ),
-  r(
-    'oatmeal',
-    'Овсянка с арахисом',
-    'oats',
-    10,
-    3,
-    'Тёплый завтрак перед выходом: хлопья, орехи и изюм.',
-    [i('oats', 80), i('peanuts', 30), i('raisins', 25)],
-    300,
-    [
-      'Вскипятите питьевую воду, всыпьте хлопья и изюм.',
-      'Варите по инструкции хлопьев, обычно 3–7 минут, помешивая. Для плотных хлопьев может понадобиться больше времени и воды.',
-      'Выключите огонь. Добавьте арахис и щепотку соли. Дайте постоять 1–2 минуты.',
-    ],
-    { tone: 'brown', satiety: '2–4 ч', burner: 8 },
-  ),
-];
-for (const recipe of recipes) {
-  for (const ingredient of recipe.ingredients) {
-    if (ingredient.id === 'carrot' && !ingredient.alternatives.length)
-      ingredient.alternatives.push({
-        id: 'driedCarrot',
-        amount: 12,
-        unit: 'г',
-        waterExtra: 60,
-        note: '12 г вместо одной моркови. Добавить около 60 мл воды; обычным сушёным кусочкам может понадобиться 20–60 минут предварительного восстановления.',
-      });
-    if (
-      ingredient.id === 'aromatics' &&
-      !ingredient.alternatives.some((a) => a.id === 'driedOnion')
-    )
-      ingredient.alternatives.push({
-        id: 'driedOnion',
-        amount: 5,
-        unit: 'г',
-        note: 'Отдельный сушёный лук вместо общей смеси. По желанию добавьте сухие чеснок и имбирь перед готовкой.',
-      });
-    for (const option of ingredient.alternatives) {
-      if (option.id === 'passata')
-        option.note =
-          'Открытая пассата расходуется целиком. Выберите фактический объём пакета; количество сухой основы и начальная вода пересчитаются. Добавлять с жидкостью, не обжаривать как концентрат.';
-      if (option.id === 'tomato')
-        option.note =
-          'Свежие томаты размягчить в начале готовки. Они дадут дополнительную жидкость; воду добавлять постепенно.';
-    }
-  }
-}
-recipes.find((r) => r.id === 'oatmeal').meal = 'breakfast';
+export const recipes = [];
 
 productById.coconut.hint = 'Необязательная добавка · вне базовой закупки';
 productById.oil.life = '6–12 мес.';
-recipes.find((r) => r.id === 'oatmeal').modules = [
-  {
-    id: 'honey',
-    label: 'Мёд',
-    ingredients: [i('honey', 15)],
-    instruction: 'Добавьте мёд в готовую кашу.',
-  },
-  {
-    id: 'milkPowder',
-    label: 'Сухое молоко',
-    ingredients: [i('milkPowder', 20)],
-    beforeStep: 0,
-    instruction:
-      'Размешайте сухое молоко в воде для каши без комочков. Используйте тот же объём воды, что указан в составе.',
-  },
-];
 
 expandRecipeLibrary(recipes, { r, i, oil, aroma, tomato, fish });
 recipes.unshift(
+  createBreakfastGenerator({ r, i }),
   createEggGenerator({ r, i }),
   createPastaGenerator({ r, i, tomato, fish }),
   createNoCookGenerator({ r, i, fish }),
@@ -1381,6 +1281,11 @@ recipes.unshift(
   createBraiseGenerator({ r, i, aroma, tomato }),
 );
 export const recipeMigrations = {
+  // The breakfast recipes became bases of the breakfast chapter; oatmeal's modules carried over.
+  oatmeal: { recipeId: 'breakfast-generator', modules: [], choices: { technique: 'porridge' } },
+  'pan-muesli': { recipeId: 'breakfast-generator', modules: [], choices: { technique: 'muesli' } },
+  'nuts-raisins': { recipeId: 'breakfast-generator', modules: [], choices: { technique: 'mix' } },
+  'warm-rolls': { recipeId: 'breakfast-generator', modules: [], choices: { technique: 'rolls' } },
   'pasta-tuna': { recipeId: 'dish-generator', modules: ['sauce-tomato', 'fish'] },
   bolognese: { recipeId: 'dish-generator', modules: ['sauce-tomato', 'mince'] },
   'pasta-tomato': { recipeId: 'dish-generator', modules: ['sauce-tomato'] },
@@ -1621,9 +1526,7 @@ for (const recipe of recipes) {
           ? 'eggs'
           : recipe.base === 'flour'
             ? 'pancakes'
-            : recipe.id === 'oatmeal'
-              ? 'porridge'
-              : 'stew';
+            : 'stew';
   if (recipe.meal === 'main' && !recipe.modules.some((m) => m.id === 'seasoning')) {
     const seasoning = [i('salt', 0.125, 'ч. л.'), i('pepper', 0.125, 'ч. л.')].filter(
       (i) => !recipe.ingredients.some((base) => base.id === i.id),

@@ -74,7 +74,7 @@ export function createEggGenerator({ r, i }) {
         choiceKey: 'technique',
         slug: 'eggs',
         chapter: {
-          order: 1,
+          order: 2,
           title: 'Яйца: от глазуньи до шакшуки',
           formula: 'способ + соус + гарнир',
           alt: 'Гуашь: шакшука с тремя яйцами в синей сковороде на шафрановом фоне',

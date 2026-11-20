@@ -4,7 +4,12 @@ import { cpSync, mkdtempSync, readFileSync, rmSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { parse } from 'parse5';
-import { generateStaticPages, sitePages, siteOrigin } from '../scripts/static-pages.mjs';
+import {
+  generateStaticPages,
+  sitePages,
+  siteOrigin,
+  movedPages,
+} from '../scripts/static-pages.mjs';
 import { visibleMessages } from '../scripts/translation-html.mjs';
 import { pagePath, pageLanguages, parsePagePath } from '../src/state/session.js';
 
@@ -108,4 +113,22 @@ test('The sitemap lists every page once and robots.txt points at it', () => {
     readFileSync(join(root, 'robots.txt'), 'utf8'),
     new RegExp(`^Sitemap: ${siteOrigin}/sitemap\\.xml$`, 'm'),
   );
+});
+
+test('A former recipe address forwards to its dish without counting a visit or entering the sitemap', () => {
+  const sitemap = readFileSync(join(root, 'sitemap.xml'), 'utf8');
+  const oatmeal = movedPages().find((page) => page.from[1] === 'oatmeal');
+  assert.deepEqual(oatmeal.to, ['generators', 'breakfast', 'oatmeal']);
+  for (const language of pageLanguages) {
+    const html = read(pagePath(language, 'recipes', 'oatmeal'));
+    const target = pagePath(language, 'generators', 'breakfast', 'oatmeal');
+    assert.match(html, new RegExp(`rel="canonical" href="${siteOrigin}/${target}"`));
+    assert.match(html, new RegExp(`http-equiv="refresh" content="0; url=(\\.\\./)+${target}"`));
+    assert.doesNotMatch(html, /site-analytics|noindex|app\.js/);
+    assert.ok(!sitemap.includes(`/${pagePath(language, 'recipes', 'oatmeal')}<`));
+    assert.ok(existsSync(join(root, target, 'index.html')), target);
+  }
+  // A moved page never shadows a recipe that still has its own page.
+  const live = new Set(pages.filter((p) => p.kind === 'recipe').map((p) => p.segments.join('/')));
+  for (const page of movedPages()) assert.ok(!live.has(page.from.join('/')), page.from[1]);
 });

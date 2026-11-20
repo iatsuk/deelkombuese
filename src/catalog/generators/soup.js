@@ -51,7 +51,7 @@ export function createSoupGenerator({ r, i, aroma, tomato, fish, meat }) {
         choiceKey: 'technique',
         slug: 'soup',
         chapter: {
-          order: 2,
+          order: 3,
           title: 'Суп в одной кастрюле: бульон, чечевица, щи',
           formula: 'основа + белок + добавки',
           alt: 'Гуашь: миска томатного супа с белой фасолью и ложкой на бирюзовом фоне',

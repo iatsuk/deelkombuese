@@ -91,7 +91,7 @@ export function createNoCookGenerator({ r, i, fish }) {
         choiceKey: 'bread',
         slug: 'no-cook',
         chapter: {
-          order: 7,
+          order: 8,
           title: 'Без плиты: хлеб, банка и заправка',
           formula: 'основа + начинка + заправка',
           alt: 'Гуашь: ломоть хлеба с тунцом и открытая банка на коралловом фоне',

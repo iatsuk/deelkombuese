@@ -127,7 +127,13 @@ test('Меню на каждый срок 1–7 дней имеет четыре
   }
 });
 test('Питьё, рецепт, подготовка, бытовой расход и резерв не смешиваются', () => {
-  const entry = { recipeId: 'oatmeal', choices: {}, packSizes: {}, modules: [], count: 1 };
+  const entry = {
+    recipeId: 'breakfast-generator',
+    choices: { technique: 'porridge' },
+    packSizes: {},
+    modules: [],
+    count: 1,
+  };
   const w = waterBudget([entry], { days: 1, drinkLitres: 3, washLitres: 1, reservePct: 25 });
   assert.equal(w.drinking, 3);
   assert.equal(w.washing, 1);

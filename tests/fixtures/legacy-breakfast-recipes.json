@@ -1,0 +1,256 @@
+[
+  {
+    "id": "oatmeal",
+    "modules": [],
+    "choices": {},
+    "packs": {},
+    "satiety": "2–4 ч",
+    "time": 10,
+    "active": 3,
+    "burner": 8,
+    "water": 300,
+    "yieldGrams": 350,
+    "shore": false,
+    "ingredients": {
+      "oats": "80 г",
+      "peanuts": "30 г",
+      "raisins": "25 г"
+    }
+  },
+  {
+    "id": "oatmeal",
+    "modules": [
+      "milkPowder"
+    ],
+    "choices": {},
+    "packs": {},
+    "satiety": "2–4 ч",
+    "time": 10,
+    "active": 3,
+    "burner": 8,
+    "water": 300,
+    "yieldGrams": 370,
+    "shore": false,
+    "ingredients": {
+      "oats": "80 г",
+      "peanuts": "30 г",
+      "raisins": "25 г",
+      "milkPowder": "20 г"
+    }
+  },
+  {
+    "id": "oatmeal",
+    "modules": [
+      "milkPowder"
+    ],
+    "choices": {
+      "milkPowder": "milk"
+    },
+    "packs": {},
+    "satiety": "2–4 ч",
+    "time": 10,
+    "active": 3,
+    "burner": 8,
+    "water": 75,
+    "yieldGrams": 260,
+    "shore": false,
+    "ingredients": {
+      "oats": "50 г",
+      "peanuts": "18.75 г",
+      "raisins": "15.63 г",
+      "milk": "125 мл"
+    }
+  },
+  {
+    "id": "oatmeal",
+    "modules": [
+      "honey"
+    ],
+    "choices": {},
+    "packs": {},
+    "satiety": "2–4 ч",
+    "time": 10,
+    "active": 3,
+    "burner": 8,
+    "water": 300,
+    "yieldGrams": 360,
+    "shore": false,
+    "ingredients": {
+      "oats": "80 г",
+      "peanuts": "30 г",
+      "raisins": "25 г",
+      "honey": "15 г"
+    }
+  },
+  {
+    "id": "oatmeal",
+    "modules": [
+      "honey",
+      "milkPowder"
+    ],
+    "choices": {},
+    "packs": {},
+    "satiety": "2–4 ч",
+    "time": 10,
+    "active": 3,
+    "burner": 8,
+    "water": 300,
+    "yieldGrams": 380,
+    "shore": false,
+    "ingredients": {
+      "oats": "80 г",
+      "peanuts": "30 г",
+      "raisins": "25 г",
+      "honey": "15 г",
+      "milkPowder": "20 г"
+    }
+  },
+  {
+    "id": "oatmeal",
+    "modules": [
+      "honey",
+      "milkPowder"
+    ],
+    "choices": {
+      "milkPowder": "milk"
+    },
+    "packs": {},
+    "satiety": "2–4 ч",
+    "time": 10,
+    "active": 3,
+    "burner": 8,
+    "water": 75,
+    "yieldGrams": 270,
+    "shore": false,
+    "ingredients": {
+      "oats": "50 г",
+      "peanuts": "18.75 г",
+      "raisins": "15.63 г",
+      "honey": "9.38 г",
+      "milk": "125 мл"
+    }
+  },
+  {
+    "id": "pan-muesli",
+    "modules": [],
+    "choices": {},
+    "packs": {},
+    "satiety": "2–3 ч",
+    "time": 10,
+    "active": 6,
+    "burner": 10,
+    "water": 0,
+    "yieldGrams": 130,
+    "shore": false,
+    "ingredients": {
+      "oats": "60 г",
+      "peanuts": "25 г",
+      "raisins": "20 г",
+      "honey": "15 г",
+      "oil": "5 мл"
+    }
+  },
+  {
+    "id": "nuts-raisins",
+    "modules": [],
+    "choices": {},
+    "packs": {},
+    "satiety": "1–2 ч",
+    "time": 1,
+    "active": 1,
+    "burner": 0,
+    "water": 0,
+    "yieldGrams": 70,
+    "shore": false,
+    "ingredients": {
+      "peanuts": "40 г",
+      "raisins": "30 г"
+    }
+  },
+  {
+    "id": "warm-rolls",
+    "modules": [],
+    "choices": {},
+    "packs": {},
+    "satiety": "1–2 ч",
+    "time": 7,
+    "active": 3,
+    "burner": 7,
+    "water": 0,
+    "yieldGrams": 120,
+    "shore": false,
+    "ingredients": {
+      "rolls": "100 г",
+      "oil": "15 мл",
+      "driedGarlic": "0.125 ч. л.",
+      "salt": "0.125 ч. л.",
+      "pepper": "0.125 ч. л."
+    }
+  },
+  {
+    "id": "warm-rolls",
+    "modules": [],
+    "choices": {
+      "driedGarlic": "garlic"
+    },
+    "packs": {},
+    "satiety": "1–2 ч",
+    "time": 7,
+    "active": 3,
+    "burner": 7,
+    "water": 0,
+    "yieldGrams": 120,
+    "shore": false,
+    "ingredients": {
+      "rolls": "100 г",
+      "oil": "15 мл",
+      "garlic": "1 зубчик",
+      "salt": "0.125 ч. л.",
+      "pepper": "0.125 ч. л."
+    }
+  },
+  {
+    "id": "warm-rolls",
+    "modules": [],
+    "choices": {},
+    "packs": {
+      "rolls": 200
+    },
+    "satiety": "1–2 ч",
+    "time": 7,
+    "active": 3,
+    "burner": 7,
+    "water": 0,
+    "yieldGrams": 230,
+    "shore": false,
+    "ingredients": {
+      "rolls": "200 г",
+      "oil": "30 мл",
+      "driedGarlic": "0.25 ч. л.",
+      "salt": "0.25 ч. л.",
+      "pepper": "0.25 ч. л."
+    }
+  },
+  {
+    "id": "warm-rolls",
+    "modules": [],
+    "choices": {},
+    "packs": {
+      "rolls": 300
+    },
+    "satiety": "1–2 ч",
+    "time": 7,
+    "active": 3,
+    "burner": 7,
+    "water": 0,
+    "yieldGrams": 350,
+    "shore": false,
+    "ingredients": {
+      "rolls": "300 г",
+      "oil": "45 мл",
+      "driedGarlic": "0.375 ч. л.",
+      "salt": "0.375 ч. л.",
+      "pepper": "0.375 ч. л."
+    }
+  }
+]

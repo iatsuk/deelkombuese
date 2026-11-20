@@ -43,7 +43,7 @@ export function createBatterGenerator({ r, i, fish }) {
         choiceKey: 'technique',
         slug: 'batter',
         chapter: {
-          order: 6,
+          order: 7,
           title: 'Тесто на сковороде: блины, оладьи, котлеты',
           formula: 'тесто + вкус',
           alt: 'Гуашь: высокая стопка блинов с мёдом на голубом фоне',

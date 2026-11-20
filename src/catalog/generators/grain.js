@@ -82,7 +82,7 @@ export function createGrainGenerator({ i, r, aroma, tomato, fish, meat }) {
         choiceKey: 'technique',
         slug: 'grain',
         chapter: {
-          order: 5,
+          order: 6,
           title: 'Крупа в одной кастрюле: плов, гречка, кускус',
           formula: 'крупа + пряность + банка',
           alt: 'Гуашь: из синей кружки сыплются рис и гречка, светлый фон',
