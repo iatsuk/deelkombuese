@@ -402,3 +402,8 @@
     font-size: 13px;
   }
 }
+
+/* «Подкинь идею» sits with the filter pills; its pictogram is copper. */
+.idea-pill .icon {
+  color: var(--copper);
+}

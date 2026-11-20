@@ -91,6 +91,7 @@ const {
   recipeCard,
   searchBox,
   recipeFilters,
+  ideaCandidates,
   empty,
   resolvedPlan,
   cartItems,
@@ -398,6 +399,27 @@ function openProduct(id) {
   openDialog(renderProductDetail(p, state), 'Продукты');
   showPage(pagePath(language, 'products', id), { dialog: 'product', id });
 }
+// «Подкинь идею» opens a random dish that fits the filters, never the same one twice in a row.
+let lastIdea = null;
+function suggestIdea() {
+  const all = ideaCandidates();
+  const key = (idea) => JSON.stringify([idea.recipeId, idea.choices, idea.modules]);
+  const pool = all.length > 1 ? all.filter((idea) => key(idea) !== lastIdea) : all;
+  if (!pool.length) return toast('Под эти фильтры блюда нет. Снимите один из них.');
+  const idea = pool[Math.floor(Math.random() * pool.length)];
+  lastIdea = key(idea);
+  const recipe = recipeById[idea.recipeId];
+  if (!recipe.generator) return openRecipe(recipe.id);
+  const base = idea.choices[recipe.generator.choiceKey];
+  goToHash(
+    routeHash({
+      view: 'generators',
+      slug: recipe.generator.slug,
+      base: base && base !== recipe.generator.bases[0].id ? base : null,
+      modules: idea.modules,
+    }),
+  );
+}
 function openGuide(id) {
   const guide = guideById[id];
   if (!guide) return;
@@ -700,6 +722,7 @@ function handleClick(event, button) {
   }
   if (action === 'product') return openProduct(id);
   if (action === 'guide') return openGuide(id);
+  if (action === 'idea') return suggestIdea();
   if (action === 'sources') return showSources();
   if (action === 'substitutions') return showSubstitutions();
   if (action === 'satiety') return showSatiety();

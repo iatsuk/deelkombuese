@@ -177,3 +177,44 @@ test('Saved favourites, plans and passage choices of the breakfast recipes load 
   assert.equal(prepared.title, 'Тёплые булочки на сковороде');
   assert.equal(prepared.ingredients.find((i) => i.id === 'rolls').amount, 200);
 });
+
+test('«Подкинь идею» draws from every chapter dish and standalone recipe that fits the filters', async () => {
+  const { createAppState } = await import('../src/state/session.js');
+  const { loadState } = await import('../src/state/storage.js');
+  const { createCatalog } = await import('../src/ui/catalog.js');
+  const { renderGenerators } = await import('../src/ui/views/generators.js');
+  const state = createAppState(loadState({ getItem: () => null }).saved);
+  const catalog = createCatalog(state);
+  assert.match(renderGenerators({ state, chapter: null, catalog }), /data-action="idea"/);
+  const all = catalog.ideaCandidates();
+  for (const recipe of generators)
+    assert.ok(
+      all.some((idea) => idea.recipeId === recipe.id),
+      recipe.id,
+    );
+  assert.ok(all.some((idea) => idea.recipeId === 'potato-skillet'));
+  // At sea, a dish that needs shore products is not suggested.
+  assert.ok(!all.some((idea) => idea.shore));
+  state.mode = 'shore';
+  assert.ok(catalog.ideaCandidates().some((idea) => idea.shore));
+  state.mode = 'sea';
+  state.meal = 'breakfast';
+  assert.ok(
+    catalog
+      .ideaCandidates()
+      .every(
+        (idea) =>
+          recipeById[idea.recipeId].mealTags.includes('breakfast') ||
+          recipeById[idea.recipeId].meal === 'breakfast',
+      ),
+  );
+  state.meal = 'all';
+  state.quick = true;
+  for (const idea of catalog.ideaCandidates())
+    assert.ok(
+      prepareRecipe(recipeById[idea.recipeId], idea.choices, {}, null, idea.modules).time <= 20,
+    );
+  state.quick = false;
+  state.pantryOnly = true;
+  assert.deepEqual(catalog.ideaCandidates(), []);
+});

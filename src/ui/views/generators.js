@@ -77,7 +77,7 @@ function renderContents(state, catalog) {
           `<button data-action="meal" data-id="${id}" aria-pressed="${state.meal === id}" class="${state.meal === id ? 'active' : ''}">${icon(glyph)}${label}</button>`,
       )
       .join('')}</div>
-    <div class="catalog-toolbar recipe-library-toolbar">${searchBox('Найти блюдо или ингредиент')}${recipeFilters()}</div>
+    <div class="catalog-toolbar recipe-library-toolbar">${searchBox('Найти блюдо или ингредиент')}${recipeFilters()}<button class="filter-pill idea-pill" data-action="idea">${icon('swap')} Подкинь идею</button></div>
     ${
       filtered(state)
         ? renderResults(state, catalog)

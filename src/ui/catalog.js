@@ -123,6 +123,32 @@ export function createCatalog(state) {
   </${tag}><button class="favorite-toggle ${favorite ? 'active' : ''}" data-action="favorite-toggle" data-id="${cardId}" aria-label="${t(favorite ? 'Убрать из избранного' : 'Добавить в избранное')}: ${esc(t(r.title))}" aria-pressed="${favorite}" title="${favorite ? 'Убрать из избранного' : 'Добавить в избранное'}">${icon('star')}</button></article>`;
   }
 
+  // «Подкинь идею»: every named chapter dish and standalone recipe that fits the sea/shore
+  // mode, the meal tab and the quick and pantry pills. The controller picks one at random.
+  function ideaCandidates() {
+    return filterRecipes(recipes, { mode: state.mode, meal: state.meal })
+      .flatMap((r) =>
+        r.generator
+          ? // The pasta chapter names its combinations as presets.
+            (r.generator.dishes || r.generator.presets || []).map((dish) => ({
+              recipeId: r.id,
+              choices: dish.base ? { [r.generator.choiceKey]: dish.base } : {},
+              modules: dish.modules,
+              shore: dish.shore,
+            }))
+          : [{ recipeId: r.id, choices: {}, modules: [] }],
+      )
+      .filter((idea) => {
+        const recipe = recipeById[idea.recipeId];
+        const prepared = prepareRecipe(recipe, idea.choices, {}, null, idea.modules);
+        return (
+          (state.mode === 'shore' || !(idea.shore || prepared.shore)) &&
+          (!state.quick || prepared.time <= 20) &&
+          (!state.pantryOnly || availableRecipe(recipe, state.pantry, idea.modules, idea.choices))
+        );
+      });
+  }
+
   function searchBox(placeholder) {
     return `<label class="search-box">${icon('search')}<input id="search" type="search" value="${esc(state.query)}" placeholder="${placeholder}" aria-label="${placeholder}" autocomplete="off"/></label>`;
   }
@@ -161,6 +187,7 @@ export function createCatalog(state) {
     recipeCard,
     searchBox,
     recipeFilters,
+    ideaCandidates,
     empty,
     resolvedPlan,
     cartItems,
