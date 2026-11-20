@@ -49,4 +49,4 @@ Option phrases (`phrase` on bases and modules) are written to fit the sentence g
 
 ## Layout
 
-`src/shell.css` owns the header and footer: brand, section pills, the sea/shore switch, the theme switch and the language selector. Below 1180 px the section pills move to their own row; below 680 px they scroll horizontally under the brand row, and the project name wraps rather than run under the theme and language switches. Page sections keep their own stylesheet rules in `styles.css`, `features.css` and `visuals.css`.
+`src/shell.css` owns the header and footer: brand, section pills, the sea/shore switch, the theme switch and the language selector. Below 1180 px the section pills move to their own row; below 680 px they scroll horizontally under the brand row, and the project name wraps rather than run under the theme and language switches. German section names are longest: below 1440 px their header tightens its gaps and pill padding so that it stays on one row down to 1273 px, and below that the German pills take their own row. Page sections keep their own stylesheet rules in `styles.css`, `features.css` and `visuals.css`.

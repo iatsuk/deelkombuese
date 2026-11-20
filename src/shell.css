@@ -201,8 +201,19 @@
     font-size: 0;
   }
 }
-/* German section names are the longest; give them their own row earlier. */
-@media (max-width: 1360px) {
+/* German section names are the longest. Tighter spacing keeps them on the brand's row down to
+   1273 px with a few pixels to spare (brand 256, sections 552, switches 389, gaps, padding); below,
+   they get their own row earlier than the other languages. */
+@media (max-width: 1439px) {
+  :root:lang(de) .site-header {
+    gap: 10px;
+    padding-inline: 24px;
+  }
+  :root:lang(de) .site-nav a {
+    padding-inline: 8px;
+  }
+}
+@media (max-width: 1272px) {
   :root:lang(de) .site-header {
     flex-wrap: wrap;
   }
