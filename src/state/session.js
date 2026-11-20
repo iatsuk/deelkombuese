@@ -68,7 +68,6 @@ export function createAppState(saved, hash = '') {
     sortDirection: 'asc',
     graphSelected: [],
     graphQuery: '',
-    showUnavailable: false,
     plannerMode: saved.builderMeta?.kind || 'trip',
     tripDays: saved.builderMeta?.kind === 'trip' ? saved.builderMeta.days : 3,
     includeEggs: !!saved.builderMeta?.includeEggs,

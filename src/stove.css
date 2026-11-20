@@ -131,6 +131,11 @@ body.stove-open {
   text-align: left;
   cursor: pointer;
 }
+.stove-legend {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+}
 .stove-measure {
   display: block;
   color: var(--muted);

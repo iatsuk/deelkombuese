@@ -1748,7 +1748,6 @@
   "Свёкла готовая консервированная: вся банка {0} г": "Ready canned beets: whole can {0} g",
   "Свёкла готовая консервированная: вся банка {0} г · без жидкости": "Ready canned beets: whole can {0} g without liquid",
   "Свёклу добавляют в щи — получается борщ.": "Beetroot goes into shchi to make borscht.",
-  "Связи · гибкое блюдо": "Connections flexible dish",
   "Сделайте в соусе углубления и разбейте в них яйца. Накройте крышкой и готовьте на слабом огне 6–8 минут до полностью плотных белка и желтка.": "Make wells in the sauce and break the eggs into them. Cover with a lid and cook over low heat for 6–8 minutes, until both white and yolk are completely firm.",
   "Сделайте углубления в картофеле, разбейте яйца и готовьте под крышкой до полностью плотных белка и желтка. Проверьте возраст и условия хранения яиц.": "Make holes in the potatoes, break the eggs and cook, covered, until the whites and yolks are completely firm. Check the age and storage conditions of the eggs.",
   "Сделайте углубления, разбейте яйца и готовьте под крышкой до полностью плотных белка и желтка. При большой упаковке нужен больший сотейник; весь выход съесть сейчас или разделить с попутчиком.": "Make indentations, break the eggs and cook, covered, until the whites and yolks are completely firm. Larger packages require a larger saucepan; Eat the whole thing now or share with a fellow traveler.",
@@ -1761,7 +1760,6 @@
   "Сковорода": "Frying pan",
   "СКОВОРОДА": "FRYING PAN",
   "Скоропортящиеся упаковки расходуются целиком; размер определяет выход. Большую готовку съесть сейчас или разделить с попутчиком. Для блинов, оладий и котлет нужна также миска; работа у плиты указана в карточке.": "Perishable packages are consumed entirely; size determines output. Eat the larger meal now or share it with a travel companion. For pancakes, pancakes and cutlets you also need a bowl; work at the stove is indicated on the card.",
-  "Скрыть несовместимые": "Hide incompatible",
   "Слабый огонь": "Low heat",
   "Сладкие гренки и тосты с мёдом или вареньем не солят.": "Sweet eggy bread and French toast with honey or jam are not salted.",
   "сладкие или овощные": "sweet or vegetable",
@@ -2384,5 +2382,6 @@
   "Шпаргалки": "Cheat sheets",
   "Взвесьте баллон": "Weigh the cylinder",
   "Подкинь идею": "Suggest a dish",
-  "Под эти фильтры блюда нет. Снимите один из них.": "No dish fits these filters. Remove one of them."
+  "Под эти фильтры блюда нет. Снимите один из них.": "No dish fits these filters. Remove one of them.",
+  "Найдено": "Found"
 }

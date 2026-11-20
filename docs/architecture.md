@@ -52,7 +52,7 @@ The diagram shows responsibilities, not every import. `pnpm check:architecture` 
 | Legal pages and offline manifest  | `scripts/legal-pages.mjs`, `offline-assets.mjs`                   | Deterministic generation from checked-in inputs                                                                                                            |
 | Cooking mode                      | `stove.js`, `ui/cooking-mode.js`, `stove.css`                     | One step per screen over a prepared dish; timers from the time a step names (`stepDuration` in `cooking-guide.js`); a screen wake lock that fails silently |
 | Cheat sheets                      | `catalog/guides.js`, `ui/guide.js`                                | Skipper's practices with sources; a drawer with its own `guides/<id>/` page, a shelf on the contents                                                       |
-| Pages for search                  | `scripts/static-pages.mjs`, `ui/shell.js`, `ui/product-detail.js` | Prerenders every chapter, dish, standalone recipe and product in every language with the app's own views, plus `sitemap.xml` and `robots.txt`              |
+| Pages for search                  | `scripts/static-pages.mjs`, `ui/shell.js`, `ui/product-detail.js` | Prerenders every chapter, dish, recipe, product and cheat sheet in every language with the app's own views, plus `sitemap.xml` and `robots.txt`            |
 
 ## Architectural rules
 

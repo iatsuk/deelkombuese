@@ -28,19 +28,14 @@ export function renderMap({ state, catalog }) {
       return [p.id, count];
     }),
   );
-  const allowed = allProducts.filter(
-    (p) =>
-      !state.graphSelected.length ||
-      state.showUnavailable ||
-      counts.get(p.id) > 0 ||
-      state.graphSelected.includes(p.id),
-  );
+  // Every product stays in view; a selection dims the ones that no longer lead to a dish.
+  const allowed = allProducts;
   const q = state.graphQuery.trim().toLocaleLowerCase('ru');
   const groups = mapProductGroups.map((g) => [g.name, (p) => p.graphGroup === g.id, g.note, g.id]);
   const used = new Set();
   return `<section class="page-intro network-intro"><div class="eyebrow">Карта ингредиентов</div><h1>Что приготовим <em>из этого?</em></h1><p>Выбирайте продукты — остаются блюда, в которых они встречаются вместе.<br>Учитываются замены и необязательные добавки. Каждый новый продукт сужает выбор.</p><figure class="galley-cover"><img src="./assets/galley.png" width="1536" height="1024" alt="Иллюстрация яхтенного камбуза: кастрюля с рисом и овощами, мерная кружка, закрытый пакет крупы и море в иллюминаторе" decoding="async" fetchpriority="high"/><figcaption>Простой запас. Понятные действия. Одна кастрюля.</figcaption></figure></section>
-    <div class="network-controls"><label class="search-box">${icon('search')}<input id="graph-search" type="search" value="${esc(state.graphQuery)}" placeholder="Найти ингредиент" aria-label="Найти ингредиент"/></label>${recipeFilters()}${state.graphSelected.length ? `<button class="filter-pill" data-action="graph-unavailable" aria-pressed="${state.showUnavailable}">${state.showUnavailable ? 'Скрыть несовместимые' : 'Все продукты'}</button>` : ''}</div>
-    <div class="selected-products" aria-live="polite">${state.graphSelected.length ? state.graphSelected.map((id) => `<button data-action="graph-product" data-id="${id}">${productById[id].name} ×</button>`).join('') + '<button class="clear-graph" data-action="graph-clear">Сбросить выбор</button>' : '<span>Можно начать с яиц, томатов, риса или любого другого продукта.</span>'}<button class="network-count" data-action="graph-results">${state.graphSelected.length ? 'Получится' : 'Всего'} <strong>${list.length}</strong> ${plural(list.length, 'рецепт', 'рецепта', 'рецептов')} ↓</button></div>
+    <div class="network-controls"><label class="search-box">${icon('search')}<input id="graph-search" type="search" value="${esc(state.graphQuery)}" placeholder="Найти ингредиент" aria-label="Найти ингредиент"/></label>${recipeFilters()}</div>
+    <div class="selected-products" aria-live="polite">${state.graphSelected.length ? state.graphSelected.map((id) => `<button data-action="graph-product" data-id="${id}">${productById[id].name} ×</button>`).join('') + '<button class="clear-graph" data-action="graph-clear">Сбросить выбор</button>' : '<span>Можно начать с яиц, томатов, риса или любого другого продукта.</span>'}<button class="network-count" data-action="graph-results">${state.graphSelected.length ? 'Найдено:' : 'Всего:'} <strong>${list.length}</strong> ${plural(list.length, 'рецепт', 'рецепта', 'рецептов')} ↓</button></div>
     <div class="map-groups ${state.graphSelected.length ? 'narrowed' : ''}" aria-label="Продукты по группам">${groups
       .map(([name, predicate, note, groupId]) => {
         const entries = allowed.filter((p) => !used.has(p.id) && predicate(p));

@@ -218,3 +218,39 @@ test('«Подкинь идею» draws from every chapter dish and standalone r
   state.pantryOnly = true;
   assert.deepEqual(catalog.ideaCandidates(), []);
 });
+
+test('The flavour map dims chips that no longer lead to a dish; ideas follow search and favourites', async () => {
+  const { createAppState } = await import('../src/state/session.js');
+  const { loadState } = await import('../src/state/storage.js');
+  const { createCatalog } = await import('../src/ui/catalog.js');
+  const { renderMap } = await import('../src/ui/views/map.js');
+  const state = createAppState(loadState({ getItem: () => null }).saved, '#map');
+  const catalog = createCatalog(state);
+  const chips = (markup) => markup.match(/class="map-chip"/g).length;
+  const before = chips(renderMap({ state, catalog }));
+  state.graphSelected = ['rice'];
+  const narrowed = renderMap({ state, catalog });
+  assert.equal(chips(narrowed), before);
+  assert.match(narrowed, /data-id="pasta" aria-pressed="false" disabled/);
+  assert.match(narrowed, /Найдено:/);
+  assert.doesNotMatch(narrowed, /graph-unavailable|network-lines|visual-start/);
+  state.view = 'generators';
+  state.route = { view: 'generators', slug: null };
+  state.graphSelected = [];
+  state.query = 'шакшука';
+  assert.ok(catalog.ideaCandidates().every((idea) => idea.name.startsWith('Шакшука')));
+  state.query = '';
+  state.favoritesOnly = true;
+  state.favorites = [
+    {
+      recipeId: 'breakfast-generator',
+      choices: { technique: 'muesli' },
+      packSizes: {},
+      modules: [],
+    },
+  ];
+  assert.deepEqual(
+    catalog.ideaCandidates().map((idea) => [idea.recipeId, idea.choices.technique]),
+    [['breakfast-generator', 'muesli']],
+  );
+});

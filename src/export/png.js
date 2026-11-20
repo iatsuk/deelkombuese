@@ -155,6 +155,13 @@ export async function renderRecipePng(input) {
       text(item.note, { font: '400 23px "Golos Text", sans-serif', color: colors.muted, line: 34 });
     y += 12;
   }
+  if (card.measureNote)
+    text(card.measureNote, {
+      font: '400 22px "Golos Text", sans-serif',
+      color: colors.muted,
+      line: 33,
+      gap: 10,
+    });
   if (card.water) text(card.labels.water, { font: '500 29px "Golos Text", sans-serif', line: 44 });
   if (card.prepWater)
     text(card.labels.prepWater, {

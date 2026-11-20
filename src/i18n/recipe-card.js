@@ -16,6 +16,7 @@ export function localizeRecipeCard(card, translate = (value) => value, language 
       package: item.package ? translate(item.package) : null,
       note: item.note ? translate(item.note) : null,
     })),
+    measureNote: card.measureNote ? translate(card.measureNote) : null,
     basics: card.basics.map((value) => translate(value)),
     steps: card.steps.map((value) => translate(value)),
     notes: card.notes.map((value) => translate(value)),

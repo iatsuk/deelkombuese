@@ -123,30 +123,40 @@ export function createCatalog(state) {
   </${tag}><button class="favorite-toggle ${favorite ? 'active' : ''}" data-action="favorite-toggle" data-id="${cardId}" aria-label="${t(favorite ? 'Убрать из избранного' : 'Добавить в избранное')}: ${esc(t(r.title))}" aria-pressed="${favorite}" title="${favorite ? 'Убрать из избранного' : 'Добавить в избранное'}">${icon('star')}</button></article>`;
   }
 
-  // «Подкинь идею»: every named chapter dish and standalone recipe that fits the sea/shore
-  // mode, the meal tab and the quick and pantry pills. The controller picks one at random.
+  // «Подкинь идею» draws from what the contents shows: the saved favourites when that pill is
+  // on, otherwise every named chapter dish and standalone recipe of the visible recipes — those
+  // that match a search, or all of a chapter that matches it as a whole — that fits the
+  // sea/shore mode and the quick and pantry pills. The controller picks one at random.
   function ideaCandidates() {
-    return filterRecipes(recipes, { mode: state.mode, meal: state.meal })
-      .flatMap((r) =>
-        r.generator
-          ? // The pasta chapter names its combinations as presets.
-            (r.generator.dishes || r.generator.presets || []).map((dish) => ({
-              recipeId: r.id,
-              choices: dish.base ? { [r.generator.choiceKey]: dish.base } : {},
-              modules: dish.modules,
-              shore: dish.shore,
-            }))
-          : [{ recipeId: r.id, choices: {}, modules: [] }],
-      )
-      .filter((idea) => {
-        const recipe = recipeById[idea.recipeId];
-        const prepared = prepareRecipe(recipe, idea.choices, {}, null, idea.modules);
-        return (
-          (state.mode === 'shore' || !(idea.shore || prepared.shore)) &&
-          (!state.quick || prepared.time <= 20) &&
-          (!state.pantryOnly || availableRecipe(recipe, state.pantry, idea.modules, idea.choices))
-        );
-      });
+    const fits = (idea) => {
+      const recipe = recipeById[idea.recipeId];
+      const prepared = prepareRecipe(recipe, idea.choices, {}, null, idea.modules);
+      return (
+        (state.mode === 'shore' || !(idea.shore || prepared.shore)) &&
+        (!state.quick || prepared.time <= 20) &&
+        (!state.pantryOnly || availableRecipe(recipe, state.pantry, idea.modules, idea.choices))
+      );
+    };
+    if (state.favoritesOnly)
+      return state.favorites
+        .filter((f) => recipeById[f.recipeId])
+        .map((f) => ({ recipeId: f.recipeId, choices: f.choices || {}, modules: f.modules || [] }))
+        .filter(fits);
+    const q = state.query.trim().toLocaleLowerCase(language);
+    return visibleRecipes().flatMap((r) => {
+      const ideas = r.generator
+        ? // The pasta chapter names its combinations as presets.
+          (r.generator.dishes || r.generator.presets || []).map((dish) => ({
+            recipeId: r.id,
+            choices: dish.base ? { [r.generator.choiceKey]: dish.base } : {},
+            modules: dish.modules,
+            shore: dish.shore,
+            name: dish.name || dish.label,
+          }))
+        : [{ recipeId: r.id, choices: {}, modules: [], name: r.title }];
+      const named = q ? ideas.filter((idea) => searchText([idea.name]).includes(q)) : [];
+      return (named.length ? named : ideas).filter(fits);
+    });
   }
 
   function searchBox(placeholder) {

@@ -2,7 +2,7 @@ import { productById } from '../data.js';
 import { formatAmount } from '../model.js';
 import { stepDuration } from '../cooking-guide.js';
 import { icon } from './icons.js';
-import { volumeHint } from '../catalog/measures.js';
+import { volumeHint, MEASURE_LEGEND } from '../catalog/measures.js';
 
 // Cooking mode («У плиты»): one screen per step with large controls. Screen 0 lays out the
 // ingredients; each later screen is one step and offers a timer when the step names a time.
@@ -85,7 +85,7 @@ export function renderCookingMode({
                 ticked,
               )
             : ''
-        }</ul>`
+        }</ul>${prepared.ingredients.some((i) => volumeHint(i.id, i.amount, i.unit)) ? `<p class="stove-legend">${MEASURE_LEGEND}</p>` : ''}`
       : `<span class="stove-kicker">Шаг ${index} из ${total}</span><p class="stove-text">${steps[index - 1]}</p>${renderTimer(steps[index - 1], timers[index], now)}`;
   return `<div class="stove-shell">
     <header class="stove-bar"><span class="stove-title">${icon('pot')} ${title}</span><div class="stove-bar-actions"><button class="icon-button" data-stove="night" aria-pressed="${night}" aria-label="Красный свет для ночной вахты" title="Красный свет для ночной вахты">${icon('moon')}</button><button class="icon-button" data-stove="close" aria-label="Закрыть режим у плиты">${icon('close')}</button></div></header>

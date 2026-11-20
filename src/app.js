@@ -142,11 +142,6 @@ function handlePlannerAction(action, id, button) {
     render();
     return true;
   }
-  if (action === 'graph-unavailable') {
-    state.showUnavailable = !state.showUnavailable;
-    render();
-    return true;
-  }
   if (action === 'graph-clear') {
     state.graphSelected = [];
     state.graphQuery = '';

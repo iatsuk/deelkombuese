@@ -72,3 +72,21 @@ test('The recipe page, the stove and the card show the hint for the crew’s amo
   const localized = localizeRecipeCard(buildRecipeCard(grain, { choices }), en, 'en');
   assert.match(localized.ingredients.find((i) => i.id === 'rice').measure, /^≈ .+ mugs?$/);
 });
+
+test('The stove and the card say what a mug and a spoon hold', () => {
+  const grain = recipeById['grain-generator'];
+  const choices = { technique: 'rice' };
+  const prepared = prepareRecipe(grain, choices);
+  const stove = renderCookingMode({
+    title: prepared.title,
+    prepared,
+    steps: recipeSteps(grain, choices, [], prepared),
+    index: 0,
+    timers: {},
+    now: 0,
+  });
+  assert.match(stove, /<p class="stove-legend">Мерки: кружка 250 мл/);
+  assert.match(buildRecipeCard(grain, { choices }).measureNote, /кружка 250 мл/);
+  // Without loose goods there is nothing to explain.
+  assert.equal(buildRecipeCard(recipeById['no-cook-generator'], {}).measureNote, null);
+});

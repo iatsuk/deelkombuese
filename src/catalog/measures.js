@@ -8,6 +8,8 @@
 // fresh produce.
 const ml = { cup: 236.588, tbsp: 14.787, tsp: 4.929 };
 export const MUG_ML = 250;
+// Said wherever a hint appears: the recipe page, the stove and the PNG card.
+export const MEASURE_LEGEND = 'Мерки: кружка 250 мл, ложки 15 и 5 мл без горки; граммы точнее.';
 
 // [grams, per measure, FoodData Central id, note]
 const usda = {
@@ -17,7 +19,7 @@ const usda = {
   buckwheat: [164, 'cup', 170685],
   couscous: [173, 'cup', 169699],
   lentils: [192, 'cup', 172420, 'lentils in general, not red lentils alone'],
-  flour: [125, 'cup', 168894, 'spooned in and levelled; scooped from the bag it weighs more'],
+  flour: [125, 'cup', 168894, 'scooped straight from the bag, flour packs denser and weighs more'],
   peanuts: [146, 'cup', 173806],
   raisins: [145, 'cup', 168165, 'not packed'],
   honey: [21, 'tbsp', 169640],

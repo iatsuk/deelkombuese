@@ -5,7 +5,7 @@ import { productById, sources } from '../data.js';
 import { formatAmount, recipeSteps, effectiveIngredients } from '../model.js';
 import { icon } from './icons.js';
 import { renderCrew } from './crew.js';
-import { volumeHint } from '../catalog/measures.js';
+import { volumeHint, MEASURE_LEGEND } from '../catalog/measures.js';
 export function renderRecipeDialog(
   r,
   prepared,
@@ -155,7 +155,7 @@ export function renderRecipeDialog(
     ${prepared.generator?.profile.thermos ? renderThermosNotice() : ''}
     ${prepared.eggConditional ? `<div class="detail-notice">${icon('egg')}<p>Для яиц проверьте возраст от кладки и историю охлаждения. Немытые неохлаждённые яйца требуют стабильной прохлады; ориентир до 18 дней от кладки не действует для жаркого рундука. Охлаждённые яйца сохранять в холоде до готовки. Белок и желток готовить полностью.</p></div>` : ''}
     ${embedded ? '' : renderRecipeModules(r, prepared)}${packageControls}${isLarge ? `<div class="detail-notice warning">${icon('person')}<p><strong>${prepared.crew > 1 ? `Выход большой: ≈ ${perPerson} г на человека.` : `Выход большой для одного приёма: примерно ${prepared.yieldGrams} г.`}</strong> Выберите меньшую упаковку или разделите готовую еду с попутчиком сейчас. Без холодильника выход этой готовки нельзя распределять на следующие вахты. Для увеличенного объёма нужны подходящая посуда и дополнительное время.${prepared.ingredients.some((i) => i.id === 'passata') && prepared.generator?.profile.id !== 'tomato' ? '<br><a class="pack-recipe-link" href="#generators/soup?base=tomato">Использовать 500 г пассаты в компактном томатном супе →</a>' : ''}</p></div>` : ''}
-    <section class="detail-section ingredients-section"><h3>Состав под вашу упаковку</h3><div class="ingredient-list">${ingredientRows}${waterRows}</div>${prepared.ingredients.some((i) => volumeHint(i.id, i.amount, i.unit)) ? '<p class="measure-legend">Мерки: кружка 250 мл, ложки 15 и 5 мл без горки; граммы точнее.</p>' : ''}
+    <section class="detail-section ingredients-section"><h3>Состав под вашу упаковку</h3><div class="ingredient-list">${ingredientRows}${waterRows}</div>${prepared.ingredients.some((i) => volumeHint(i.id, i.amount, i.unit)) ? `<p class="measure-legend">${MEASURE_LEGEND}</p>` : ''}
     <p class="footnote">${prepared.vessel === 'cold' ? 'Только чистые руки, посуда и питьевая вода для мытья продуктов.' : 'Вода — ориентир: учитывайте испарение и добавляйте по необходимости. Соль и перец по вкусу, если не указаны в составе.'} На экипаж рецепт берёт упаковку побольше или несколько, остальное пересчитывается от неё.</p></section>
     ${renderCookingBasics(r, prepared)}${renderGrainDiagram(r, prepared)}<section class="detail-section"><h3>Как приготовить</h3><ol class="cooking-steps">${steps}</ol>${substituted ? `<div class="detail-notice">${icon('swap')}<p>Используйте выбранные ингредиенты и количества из состава выше. Свежий лук обжарьте 3–5 минут, сухие специи прогревайте несколько секунд. Пассата идёт с жидкостью, а не обжаривается как паста. Подготовку обычных сушёных овощей сверяйте с пачкой; для быстрого текстурата в генераторе заложены отдельные вода и время.</p></div>` : ''}</section>
     ${tip ? `<aside class="skipper-tip"><span>${icon('anchor')} Заметка из камбуза</span><p>${tip}</p></aside>` : ''}

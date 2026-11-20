@@ -1747,7 +1747,6 @@
   "Свёкла готовая консервированная: вся банка {0} г": "Gegarte Rote Bete aus der Dose: ganze Dose {0} g",
   "Свёкла готовая консервированная: вся банка {0} г · без жидкости": "Gegarte Rote Bete aus der Dose: ganze Dose {0} g · ohne Flüssigkeit",
   "Свёклу добавляют в щи — получается борщ.": "Rote Bete kommt in Schtschi – so wird daraus Borschtsch.",
-  "Связи · гибкое блюдо": "Verbindungen · flexibles Gericht",
   "Сделайте в соусе углубления и разбейте в них яйца. Накройте крышкой и готовьте на слабом огне 6–8 минут до полностью плотных белка и желтка.": "Mulden in der Soße formen und die Eier hineinschlagen. Zudecken und bei niedriger Hitze 6–8 Minuten garen, bis Eiweiß und Eigelb vollständig fest sind.",
   "Сделайте углубления в картофеле, разбейте яйца и готовьте под крышкой до полностью плотных белка и желтка. Проверьте возраст и условия хранения яиц.": "Mulden in den Kartoffeln formen, die Eier hineinschlagen und zugedeckt garen, bis Eiweiß und Eigelb vollständig fest sind. Das Alter und die Lagerbedingungen der Eier prüfen.",
   "Сделайте углубления, разбейте яйца и готовьте под крышкой до полностью плотных белка и желтка. При большой упаковке нужен больший сотейник; весь выход съесть сейчас или разделить с попутчиком.": "Mulden formen, die Eier hineinschlagen und zugedeckt garen, bis Eiweiß und Eigelb vollständig fest sind. Bei einer großen Packung einen größeren Schmortopf verwenden; die gesamte Menge sofort essen oder mit einem Mitsegler teilen.",
@@ -1760,7 +1759,6 @@
   "Сковорода": "Bratpfanne",
   "СКОВОРОДА": "BRATPFANNE",
   "Скоропортящиеся упаковки расходуются целиком; размер определяет выход. Большую готовку съесть сейчас или разделить с попутчиком. Для блинов, оладий и котлет нужна также миска; работа у плиты указана в карточке.": "Packungen mit verderblichem Inhalt werden vollständig verbraucht; ihre Größe bestimmt die Menge des Gerichts. Große Portionen sofort essen oder mit einem Mitsegler teilen. Für Pfannkuchen, Puffer und Bratlinge wird auch eine Schüssel benötigt; die aktive Zubereitungszeit am Herd steht auf der Rezeptkarte.",
-  "Скрыть несовместимые": "Unpassende ausblenden",
   "Слабый огонь": "Niedrige Hitze",
   "Сладкие гренки и тосты с мёдом или вареньем не солят.": "Süße Arme Ritter und Toasts mit Honig oder Marmelade werden nicht gesalzen.",
   "сладкие или овощные": "süß oder mit Gemüse",
@@ -2384,5 +2382,6 @@
   "Шпаргалки": "Spickzettel",
   "Взвесьте баллон": "Gasflasche wiegen",
   "Подкинь идею": "Gericht vorschlagen",
-  "Под эти фильтры блюда нет. Снимите один из них.": "Zu diesen Filtern passt kein Gericht. Entfernen Sie einen davon."
+  "Под эти фильтры блюда нет. Снимите один из них.": "Zu diesen Filtern passt kein Gericht. Entfernen Sie einen davon.",
+  "Найдено": "Gefunden"
 }

@@ -1,7 +1,7 @@
 import { productById } from '../data.js';
 import { prepareRecipe, recipeSteps, formatAmount } from '../model.js';
 import { cookingBasics, recipeUtensils } from '../cooking-guide.js';
-import { volumeHint } from '../catalog/measures.js';
+import { volumeHint, MEASURE_LEGEND } from '../catalog/measures.js';
 
 export function buildRecipeCard(recipe, selection = {}, { crew = 1 } = {}) {
   const { choices = {}, packSizes = {}, anchorId = null, modules = [] } = selection;
@@ -52,6 +52,9 @@ export function buildRecipeCard(recipe, selection = {}, { crew = 1 } = {}) {
         : null,
       note: i.note || null,
     })),
+    measureNote: prepared.ingredients.some((i) => volumeHint(i.id, i.amount, i.unit))
+      ? MEASURE_LEGEND
+      : null,
     water: prepared.water,
     prepWater: prepared.prepWater,
     basics: cookingBasics(recipe, prepared),
