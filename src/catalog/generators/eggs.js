@@ -58,7 +58,7 @@ export function createEggGenerator({ r, i }) {
     [],
     {
       kind: 'generator',
-      // Dish kinds the chapter covers in the recipe filter.
+      // Dish kinds the chapter covers when recipes are filtered by kind (filterRecipes).
       kinds: ['eggs'],
       vessel: 'pan',
       meal: 'breakfast',

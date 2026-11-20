@@ -1,4 +1,7 @@
-export const views = ['map', 'generators', 'pantry', 'recipes', 'planner', 'shopping'];
+// The cookbook contents ('generators') is the start screen. '#recipes', the former recipe list,
+// is an alias of it, so old links, bookmarks and the offline fallback still land on the book.
+export const views = ['generators', 'map', 'pantry', 'planner', 'shopping'];
+const aliases = { recipes: 'generators' };
 
 // '#generators/pasta?base=risottoRice&with=sauce-cream,peas&swap=cream:milk' → a view, an
 // optional chapter slug and a generator selection. Ids are never translated, so links survive
@@ -6,12 +9,13 @@ export const views = ['map', 'generators', 'pantry', 'recipes', 'planner', 'shop
 // hash needs no encoding.
 export function parseRoute(hash = '') {
   const [path, query = ''] = String(hash).replace(/^#/, '').split('?');
-  const [view, slug = null] = path.split('/');
-  const known = views.includes(view);
+  const [name, slug = null] = path.split('/');
+  const view = aliases[name] || name;
+  const known = views.includes(view) && !aliases[name];
   const params = new URLSearchParams(query);
   const list = (name) => (params.get(name) || '').split(',').filter(Boolean);
   return {
-    view: known ? view : 'map',
+    view: known || aliases[name] ? view : 'generators',
     slug: known ? slug : null,
     base: params.get('base'),
     modules: list('with'),
@@ -52,7 +56,6 @@ export function createAppState(saved, hash = '') {
     ...saved,
     view: route.view,
     route,
-    base: 'all',
     query: '',
     category: 'all',
     quick: false,
@@ -60,7 +63,6 @@ export function createAppState(saved, hash = '') {
     ownedOnly: false,
     favoritesOnly: false,
     meal: 'all',
-    kind: 'all',
     variants: {},
     sortKey: 'name',
     sortDirection: 'asc',

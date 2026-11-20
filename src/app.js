@@ -15,7 +15,6 @@ import { icon } from './ui/icons.js';
 import { createCatalog } from './ui/catalog.js';
 import { renderMap } from './ui/views/map.js';
 import { renderPantry } from './ui/views/pantry.js';
-import { renderRecipes } from './ui/views/recipes.js';
 import { renderShopping } from './ui/views/shopping.js';
 import { renderGenerators } from './ui/views/generators.js';
 import { renderShell } from './ui/shell.js';
@@ -48,9 +47,8 @@ import { generatorProfile, dishSlug } from './generator-engine.js';
 
 const titles = {
   map: 'Карта вкусов',
-  generators: 'Главы',
+  generators: 'Рецепты',
   pantry: 'Продукты',
-  recipes: 'Рецепты',
   shopping: 'Список закупки',
   planner: 'План похода',
 };
@@ -77,7 +75,7 @@ function pageHash(page) {
       modules: dish?.modules || [],
     });
   }
-  return page.kind === 'recipe' ? '#recipes' : '#pantry';
+  return page.kind === 'recipe' ? '#generators' : '#pantry';
 }
 const currentRoute = () => parseRoute(location.hash || pageHash(pageAt(location.pathname)));
 const state = createAppState(persisted, location.hash || pageHash(pageAt(location.pathname)));
@@ -379,8 +377,7 @@ function render() {
     {
       map: () => renderMap({ state, catalog }),
       pantry: () => renderPantry({ state, catalog }),
-      generators: () => renderGenerators({ state, chapter: chapterView() }),
-      recipes: () => renderRecipes({ state, catalog }),
+      generators: () => renderGenerators({ state, chapter: chapterView(), catalog }),
       planner: renderPlanner,
       shopping: () => renderShopping({ state, catalog, canShare }),
     }[state.view](),
@@ -693,6 +690,12 @@ async function shareList() {
 document.addEventListener('click', (event) => {
   const button = event.target.closest('[data-action]');
   if (!button) return;
+  // A card may be a link to the recipe's own page: the app opens it in place, while a
+  // modified click still opens the page in a new tab.
+  if (button.matches('a[href]')) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey) return;
+    event.preventDefault();
+  }
   if (button.dataset.blockedReason) return toast(button.dataset.blockedReason);
   inChapterContext(button, () => handleClick(event, button));
 });
@@ -733,7 +736,6 @@ function handleClick(event, button) {
     );
     return;
   }
-  if (action === 'base') state.base = state.base === id ? 'all' : id;
   if (action === 'favorites-only') state.favoritesOnly = !state.favoritesOnly;
   if (action === 'quick') state.quick = !state.quick;
   if (action === 'pantry-only') state.pantryOnly = !state.pantryOnly;
@@ -746,22 +748,16 @@ function handleClick(event, button) {
       state.sortDirection = 'asc';
     }
   }
-  if (action === 'meal') {
-    state.meal = id;
-    state.base = 'all';
-    state.kind = 'all';
-  }
+  if (action === 'meal') state.meal = id;
   if (action === 'reset-filters') {
     state.graphSelected = [];
     state.graphQuery = '';
     state.query = '';
-    state.base = 'all';
     state.category = 'all';
     state.quick = false;
     state.pantryOnly = false;
     state.ownedOnly = false;
     state.meal = 'all';
-    state.kind = 'all';
     state.favoritesOnly = false;
   }
   if (action === 'starter') {
@@ -884,10 +880,6 @@ function handleChange(event) {
     }
     openRecipe(currentRecipe, true);
     return;
-  }
-  if (event.target.id === 'recipe-kind') {
-    state.kind = event.target.value;
-    render();
   }
   if (event.target.dataset.swap && currentRecipe) {
     const ingredient = effectiveIngredients(recipeById[currentRecipe], moduleIds).find(

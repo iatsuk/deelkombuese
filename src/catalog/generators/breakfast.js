@@ -14,7 +14,7 @@ export function createBreakfastGenerator({ r, i }) {
     [],
     {
       kind: 'generator',
-      // Dish kinds the chapter covers in the recipe filter.
+      // Dish kinds the chapter covers when recipes are filtered by kind (filterRecipes).
       kinds: ['porridge', 'bread', 'snack'],
       // The chapter's own vessel stands in only where a base names none.
       vessel: 'pot',
@@ -157,8 +157,22 @@ export function createBreakfastGenerator({ r, i }) {
             ],
           },
         ],
+        // The four former recipes come first, so the contents line shows each base.
         dishes: [
           { name: 'Овсянка с арахисом', base: 'porridge', modules: [], legacyId: 'oatmeal' },
+          {
+            name: 'Хлопья на сковороде · быстрые мюсли',
+            base: 'muesli',
+            modules: [],
+            legacyId: 'pan-muesli',
+          },
+          {
+            name: 'Тёплые булочки на сковороде',
+            base: 'rolls',
+            modules: [],
+            legacyId: 'warm-rolls',
+          },
+          { name: 'Арахис и изюм на вахту', base: 'mix', modules: [], legacyId: 'nuts-raisins' },
           { name: 'Овсянка с арахисом и мёдом', base: 'porridge', modules: ['honey'] },
           { name: 'Овсянка с арахисом и вареньем', base: 'porridge', modules: ['jam'] },
           {
@@ -167,19 +181,6 @@ export function createBreakfastGenerator({ r, i }) {
             modules: ['milkPowder'],
             // The module id keeps the former oatmeal's camel case; addresses stay lower case.
             slug: 'porridge-milk',
-          },
-          {
-            name: 'Хлопья на сковороде · быстрые мюсли',
-            base: 'muesli',
-            modules: [],
-            legacyId: 'pan-muesli',
-          },
-          { name: 'Арахис и изюм на вахту', base: 'mix', modules: [], legacyId: 'nuts-raisins' },
-          {
-            name: 'Тёплые булочки на сковороде',
-            base: 'rolls',
-            modules: [],
-            legacyId: 'warm-rolls',
           },
         ],
         phases: ['prepare', 'cook', 'finish', 'top', 'serve'],

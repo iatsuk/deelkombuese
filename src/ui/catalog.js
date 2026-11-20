@@ -4,6 +4,7 @@ import { recipeGlyph, productGlyph } from '../cooking-visuals.js';
 import { retailPurchases } from '../planner.js';
 import { productById, recipes, recipeById } from '../data.js';
 import { favoriteKey } from '../preferences.js';
+import { pagePath } from '../state/session.js';
 import {
   availableRecipe,
   shoppingItems,
@@ -15,19 +16,17 @@ import {
 } from '../model.js';
 import { icon, esc } from './icons.js';
 export function createCatalog(state) {
+  // Search, filters and favourites live on the cookbook contents, the start screen.
+  const onContents = () => state.view === 'generators' && !state.route?.slug;
   function activeRecipeSelection() {
-    return state.view === 'map'
-      ? state.graphSelected
-      : state.view === 'recipes' && productById[state.base]
-        ? [state.base]
-        : [];
+    return state.view === 'map' ? state.graphSelected : [];
   }
 
   // A search for a known dish (shakshuka, French toast) shows the chapter on that dish.
   // A query that also fits the chapter's own title keeps the chapter's default.
   function searchedDish(recipe) {
     const q = state.query.trim().toLocaleLowerCase(language);
-    if (!q || !recipe.generator || state.view !== 'recipes' || state.favoritesOnly) return null;
+    if (!q || !recipe.generator || !onContents() || state.favoritesOnly) return null;
     if (searchText([recipe.title]).includes(q)) return null;
     return (
       (recipe.generator.dishes || []).find((dish) => searchText([dish.name]).includes(q)) || null
@@ -35,7 +34,7 @@ export function createCatalog(state) {
   }
 
   function recipeContext(recipe) {
-    if (state.view === 'recipes' && state.favoritesOnly)
+    if (onContents() && state.favoritesOnly)
       return (
         state.favorites.find((f) =>
           recipe.favoriteKey ? favoriteKey(f) === recipe.favoriteKey : f.recipeId === recipe.id,
@@ -50,7 +49,7 @@ export function createCatalog(state) {
   function visibleRecipes() {
     const q = state.query.trim().toLocaleLowerCase(language),
       onMap = state.view === 'map';
-    const favoriteView = state.view === 'recipes' && state.favoritesOnly;
+    const favoriteView = onContents() && state.favoritesOnly;
     // In the favourites view every saved variant is its own card.
     const source = favoriteView
       ? state.favorites
@@ -60,8 +59,6 @@ export function createCatalog(state) {
     return filterRecipes(source, {
       mode: state.mode,
       meal: onMap ? 'all' : state.meal,
-      base: onMap || favoriteView ? 'all' : state.base,
-      kind: onMap ? 'all' : state.kind,
     }).filter((r) => {
       const selected = recipeContext(r),
         prepared = prepareRecipe(
@@ -71,19 +68,9 @@ export function createCatalog(state) {
           selected.anchorId,
           selected.modules,
         );
-      const baseMatches =
-        !favoriteView ||
-        state.base === 'all' ||
-        r.base === state.base ||
-        prepared.ingredients.some(
-          (i) =>
-            i.id === state.base ||
-            (state.base === 'legumes' && ['beans', 'chickpeas', 'lentils'].includes(i.id)),
-        );
       return (
         (!favoriteView || state.favorites.some((f) => f.recipeId === r.id)) &&
         (!favoriteView || state.mode === 'shore' || !prepared.shore) &&
-        baseMatches &&
         (!onMap || recipeMatches(r, state.graphSelected)) &&
         (!state.quick || prepared.time <= 20) &&
         (!state.pantryOnly ||
@@ -103,7 +90,9 @@ export function createCatalog(state) {
     });
   }
 
-  function recipeCard(r, compact = false) {
+  // `link` makes a standalone recipe's card a link to its own page, which readers without
+  // JavaScript and search engines can follow; the app still opens it in place.
+  function recipeCard(r, compact = false, { link = false } = {}) {
     const selected = recipeContext(r),
       prepared = prepareRecipe(
         r,
@@ -112,11 +101,13 @@ export function createCatalog(state) {
         selected.anchorId,
         selected.modules,
       );
-    const favoriteView = state.view === 'recipes' && state.favoritesOnly,
+    const favoriteView = onContents() && state.favoritesOnly,
       favorite = favoriteView || state.favorites.some((f) => f.recipeId === r.id),
       cardId = (favoriteView && r.favoriteKey) || r.id;
     const possible = availableRecipe(r, state.pantry, selected.modules, selected.choices);
-    return `<article class="recipe-card-shell"><button class="recipe-card ${r.tone} ${compact ? 'compact' : ''}" data-action="${favoriteView ? 'favorite-recipe' : 'recipe'}" data-id="${cardId}">
+    const tag = link && !favoriteView && !r.generator ? 'a' : 'button';
+    const href = tag === 'a' ? ` href="${pagePath(language, 'recipes', r.id)}"` : '';
+    return `<article class="recipe-card-shell"><${tag} class="recipe-card ${r.tone} ${compact ? 'compact' : ''}"${href} data-action="${favoriteView ? 'favorite-recipe' : 'recipe'}" data-id="${cardId}">
     <span class="recipe-card-top"><span class="dish-icon">${icon(recipeGlyph(r))}</span><span class="recipe-kind">${r.generator ? 'Конструктор' : r.shore ? 'С берега' : prepared.vessel === 'cold' ? 'Без плиты' : r.meal === 'breakfast' ? (r.mealTags?.includes('main') ? 'Завтрак / обед' : 'Завтрак') : prepared.vessel === 'pan' ? 'На сковороде' : 'Одна кастрюля'}</span></span>
     <strong>${favoriteView || searchedDish(r) ? prepared.title : r.generator?.chapter.title || r.title}</strong><span class="recipe-desc">${favoriteView && prepared.modules.length ? prepared.modules.map((m) => m.label).join(' · ') : r.desc}</span>
     <span class="recipe-ingredient-icons" aria-hidden="true">${prepared.ingredients
@@ -129,7 +120,7 @@ export function createCatalog(state) {
         '',
       )}</span>${r.template ? '<span class="recipe-template-label">Универсальная основа · выбрать вариант</span>' : ''}<span class="recipe-meta"><span>${icon('clock')} ${prepared.time} мин</span><span>${icon(prepared.vessel === 'cold' ? 'person' : 'pot')} ${prepared.active} мин ${prepared.vessel === 'cold' ? 'подготовки' : 'у плиты'}</span></span>
     ${possible ? '<span class="can-cook">Всё есть в рундуке</span>' : ''}
-  </button><button class="favorite-toggle ${favorite ? 'active' : ''}" data-action="favorite-toggle" data-id="${cardId}" aria-label="${t(favorite ? 'Убрать из избранного' : 'Добавить в избранное')}: ${esc(t(r.title))}" aria-pressed="${favorite}" title="${favorite ? 'Убрать из избранного' : 'Добавить в избранное'}">${icon('star')}</button></article>`;
+  </${tag}><button class="favorite-toggle ${favorite ? 'active' : ''}" data-action="favorite-toggle" data-id="${cardId}" aria-label="${t(favorite ? 'Убрать из избранного' : 'Добавить в избранное')}: ${esc(t(r.title))}" aria-pressed="${favorite}" title="${favorite ? 'Убрать из избранного' : 'Добавить в избранное'}">${icon('star')}</button></article>`;
   }
 
   function searchBox(placeholder) {
@@ -137,7 +128,7 @@ export function createCatalog(state) {
   }
 
   function recipeFilters() {
-    return `<div class="recipe-filters">${state.view === 'recipes' ? `<button class="filter-pill ${state.favoritesOnly ? 'active' : ''}" data-action="favorites-only" aria-pressed="${state.favoritesOnly}">${icon('star')} Избранное ${state.favorites.length}</button>` : ''}<button class="filter-pill ${state.quick ? 'active' : ''}" data-action="quick" aria-pressed="${state.quick}">${icon('clock')} До 20 минут ${state.quick ? icon('check') : ''}</button><button class="filter-pill ${state.pantryOnly ? 'active' : ''}" data-action="pantry-only" aria-pressed="${state.pantryOnly}">${icon('box')} Из моего рундука ${state.pantryOnly ? icon('check') : ''}</button><button class="text-button reset-base ${state.base === 'all' ? 'hidden' : ''}" data-action="base" data-id="all">Все основы ×</button></div>`;
+    return `<div class="recipe-filters">${onContents() ? `<button class="filter-pill ${state.favoritesOnly ? 'active' : ''}" data-action="favorites-only" aria-pressed="${state.favoritesOnly}">${icon('star')} Избранное ${state.favorites.length}</button>` : ''}<button class="filter-pill ${state.quick ? 'active' : ''}" data-action="quick" aria-pressed="${state.quick}">${icon('clock')} До 20 минут ${state.quick ? icon('check') : ''}</button><button class="filter-pill ${state.pantryOnly ? 'active' : ''}" data-action="pantry-only" aria-pressed="${state.pantryOnly}">${icon('box')} Из моего рундука ${state.pantryOnly ? icon('check') : ''}</button></div>`;
   }
 
   function empty(title, text) {

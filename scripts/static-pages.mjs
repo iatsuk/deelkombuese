@@ -11,6 +11,7 @@ import { generators, recipes, products, productById } from '../src/data.js';
 import { prepareRecipe, recipeSteps, normalizeSelection, formatAmount } from '../src/model.js';
 import { dishSlug } from '../src/generator-engine.js';
 import { renderGenerators } from '../src/ui/views/generators.js';
+import { createCatalog } from '../src/ui/catalog.js';
 import { renderRecipeDialog } from '../src/ui/recipe-dialog.js';
 import { renderProductDetail } from '../src/ui/product-detail.js';
 import { renderShell } from '../src/ui/shell.js';
@@ -124,12 +125,13 @@ function chapterLinks(markup, language) {
 }
 
 function pageContent(page, state) {
-  if (page.kind === 'contents') return renderGenerators({ state, chapter: null });
+  if (page.kind === 'contents')
+    return renderGenerators({ state, chapter: null, catalog: createCatalog(state) });
   if (page.kind === 'chapter' || page.kind === 'dish')
     return renderGenerators({ state, chapter: chapterView(page.recipe, page.dish) });
   if (page.kind === 'recipe') {
     const prepared = prepareRecipe(page.recipe);
-    return `<nav class="chapter-crumb" aria-label="Рецепты"><a href="#recipes">Рецепты</a><span aria-hidden="true">/</span><span>${page.recipe.title}</span></nav><div class="standalone-page">${renderRecipeDialog(
+    return `<nav class="chapter-crumb" aria-label="Рецепты"><a href="#generators">Рецепты</a><span aria-hidden="true">/</span><span>${page.recipe.title}</span></nav><div class="standalone-page">${renderRecipeDialog(
       page.recipe,
       prepared,
       {
@@ -156,7 +158,7 @@ function pageFacts(page, language) {
   };
   if (page.kind === 'contents')
     return {
-      title: site('Главы'),
+      title: site('Рецепты'),
       description: t(
         'Каждая глава — способ готовки, в котором основу и наполнение можно менять. Выберите, что есть на борту, — получится блюдо с расчётом воды, времени и закупки.',
       ),
@@ -238,7 +240,7 @@ function renderPage(template, page, language, catalogs) {
         `<a href="${pagePath(code, ...page.segments)}" lang="${code}" hreflang="${code}"${code === language ? ' aria-current="true"' : ''}>${code.toUpperCase()}</a>`,
     )
     .join('')}</nav>`;
-  const active = { product: 'pantry', recipe: 'recipes' }[page.kind] || 'generators';
+  const active = page.kind === 'product' ? 'pantry' : 'generators';
   const body = chapterLinks(
     translateHtml(
       renderShell({

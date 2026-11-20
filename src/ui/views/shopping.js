@@ -51,7 +51,7 @@ export function renderShopping({ state, catalog, canShare = false }) {
                   .join('')}</section>`,
             )
             .join('')
-        : `<div class="empty-shopping">${icon('bag')}<h3>${state.plan.length ? 'Всё уже есть в рундуке' : 'Сначала выберите, что приготовить'}</h3><p>${state.plan.length ? 'Проверьте остатки: наличие продукта не означает, что его хватит на все блюда.' : 'Откройте рецепт и нажмите «В закупку». Список появится здесь.'}</p><a class="button primary" href="#recipes">Открыть рецепты ${icon('arrow')}</a></div>`
+        : `<div class="empty-shopping">${icon('bag')}<h3>${state.plan.length ? 'Всё уже есть в рундуке' : 'Сначала выберите, что приготовить'}</h3><p>${state.plan.length ? 'Проверьте остатки: наличие продукта не означает, что его хватит на все блюда.' : 'Откройте рецепт и нажмите «В закупку». Список появится здесь.'}</p><a class="button primary" href="#generators">Открыть рецепты ${icon('arrow')}</a></div>`
     }
     <div class="manual-add"><label for="manual-product">Добавить продукт вручную</label><div><select id="manual-product"><option value="">Выберите продукт…</option>${products
       .filter((p) => state.mode === 'shore' || p.state !== 'shore')
@@ -78,5 +78,5 @@ export function renderShopping({ state, catalog, canShare = false }) {
             )
             .join('')
         : '<p class="muted">Здесь будут блюда, которые вы добавили в закупку.</p>'
-    }<a href="#recipes" class="plan-add">${icon('plus')} Добавить блюдо</a><div class="plan-note">${icon('info')}<p>Одна готовка = выбранные упаковки, израсходованные целиком. Счётчик повторяет закупку для отдельных приготовлений. Выход каждого блюда указан в карточке.</p></div>${state.manual.length ? `<p class="muted manual-count">Вручную добавлено: ${state.manual.length}</p>` : ''}${state.plan.length || state.manual.length ? '<button class="text-button clear-plan" data-action="clear-plan">Очистить план и список</button>' : ''}</aside></div>`;
+    }<a href="#generators" class="plan-add">${icon('plus')} Добавить блюдо</a><div class="plan-note">${icon('info')}<p>Одна готовка = выбранные упаковки, израсходованные целиком. Счётчик повторяет закупку для отдельных приготовлений. Выход каждого блюда указан в карточке.</p></div>${state.manual.length ? `<p class="muted manual-count">Вручную добавлено: ${state.manual.length}</p>` : ''}${state.plan.length || state.manual.length ? '<button class="text-button clear-plan" data-action="clear-plan">Очистить план и список</button>' : ''}</aside></div>`;
 }

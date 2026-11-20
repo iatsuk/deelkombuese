@@ -5,7 +5,6 @@ import { loadState } from '../src/state/storage.js';
 import { createCatalog } from '../src/ui/catalog.js';
 import { renderMap } from '../src/ui/views/map.js';
 import { renderPantry } from '../src/ui/views/pantry.js';
-import { renderRecipes } from '../src/ui/views/recipes.js';
 import { renderShopping } from '../src/ui/views/shopping.js';
 import { renderGenerators } from '../src/ui/views/generators.js';
 import { createPlannerView } from '../src/ui/views/planner.js';
@@ -36,8 +35,14 @@ export function auditRenderedTranslations(language) {
   };
   inspect(renderMap({ state, catalog }));
   inspect(renderPantry({ state, catalog }));
-  state.view = 'recipes';
-  inspect(renderRecipes({ state, catalog }));
+  // The cookbook contents: chapters and standalone recipes, then a meal, favourites and a search.
+  state.view = 'generators';
+  state.route = { view: 'generators', slug: null };
+  const contents = () => renderGenerators({ state, chapter: null, catalog });
+  inspect(contents());
+  state.meal = 'breakfast';
+  inspect(contents());
+  state.meal = 'all';
   state.favorites = [
     {
       recipeId: 'braise-generator',
@@ -47,9 +52,9 @@ export function auditRenderedTranslations(language) {
     },
   ];
   state.favoritesOnly = true;
-  inspect(renderRecipes({ state, catalog }));
+  inspect(contents());
   state.query = 'no matching dish';
-  inspect(renderRecipes({ state, catalog }));
+  inspect(contents());
   state.query = '';
   state.favoritesOnly = false;
   state.favorites = [];
@@ -72,7 +77,7 @@ export function auditRenderedTranslations(language) {
   // Generator chapters: the contents, every base with each combination of single-choice
   // groups, and every base with each combinable option on its own.
   state.view = 'generators';
-  inspect(renderGenerators({ state, chapter: null }));
+  inspect(renderGenerators({ state, chapter: null, catalog }));
   for (const recipe of generators) {
     const single = [
       ...new Set(recipe.modules.filter((m) => m.group && !m.multiple).map((m) => m.group)),
@@ -154,7 +159,7 @@ export function auditRenderedTranslations(language) {
         normalizeSelection(recipe, { [recipe.generator.choiceKey]: dish.base }, dish.modules),
       );
   }
-  state.view = 'recipes';
+  state.view = 'generators';
   state.mode = 'shore';
   for (const recipe of recipes) {
     const variants = [

@@ -166,13 +166,16 @@ test('Generator links round-trip and ignore unknown views', async () => {
   const hash = routeHash(route);
   assert.equal(hash, '#generators/pasta?base=risottoRice&with=sauce-cream,peas&swap=cream:milk');
   assert.deepEqual(parseRoute(hash), route);
-  assert.deepEqual(parseRoute('#recipes'), {
-    view: 'recipes',
-    slug: null,
-    base: null,
-    modules: [],
-    choices: {},
-  });
-  assert.equal(parseRoute('#nowhere/x').view, 'map');
-  assert.equal(parseRoute('').view, 'map');
+  // The cookbook is the start screen; the former recipe list is an alias of it.
+  for (const hash of ['', '#recipes', '#generators'])
+    assert.deepEqual(parseRoute(hash), {
+      view: 'generators',
+      slug: null,
+      base: null,
+      modules: [],
+      choices: {},
+    });
+  assert.equal(parseRoute('#recipes/pasta').slug, null);
+  assert.equal(parseRoute('#nowhere/x').view, 'generators');
+  assert.equal(parseRoute('#nowhere/x').slug, null);
 });

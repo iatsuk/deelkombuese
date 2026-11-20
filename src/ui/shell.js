@@ -1,10 +1,10 @@
 import { icon } from './icons.js';
 
+// «Рецепты» is the cookbook: the chapters, standalone recipes, search and favourites.
 export const navigation = [
+  ['generators', 'Рецепты'],
   ['map', 'Карта вкусов'],
-  ['generators', 'Главы'],
   ['pantry', 'Продукты'],
-  ['recipes', 'Рецепты'],
   ['planner', 'План похода'],
   ['shopping', 'Закупка'],
 ];
@@ -13,7 +13,7 @@ export const navigation = [
 // the app's views; on a prerendered page the document base points them at the app root.
 export function renderShell({ main = '', languageLinks = '', legalUrl, active = null }) {
   return `<header class="site-header">
-    <a class="brand" href="#map" aria-label="Дельный камбуз — главная"><span class="brand-mark">${icon('pot')}</span><span class="brand-name">Дельный камбуз</span></a>
+    <a class="brand" href="#generators" aria-label="Дельный камбуз — главная"><span class="brand-mark">${icon('pot')}</span><span class="brand-name">Дельный камбуз</span></a>
     <nav class="site-nav" aria-label="Основная навигация">${navigation
       .map(
         ([view, label]) =>

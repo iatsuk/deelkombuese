@@ -34,7 +34,7 @@ function appAddress(url) {
       ? '#generators' + (id ? '/' + id : '')
       : section === 'products'
         ? '#pantry'
-        : '#recipes';
+        : '#generators';
   return new URL('./?lang=' + language + hash, scope).href;
 }
 self.addEventListener('fetch', (event) => {

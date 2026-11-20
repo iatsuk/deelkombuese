@@ -10,6 +10,7 @@ Smart Galley is the cooking companion to [deelstuff](https://deelstuff.com). Sta
 
 ## What you can do
 
+- **Open the cook's book.** The app starts on the contents of eight chapters, from breakfast to no-cooking dishes, with the recipes outside a chapter below; search, meals, favourites and quick filters narrow it to cards.
 - **Explore ingredients visually.** The flavour map filters recipes by compatible ingredients, including substitutions and optional additions.
 - **Plan for a humid boat.** Compare unopened and opened storage guidance, packaging advice and approximate satiety. Fresh and dried forms remain distinct.
 - **Cook by chapter.** Each chapter is a generator: pick the base, sauce and filling in one sentence and the dish, its water, time and shopping are worked out; every combination has its own link.

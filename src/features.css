@@ -1317,25 +1317,6 @@
 .recipe-library-toolbar .search-box {
   flex: 1 1 230px;
 }
-.recipe-kind-select {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  font-size: 13px;
-  color: var(--muted);
-  flex: 0 1 240px;
-}
-.recipe-kind-select select {
-  width: 100%;
-  min-height: 42px;
-  border: 1px solid var(--line);
-  border-radius: 5px;
-  background: var(--card);
-  color: var(--ink);
-  font: inherit;
-  font-size: 15px;
-  padding: 9px 12px;
-}
 .active-recipe-filters {
   display: flex;
   flex-wrap: wrap;
@@ -1389,12 +1370,6 @@
   flex-wrap: wrap;
 }
 @media (max-width: 680px) {
-  .recipe-kind-select {
-    flex: 1 1 100%;
-  }
-  .recipe-kind-select select {
-    font-size: 15px;
-  }
   .recipe-library-toolbar {
     gap: 14px;
   }
