@@ -128,6 +128,10 @@ export function cookingBasics(recipe, prepared) {
     tips.push(
       'Термос держит кашу горячей, только если он прогрет кипятком, заполнен почти доверху и закрыт сразу. Неполный или холодный термос остывает до опасной для еды температуры.',
     );
+  else if (recipe.drink)
+    tips.push(
+      'Кипятите воду под крышкой и ровно столько, сколько нальёте: лишний кипяток в чайнике — лишний газ.',
+    );
   else if (prepared.vessel === 'pan')
     tips.push(
       'Средний огонь: масло прогрелось, но не дымится. Если снаружи уже темнеет, а внутри сыро, уменьшите нагрев и готовьте дольше.',
@@ -156,8 +160,9 @@ export function cookingBasics(recipe, prepared) {
 }
 
 export function recipeUtensils(recipe, prepared) {
-  const items =
-    prepared.vessel === 'cold'
+  const items = recipe.drink
+    ? ['чайник или кастрюля с крышкой', 'кружка']
+    : prepared.vessel === 'cold'
       ? ['миска или тарелка', 'ложка']
       : prepared.vessel === 'pan'
         ? ['сковорода', 'лопатка']

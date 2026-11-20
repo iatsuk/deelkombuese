@@ -163,6 +163,26 @@ Constraints: no text, no lettering, no numerals, no logos, no labels; no humans 
 Subject: Ground colour soft dawn lavender #b7a9d6. Straight-on side view at eye level: one small deep sea-blue #123d4b enamel saucepan with a thin ivory rim and one long straight handle reaching out horizontally to the right, filled above the rim with a creamy mound of oat porridge topped with dark raisins and golden peanuts. The low pot body and its long horizontal handle form the whole silhouette.
 ```
 
+## drinks
+
+Generated on 2026-11-21 for the ninth chapter with the chapter template. A kettle is a silhouette no other plate uses, and cocoa brown a free ground.
+
+Regenerated: no.
+
+Final JPEG: `assets/chapters/drinks.jpg`; quality 84; 162,311 bytes.
+
+Inspected: one sea-blue enamel kettle with an ivory rim, an arched handle and two wisps of steam; no text, cups or stove; uninterrupted warm brown ground, darker and browner than the red pasta plate.
+
+Exact final prompt:
+
+```text
+Use case: illustration-story. Asset type: one chapter plate for a yacht cookbook website. One landscape image, 1536 × 1024 pixels, aspect ratio 3:2.
+Style: refined hand-painted gouache on softly textured paper, matte opaque pigment with visible layered brush marks, like a colour plate in a mid-century cookbook. Not photorealistic, not 3D, not vector, not a UI screenshot.
+Composition: the picture must read when shrunk to 90 pixels wide. One flat, even field of the ground colour fills the whole frame edge to edge, with only a soft contact shadow under the object. One hero object with a bold, simple silhouette fills about two-thirds of the image height. Generous empty ground around it. Nothing else in the picture.
+Constraints: no text, no lettering, no numerals, no logos, no labels; no humans or hands; no flames; no stove; no refrigerator; no table, worktop, wood grain, cloth, towel, porthole, sea or kitchen interior; no cups or mugs; no loose garnish; no pattern in the ground.
+Subject: Ground colour warm cocoa brown #8a5a3e. Side view: one classic round deep sea-blue #123d4b enamel kettle with an ivory rim, a curved spout to the left and a tall arched handle on top, with two soft pale wisps of steam rising from the spout. The kettle is the whole silhouette.
+```
+
 ## Cheat-sheet plates
 
 Generated on 2026-11-20 for the five skipper's cheat sheets, one Codex run each with the chapter template (the composition line says «one hero subject», and labels and writing on objects are excluded). None was regenerated. Web versions are 1200 × 800 JPEGs at quality 84 in `assets/guides/`.

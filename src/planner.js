@@ -124,7 +124,8 @@ export function waterBudget(entries, options = {}) {
     preparation = 0;
   for (const entry of entries) {
     const recipe = recipeById[entry.recipeId];
-    if (!recipe) continue;
+    // Hot drinks come out of the drinking allowance above; counting them again would double it.
+    if (!recipe || recipe.drink) continue;
     const p = prepareRecipe(recipe, entry.choices, entry.packSizes, entry.anchorId, entry.modules, {
       crew,
     });
@@ -158,7 +159,8 @@ export function gasBudget(entries, options = {}) {
   const rate = clamp(options.burnerRate, 50, 400, 150);
   const dishMinutes = entries.reduce((sum, entry) => {
     const recipe = recipeById[entry.recipeId];
-    if (!recipe) return sum;
+    // A hot drink's burner time is the kettle's, counted below per person and day.
+    if (!recipe || recipe.drink) return sum;
     const p = prepareRecipe(recipe, entry.choices, entry.packSizes, entry.anchorId, entry.modules, {
       crew,
     });

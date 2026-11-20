@@ -26,6 +26,8 @@ const usda = {
   peanutButter: [16, 'tbsp', 172470],
   bakingPowder: [4.6, 'tsp', 172803],
   driedOnion: [5, 'tbsp', 170002],
+  sugar: [200, 'cup', 169655],
+  cocoa: [86, 'cup', 169593],
 };
 export const volumeMeasures = Object.fromEntries(
   Object.entries(usda).map(([id, [grams, per, fdcId, note = null]]) => [

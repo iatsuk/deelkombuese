@@ -253,7 +253,8 @@ export function prepareRecipe(
   // A chapter base may cook in its own vessel (porridge in a pot, rolls on a pan, a dry mix
   // with none); every fact below that depends on the vessel follows the base.
   const vessel = generated?.profile.vessel ?? recipe.vessel;
-  const unitMass = { carrot: 100, onion: 80, garlic: 4, eggs: 55, eggsCold: 55 };
+  // A tea bag weighs about 2 g; a piece count of anything else defaults to 70 g.
+  const unitMass = { carrot: 100, onion: 80, garlic: 4, eggs: 55, eggsCold: 55, tea: 2 };
   let weight = ingredients.reduce(
     (sum, i) =>
       sum +

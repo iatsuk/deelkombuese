@@ -7,6 +7,7 @@ import { createGrainGenerator } from './catalog/generators/grain.js';
 import { createSoupGenerator } from './catalog/generators/soup.js';
 import { createBraiseGenerator } from './catalog/generators/braise.js';
 import { createBreakfastGenerator } from './catalog/generators/breakfast.js';
+import { createDrinksGenerator } from './catalog/generators/drinks.js';
 // Storage periods are editorial rotation estimates, not results of yacht storage trials.
 export const sources = [
   {
@@ -951,6 +952,46 @@ export const products = [
     { hint: 'В кашу и кускус' },
   ),
   p(
+    'driedFruit',
+    'Сухофрукты для компота',
+    'Соусы и добавки',
+    'beans',
+    'План: 3–6 мес.',
+    dry,
+    '30 г на кружку компота',
+    'до 1 ч',
+    {
+      hint: 'Курага, чернослив, яблоки',
+      note: 'Курагу и другие светлые сухофрукты часто обрабатывают сульфитами (E220–E228): при чувствительности к ним выбирайте сухофрукты без этой пометки.',
+    },
+  ),
+  p('sugar', 'Сахар', 'Соусы и добавки', 'box', '24+ мес.', dry, '10 г на кружку', 'не насыщает', {
+    hint: 'В чай, какао и компот',
+    note: 'Сухой сахар не портится; от сырости он только слёживается комками.',
+  }),
+  p(
+    'tea',
+    'Чай чёрный в пакетиках',
+    'Чай и какао',
+    'leaf',
+    '12+ мес.',
+    'Герметичная банка или zip-lock вдали от сырости и пахучих продуктов: чай впитывает запахи.',
+    '1 пакетик на кружку',
+    'не насыщает',
+    { hint: 'На ночную вахту' },
+  ),
+  p(
+    'cocoa',
+    'Какао-порошок',
+    'Чай и какао',
+    'bag',
+    '12+ мес.',
+    'Плотно закрытая банка, только сухая ложка, вдали от сырости и запахов.',
+    '10 г на кружку',
+    'не насыщает',
+    { hint: 'Без сахара: сахар кладут отдельно' },
+  ),
+  p(
     'aromatics',
     'Лук · чеснок · имбирь, сухие',
     'Специи',
@@ -1297,6 +1338,7 @@ recipes.unshift(
   createGrainGenerator({ r, i, aroma, tomato, fish, meat }),
   createSoupGenerator({ r, i, aroma, tomato, fish, meat }),
   createBraiseGenerator({ r, i, aroma, tomato }),
+  createDrinksGenerator({ r, i }),
 );
 export const recipeMigrations = {
   // The breakfast recipes became bases of the breakfast chapter; oatmeal's modules carried over.
@@ -1518,6 +1560,7 @@ export const productFamilies = [
     note: 'Хлебцы удобны для холодных закусок. Для французских тостов нужен мягкий хлеб; хлебцы не подставляются автоматически.',
     notes: {
       crispbread: 'Хлебцы — сухой резерв: подавайте их к блюду перед едой, чтобы не размокли.',
+      bread: 'Мягкий хлеб в открытом пакете расходуйте за 3–5 дней в сухой прохладе.',
       ryeBread: 'Открытый пастеризованный хлеб расходовать за 3–5 дней в сухой прохладе.',
     },
     members: ['bread', 'ryeBread', 'crispbread'],
@@ -1645,6 +1688,10 @@ const retail = {
   pepper: [30, 'г'],
   salt: [250, 'г'],
   bouillon: [10, 'кубик'],
+  tea: [25, 'шт.'],
+  cocoa: [100, 'г'],
+  sugar: [500, 'г'],
+  driedFruit: [200, 'г'],
 };
 Object.assign(retail, { risottoRice: [500, 'г'], herbs: [20, 'г'], chili: [20, 'г'] });
 export const mapProductGroups = [

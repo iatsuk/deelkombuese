@@ -187,9 +187,11 @@ test('«Подкинь идею» draws from every chapter dish and standalone r
   const catalog = createCatalog(state);
   assert.match(renderGenerators({ state, chapter: null, catalog }), /data-action="idea"/);
   const all = catalog.ideaCandidates();
+  // An idea is a dish: every chapter but the drinks.
   for (const recipe of generators)
-    assert.ok(
+    assert.equal(
       all.some((idea) => idea.recipeId === recipe.id),
+      !recipe.drink,
       recipe.id,
     );
   assert.ok(all.some((idea) => idea.recipeId === 'potato-skillet'));

@@ -143,20 +143,23 @@ export function createCatalog(state) {
         .map((f) => ({ recipeId: f.recipeId, choices: f.choices || {}, modules: f.modules || [] }))
         .filter(fits);
     const q = state.query.trim().toLocaleLowerCase(language);
-    return visibleRecipes().flatMap((r) => {
-      const ideas = r.generator
-        ? // The pasta chapter names its combinations as presets.
-          (r.generator.dishes || r.generator.presets || []).map((dish) => ({
-            recipeId: r.id,
-            choices: dish.base ? { [r.generator.choiceKey]: dish.base } : {},
-            modules: dish.modules,
-            shore: dish.shore,
-            name: dish.name || dish.label,
-          }))
-        : [{ recipeId: r.id, choices: {}, modules: [], name: r.title }];
-      const named = q ? ideas.filter((idea) => searchText([idea.name]).includes(q)) : [];
-      return (named.length ? named : ideas).filter(fits);
-    });
+    // An idea is a dish: the drinks chapter stays out of it.
+    return visibleRecipes()
+      .filter((r) => !r.drink)
+      .flatMap((r) => {
+        const ideas = r.generator
+          ? // The pasta chapter names its combinations as presets.
+            (r.generator.dishes || r.generator.presets || []).map((dish) => ({
+              recipeId: r.id,
+              choices: dish.base ? { [r.generator.choiceKey]: dish.base } : {},
+              modules: dish.modules,
+              shore: dish.shore,
+              name: dish.name || dish.label,
+            }))
+          : [{ recipeId: r.id, choices: {}, modules: [], name: r.title }];
+        const named = q ? ideas.filter((idea) => searchText([idea.name]).includes(q)) : [];
+        return (named.length ? named : ideas).filter(fits);
+      });
   }
 
   function searchBox(placeholder) {
