@@ -11,6 +11,8 @@ import { generators, recipes, products, productById } from '../src/data.js';
 import { prepareRecipe, recipeSteps, normalizeSelection, formatAmount } from '../src/model.js';
 import { dishSlug } from '../src/generator-engine.js';
 import { renderGenerators } from '../src/ui/views/generators.js';
+import { renderGuide } from '../src/ui/guide.js';
+import { guides } from '../src/catalog/guides.js';
 import { createCatalog } from '../src/ui/catalog.js';
 import { renderRecipeDialog } from '../src/ui/recipe-dialog.js';
 import { renderProductDetail } from '../src/ui/product-detail.js';
@@ -22,6 +24,7 @@ export const siteOrigin = 'https://kombuese.deelstuff.com';
 export const generatedPaths = [
   'generators',
   'recipes',
+  'guides',
   'products',
   'en',
   'de',
@@ -48,6 +51,7 @@ export function sitePages() {
     pages.push({ kind: 'recipe', segments: ['recipes', recipe.id], recipe });
   for (const product of products)
     pages.push({ kind: 'product', segments: ['products', product.id], product });
+  for (const guide of guides) pages.push({ kind: 'guide', segments: ['guides', guide.id], guide });
   return pages;
 }
 
@@ -125,6 +129,8 @@ function chapterLinks(markup, language) {
 }
 
 function pageContent(page, state) {
+  if (page.kind === 'guide')
+    return `<nav class="chapter-crumb" aria-label="Рецепты"><a href="#generators">Рецепты</a><span aria-hidden="true">/</span><span>${page.guide.title}</span></nav><div class="standalone-page">${renderGuide(page.guide)}</div>`;
   if (page.kind === 'contents')
     return renderGenerators({ state, chapter: null, catalog: createCatalog(state) });
   if (page.kind === 'chapter' || page.kind === 'dish')
@@ -162,6 +168,12 @@ function pageFacts(page, language) {
       description: t(
         'Каждая глава — способ готовки, в котором основу и наполнение можно менять. Выберите, что есть на борту, — получится блюдо с расчётом воды, времени и закупки.',
       ),
+    };
+  if (page.kind === 'guide')
+    return {
+      title: site(page.guide.title),
+      description: sentence(page.guide.lead),
+      image: `${siteOrigin}/assets/guides/${page.guide.id}.jpg`,
     };
   if (page.kind === 'chapter') {
     const { chapter, slug } = page.recipe.generator;

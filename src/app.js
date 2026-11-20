@@ -19,6 +19,8 @@ import { renderShopping } from './ui/views/shopping.js';
 import { renderGenerators } from './ui/views/generators.js';
 import { renderShell } from './ui/shell.js';
 import { renderProductDetail } from './ui/product-detail.js';
+import { renderGuide } from './ui/guide.js';
+import { guideById } from './catalog/guides.js';
 import { openStove } from './stove.js';
 import { createPlannerView } from './ui/views/planner.js';
 import { initThemeToggle } from './theme.js';
@@ -74,7 +76,7 @@ function pageHash(page) {
       modules: dish?.modules || [],
     });
   }
-  return page.kind === 'recipe' ? '#generators' : '#pantry';
+  return page.kind === 'product' ? '#pantry' : '#generators';
 }
 const currentRoute = () => parseRoute(location.hash || pageHash(pageAt(location.pathname)));
 const state = createAppState(persisted, location.hash || pageHash(pageAt(location.pathname)));
@@ -396,6 +398,14 @@ function openProduct(id) {
   openDialog(renderProductDetail(p, state), 'Продукты');
   showPage(pagePath(language, 'products', id), { dialog: 'product', id });
 }
+function openGuide(id) {
+  const guide = guideById[id];
+  if (!guide) return;
+  currentRecipe = null;
+  currentProduct = null;
+  openDialog(renderGuide(guide), 'Шпаргалки');
+  showPage(pagePath(language, 'guides', id), { dialog: 'guide', id });
+}
 // A drawer takes the address of its prerendered page, so it can be shared and reloaded.
 function showPage(path, entry) {
   if (location.pathname === rootPath + path) return;
@@ -689,6 +699,7 @@ function handleClick(event, button) {
     return;
   }
   if (action === 'product') return openProduct(id);
+  if (action === 'guide') return openGuide(id);
   if (action === 'sources') return showSources();
   if (action === 'substitutions') return showSubstitutions();
   if (action === 'satiety') return showSatiety();
@@ -925,6 +936,7 @@ window.addEventListener('popstate', (event) => {
   const dialog = document.querySelector('#detail');
   if (entry?.dialog === 'recipe') return openRecipe(entry.id);
   if (entry?.dialog === 'product') return openProduct(entry.id);
+  if (entry?.dialog === 'guide') return openGuide(entry.id);
   if (dialog.open) {
     leavingDrawer = true;
     dialog.close();
@@ -933,6 +945,7 @@ window.addEventListener('popstate', (event) => {
   refreshLanguageLinks();
   if (!location.hash && page?.kind === 'recipe') openRecipe(page.id);
   if (!location.hash && page?.kind === 'product') openProduct(page.id);
+  if (!location.hash && page?.kind === 'guide') openGuide(page.id);
 });
 const route = (r) => JSON.stringify([r.view, r.slug, r.base, r.modules, r.choices]);
 document.querySelector('#detail').addEventListener('close', () => {
@@ -944,7 +957,7 @@ document.querySelector('#detail').addEventListener('close', () => {
   // on the drawer's own page, to the app view under it.
   if (leavingDrawer) leavingDrawer = false;
   else if (window.history.state?.dialog) window.history.back();
-  else if (['recipe', 'product'].includes(pageAt(location.pathname)?.kind))
+  else if (['recipe', 'product', 'guide'].includes(pageAt(location.pathname)?.kind))
     window.history.replaceState(null, '', rootPath + location.search + '#' + state.view);
   refreshLanguageLinks();
 });
@@ -968,11 +981,12 @@ document.querySelector('#detail').addEventListener('click', (event) => {
     event.currentTarget.close();
 });
 shell();
-// A prerendered recipe or product page opens its drawer over the app view.
+// A prerendered recipe, product or guide page opens its drawer over the app view.
 {
   const page = pageAt(location.pathname);
   if (!location.hash && page?.kind === 'recipe') openRecipe(page.id);
   if (!location.hash && page?.kind === 'product') openProduct(page.id);
+  if (!location.hash && page?.kind === 'guide') openGuide(page.id);
 }
 if (storageFailed) toast('Сохранение в браузере недоступно. Данные останутся в текущей вкладке.');
 if ('serviceWorker' in navigator) {

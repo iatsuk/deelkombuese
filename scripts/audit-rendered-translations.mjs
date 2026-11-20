@@ -7,6 +7,8 @@ import { renderMap } from '../src/ui/views/map.js';
 import { renderPantry } from '../src/ui/views/pantry.js';
 import { renderShopping } from '../src/ui/views/shopping.js';
 import { renderGenerators } from '../src/ui/views/generators.js';
+import { renderGuide } from '../src/ui/guide.js';
+import { guides } from '../src/catalog/guides.js';
 import { createPlannerView } from '../src/ui/views/planner.js';
 import { renderRecipeDialog } from '../src/ui/recipe-dialog.js';
 import { renderCookingMode } from '../src/ui/cooking-mode.js';
@@ -40,6 +42,7 @@ export function auditRenderedTranslations(language) {
   state.route = { view: 'generators', slug: null };
   const contents = () => renderGenerators({ state, chapter: null, catalog });
   inspect(contents());
+  for (const guide of guides) inspect(renderGuide(guide));
   state.meal = 'breakfast';
   inspect(contents());
   state.meal = 'all';

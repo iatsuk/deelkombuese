@@ -46,8 +46,8 @@ export function parsePagePath(path = '') {
   const [section, id = null, dish = null] = parts;
   if (section === 'generators' && parts.length <= 3)
     return { language, kind: id ? 'chapter' : 'contents', slug: id, dish };
-  if (['recipes', 'products'].includes(section) && id && parts.length === 2)
-    return { language, kind: section === 'recipes' ? 'recipe' : 'product', id };
+  const kinds = { recipes: 'recipe', products: 'product', guides: 'guide' };
+  if (kinds[section] && id && parts.length === 2) return { language, kind: kinds[section], id };
   return null;
 }
 export function createAppState(saved, hash = '') {

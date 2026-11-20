@@ -10,6 +10,18 @@ import { createBreakfastGenerator } from './catalog/generators/breakfast.js';
 // Storage periods are editorial rotation estimates, not results of yacht storage trials.
 export const sources = [
   {
+    id: 'noaa-salinity',
+    title: 'NOAA · почему океан солёный',
+    url: 'https://oceanservice.noaa.gov/facts/whysalty.html',
+    text: 'Средняя солёность океана — около 35 промилле: примерно 3,5 % веса морской воды составляют растворённые соли, в основном хлорид натрия.',
+  },
+  {
+    id: 'who-coastal',
+    title: 'ВОЗ · качество прибрежных вод',
+    url: 'https://www.who.int/publications/i/item/9789240031302',
+    text: 'Рекомендации о воде для купания и отдыха: прибрежную воду загрязняют сточные воды, ливневые стоки и цветение водорослей. Это не разрешение готовить на морской воде, а объяснение, почему воду у берега брать нельзя.',
+  },
+  {
     id: 'usda-fdc',
     title: 'USDA FoodData Central · вес чашки и ложки',
     url: 'https://fdc.nal.usda.gov/',

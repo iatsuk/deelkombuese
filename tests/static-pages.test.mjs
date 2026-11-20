@@ -28,9 +28,9 @@ const find = (node, test, found = []) => {
 const attr = (node, name) => node.attrs?.find((a) => a.name === name)?.value;
 test.after(() => rmSync(root, { recursive: true, force: true }));
 
-test('Every chapter, dish, recipe and product has a page in every language', () => {
+test('Every chapter, dish, recipe, product and cheat sheet has a page in every language', () => {
   const kinds = new Set(pages.map((p) => p.kind));
-  for (const kind of ['contents', 'chapter', 'dish', 'recipe', 'product'])
+  for (const kind of ['contents', 'chapter', 'dish', 'recipe', 'product', 'guide'])
     assert.ok(kinds.has(kind));
   for (const language of pageLanguages)
     for (const page of pages) {

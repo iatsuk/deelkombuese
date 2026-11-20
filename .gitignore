@@ -12,6 +12,7 @@ offline-assets.js
 # Prerendered pages (scripts/static-pages.mjs)
 /generators/
 /recipes/
+/guides/
 /products/
 /en/
 /de/

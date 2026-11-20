@@ -1,10 +1,11 @@
 import { generators, recipes } from '../../data.js';
+import { guides } from '../../catalog/guides.js';
 import { optionBlocked } from '../../model.js';
 import { generatorProfile } from '../../generator-engine.js';
-import { routeHash } from '../../state/session.js';
+import { routeHash, pagePath } from '../../state/session.js';
 import { renderRecipeDialog } from '../recipe-dialog.js';
 import { icon, esc } from '../icons.js';
-import { t, plural } from '../../i18n/runtime.js';
+import { t, plural, language } from '../../i18n/runtime.js';
 
 const knownDishes = (recipe) => recipe.generator.dishes || recipe.generator.presets || [];
 // Each chapter has a gouache named after its slug (provenance in docs/visual-assets.md).
@@ -54,6 +55,16 @@ function renderResults(state, catalog) {
     <div class="recipe-grid all-recipes">${list.map((r) => recipeCard(r)).join('') || empty(state.favoritesOnly && !state.favorites.length ? 'Избранное пока пусто' : 'Рецептов с этим сочетанием нет', state.favoritesOnly && !state.favorites.length ? 'Нажмите звёздочку у рецепта или сохраните выбранный вариант в его карточке.' : 'Снимите один из фильтров или поищите другое блюдо.')}</div>`;
 }
 
+// The skipper's cheat sheets close the contents; each card links to its own page.
+function renderGuideShelf() {
+  return `<section class="guide-shelf"><h2>Шпаргалки шкипера</h2><div class="guide-cards">${guides
+    .map(
+      (guide) =>
+        `<a class="guide-card" href="${pagePath(language, 'guides', guide.id)}" data-action="guide" data-id="${guide.id}"><img src="./assets/guides/${guide.id}.jpg" width="1200" height="800" alt="" loading="lazy" decoding="async"/><strong>${guide.title}</strong><span>${guide.summary}</span></a>`,
+    )
+    .join('')}</div></section>`;
+}
+
 // The cookbook contents, the start screen: chapters, then the recipes outside a chapter.
 // Search, meals and favourites narrow it to cards.
 function renderContents(state, catalog) {
@@ -72,7 +83,7 @@ function renderContents(state, catalog) {
         ? renderResults(state, catalog)
         : `${renderChapterList()}<section class="standalone-recipes"><h2>Отдельные рецепты</h2><div class="recipe-grid">${standalone
             .map((r) => recipeCard(r, false, { link: true }))
-            .join('')}</div></section>`
+            .join('')}</div></section>${renderGuideShelf()}`
     }
     <div class="storage-banner recipe-bottom">${icon('pot')}<p><strong>Планируйте одну готовку без открытых остатков.</strong> Скоропортящиеся упаковки расходуются целиком; размер определяет выход. Большую готовку съесть сейчас или разделить с попутчиком. Для блинов, оладий и котлет нужна также миска; работа у плиты указана в карточке.</p></div>`;
 }
