@@ -181,6 +181,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
         bases: [
           {
             id: 'pasta',
+            seaState: 'underway',
             phrase: 'пасту',
             label: 'Паста',
             water: 300,
@@ -191,6 +192,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
           },
           {
             id: 'risottoRice',
+            seaState: 'underway',
             phrase: 'ризотто',
             label: 'Ризотто',
             water: 400,
@@ -201,6 +203,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
           },
           {
             id: 'rice',
+            seaState: 'underway',
             phrase: 'рис',
             label: 'Рис с соусом',
             absorption: true,
@@ -215,6 +218,7 @@ export function createPastaGenerator({ r, i, tomato, fish }) {
           },
           {
             id: 'potato',
+            seaState: 'underway',
             phrase: 'картофель',
             label: 'Картофель',
             sauceCredit: false,

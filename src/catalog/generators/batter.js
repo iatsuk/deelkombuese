@@ -55,6 +55,7 @@ export function createBatterGenerator({ r, i, fish }) {
         bases: [
           {
             id: 'crepes',
+            seaState: 'calm',
             label: 'Тонкие блины',
             phrase: 'тонкие блины',
             ingredients: [
@@ -88,6 +89,7 @@ export function createBatterGenerator({ r, i, fish }) {
           },
           {
             id: 'fritters',
+            seaState: 'calm',
             label: 'Оладьи',
             phrase: 'оладьи без кефира',
             ingredients: [i('flour', 100), i('bakingPowder', 4), i('oil', 15, 'мл')],
@@ -112,6 +114,7 @@ export function createBatterGenerator({ r, i, fish }) {
           },
           {
             id: 'oat-fritters',
+            seaState: 'calm',
             label: 'Овсяные оладьи',
             phrase: 'овсяные оладьи',
             ingredients: [i('oats', 70), i('flour', 30), i('bakingPowder', 3), i('oil', 15, 'мл')],
@@ -138,6 +141,7 @@ export function createBatterGenerator({ r, i, fish }) {
           },
           {
             id: 'oat-cutlets',
+            seaState: 'calm',
             label: 'Овсяные котлеты',
             phrase: 'овсяные котлеты',
             ingredients: [
@@ -168,6 +172,7 @@ export function createBatterGenerator({ r, i, fish }) {
           },
           {
             id: 'potato-pancakes',
+            seaState: 'calm',
             label: 'Драники',
             phrase: 'драники без яйца',
             ingredients: [i('potato', 300), i('flour', 25), i('driedOnion', 4), i('oil', 15, 'мл')],
@@ -193,6 +198,7 @@ export function createBatterGenerator({ r, i, fish }) {
           },
           {
             id: 'flatbread',
+            seaState: 'calm',
             label: 'Лепёшка',
             phrase: 'лепёшки',
             ingredients: [i('flour', 100), i('oil', 10, 'мл')],

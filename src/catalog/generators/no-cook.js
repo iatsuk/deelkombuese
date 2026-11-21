@@ -22,6 +22,7 @@ const tinBase = (id, label, phrase, product) => ({
   id,
   label,
   phrase,
+  seaState: 'heavy',
   time: 5,
   active: 5,
   water: 0,
@@ -108,6 +109,7 @@ export function createNoCookGenerator({ r, i, fish }) {
         bases: [
           {
             id: 'bread',
+            seaState: 'heavy',
             label: 'Хлеб',
             phrase: 'хлеб',
             time: 3,

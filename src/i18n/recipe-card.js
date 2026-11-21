@@ -38,6 +38,7 @@ export function localizeRecipeCard(card, translate = (value) => value, language 
           translate('≈ {0} г на человека').replace('{0}', card.perPerson)
         : null,
     burner: card.burner ? translate('Горелка ≈ {0} мин').replace('{0}', card.burner) : null,
+    sea: translate('Качка') + ' · ' + translate(card.sea),
     selected: translate('Выбрано:') + ' ' + localized.variants.join(' · '),
     utensils: translate('ЧТО ПОНАДОБИТСЯ'),
     ingredients: translate('ПРОДУКТЫ ДЛЯ ЭТОЙ ГОТОВКИ'),

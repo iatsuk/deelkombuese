@@ -1,6 +1,12 @@
 import { productGlyph } from '../../cooking-visuals.js';
 import { products, productById, recipes, productFamilies, mapProductGroups } from '../../data.js';
-import { availableRecipe, prepareRecipe, recipeMatches, choicesForSelection } from '../../model.js';
+import {
+  availableRecipe,
+  prepareRecipe,
+  recipeMatches,
+  choicesForSelection,
+  seaVariant,
+} from '../../model.js';
 import { icon, esc } from '../icons.js';
 import { plural, t, language } from '../../i18n/runtime.js';
 export function renderMap({ state, catalog }) {
@@ -17,7 +23,9 @@ export function renderMap({ state, catalog }) {
       ];
       const count = candidates.filter((r) => {
         if (!recipeMatches(r, selected)) return false;
-        const inferred = choicesForSelection(r, selected);
+        // The variant that suits the sea state, as the recipe list below would show it.
+        const inferred = seaVariant(r, choicesForSelection(r, selected), state.seaState, selected);
+        if (!inferred) return false;
         return (
           (!state.quick ||
             prepareRecipe(r, inferred.choices, {}, null, inferred.modules).time <= 20) &&

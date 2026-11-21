@@ -25,6 +25,7 @@ const filtered = (state) =>
     state.favoritesOnly ||
     state.quick ||
     state.pantryOnly ||
+    state.seaState !== 'calm' ||
     state.meal !== 'all',
   );
 
@@ -50,6 +51,8 @@ function renderResults(state, catalog) {
   const active = [
     state.meal !== 'all' &&
       `<span>Приём: ${state.meal === 'breakfast' ? 'завтрак' : state.meal === 'main' ? 'обед / ужин' : 'перекус'}</span>`,
+    state.seaState !== 'calm' &&
+      `<span>${state.seaState === 'heavy' ? 'Качка: свежая погода' : 'Качка: на ходу'}</span>`,
   ].filter(Boolean);
   return `<div class="result-heading"><span>${list.length} ${plural(list.length, 'рецепт', 'рецепта', 'рецептов')} ${t(state.mode === 'sea' ? 'для автономного запаса' : 'включая покупки с берега')}</span><span>${icon('swap')} Варианты внутри карточек</span></div><div class="active-recipe-filters" aria-live="polite">${active.join('')}<button data-action="reset-filters">Сбросить фильтры ×</button></div>
     <div class="recipe-grid all-recipes">${list.map((r) => recipeCard(r)).join('') || empty(state.favoritesOnly && !state.favorites.length ? 'Избранное пока пусто' : 'Рецептов с этим сочетанием нет', state.favoritesOnly && !state.favorites.length ? 'Нажмите звёздочку у рецепта или сохраните выбранный вариант в его карточке.' : 'Снимите один из фильтров или поищите другое блюдо.')}</div>`;

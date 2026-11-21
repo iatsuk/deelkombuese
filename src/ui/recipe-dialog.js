@@ -2,7 +2,9 @@ import { selectionSnapshot, sameSelection, favoriteKey } from '../preferences.js
 import { cookingBasics, recipeUtensils } from '../cooking-guide.js';
 import { cookingAction, grainDiagram } from '../cooking-visuals.js';
 import { productById, sources } from '../data.js';
-import { formatAmount, recipeSteps, effectiveIngredients } from '../model.js';
+import { formatAmount, recipeSteps, effectiveIngredients, seaNote } from '../model.js';
+import { pagePath } from '../state/session.js';
+import { language } from '../i18n/runtime.js';
 import { icon } from './icons.js';
 import { renderCrew } from './crew.js';
 import { volumeHint, MEASURE_LEGEND } from '../catalog/measures.js';
@@ -92,7 +94,7 @@ export function renderRecipeDialog(
       .map((item) => `<span>${item}</span>`)
       .join(
         '',
-      )}</dd></div><div><dt>Сытость</dt><dd>${/^\d/.test(prepared.satiety) ? '≈ ' : ''}${prepared.satiety}*</dd></div></dl>`;
+      )}</dd></div><div><dt>Качка</dt><dd>${seaNote(prepared)}<small><a href="${pagePath(language, 'guides', 'seaway')}" data-action="guide" data-id="seaway">Камбуз в качку</a></small></dd></div><div><dt>Сытость</dt><dd>${/^\d/.test(prepared.satiety) ? '≈ ' : ''}${prepared.satiety}*</dd></div></dl>`;
   }
   const misses = prepared.ingredients.filter((i) => !state.pantry.includes(i.id));
   // A large yield is judged per person: a crew of two shares a bigger pot.

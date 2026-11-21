@@ -91,6 +91,8 @@ export function createEggGenerator({ r, i }) {
         bases: [
           {
             id: 'fry',
+            seaState: 'underway',
+            potInstead: true,
             label: 'Глазунья',
             phrase: 'пожарить глазуньей',
             time: 8,
@@ -106,6 +108,8 @@ export function createEggGenerator({ r, i }) {
           },
           {
             id: 'poach',
+            seaState: 'underway',
+            potInstead: true,
             label: 'Яйца в соусе',
             phrase: 'потомить',
             time: 10,
@@ -123,6 +127,8 @@ export function createEggGenerator({ r, i }) {
           },
           {
             id: 'scramble',
+            seaState: 'underway',
+            potInstead: true,
             label: 'Болтунья',
             phrase: 'взболтать на сковороде',
             time: 7,
@@ -139,6 +145,8 @@ export function createEggGenerator({ r, i }) {
           },
           {
             id: 'omelette',
+            seaState: 'underway',
+            potInstead: true,
             label: 'Омлет',
             phrase: 'запечь омлетом под крышкой',
             time: 13,
@@ -155,6 +163,7 @@ export function createEggGenerator({ r, i }) {
           },
           {
             id: 'dip',
+            seaState: 'calm',
             label: 'Гренки',
             phrase: 'взбить для гренок',
             time: 12,

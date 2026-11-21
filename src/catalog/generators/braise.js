@@ -54,6 +54,7 @@ export function createBraiseGenerator({ r, i, aroma, tomato }) {
         bases: [
           {
             id: 'cabbage',
+            seaState: 'underway',
             label: 'Тушёная капуста',
             phrase: 'свежую капусту',
             ingredients: [i('freshCabbage', 1, 'уп.'), i('driedOnion', 5), i('oil', 15, 'мл')],
@@ -85,6 +86,7 @@ export function createBraiseGenerator({ r, i, aroma, tomato }) {
           },
           {
             id: 'sauerkraut',
+            seaState: 'underway',
             label: 'Тушёная квашеная капуста',
             phrase: 'квашеную капусту',
             ingredients: [
@@ -117,6 +119,7 @@ export function createBraiseGenerator({ r, i, aroma, tomato }) {
           },
           {
             id: 'potato',
+            seaState: 'underway',
             label: 'Картофельное рагу',
             phrase: 'картофель с мясом',
             ingredients: [
@@ -156,6 +159,7 @@ export function createBraiseGenerator({ r, i, aroma, tomato }) {
           },
           {
             id: 'chili-sin',
+            seaState: 'underway',
             label: 'Чили син карне',
             phrase: 'фасоль чили с текстуратом',
             ingredients: [
@@ -187,6 +191,7 @@ export function createBraiseGenerator({ r, i, aroma, tomato }) {
           },
           {
             id: 'chili-con',
+            seaState: 'underway',
             label: 'Чили кон карне',
             phrase: 'фасоль чили с фаршем',
             ingredients: [
@@ -218,6 +223,7 @@ export function createBraiseGenerator({ r, i, aroma, tomato }) {
           },
           {
             id: 'dal',
+            seaState: 'underway',
             label: 'Красный чечевичный дал',
             phrase: 'красную чечевицу с карри',
             ingredients: [i('lentils', 100), aroma(), i('curry', 1, 'ч. л.'), i('oil', 10, 'мл')],

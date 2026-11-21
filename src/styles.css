@@ -213,6 +213,26 @@ main {
 .filter-pill:hover {
   border-color: var(--line-deep);
 }
+/* The sea state: three joined pills, one of them always chosen. */
+.sea-switch {
+  display: flex;
+}
+.sea-switch .filter-pill {
+  border-radius: 0;
+  margin-left: -1px;
+}
+.sea-switch .filter-pill:first-child {
+  border-radius: 5px 0 0 5px;
+  margin-left: 0;
+}
+.sea-switch .filter-pill:last-child {
+  border-radius: 0 5px 5px 0;
+}
+.sea-switch .filter-pill.active,
+.sea-switch .filter-pill:focus-visible {
+  position: relative;
+  z-index: 1;
+}
 .text-button {
   font-size: 15px;
   color: var(--muted);
@@ -1634,6 +1654,16 @@ dialog[open] {
     font-size: 13px;
     min-height: 33px;
     padding: 7px 9px;
+  }
+  /* The sea switch takes its own row; its pills share it and may wrap a long label. */
+  .sea-switch {
+    flex: 1 1 100%;
+  }
+  .sea-switch .filter-pill {
+    flex: 1 1 0;
+    justify-content: center;
+    text-align: center;
+    white-space: normal;
   }
   .recipe-grid {
     grid-template-columns: minmax(0, 1fr);

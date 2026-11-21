@@ -60,6 +60,8 @@ export function createAppState(saved, hash = '') {
     category: 'all',
     quick: false,
     pantryOnly: false,
+    // How rough the sea is now: 'calm' (at anchor) shows every dish; not saved between visits.
+    seaState: 'calm',
     ownedOnly: false,
     favoritesOnly: false,
     meal: 'all',

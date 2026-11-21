@@ -266,3 +266,21 @@ Composition: the picture must read when shrunk to 90 pixels wide. One flat, even
 Constraints: no text, no lettering, no numerals, no logos, no labels, no writing on any object; no humans or hands; no flames; no refrigerator; no table, worktop, wood grain, cloth, towel, porthole, sea or kitchen interior; no loose garnish; no pattern in the ground. Any packaging is completely blank.
 Subject: Ground colour bottle green #3e6b52. Straight-on side view: one tall brushed stainless-steel wide-mouth food thermos standing upright, its screw lid set beside it, a faint wisp of steam rising from the open mouth. The tall flask is the whole silhouette.
 ```
+
+### seaway
+
+Generated on 2026-11-21 for the sixth cheat sheet «Камбуз в качку», one Codex run with the same template. Not regenerated.
+
+Final JPEG: `assets/guides/seaway.jpg`; quality 84; 193,864 bytes.
+
+Inspected: one deep cherry-red enamel pot with its lid on, held by two steel stove clamps on a short rail, tilted as on a heeling yacht; uninterrupted oilskin-yellow ground.
+
+Exact final prompt:
+
+```text
+Use case: illustration-story. Asset type: one cheat-sheet plate for a yacht cookbook website. One landscape image, 1536 × 1024 pixels, aspect ratio 3:2.
+Style: refined hand-painted gouache on softly textured paper, matte opaque pigment with visible layered brush marks, like a colour plate in a mid-century cookbook. Not photorealistic, not 3D, not vector, not a UI screenshot.
+Composition: the picture must read when shrunk to 90 pixels wide. One flat, even field of the ground colour fills the whole frame edge to edge, with only a soft contact shadow under the object. One hero subject with a bold, simple silhouette fills about two-thirds of the image height. Generous empty ground around it. Nothing else in the picture.
+Constraints: no text, no lettering, no numerals, no logos, no labels, no writing on any object; no humans or hands; no flames; no refrigerator; no table, worktop, wood grain, cloth, towel, porthole, sea or kitchen interior; no loose garnish; no pattern in the ground. Any packaging is completely blank.
+Subject: Ground colour oilskin yellow #d9a93c. Slightly elevated three-quarter view: one deep, tall cherry-red enamel stockpot with an ivory rim and its lid firmly on, gripped on both sides by two curved stainless-steel pot clamps rising from a short steel stove rail beneath it; the whole group is tilted about ten degrees, as if on a heeling yacht, and the pot stays held. The deep lidded pot is the main silhouette.
+```

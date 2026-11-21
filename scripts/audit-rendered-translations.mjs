@@ -46,6 +46,12 @@ export function auditRenderedTranslations(language) {
   state.meal = 'breakfast';
   inspect(contents());
   state.meal = 'all';
+  // The sea-state switch narrows the contents and names itself among the active filters.
+  for (const seaState of ['underway', 'heavy']) {
+    state.seaState = seaState;
+    inspect(contents());
+  }
+  state.seaState = 'calm';
   state.favorites = [
     {
       recipeId: 'braise-generator',

@@ -100,6 +100,11 @@ export async function renderRecipePng(input) {
       color: colors.muted,
       line: 36,
     });
+  text(card.labels.sea, {
+    font: '400 24px "Golos Text", sans-serif',
+    color: colors.muted,
+    line: 36,
+  });
   if (card.labels.crew)
     text(card.labels.crew, {
       font: '500 25px "Golos Text", sans-serif',

@@ -69,6 +69,9 @@ export function expandRecipeLibrary(recipes, { r, i, oil, aroma, tomato, fish })
       {
         kind: 'skillet',
         vessel: 'pan',
+        // Fried in a deep pot instead of the pan, it can be cooked underway.
+        seaState: 'underway',
+        potInstead: true,
         tone: 'brown',
         mealTags: ['breakfast', 'main'],
         template: template(
@@ -115,6 +118,7 @@ export function expandRecipeLibrary(recipes, { r, i, oil, aroma, tomato, fish })
       ],
       {
         kind: 'skillet',
+        seaState: 'underway',
         tone: 'gold',
         template: template(
           ['potato'],

@@ -13,6 +13,8 @@ import {
   recipeMatches,
   choicesForSelection,
   filterRecipes,
+  seaFits,
+  seaVariant,
 } from '../model.js';
 import { icon, esc } from './icons.js';
 export function createCatalog(state) {
@@ -41,9 +43,18 @@ export function createCatalog(state) {
         ) || {}
       );
     const dish = searchedDish(recipe);
-    if (dish)
-      return { choices: { [recipe.generator.choiceKey]: dish.base }, modules: dish.modules };
-    return choicesForSelection(recipe, activeRecipeSelection());
+    if (dish) {
+      // A searched dish keeps its name in a rough sea, cooked another way when it can be.
+      const context = {
+        choices: { [recipe.generator.choiceKey]: dish.base },
+        modules: dish.modules,
+      };
+      return seaVariant(recipe, context, state.seaState, [], { sameDish: true }) || context;
+    }
+    // In a rough sea a chapter shows the variant that suits it (the breakfast mix, tea).
+    const selection = activeRecipeSelection();
+    const context = choicesForSelection(recipe, selection);
+    return seaVariant(recipe, context, state.seaState, selection) || context;
   }
 
   function visibleRecipes() {
@@ -72,6 +83,7 @@ export function createCatalog(state) {
         (!favoriteView || state.favorites.some((f) => f.recipeId === r.id)) &&
         (!favoriteView || state.mode === 'shore' || !prepared.shore) &&
         (!onMap || recipeMatches(r, state.graphSelected)) &&
+        seaFits(prepared, state.seaState) &&
         (!state.quick || prepared.time <= 20) &&
         (!state.pantryOnly ||
           (favoriteView
@@ -126,13 +138,15 @@ export function createCatalog(state) {
   // «Подкинь идею» draws from what the contents shows: the saved favourites when that pill is
   // on, otherwise every named chapter dish and standalone recipe of the visible recipes — those
   // that match a search, or all of a chapter that matches it as a whole — that fits the
-  // sea/shore mode and the quick and pantry pills. The controller picks one at random.
+  // sea/shore mode, the sea state and the quick and pantry pills. The controller picks one at
+  // random.
   function ideaCandidates() {
     const fits = (idea) => {
       const recipe = recipeById[idea.recipeId];
       const prepared = prepareRecipe(recipe, idea.choices, {}, null, idea.modules);
       return (
         (state.mode === 'shore' || !(idea.shore || prepared.shore)) &&
+        seaFits(prepared, state.seaState) &&
         (!state.quick || prepared.time <= 20) &&
         (!state.pantryOnly || availableRecipe(recipe, state.pantry, idea.modules, idea.choices))
       );
@@ -158,7 +172,13 @@ export function createCatalog(state) {
             }))
           : [{ recipeId: r.id, choices: {}, modules: [], name: r.title }];
         const named = q ? ideas.filter((idea) => searchText([idea.name]).includes(q)) : [];
-        return (named.length ? named : ideas).filter(fits);
+        // In a rough sea a dish may be cooked another way that suits it (buckwheat in a thermos).
+        return (named.length ? named : ideas)
+          .map((idea) => {
+            const fitting = seaVariant(r, idea, state.seaState, [], { sameDish: true });
+            return fitting ? { ...idea, ...fitting } : idea;
+          })
+          .filter(fits);
       });
   }
 
@@ -167,7 +187,23 @@ export function createCatalog(state) {
   }
 
   function recipeFilters() {
-    return `<div class="recipe-filters">${onContents() ? `<button class="filter-pill ${state.favoritesOnly ? 'active' : ''}" data-action="favorites-only" aria-pressed="${state.favoritesOnly}">${icon('star')} Избранное ${state.favorites.length}</button>` : ''}<button class="filter-pill ${state.quick ? 'active' : ''}" data-action="quick" aria-pressed="${state.quick}">${icon('clock')} До 20 минут ${state.quick ? icon('check') : ''}</button><button class="filter-pill ${state.pantryOnly ? 'active' : ''}" data-action="pantry-only" aria-pressed="${state.pantryOnly}">${icon('box')} Из моего рундука ${state.pantryOnly ? icon('check') : ''}</button></div>`;
+    return `<div class="recipe-filters">${onContents() ? `<button class="filter-pill ${state.favoritesOnly ? 'active' : ''}" data-action="favorites-only" aria-pressed="${state.favoritesOnly}">${icon('star')} Избранное ${state.favorites.length}</button>` : ''}<button class="filter-pill ${state.quick ? 'active' : ''}" data-action="quick" aria-pressed="${state.quick}">${icon('clock')} До 20 минут ${state.quick ? icon('check') : ''}</button><button class="filter-pill ${state.pantryOnly ? 'active' : ''}" data-action="pantry-only" aria-pressed="${state.pantryOnly}">${icon('box')} Из моего рундука ${state.pantryOnly ? icon('check') : ''}</button>${seaSwitch()}</div>`;
+  }
+
+  // How rough the sea is: at anchor every dish, underway a pot under its lid, in heavy weather
+  // no stove, a kettle or a thermos (the cheat sheet «Камбуз в качку» explains why).
+  function seaSwitch() {
+    const options = [
+      ['calm', 'anchor', 'Стоянка'],
+      ['underway', 'wave', 'На ходу'],
+      ['heavy', 'thermos', 'Свежая погода'],
+    ];
+    return `<div class="sea-switch" role="group" aria-label="Качка">${options
+      .map(
+        ([id, glyph, label]) =>
+          `<button class="filter-pill ${state.seaState === id ? 'active' : ''}" data-action="sea-state" data-id="${id}" aria-pressed="${state.seaState === id}">${icon(glyph)} ${label}</button>`,
+      )
+      .join('')}</div>`;
   }
 
   function empty(title, text) {

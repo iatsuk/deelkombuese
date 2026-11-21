@@ -63,6 +63,7 @@ export function createSoupGenerator({ r, i, aroma, tomato, fish, meat }) {
         bases: [
           {
             id: 'broth',
+            seaState: 'underway',
             label: 'Суп на бульоне',
             phrase: 'на бульоне',
             ingredients: [
@@ -121,6 +122,7 @@ export function createSoupGenerator({ r, i, aroma, tomato, fish, meat }) {
           },
           {
             id: 'lentil',
+            seaState: 'underway',
             label: 'Чечевичный суп',
             phrase: 'чечевичный',
             ingredients: [
@@ -151,6 +153,7 @@ export function createSoupGenerator({ r, i, aroma, tomato, fish, meat }) {
           },
           {
             id: 'tomato',
+            seaState: 'underway',
             label: 'Томатный суп из целого пакета',
             phrase: 'томатный из пакета пассаты',
             ingredients: [
@@ -186,6 +189,7 @@ export function createSoupGenerator({ r, i, aroma, tomato, fish, meat }) {
           },
           {
             id: 'sauerkraut',
+            seaState: 'underway',
             label: 'Щи из квашеной капусты',
             phrase: 'щи из квашеной капусты',
             ingredients: [
@@ -223,6 +227,7 @@ export function createSoupGenerator({ r, i, aroma, tomato, fish, meat }) {
           },
           {
             id: 'puree',
+            seaState: 'underway',
             label: 'Суп-пюре из горошка или кукурузы',
             phrase: 'пюре из горошка или кукурузы',
             ingredients: [

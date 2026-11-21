@@ -25,6 +25,8 @@ const grainBase = (i, id, label, phrase, time, method) => ({
   burner: time - 5,
   water: 0,
   grainCooking: true,
+  // Simmered under the lid in a pot: fit to cook underway.
+  seaState: 'underway',
   method,
   steps: [{ phase: 'cook', text: (c) => guidedGrainSteps(null, c.prepared) }],
 });
@@ -46,6 +48,8 @@ const eatHot = {
 };
 const inThermos = (method, time, burner, steps) => ({
   thermos: true,
+  // Only the water boils on the stove, so a thermos meal suits heavy weather.
+  seaState: 'heavy',
   time,
   active: 4,
   burner,
@@ -115,6 +119,7 @@ export function createGrainGenerator({ i, r, aroma, tomato, fish, meat }) {
           ),
           {
             id: 'couscous',
+            seaState: 'heavy',
             label: 'Кускус',
             phrase: 'кускус',
             ingredients: [i('couscous', 90), i('oil', 10, 'мл')],
@@ -141,6 +146,7 @@ export function createGrainGenerator({ i, r, aroma, tomato, fish, meat }) {
           },
           {
             id: 'oats',
+            seaState: 'underway',
             label: 'Несладкая овсянка',
             phrase: 'овсяные хлопья',
             ingredients: [

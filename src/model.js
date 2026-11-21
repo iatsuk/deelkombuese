@@ -298,6 +298,10 @@ export function prepareRecipe(
     packaged,
     modules,
     vessel,
+    // How rough a sea the dish copes with, per base: a thermos method overrides it (`byBase`).
+    seaState: generated?.profile.seaState ?? recipe.seaState,
+    // A pan dish that also works in a deep pot, which is what makes it fit to cook underway.
+    potInstead: Boolean(generated?.profile.potInstead ?? recipe.potInstead),
     drink: Boolean(recipe.drink),
     // A dry snack is measured out, not cooked: no notes on perishable leftovers.
     drySnack: Boolean(generated?.profile.drySnack ?? recipe.drySnack),
@@ -337,6 +341,74 @@ export function prepareRecipe(
         ),
       ),
   };
+}
+
+// Sea states from calm to rough: at anchor (a flat pan is fine), underway (a pot under its lid)
+// and heavy weather (no stove, only boiling water, or a thermos). A dish fit for a rougher sea
+// also does in a calmer one.
+export const seaStates = ['calm', 'underway', 'heavy'];
+export function seaFits(prepared, level = 'calm') {
+  return seaStates.indexOf(prepared.seaState) >= seaStates.indexOf(level);
+}
+
+// The variant of a recipe to offer in this sea: the given one when it fits, otherwise, for a
+// chapter, the first that fits and keeps every picked product — the same dish cooked another
+// way (buckwheat in a thermos), a named dish, then a base. Each candidate keeps the given
+// substitutes and is also tried with each method that overrides its base (`byBase`). With
+// `sameDish`, only the given dish and its methods are tried (a searched dish). Null when
+// nothing fits.
+export function seaVariant(recipe, context = {}, level = 'calm', selectedIds = [], options = {}) {
+  const prepare = (c) => prepareRecipe(recipe, c.choices, c.packSizes, c.anchorId, c.modules);
+  if (seaFits(prepare(context), level)) return context;
+  if (!recipe.generator) return null;
+  const { choiceKey, bases, dishes = [] } = recipe.generator;
+  const choices = context.choices || {};
+  const modules = context.modules || [];
+  const variant = (base, ids) => {
+    const next = { ...choices, [choiceKey]: base };
+    return { ...context, choices: next, modules: normalizeSelection(recipe, next, ids) };
+  };
+  const current = choices[choiceKey] || bases[0].id;
+  const dishesAndBases = options.sameDish
+    ? []
+    : [
+        ...dishes.filter((dish) => dish.base).map((dish) => [dish.base, dish.modules || []]),
+        ...bases.map((base) => [base.id, modules]),
+        ...bases.map((base) => [base.id, []]),
+      ];
+  const candidates = [[current, modules], ...dishesAndBases].flatMap(([base, ids]) => [
+    variant(base, ids),
+    ...recipe.modules
+      .filter((m) => m.byBase?.[base] && !ids.includes(m.id))
+      .map((m) => variant(base, [...ids, m.id])),
+  ]);
+  const keeps = (c, prepared) =>
+    selectedIds.every((id) => prepared.ingredients.some((i) => i.id === id)) &&
+    // A dish cooked another way keeps every addition it is named after.
+    (!options.sameDish || modules.every((id) => c.modules.includes(id)));
+  return (
+    candidates.find((c) => {
+      const prepared = prepare(c);
+      return seaFits(prepared, level) && keeps(c, prepared);
+    }) || null
+  );
+}
+
+// The margin's and the PNG card's note on cooking in a seaway, one whole sentence per case.
+export function seaNote(prepared) {
+  if (prepared.seaState === 'heavy') {
+    if (prepared.vessel === 'cold') return 'Свежая погода: без плиты';
+    if (prepared.generator?.profile.thermos) return 'Свежая погода: кипяток и термос';
+    // A kettle drink only boils water, unless cocoa is made on UHT milk heated in a pot.
+    return prepared.generator?.profile.kettle && !prepared.ingredients.some((i) => i.id === 'milk')
+      ? 'Свежая погода: только кипяток'
+      : 'Свежая погода: несколько минут на огне';
+  }
+  if (prepared.seaState === 'underway')
+    return prepared.potInstead
+      ? 'На ходу: в глубокой кастрюле вместо сковороды'
+      : 'На ходу: в кастрюле под крышкой';
+  return 'Только на стоянке: нужна плоская сковорода';
 }
 
 export function shoppingItems(plan, pantry, manual = []) {

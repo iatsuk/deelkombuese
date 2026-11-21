@@ -47,6 +47,7 @@ export function createDrinksGenerator({ r, i }) {
         bases: [
           {
             id: 'tea',
+            seaState: 'heavy',
             // Only boils water, as the planner's kettle allowance already assumes.
             kettle: true,
             label: 'Чай',
@@ -66,6 +67,7 @@ export function createDrinksGenerator({ r, i }) {
           },
           {
             id: 'ginger',
+            seaState: 'heavy',
             // Only boils water, as the planner's kettle allowance already assumes.
             kettle: true,
             label: 'Имбирный напиток',
@@ -88,6 +90,7 @@ export function createDrinksGenerator({ r, i }) {
           },
           {
             id: 'cocoa',
+            seaState: 'heavy',
             // Only boils water, as the planner's kettle allowance already assumes.
             kettle: true,
             label: 'Какао',
@@ -124,6 +127,7 @@ export function createDrinksGenerator({ r, i }) {
           },
           {
             id: 'broth',
+            seaState: 'heavy',
             // Only boils water, as the planner's kettle allowance already assumes.
             kettle: true,
             label: 'Бульон в кружке',
@@ -147,6 +151,7 @@ export function createDrinksGenerator({ r, i }) {
           },
           {
             id: 'compote',
+            seaState: 'underway',
             label: 'Компот из сухофруктов',
             phrase: 'компот из сухофруктов',
             ingredients: [i('driedFruit', 30)],

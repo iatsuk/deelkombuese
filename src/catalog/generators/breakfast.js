@@ -46,6 +46,7 @@ export function createBreakfastGenerator({ r, i }) {
         bases: [
           {
             id: 'porridge',
+            seaState: 'underway',
             label: 'Овсяная каша',
             phrase: 'овсяная каша',
             ingredients: [i('oats', 80), i('peanuts', 30), i('raisins', 25)],
@@ -69,6 +70,8 @@ export function createBreakfastGenerator({ r, i }) {
           },
           {
             id: 'muesli',
+            seaState: 'underway',
+            potInstead: true,
             label: 'Мюсли на сковороде',
             phrase: 'мюсли на сковороде',
             ingredients: [
@@ -100,6 +103,7 @@ export function createBreakfastGenerator({ r, i }) {
           },
           {
             id: 'mix',
+            seaState: 'heavy',
             label: 'Смесь на вахту',
             phrase: 'смесь на вахту',
             ingredients: [i('peanuts', 40), i('raisins', 30)],
@@ -127,6 +131,8 @@ export function createBreakfastGenerator({ r, i }) {
           },
           {
             id: 'rolls',
+            seaState: 'underway',
+            potInstead: true,
             label: 'Тёплые булочки',
             phrase: 'тёплые булочки',
             ingredients: [

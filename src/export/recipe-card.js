@@ -1,5 +1,5 @@
 import { productById } from '../data.js';
-import { prepareRecipe, recipeSteps, formatAmount } from '../model.js';
+import { prepareRecipe, recipeSteps, formatAmount, seaNote } from '../model.js';
 import { cookingBasics, recipeUtensils } from '../cooking-guide.js';
 import { volumeHint, MEASURE_LEGEND } from '../catalog/measures.js';
 
@@ -38,6 +38,8 @@ export function buildRecipeCard(recipe, selection = {}, { crew = 1 } = {}) {
     yieldGrams: prepared.yieldGrams,
     crew: prepared.crew,
     burner: prepared.burner,
+    // How rough a sea the dish copes with, a whole Russian sentence.
+    sea: seaNote(prepared),
     perPerson,
     variants: prepared.modules.map((m) => m.label),
     utensils: recipeUtensils(recipe, prepared),

@@ -43,6 +43,8 @@ import {
   recipeProductIds,
   choicesForSelection,
   normalizeSelection,
+  seaStates,
+  seaVariant,
 } from './model.js';
 import { generatorProfile, dishSlug } from './generator-engine.js';
 
@@ -622,8 +624,17 @@ function openRecipe(id, keepChoices = false) {
       choices: { [r.generator.choiceKey]: dish.base },
       modules: dish.modules,
     });
-  if (r.generator?.chapter && !keepChoices)
-    return openChapter(r, { choices, packSizes, anchorId, modules: moduleIds });
+  if (r.generator?.chapter && !keepChoices) {
+    // In a rough sea a chapter opens on a variant that suits it: the breakfast mix, buckwheat
+    // in a thermos, tea.
+    const fitting = seaVariant(
+      r,
+      { choices, packSizes, anchorId, modules: moduleIds },
+      state.seaState,
+      openingSelection,
+    );
+    return openChapter(r, fitting || { choices, packSizes, anchorId, modules: moduleIds });
+  }
   if (!keepChoices) showPage(pagePath(language, 'recipes', id), { dialog: 'recipe', id });
   currentRecipe = id;
   currentProduct = null;
@@ -771,6 +782,7 @@ function handleClick(event, button) {
   if (action === 'favorites-only') state.favoritesOnly = !state.favoritesOnly;
   if (action === 'quick') state.quick = !state.quick;
   if (action === 'pantry-only') state.pantryOnly = !state.pantryOnly;
+  if (action === 'sea-state' && seaStates.includes(id)) state.seaState = id;
   if (action === 'owned-only') state.ownedOnly = !state.ownedOnly;
   if (action === 'category') state.category = id;
   if (action === 'sort') {
@@ -788,6 +800,7 @@ function handleClick(event, button) {
     state.category = 'all';
     state.quick = false;
     state.pantryOnly = false;
+    state.seaState = 'calm';
     state.ownedOnly = false;
     state.meal = 'all';
     state.favoritesOnly = false;

@@ -18,7 +18,7 @@ The chapter contents shows these plates as thumbnails 180 pixels wide above 680 
 
 ## Action and ingredient icons
 
-`assets/guides/<id>.jpg` holds one plate per skipper's cheat sheet: `dry-stores`, `stowage`, `mug-rule`, `seawater` and `thermos-gas`, generated on 20 November 2026 with the same tool and template as the chapter plates. They follow the same rule — a flat ground colour of their own (sand, slate, mint, navy, bottle green) and one bold subject — and the same compression; their prompts are in the [illustration prompts](chapter-illustration-prompts.md). The dark theme dims them like the chapter plates.
+`assets/guides/<id>.jpg` holds one plate per skipper's cheat sheet: `dry-stores`, `stowage`, `mug-rule`, `seawater` and `thermos-gas`, generated on 20 November 2026, and `seaway`, generated on 21 November 2026, with the same tool and template as the chapter plates. They follow the same rule — a flat ground colour of their own (sand, slate, mint, navy, bottle green, oilskin yellow) and one bold subject — and the same compression; their prompts are in the [illustration prompts](chapter-illustration-prompts.md). The dark theme dims them like the chapter plates.
 
 `cooking-visuals.js` owns action metadata and vector paths; `ui/icons.js` owns SVG markup. The same paths are used through `Path2D` in downloaded PNG cards. These are deterministic code-native graphics, not generated text.
 

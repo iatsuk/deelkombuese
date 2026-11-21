@@ -13,7 +13,7 @@ test('Each cheat sheet has a plate, sourced practices and its own page address',
   const sourceIds = new Set(sources.map((source) => source.id));
   assert.deepEqual(
     guides.map((g) => g.id),
-    ['dry-stores', 'stowage', 'mug-rule', 'seawater', 'thermos-gas'],
+    ['dry-stores', 'stowage', 'mug-rule', 'seawater', 'thermos-gas', 'seaway'],
   );
   for (const guide of guides) {
     assert.ok(existsSync(`assets/guides/${guide.id}.jpg`), guide.id);
