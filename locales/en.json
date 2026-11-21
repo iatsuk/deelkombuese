@@ -2423,7 +2423,6 @@
   "Основа задаёт напиток, мёд или сахар — сладость. Вода — из питьевого запаса.": "The base sets the drink; honey or sugar sets the sweetness. The water comes from the drinking supply.",
   "Пейте тёплым; разваренные сухофрукты можно съесть.": "Drink it warm; the softened dried fruit can be eaten.",
   "Питьевая вода на кружку": "Drinking water per mug",
-  "Подогрейте остальное молоко с водой из состава почти до кипения и долейте, помешивая.": "Warm the rest of the milk with the water from the ingredients almost to the boil and top up, stirring.",
   "Положите мёд в чуть остывший напиток и размешайте.": "Put the honey into the slightly cooled drink and stir.",
   "Положите сахар и размешайте.": "Add the sugar and stir.",
   "Промойте сухофрукты в отдельной воде.": "Rinse the dried fruit in separate water.",
@@ -2468,5 +2467,9 @@
   "Плотно закрытая банка, только сухая ложка, вдали от сырости и запахов.": "A tightly closed jar, a dry spoon only, away from damp and smells.",
   "Мягкий хлеб в открытом пакете расходуйте за 3–5 дней в сухой прохладе.": "Use soft bread in an opened bag within 3–5 days, kept cool and dry.",
   "Сытость ≈ до 1 ч*": "Satiety ≈ up to 1 h*",
-  "Сытость ≈ не насыщает*": "Satiety ≈ not filling*"
+  "Сытость ≈ не насыщает*": "Satiety ≈ not filling*",
+  "Подогрейте всё молоко с водой из состава в кастрюле почти до кипения.": "Heat all the milk with the water from the ingredients in a pan until almost boiling.",
+  "Долейте остальное горячее молоко, всё время помешивая.": "Top up with the rest of the hot milk, stirring all the time.",
+  "Компот варится дольше чайника, поэтому его вода и газ входят в расчёт закупки, как у блюд.": "Compote simmers longer than a kettle boils, so its water and gas count in the shopping estimate like a dish’s.",
+  "Компот варится дольше чайника, поэтому его вода и газ входят в расчёт закупки, как у блюд. На экипаж рецепт берёт упаковку побольше или несколько, остальное пересчитывается от неё.": "Compote simmers longer than a kettle boils, so its water and gas count in the shopping estimate like a dish’s. For a crew the recipe takes a larger pack or several, and the rest is recalculated from it."
 }

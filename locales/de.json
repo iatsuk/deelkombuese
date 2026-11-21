@@ -2423,7 +2423,6 @@
   "Основа задаёт напиток, мёд или сахар — сладость. Вода — из питьевого запаса.": "Die Basis bestimmt das Getränk, Honig oder Zucker die Süße. Das Wasser stammt aus dem Trinkwasservorrat.",
   "Пейте тёплым; разваренные сухофрукты можно съесть.": "Warm trinken; das weich gekochte Trockenobst kann gegessen werden.",
   "Питьевая вода на кружку": "Trinkwasser pro Becher",
-  "Подогрейте остальное молоко с водой из состава почти до кипения и долейте, помешивая.": "Die restliche Milch mit dem Wasser aus den Zutaten fast bis zum Kochen erhitzen und unter Rühren zugießen.",
   "Положите мёд в чуть остывший напиток и размешайте.": "Den Honig in das leicht abgekühlte Getränk geben und umrühren.",
   "Положите сахар и размешайте.": "Den Zucker hinzufügen und umrühren.",
   "Промойте сухофрукты в отдельной воде.": "Das Trockenobst in separatem Wasser abspülen.",
@@ -2468,5 +2467,9 @@
   "Плотно закрытая банка, только сухая ложка, вдали от сырости и запахов.": "Fest verschlossenes Glas, nur ein trockener Löffel, fern von Feuchtigkeit und Gerüchen.",
   "Мягкий хлеб в открытом пакете расходуйте за 3–5 дней в сухой прохладе.": "Weiches Brot in der geöffneten Packung innerhalb von 3–5 Tagen verbrauchen, kühl und trocken gelagert.",
   "Сытость ≈ до 1 ч*": "Sättigung ≈ bis 1 h*",
-  "Сытость ≈ не насыщает*": "Sättigung ≈ sättigt nicht*"
+  "Сытость ≈ не насыщает*": "Sättigung ≈ sättigt nicht*",
+  "Подогрейте всё молоко с водой из состава в кастрюле почти до кипения.": "Die ganze Milch mit dem Wasser aus den Zutaten im Topf fast zum Kochen bringen.",
+  "Долейте остальное горячее молоко, всё время помешивая.": "Die restliche heiße Milch unter ständigem Rühren auffüllen.",
+  "Компот варится дольше чайника, поэтому его вода и газ входят в расчёт закупки, как у блюд.": "Kompott kocht länger als ein Wasserkessel, daher zählen sein Wasser und Gas in der Einkaufsrechnung wie bei einem Gericht.",
+  "Компот варится дольше чайника, поэтому его вода и газ входят в расчёт закупки, как у блюд. На экипаж рецепт берёт упаковку побольше или несколько, остальное пересчитывается от неё.": "Kompott kocht länger als ein Wasserkessel, daher zählen sein Wasser und Gas in der Einkaufsrechnung wie bei einem Gericht. Für die Crew nimmt das Rezept eine größere Packung oder mehrere, alles andere wird danach umgerechnet."
 }

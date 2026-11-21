@@ -50,8 +50,11 @@ self.addEventListener('fetch', (event) => {
         if (cached || event.request.mode !== 'navigate') return cached || Response.error();
         // Precached pages (chapters and cheat sheets) are stored as their index.html.
         const url = new URL(event.request.url);
-        if (url.pathname.endsWith('/')) {
-          const page = await caches.match(new URL('index.html', url).href);
+        const last = url.pathname.split('/').pop();
+        if (!last || !last.includes('.')) {
+          const page = await caches.match(
+            new URL(last ? last + '/index.html' : 'index.html', url).href,
+          );
           if (page) return page;
         }
         // A page never visited opens the app root offline, on the page's language and view.

@@ -80,7 +80,7 @@ export function renderCookingMode({
           prepared.water
             ? prepRow(
                 cookingWaterKey,
-                `${icon('drop')} Вода на готовку`,
+                `${icon('drop')} ${prepared.drink ? 'Питьевая вода на кружку' : 'Вода на готовку'}`,
                 `≈ ${prepared.water} мл`,
                 ticked,
               )

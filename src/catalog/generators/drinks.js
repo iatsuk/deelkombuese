@@ -47,6 +47,8 @@ export function createDrinksGenerator({ r, i }) {
         bases: [
           {
             id: 'tea',
+            // Only boils water, as the planner's kettle allowance already assumes.
+            kettle: true,
             label: 'Чай',
             phrase: 'чай',
             ingredients: [i('tea', 1, 'шт.')],
@@ -64,6 +66,8 @@ export function createDrinksGenerator({ r, i }) {
           },
           {
             id: 'ginger',
+            // Only boils water, as the planner's kettle allowance already assumes.
+            kettle: true,
             label: 'Имбирный напиток',
             phrase: 'имбирный напиток',
             ingredients: [i('driedGinger', 0.5, 'ч. л.')],
@@ -84,6 +88,8 @@ export function createDrinksGenerator({ r, i }) {
           },
           {
             id: 'cocoa',
+            // Only boils water, as the planner's kettle allowance already assumes.
+            kettle: true,
             label: 'Какао',
             phrase: 'какао',
             ingredients: [i('cocoa', 10), i('sugar', 10), i('milkPowder', 25)],
@@ -96,6 +102,11 @@ export function createDrinksGenerator({ r, i }) {
             satiety: '1–2 ч',
             steps: [
               {
+                phase: 'cook',
+                when: (c) => !c.ids.has('milkPowder'),
+                text: 'Подогрейте всё молоко с водой из состава в кастрюле почти до кипения.',
+              },
+              {
                 phase: 'mix',
                 text: (c) =>
                   c.ids.has('milkPowder')
@@ -107,12 +118,14 @@ export function createDrinksGenerator({ r, i }) {
                 text: (c) =>
                   c.ids.has('milkPowder')
                     ? 'Долейте остальной кипяток, всё время помешивая.'
-                    : 'Подогрейте остальное молоко с водой из состава почти до кипения и долейте, помешивая.',
+                    : 'Долейте остальное горячее молоко, всё время помешивая.',
               },
             ],
           },
           {
             id: 'broth',
+            // Only boils water, as the planner's kettle allowance already assumes.
+            kettle: true,
             label: 'Бульон в кружке',
             phrase: 'бульон в кружке',
             ingredients: [i('bouillon', 0.5, 'кубик'), i('crispbread', 20)],
@@ -187,7 +200,8 @@ export function createDrinksGenerator({ r, i }) {
         steps: [
           {
             phase: 'boil',
-            when: (c) => c.base !== 'compote',
+            // Compote boils with its fruit; cocoa on UHT milk heats the milk instead.
+            when: (c) => c.base !== 'compote' && (c.base !== 'cocoa' || c.ids.has('milkPowder')),
             text: 'Вскипятите питьевую воду из состава в чайнике или кастрюле под крышкой.',
           },
           {

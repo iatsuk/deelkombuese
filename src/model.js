@@ -298,6 +298,7 @@ export function prepareRecipe(
     packaged,
     modules,
     vessel,
+    drink: Boolean(recipe.drink),
     // A dry snack is measured out, not cooked: no notes on perishable leftovers.
     drySnack: Boolean(generated?.profile.drySnack ?? recipe.drySnack),
     meal: modules.find((m) => m.meal)?.meal || generated?.profile.meal || recipe.meal,

@@ -16,16 +16,19 @@ test('The drinks chapter closes the book and stays out of the passage planner an
   for (const meal of ['breakfast', 'main', 'snack'])
     assert.ok(!filterRecipes(recipes, { meal }).includes(drinks), meal);
   assert.ok(filterRecipes(recipes, { meal: 'all' }).includes(drinks));
-  // Its water and burner time are the drinking allowance's and the kettle's.
-  const entry = {
+  // A kettle drink's water and burner time are the drinking allowance's and the kettle's;
+  // compote simmers, so it counts like a dish.
+  const entry = (technique) => ({
     recipeId: drinks.id,
-    choices: on('compote'),
+    choices: on(technique),
     packSizes: {},
     modules: [],
     count: 2,
-  };
-  assert.equal(waterBudget([entry], { days: 1 }).cooking, 0);
-  assert.equal(gasBudget([entry], { days: 1 }).dishMinutes, 0);
+  });
+  assert.equal(waterBudget([entry('tea')], { days: 1 }).cooking, 0);
+  assert.equal(gasBudget([entry('tea')], { days: 1 }).dishMinutes, 0);
+  assert.equal(waterBudget([entry('compote')], { days: 1 }).cooking, 0.6);
+  assert.equal(gasBudget([entry('compote')], { days: 1 }).dishMinutes, 24);
 });
 
 test('Each base is a mug from the dry stock; cocoa on UHT milk stays a full mug', () => {
@@ -63,4 +66,23 @@ test('Tea, cocoa, sugar and dried fruit are shelf-stable products with retail pa
   assert.equal(volumeHint('cocoa', 10, 'г'), '≈ 2 ст. л.');
   assert.equal(volumeHint('sugar', 10, 'г'), '≈ 2½ ч. л.');
   assert.match(productById.driedFruit.note, /сульфит/);
+});
+
+test('Cocoa on UHT milk heats the milk first; the stove calls a drink’s water drinking water', async () => {
+  const { renderCookingMode } = await import('../src/ui/cooking-mode.js');
+  const choices = { technique: 'cocoa', milkPowder: 'milk' };
+  const prepared = prepareRecipe(drinks, choices);
+  const steps = recipeSteps(drinks, choices, [], prepared);
+  assert.match(steps[0], /^Подогрейте всё молоко/);
+  assert.ok(!steps.some((step) => /^Вскипятите/.test(step)));
+  const tea = prepareRecipe(drinks, on('tea'));
+  const screen = renderCookingMode({
+    title: tea.title,
+    prepared: tea,
+    steps: recipeSteps(drinks, on('tea'), [], tea),
+    index: 0,
+    timers: {},
+    now: 0,
+  });
+  assert.match(screen, /Питьевая вода на кружку/);
 });
