@@ -338,10 +338,37 @@ function openChapter(recipe, selection = {}) {
   goToHash(chapterHash());
 }
 
+// The control inside #main that has the keyboard focus, remembered by its place in the tree and
+// by what it does, so that a re-render can hand the focus back to the same control (a map chip,
+// a meal tab, a filter pill) even when its classes change with the state.
+function rememberFocus(element) {
+  const main = document.querySelector('#main');
+  if (!element || element === main || !main?.contains(element)) return null;
+  if (!element.id && !element.dataset?.action) return null;
+  const path = [];
+  for (let node = element; node !== main; node = node.parentElement)
+    path.unshift([...node.parentElement.children].indexOf(node));
+  return { path, id: element.id, action: element.dataset.action, target: element.dataset.id };
+}
+function restoreFocus(saved) {
+  const main = document.querySelector('#main');
+  const same = (node) =>
+    node &&
+    (saved.id
+      ? node.id === saved.id
+      : node.dataset?.action === saved.action && node.dataset?.id === saved.target);
+  let node = main;
+  for (const index of saved.path) node = node?.children[index];
+  const target = same(node)
+    ? node
+    : [...main.querySelectorAll(saved.id ? '[id]' : '[data-action]')].find(same);
+  target?.focus({ preventScroll: true });
+}
 function render() {
   const focus = document.activeElement;
   const searchFocused = focus?.id === 'search';
   const cursor = searchFocused ? focus.selectionStart : null;
+  const focused = rememberFocus(focus);
   document.querySelector('#main').innerHTML = localizeMarkup(
     {
       map: () => renderMap({ state, catalog }),
@@ -371,6 +398,12 @@ function render() {
     const input = document.querySelector('#search');
     input?.focus();
     if (input && cursor !== null) input.setSelectionRange(cursor, cursor);
+  } else if (
+    focused &&
+    [null, document.body, document.querySelector('#main')].includes(document.activeElement)
+  ) {
+    // The keyboard stays on the control just used, unless a drawer took the focus.
+    restoreFocus(focused);
   }
 }
 
